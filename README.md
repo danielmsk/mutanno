@@ -6,20 +6,20 @@
 ### Population Variant Data
 1. **1000 Genome Project**
  * [ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/](ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/)
-* **gnomAD**
+1. **gnomAD**
  * [https://gnomad.broadinstitute.org/downloads](https://gnomad.broadinstitute.org/downloads)
  * genome, exome, SV
-* **ExAC**
+1. **ExAC**
  * [http://exac.broadinstitute.org/downloads](http://exac.broadinstitute.org/downloads)
-* **ESP6500**
+1. **ESP6500**
  * [https://esp.gs.washington.edu/drupal/](https://esp.gs.washington.edu/drupal/)
-* **TOPMed**
+1. **TOPMed**
  * [https://www.nhlbiwgs.org/topmed-data-access-scientific-community](https://www.nhlbiwgs.org/topmed-data-access-scientific-community)
-* **KAVIAR**
+1. **KAVIAR**
  * [http://db.systemsbiology.net/kaviar/](http://db.systemsbiology.net/kaviar/)
-* **dbSNP**
+1. **dbSNP**
  * [ftp://ftp.ncbi.nih.gov/snp/](ftp://ftp.ncbi.nih.gov/snp/)
-* **UK10K**
+1. **UK10K**
  * [https://www.uk10k.org/](https://www.uk10k.org/)
 
 ### Pathogenicity Score
