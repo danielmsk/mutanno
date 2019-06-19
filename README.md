@@ -73,6 +73,8 @@
 	* [https://civicdb.org](https://civicdb.org)
 12. **Ensembl**
 	* [ftp://ftp.ensembl.org/pub/release-96/variation/vcf/homo_sapiens/](ftp://ftp.ensembl.org/pub/release-96/variation/vcf/homo_sapiens/)
+13. **GeneDx**
+	* [https://www.genedx.com/test-catalog/medical-specialty/rare/](https://www.genedx.com/test-catalog/medical-specialty/rare/)
 
 ### Gene Database
 1. **HGNC**
@@ -100,7 +102,8 @@
 	* [http://www.targetscan.org/vert_72/](http://www.targetscan.org/vert_72/)
 7. **miRBase**
 	* [http://www.mirbase.org/](http://www.mirbase.org/)
-
+8. **GeneHanser** 
+	* [https://www.genecards.org/GeneHancer_version_4-4](https://www.genecards.org/GeneHancer_version_4-4)
 
 ### Ontology and Diseases
 1. **Human Phenotype Ontology (HPO)** 
