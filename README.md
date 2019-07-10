@@ -75,8 +75,10 @@
 	* [ftp://ftp.ensembl.org/pub/release-96/variation/vcf/homo_sapiens/](ftp://ftp.ensembl.org/pub/release-96/variation/vcf/homo_sapiens/)
 13. **GeneDx**
 	* [https://www.genedx.com/test-catalog/medical-specialty/rare/](https://www.genedx.com/test-catalog/medical-specialty/rare/)
+14. **UniProtKB Variants**
+	* [ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/variants/](ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/variants/)
 
-### Gene Database
+### Gene & Domain Database
 1. **HGNC**
 	* update check period: weekly
 	* [https://www.genenames.org/](https://www.genenames.org/)
@@ -86,7 +88,18 @@
 3. **RefSeq**
 	* [ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/](ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/)
 4. **UniGene**
+5. **UnitProtKB gene annotation track**
+	* [ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/genome_annotation_tracks/UP000005640_9606_beds/](ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/genome_annotation_tracks/UP000005640_9606_beds/)
+6. **UnitProtKB idmapping**
+	* [ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/](ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/)
+7. **InterPro**
+	* [https://www.ebi.ac.uk/interpro/beta/download/](https://www.ebi.ac.uk/interpro/beta/download/)
+8. **Pfam**
+	* [ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release](ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release)
+9. **Prosite**
+	* [ftp://ftp.expasy.org/databases/prosite](ftp://ftp.expasy.org/databases/prosite)
 
+	
 ### Non-coding Region Anntoation
 1. **ENCODE**
 	* [https://www.encodeproject.org/](https://www.encodeproject.org/)
@@ -119,6 +132,7 @@
 	* [https://www.who.int/classifications/icd/en/](https://www.who.int/classifications/icd/en/)
 5. **OMIM**
 	* [https://www.omim.org/downloads/](https://www.omim.org/downloads/)
+	* UniProtKB [ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/](ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/)
 6. **NIH Genetic Home Reference(GHR)**
 	* update check period: weekly
 	* [https://ghr.nlm.nih.gov/](https://ghr.nlm.nih.gov/)
