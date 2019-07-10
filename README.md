@@ -1,7 +1,8 @@
 # CGAP Annotation Server 
 
 
-## Data Source
+## Data Sources (Total 70 sites)
+
 
 ### Population Variant Data
 1. **1000 Genome Project**
@@ -175,4 +176,4 @@
 
 ### Annotation Portal
 1. **Varsome**
- * API: [https://api.varsome.com/](https://api.varsome.com/)
+	* API: [https://api.varsome.com/](https://api.varsome.com/)
