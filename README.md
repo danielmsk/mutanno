@@ -7,6 +7,7 @@
 ### Population Variant Data
 1. **1000 Genome Project**
 	* [ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/](ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/)
+
 2. **gnomAD**
 	* [https://gnomad.broadinstitute.org/downloads](https://gnomad.broadinstitute.org/downloads)
 	* genome, exome, SV
