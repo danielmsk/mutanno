@@ -6,7 +6,9 @@
 
 ### Population Variant Data
 1. **1000 Genome Project**
-	* [ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/](ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/)
+	* [http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/](http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/)
+	* [field list](https://github.com/dbmi-bgm/cgap-annotation-server/blob/master/docs/1000GP_fields.md)
+
 
 2. **gnomAD**
 	* [https://gnomad.broadinstitute.org/downloads](https://gnomad.broadinstitute.org/downloads)
@@ -23,6 +25,7 @@
 	* [ftp://ftp.ncbi.nih.gov/snp/](ftp://ftp.ncbi.nih.gov/snp/)
 8. **UK10K**
 	* [https://www.uk10k.org/](https://www.uk10k.org/)
+w
 
 ### Pathogenicity Score
 1. **PolyPhen2**
@@ -35,10 +38,6 @@
 	* [http://provean.jcvi.org/downloads.php](http://provean.jcvi.org/downloads.php)
 5. **DANN**
 	* [https://cbcl.ics.uci.edu/public_data/DANN/data/](https://cbcl.ics.uci.edu/public_data/DANN/data/)
-6. **GERP++**
-	* [http://mendel.stanford.edu/SidowLab/downloads/gerp/](http://mendel.stanford.edu/SidowLab/downloads/gerp/)
-7. **PhyloP**
-	* [ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/phyloP46way/](ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/phyloP46way/)
 8. **MutTaster**
 	* [http://www.mutationtaster.org/](http://www.mutationtaster.org/)
 9. **MutAssessor**
@@ -47,6 +46,19 @@
 	* [http://fathmm.biocompute.org.uk/downloads.html](http://fathmm.biocompute.org.uk/downloads.html)
 11. **dbNSFP: functional prediction and annotation of all potential non-synonymous single-nucleotide variants**
 	* [https://sites.google.com/site/jpopgen/dbNSFP](https://sites.google.com/site/jpopgen/dbNSFP) 
+
+### Conservation
+1. **GERP++**
+	* GRCh37: [http://mendel.stanford.edu/SidowLab/downloads/gerp/](http://mendel.stanford.edu/SidowLab/downloads/gerp/)
+	* GRCh38: liftover
+1. **PhyloP**
+	* [ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/](ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/)
+	* [ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/](ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/)
+1. **PhastCon**
+	* [ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/](ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/)
+	* [ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/](ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/)
+
+
 
 ### Variant Database
 1. **NCBI ClinVar**
@@ -58,6 +70,8 @@
 	* [https://cancer.sanger.ac.uk/cosmic/download](https://cancer.sanger.ac.uk/cosmic/download)
 4. **OMIM**
 	* [https://www.omim.org/downloads/](https://www.omim.org/downloads/)
+	* Need to register for downloading data source.
+	* version 07.31.2019
 5. **GWAS CATALOG**
 	* update check period: weekly
 	* [https://www.ebi.ac.uk/gwas/downloads](https://www.ebi.ac.uk/gwas/downloads)
