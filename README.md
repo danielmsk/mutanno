@@ -25,7 +25,6 @@
 	* [ftp://ftp.ncbi.nih.gov/snp/](ftp://ftp.ncbi.nih.gov/snp/)
 8. **UK10K**
 	* [https://www.uk10k.org/](https://www.uk10k.org/)
-w
 
 ### Pathogenicity Score
 1. **PolyPhen2**
@@ -46,6 +45,8 @@ w
 	* [http://fathmm.biocompute.org.uk/downloads.html](http://fathmm.biocompute.org.uk/downloads.html)
 11. **dbNSFP: functional prediction and annotation of all potential non-synonymous single-nucleotide variants**
 	* [https://sites.google.com/site/jpopgen/dbNSFP](https://sites.google.com/site/jpopgen/dbNSFP) 
+1. **Align GVGD**
+
 
 ### Conservation
 1. **GERP++**
@@ -57,7 +58,7 @@ w
 1. **PhastCon**
 	* [ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/](ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/)
 	* [ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/](ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/)
-
+1. **SiPhy**
 
 
 ### Variant Database
@@ -68,10 +69,6 @@ w
 	* [https://docs.icgc.org/download/downloading-data/](https://docs.icgc.org/download/downloading-data/)
 3. **COSMIC**
 	* [https://cancer.sanger.ac.uk/cosmic/download](https://cancer.sanger.ac.uk/cosmic/download)
-4. **OMIM**
-	* [https://www.omim.org/downloads/](https://www.omim.org/downloads/)
-	* Need to register for downloading data source.
-	* version 07.31.2019
 5. **GWAS CATALOG**
 	* update check period: weekly
 	* [https://www.ebi.ac.uk/gwas/downloads](https://www.ebi.ac.uk/gwas/downloads)
@@ -114,6 +111,15 @@ w
 	* [ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release](ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release)
 9. **Prosite**
 	* [ftp://ftp.expasy.org/databases/prosite](ftp://ftp.expasy.org/databases/prosite)
+4. **OMIM**
+	* [https://www.omim.org/downloads/](https://www.omim.org/downloads/)
+	* Need to register for downloading data source.
+	* version 07.31.2019
+
+1. **Interpro**
+1. **Pfam**
+1. **SMART**
+1. **UNIPROT domain**
 
 	
 ### Non-coding Region Anntoation
@@ -133,6 +139,17 @@ w
 	* [http://www.mirbase.org/](http://www.mirbase.org/)
 8. **GeneHanser** 
 	* [https://www.genecards.org/GeneHancer_version_4-4](https://www.genecards.org/GeneHancer_version_4-4)
+8. **ChromHMM** 
+1. **GTEx**
+2. **BLUEPRINT**
+
+### Splicing prediction
+1. **SpliceAI**
+1. **GeneSplicer**
+1. **NNSPLICE**
+1. **MaxEntScan**
+1. **SpliceSiteFinder-like**
+
 
 ### Ontology and Diseases
 1. **Human Phenotype Ontology (HPO)** 
@@ -163,6 +180,9 @@ w
 	* [https://gene.sfari.org/tools/](https://gene.sfari.org/tools/)
 11. **PanelApp**
 	* [https://panelapp.genomicsengland.co.uk/](https://panelapp.genomicsengland.co.uk/)
+1. **GeneCards**
+1. **UniProt phenotype**
+1. **GeneBank disease**
 
 ### Drug/Chemical DB
 1. **NCBI PubChem**
