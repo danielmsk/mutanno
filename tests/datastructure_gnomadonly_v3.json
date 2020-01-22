@@ -1,0 +1,55 @@
+{
+    "name": "MUTANNO",
+    "version":"0.2",
+    "version_date":"10/29/2019",
+    "data_version":"0.2",
+    "data_version_date":"10/29/2019",
+    "use_sourcename_in_fieldname":false,
+    "source": [
+        {
+            "name":"gnomADgnome",
+            "desc":"population AF by gnomAD",
+            "version":"2.1.1",
+            "version_date":"03/06/2019",
+            "datafile":"POPULATION_AF/gnomAD/hg38/r2.1.1/gnomad.genomes.r2.1.1.sites.#CHROM#.liftover_grch38.vcf.gz",
+            "chrompre":"chr",
+            "format":"infovar",
+            "fieldselection":"",
+            "fields":[
+                {"name":"AF","type":"float","desc":"Alternate allele frequency in samples"},
+                {"name":"AF_afr","type":"float","desc":"Alternate allele frequency in samples of African-American/African ancestry"},
+                {"name":"AF_ami","type":"float","desc":"Alternate allele frequency in samples of Amish ancestry"},
+                {"name":"AF_amr","type":"float","desc":"Alternate allele frequency in samples of Latino ancestry"},
+                {"name":"AF_asj","type":"float","desc":"Alternate allele frequency in samples of Ashkenazi Jewish ancestry"},
+                {"name":"AF_eas","type":"float","desc":"Alternate allele frequency in samples of East Asian ancestry"},
+                {"name":"AF_fin","type":"float","desc":"Alternate allele frequency in samples of Finnish ancestry"},
+                {"name":"AF_nfe","type":"float","desc":"Alternate allele frequency in samples of Non-Finnish European ancestry"},
+                {"name":"AF_sas","type":"float","desc":"Alternate allele frequency in samples of South Asian ancestry"},
+                {"name":"AF_oth","type":"float","desc":"Alternate allele frequency in samples of Other ancestry"},
+                {"name":"AF_popmax","type":"float","desc":"Maximum allele frequency across populations (excluding samples of Ashkenazi, Finnish, and indeterminate ancestry)"}
+            ]
+        },{
+            "name":"gnomADexome",
+            "desc":"population AF by gnomAD exome",
+            "version":"2.1.1",
+            "version_date":"03/06/2019",
+            "datafile":"POPULATION_AF/gnomAD/hg38/r2.1.1/gnomad.exomes.r2.1.1.sites.#CHROM#.liftover_grch38.vcf.gz",
+            "chrompre":"chr",
+            "format":"infovar",
+            "fieldselection":"",
+            "fields":[
+                {"name":"AF","type":"float","desc":"Alternate allele frequency in samples"},
+                {"name":"AF_afr","type":"float","desc":"Alternate allele frequency in samples of African-American/African ancestry"},
+                {"name":"AF_ami","type":"float","desc":"Alternate allele frequency in samples of Amish ancestry"},
+                {"name":"AF_amr","type":"float","desc":"Alternate allele frequency in samples of Latino ancestry"},
+                {"name":"AF_asj","type":"float","desc":"Alternate allele frequency in samples of Ashkenazi Jewish ancestry"},
+                {"name":"AF_eas","type":"float","desc":"Alternate allele frequency in samples of East Asian ancestry"},
+                {"name":"AF_fin","type":"float","desc":"Alternate allele frequency in samples of Finnish ancestry"},
+                {"name":"AF_nfe","type":"float","desc":"Alternate allele frequency in samples of Non-Finnish European ancestry"},
+                {"name":"AF_sas","type":"float","desc":"Alternate allele frequency in samples of South Asian ancestry"},
+                {"name":"AF_oth","type":"float","desc":"Alternate allele frequency in samples of Other ancestry"},
+                {"name":"AF_popmax","type":"float","desc":"Maximum allele frequency across populations (excluding samples of Ashkenazi, Finnish, and indeterminate ancestry)"}
+            ]
+        }
+    ]
+}

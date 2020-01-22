@@ -1,0 +1,5 @@
+1	0.11155986785888672	curl -X GET "localhost:9200/test/_search" -H 'Content-Type: application/json' -d'{"query": { "match_all": {} },"sort": [{ "POS": "desc" }],"_source":["POS"]}'
+2	0.03266263008117676	curl -X GET "localhost:9200/test/_count" -H 'Content-Type: application/json' -d'{"query": { "match_all": {} }}'
+3	0.02599334716796875	curl -X GET "localhost:9200/test/_count" -H 'Content-Type: application/json' -d'{"query": { "range":{"POS":{"lte":25117}} }}'
+4	0.02154707908630371	curl -X GET "localhost:9200/test/_search" -H 'Content-Type: application/json' -d'{"query": { "range":{"AF_raw":{"gte":0.05,"lte":0.3}} }}'
+5	0.02490687370300293	curl -X GET "localhost:9200/test/_search" -H 'Content-Type: application/json' -d'{"query": { "range":{"POS":{"gte":0.05,"lte":0.3}} }}'

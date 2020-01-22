@@ -1,9 +1,0 @@
-site_name: CGAP-annotation-server
-
-nav:
-  - Home: index.md
-  - Data source list: data_source_list.md
-  - 1000GP: 1000GP_fields.md
-  - Version info.: version_info.md
-
-theme: readthedocs

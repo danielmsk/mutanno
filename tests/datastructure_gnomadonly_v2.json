@@ -1,0 +1,24 @@
+{
+    "name": "MUTANNO",
+    "version":"0.2",
+    "version_date":"10/29/2019",
+    "data_version":"0.2",
+    "data_version_date":"10/29/2019",
+    "use_sourcename_in_fieldname":false,
+    "source": [
+        {
+            "name":"gnomAD",
+            "name2":"novoAF",
+            "desc":"population AF by gnomAD",
+            "version":"2.1.1",
+            "version_date":"03/06/2019",
+            "datafile":"POPULATION_AF/gnomAD/hg19/gnomad.genomes.r2.1.1.sites.#CHROM#.vcf.gz",
+            "chrompre":"",
+            "format":"infovar",
+            "fieldselection":"",
+            "fields":[
+                {"name":"AF","name2":"gnomAD_AF","desc":"","miss_value":"0.0"}
+            ]
+        }
+    ]
+}

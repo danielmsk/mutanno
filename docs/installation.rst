@@ -1,0 +1,13 @@
+************
+Installation
+************
+
+Install the package (or add it to your ``requirements.txt`` file):
+
+.. code:: console
+
+    $ pip install mutanno
+
+
+Configuration
+-------------

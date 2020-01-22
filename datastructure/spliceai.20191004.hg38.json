@@ -1,0 +1,27 @@
+{
+  "name":"SpliceAI",
+  "desc":"SpliceAI",
+  "version":"20191004",
+  "version_date":"10/04/2019",
+  "datafile":"/home/mk446/mutanno/DATASOURCE/SPLICING/SpliceAI/hg38/spliceai_scores.raw.snv.hg38.vcf.gz",
+  "delimiter":"\t",
+  "fields":[
+    {"name":"CHROM","colidx":0},
+    {"name":"POS","colidx":1},
+    {"name":"REF","colidx":3},
+    {"name":"ALT","colidx":4},
+    {"colidx":7,"delimiter":"|",
+      "fields":[
+        {"name":"SYMBOL","colidx":1,"desc":"gene symbol"},
+        {"name":"DS_AG","colidx":2,"desc":"delta scores (DS) for acceptor gain (AG)"},
+        {"name":"DS_AL","colidx":3,"desc":"delta scores (DS) for acceptor loss (AL)"},
+        {"name":"DS_DG","colidx":4,"desc":"delta scores (DS) for donor gain (DG)"},
+        {"name":"DS_DL","colidx":5,"desc":"delta scores (DS) for donor loss (DL)"},
+        {"name":"DP_AG","colidx":6,"desc":"delta positions (DP) for acceptor gain (AG)"},
+        {"name":"DP_AL","colidx":7,"desc":"delta positions (DP) for acceptor loss (AL)"},
+        {"name":"DP_DG","colidx":8,"desc":"delta positions (DP) for donor gain (DG)"},
+        {"name":"DP_DL","colidx":9,"desc":"delta positions (DP) for donor loss (DL)"}
+      ]
+    }
+  ]
+}

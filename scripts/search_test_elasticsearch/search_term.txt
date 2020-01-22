@@ -1,0 +1,5 @@
+_search	{"query": { "match_all": {} },"sort": [{ "POS": "desc" }],"_source":["POS"]}
+_count	{"query": { "match_all": {} }}
+_count	{"query": { "range":{"POS":{"lte":25117}} }}
+_search	{"query": { "range":{"AF_raw":{"gte":0.05,"lte":0.3}} }}
+_search	{"query": { "range":{"POS":{"gte":0.05,"lte":0.3}} }}

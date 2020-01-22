@@ -1,0 +1,2 @@
+./r.sh: line 1: distjobs: command not found
+mv: cannot stat ‘/home/mk446/mutanno/SRC/scripts/make_datasource/s01.sh*sh’: No such file or directory
