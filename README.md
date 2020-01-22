@@ -4,12 +4,12 @@
 
 
 ```
-mutanno annot
+mutanno annot -vcf trio_test2.vcf \
+    -out trio_test2.annot.vcf \
+    -ds tests/datastructure_microannot_v1.0.json \
+    -blocksize 10000
 ```
 
-```
-mutanno makedata -out datasource.vcf.gz -ds datastructure.json
-```
 
 
 ## Convert data set
