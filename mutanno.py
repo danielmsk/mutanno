@@ -54,7 +54,7 @@ def get_options():
     p1.add_argument('-region', dest='region', default='',
                     help='target region: (ex -region chr1:12345678-22345678 )')
     p1.add_argument('-vartype', dest='vartype', default='all', help='variant type')
-    p1.add_argument('-blocksize', dest='blocksize', default=10000, help='blocksize')
+    p1.add_argument('-blocksize', dest='blocksize', type=int, default=10000, help='blocksize')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=False, help='turn on the debugging mode')
 

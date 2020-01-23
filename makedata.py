@@ -1,6 +1,5 @@
 import file_util
 import vcf_util
-import proc_util
 import tabix
 import time
 
@@ -39,25 +38,27 @@ class TSVBlockReader():
 
     def set_target_column(self, fields_structure):
         for f1 in fields_structure:
-            self.target_colidx.append(self.header.index(f1['name']))
-            if 'start_with' in f1.keys():
-                self.filter_start_with[self.header.index(f1['name'])] = f1['start_with']
-            if 'skip_equal_str' in f1.keys():
-                self.filter_skip_equal_str[self.header.index(f1['name'])] = f1['skip_equal_str']
-            if 'delimiter' in f1.keys():
-                self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
+            if f1['name'] in self.header:
+                self.target_colidx.append(self.header.index(f1['name']))
+                if 'start_with' in f1.keys():
+                    self.filter_start_with[self.header.index(f1['name'])] = f1['start_with']
+                if 'skip_equal_str' in f1.keys():
+                    self.filter_skip_equal_str[self.header.index(f1['name'])] = f1['skip_equal_str']
+                if 'delimiter' in f1.keys():
+                    self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
 
     def add_block(self, block, regionstr, sid):
         region = pars_region_str(regionstr)
         if self.tp is None:
             # FIXME: temporary code
-            if 'VEP' in self.fname:
-                fname = "/n/data1/hms/dbmi/park/daniel/BiO/Research/mutanno/PRECALVEP/chr" + region['chrom']
-                fname += "/" + str(int(region['spos'] / 1000000))
-                fname += "/chr" + self.ori_region.replace(':', '_').replace('-', '_') + ".tsv.gz"
-                print(fname)
-                self.fname = fname
-            if file_util.is_exist(self.fname) and file_util.is_exist(self.fname + ".tbi"):
+            # if 'VEP' in self.fname:
+            #     fname = "/n/data1/hms/dbmi/park/daniel/BiO/Research/mutanno/PRECALVEP/chr" + region['chrom']
+            #     fname += "/" + str(int(region['spos'] / 1000000))
+            #     fname += "/chr" + self.ori_region.replace(':', '_').replace('-', '_') + ".tsv.gz"
+            #     print(fname)
+            #     self.fname = fname
+            sourcefile = self.fname.replace('#CHROM#', region['chrom'])
+            if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
                 self.tp = tabix.open(self.fname.replace('#CHROM#', region['chrom']))
         if self.tp is not None:
             for arr in self.tp.querys(regionstr):
@@ -72,7 +73,9 @@ class TSVBlockReader():
                         delimiter = ''
                         if cidx in self.delimiter.keys():
                             delimiter = self.delimiter[cidx]
-                        cont += vcf_util.encode_infovalue(arr[cidx], delimiter)
+                        if cidx >= 0:
+                            cont += vcf_util.encode_infovalue(arr[cidx], delimiter)
+
                         if cidx in self.filter_start_with.keys():
                             filter = arr[cidx].startswith(self.filter_start_with[cidx])
                         if cidx in self.filter_skip_equal_str.keys():
@@ -120,8 +123,7 @@ class TSVBlockMerger():
         self.block = {}
         for sid in self.block_readers.keys():
             # FIXME: temporary code
-            self.block_readers[sid].ori_region = self.ori_region
-
+            # self.block_readers[sid].ori_region = self.ori_region
             self.block = self.block_readers[sid].add_block(self.block, range, sid)
 
     def get_block_tsi(self):
@@ -151,9 +153,9 @@ class DataSourceFile():
         self.blocksize = opt['blocksize']
 
     def set_outfile_extension(self, out):
-        out2 = out.replace('.tsv.gz', '.tsv')
-        if out2[-4:] != ".tsv":
-            out2 += ".tsv"
+        out2 = out.replace('.tsi.gz', '.tsi')
+        if out2[-4:] != ".tsi":
+            out2 += ".tsi"
         self.out = out2
 
     def get_tsv_header(self):
@@ -204,6 +206,7 @@ class DataSourceFile():
             end = time.time()
             elapsed = end - start
             log = 'processing.. ' + str(round(elapsed, 3)) + ' sec elapsed. '
+            log += str(len(tbm.block.keys())) + ' variants added. '
             log += str(tbm.block_spos) + '~' + str(tbm.block_epos)
             print(log)
         print('Saved', self.out)

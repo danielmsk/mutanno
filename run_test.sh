@@ -61,14 +61,20 @@
     # -region 1:939300-2041000
 
 
+mutanno makedata -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+    -out /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test \
+    -vartype SNP \
+    -blocksize 10000 \
+    -region 1:200001-400000
+
 #################################
 # micro-annotation
 #################################
-mutanno annot -vcf /home/mk446/mutanno/DATASOURCE/TEST/trio_test2.vcf \
-    -out /home/mk446/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf \
-    -ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v1.0.json \
-    -blocksize 100
-    # -load_source_in_memory
+# mutanno annot -vcf /home/mk446/mutanno/DATASOURCE/TEST/trio_test2.vcf \
+#     -out /home/mk446/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf \
+#     -ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v1.0.json \
+#     -blocksize 100
+
 # tail /home/mk446/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf
 
 
