@@ -38,8 +38,10 @@ def get_options():
     p1.add_argument('-temp', dest='temp', default='qcboard_bamqc.html', help='template html file')
     # p1.add_argument('-buff', dest='buff', type=int, default=100, help='loading size in memory')
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=1000, help='loading size in memory')
-    p1.add_argument('-load_source_in_memory', dest='load_source_in_memory',
-                    action="store_true", default=False, help='loading data source in memory')
+    # p1.add_argument('-load_source_in_memory', dest='load_source_in_memory',
+    #                 action="store_true", default=False, help='loading data source in memory')
+    p1.add_argument('-sparse', dest='sparse',
+                    action="store_true", default=False, help='for sparse variant position')
     p1.add_argument('-silence', dest='silence', action="store_true",
                     default=False, help='do not print any log.')
     p1.add_argument('-debug', dest='debug', action="store_true",

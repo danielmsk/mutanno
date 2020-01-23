@@ -603,7 +603,6 @@ class VCFBlockReader():
         return headercont
 
     def get_block(self):
-        i = 0
         block = []
         while True:
             line = self.fp.readline()
