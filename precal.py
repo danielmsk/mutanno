@@ -72,7 +72,7 @@ class PreCalculate():
     def save_runcmd_vep(self, inputvcf, chrom, spos, epos):
         cmd = ""
         if not file_util.is_exist(inputvcf):
-            cmd += "python " + path.abspath("./mutanno.py") + " precal"
+            cmd += "mutanno precal"
             cmd += " -make_input_vcf "
             cmd += " -out " + inputvcf
             for param in ['fasta']:
