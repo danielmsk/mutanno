@@ -1,7 +1,26 @@
 from pyfaidx import Fasta
 from os import path
 import file_util
-import vcf_util
+
+VEP_OPTION_CMD = "#VEP# -i #INPUTVCF# -o #OUT#"
+VEP_OPTION_CMD += " --hgvs"
+VEP_OPTION_CMD += " --fasta #FASTA#"
+VEP_OPTION_CMD += " --assembly GRCh38"
+VEP_OPTION_CMD += " --use_given_ref"
+VEP_OPTION_CMD += " --offline"
+VEP_OPTION_CMD += " --cache_version #CACHE_VERSION#"
+VEP_OPTION_CMD += " --dir_cache #VEPCACHE#"
+VEP_OPTION_CMD += " --everything"
+VEP_OPTION_CMD += " --force_overwrite"
+VEP_OPTION_CMD += " --vcf"
+# PLUGIN
+# VEP_OPTION_CMD += "--plugin LoF --plugin LoF,human_ancestor_fa:/home/mk446/BiO/Data/vep/human_ancestor.fa.gz "
+VEP_OPTION_CMD += " --plugin MaxEntScan,/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/MaxEntScan/fordownload"
+VEP_OPTION_CMD += " --plugin TSSDistance"
+VEP_OPTION_CMD += " --dir_plugins /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99"
+# v99 added
+VEP_OPTION_CMD += " --plugin SpliceRegion,Extended"
+VEP_OPTION_CMD += " --plugin LoF,loftee_path:/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/loftee"
 
 
 class PreCalculate():
@@ -62,13 +81,14 @@ class PreCalculate():
             cmd += ";"
             cmd += "sleep 60;"
         out = self.get_vepout_path(inputvcf)
-        cmd += self.opt['vep'] + " -i " + inputvcf + " -o " + out + " --hgvs "
-        cmd += "--fasta " + path.abspath(self.opt['fasta']) + " --assembly GRCh38 --use_given_ref "
-        cmd += "--offline --cache_version 98 --dir_cache " + path.abspath(self.opt['vepcache']) + " "
-        # cmd += "--plugin LoF --plugin LoF,human_ancestor_fa:/home/mk446/BiO/Data/vep/human_ancestor.fa.gz "
-        cmd += "--plugin MaxEntScan,/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-98/MaxEntScan/fordownload "
-        cmd += "--plugin TSSDistance "
-        cmd += "--everything --force_overwrite --tab;"
+        vepcmd = VEP_OPTION_CMD
+        vepcmd = vepcmd.replace('#VEP#', self.opt['vep'])
+        vepcmd = vepcmd.replace('#INPUTVCF#', inputvcf)
+        vepcmd = vepcmd.replace('#OUT#', out)
+        vepcmd = vepcmd.replace('#FASTA#', path.abspath(self.opt['fasta']))
+        vepcmd = vepcmd.replace('#VEPCACHE#', path.abspath(self.opt['vepcache']))
+        vepcmd = vepcmd.replace('#CACHE_VERSION#', path.abspath(self.opt['cache_version']))
+        cmd += vepcmd + ";"
         cmd += "touch " + inputvcf + ".vep.txt.done;"
 
         print(cmd)
