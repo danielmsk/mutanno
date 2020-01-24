@@ -15,12 +15,12 @@ VEP_OPTION_CMD += " --force_overwrite"
 VEP_OPTION_CMD += " --vcf"
 # PLUGIN
 # VEP_OPTION_CMD += "--plugin LoF --plugin LoF,human_ancestor_fa:/home/mk446/BiO/Data/vep/human_ancestor.fa.gz "
-VEP_OPTION_CMD += " --plugin MaxEntScan,/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/MaxEntScan/fordownload"
+VEP_OPTION_CMD += " --plugin MaxEntScan,/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/fordownload"
 VEP_OPTION_CMD += " --plugin TSSDistance"
 VEP_OPTION_CMD += " --dir_plugins /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99"
 # v99 added
 VEP_OPTION_CMD += " --plugin SpliceRegion,Extended"
-VEP_OPTION_CMD += " --plugin LoF,loftee_path:/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/loftee"
+# VEP_OPTION_CMD += " --plugin LoF,loftee_path:/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/loftee"
 
 
 class PreCalculate():
@@ -87,7 +87,7 @@ class PreCalculate():
         vepcmd = vepcmd.replace('#OUT#', out)
         vepcmd = vepcmd.replace('#FASTA#', path.abspath(self.opt['fasta']))
         vepcmd = vepcmd.replace('#VEPCACHE#', path.abspath(self.opt['vepcache']))
-        vepcmd = vepcmd.replace('#CACHE_VERSION#', path.abspath(self.opt['cache_version']))
+        vepcmd = vepcmd.replace('#CACHE_VERSION#', self.opt['cache_version'])
         cmd += vepcmd + ";"
         cmd += "touch " + inputvcf + ".vep.txt.done;"
 
