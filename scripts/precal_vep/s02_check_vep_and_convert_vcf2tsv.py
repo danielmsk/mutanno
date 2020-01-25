@@ -247,8 +247,8 @@ if __name__ == "__main__":
         # s02_1_rm_all_done()
         # s02_2_check_tsvgzchecked()
         # s02_3_tabixgz_tsv()
-        s02_4_conv_vep2tsv()
-        # s02_5_check_vep()
+        # s02_4_conv_vep2tsv()
+        s02_5_check_vep()
         # print('....')
         # time.sleep(120)
         break

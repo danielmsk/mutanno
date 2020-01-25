@@ -112,7 +112,8 @@ class PreCalculate():
             #     print("processing..", k2, chrom, spos, inputvcf)
             # break
 
-    def check_vep_result(self, vcf, vep_result):
+    # vep_type: vcf, txt
+    def check_vep_result(self, vcf, vep_result, output_type='vcf'):
         print('check_vep_result')
         varmap = {}
         for line in file_util.gzopen(vcf):
@@ -125,10 +126,11 @@ class PreCalculate():
                 pos = int(arr[1])
                 ref = arr[3]
                 alt = arr[4]
-                if ref[0] == alt[0]:
-                    ref = ref[1:]
-                    alt = alt[1:]
-                    pos += 1
+                if output_type == 'txt':
+                    if ref[0] == alt[0]:
+                        ref = ref[1:]
+                        alt = alt[1:]
+                        pos += 1
                 vid = arr[0] + '_' + str(pos) + '_' + ref + '/' + alt
                 # print(vid, ref, alt, pos)
                 varmap[vid] = 0
@@ -152,7 +154,10 @@ class PreCalculate():
                 cont += 'no. of column in VEP: ' + str(colno) + '\n'
             elif line[0] != '#':
                 arr = line.split('\t')
-                vid = arr[colidx['Uploaded_variation']]
+                if output_type == "txt":
+                    vid = arr[colidx['Uploaded_variation']]
+                elif output_type == "vcf":
+                    vid = arr[0] + '_' + arr[1] + '_' + arr[3] + '/' + arr[4]
                 if colno != len(arr):
                     mismatch_column[vid] = 1
                 try:
@@ -207,4 +212,4 @@ class PreCalculate():
             chunklist = self.get_split_region(fasta, chunksize)
             self.mk_shellscript_merge_vep(fasta, self.opt['out'], chunklist)
         if self.opt['check_vep_result']:
-            self.check_vep_result(self.opt['vcf'], self.opt['vep_result'])
+            self.check_vep_result(self.opt['vcf'], self.opt['vep_result'], 'vcf')
