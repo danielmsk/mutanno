@@ -41,7 +41,7 @@ def s04_check_vep():
     i = 0
     for vcf in file_util.walk(path, '.vcf'):
         if '.vep.vcf' not in vcf:
-            vep = vcf + ".vep.vcf"
+            vep = vcf + ".vep.txt"
             print(vep)
             if file_util.is_exist(vep):
                 if not check_vcf_vep(vcf, vep):
@@ -51,7 +51,7 @@ def s04_check_vep():
 
 
 if __name__ == "__main__":
-    path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp3/'
+    path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp/'
     import proc_util
     import file_util
     s04_check_vep()
