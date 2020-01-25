@@ -16,6 +16,27 @@ else:
 sys.path.append(sys_path)
 
 
+def check_vcf_vep(vcf, vep):
+    m = {}
+    for line in open(vep):
+        if line[0] != '#':
+            arr = line.split('\t')
+            k1 = '_'.join([arr[0], arr[1], arr[3], arr[4]])
+            m[k1] = 1
+
+    flag = True
+    for line in open(vcf):
+        if line[0] != '#':
+            arr = line.split('\t')
+            k1 = '_'.join([arr[0], arr[1], arr[3], arr[4]])
+            try:
+                tmp = m[k1]
+            except KeyError:
+                print(arr)
+                flag = False
+    return flag
+
+
 def s05_merge_vep():
     flagheader = True
     tchrom = ''
@@ -25,9 +46,14 @@ def s05_merge_vep():
         no = str_util.zero_format(k, 6)
         inputvcf = path + title + '_' + no + '.vcf'
         if file_util.is_exist(inputvcf):
-            vepvcf = inputvcf + '.vep.vcf'
-            print("Processing..", vepvcf)
-            for line in open(vepvcf):
+            vep = inputvcf + '.vep.txt'
+            print("Processing..", vep)
+
+            if not check_vcf_vep(inputvcf, vep):
+                print('Error:', vep)
+                exit()
+
+            for line in open(vep):
                 if line[0] == '#':
                     if flagheader:
                         if line[:len('#CHROM')] == '#CHROM':
@@ -70,6 +96,6 @@ if __name__ == "__main__":
     import file_util
     import str_util
     title = 'aaakid'
-    path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp3/'
+    path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp/'
     out = "/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.#CHROM#.vep.tsi"
     s05_merge_vep()
