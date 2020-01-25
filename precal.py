@@ -183,7 +183,7 @@ class PreCalculate():
         print("Saved", out)
 
     def mk_shellscript_merge_vep(self, fasta, out):
-        print(fasta.keys())
+        print(len(fasta['chr1']))
         pass
 
     def run(self):
