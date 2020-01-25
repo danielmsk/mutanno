@@ -183,7 +183,9 @@ class PreCalculate():
         print("Saved", out)
 
     def mk_shellscript_merge_vep(self, fasta, out):
-        print(len(fasta['chr1']))
+        for chrom in fasta.keys():
+            if len(chrom) < 6:
+                print(chrom, fasta[chrom])
         pass
 
     def run(self):
