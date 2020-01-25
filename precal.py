@@ -182,6 +182,10 @@ class PreCalculate():
         file_util.fileSave(out, cont, 'w')
         print("Saved", out)
 
+    def mk_shellscript_merge_vep(self, fasta, out):
+        print(fasta)
+        pass
+
     def run(self):
         chunksize = 100000
         if self.opt['fasta'] != "":
@@ -198,6 +202,6 @@ class PreCalculate():
             epos = int(poslist[1])
             self.save_input_vcf(fasta, self.opt['out'], chrom, spos, epos)
         if self.opt['merge_vep']:
-            pass
+            self.mk_shellscript_merge_vep(fasta, self.opt['out'])
         if self.opt['check_vep_result']:
             self.check_vep_result(self.opt['vcf'], self.opt['vep_result'])

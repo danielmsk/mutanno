@@ -160,7 +160,16 @@
             
   <div class="section" id="pre-calculate-variant-annotation">
 <h1>Pre-calculate variant annotation<a class="headerlink" href="#pre-calculate-variant-annotation" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mutanno precal -all</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mutanno precal -run_vep \</span>
+<span class="go">    -out /home/mk446/mutanno/PRECALVEP \</span>
+<span class="go">    -fasta /n/data1/hms/dbmi/park/SOFTWARE/REFERENCE/GRCh38d1/GRCh38_full_analysis_set_plus_decoy_hla.fa \</span>
+<span class="go">    -vepcache /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_vep \</span>
+<span class="go">    -vep /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/ensembl-vep-release-99/vep \</span>
+<span class="go">    -cache_version 99</span>
+
+<span class="go">mutanno precal -merge_vep \</span>
+<span class="go">    -out /home/mk446/mutanno/PRECALVEP \</span>
+<span class="go">    -fasta /n/data1/hms/dbmi/park/SOFTWARE/REFERENCE/GRCh38d1/GRCh38_full_analysis_set_plus_decoy_hla.fa</span>
 </pre></div>
 </div>
 </div>
