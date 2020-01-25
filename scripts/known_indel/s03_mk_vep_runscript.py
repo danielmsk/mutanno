@@ -82,7 +82,7 @@ if __name__ == "__main__":
     import proc_util
     import file_util
     import str_util
-    title = 'aaakid'
+    title = 'sindel'
     varsize = 20000
     fasta = "/n/data1/hms/dbmi/park/SOFTWARE/REFERENCE/GRCh38d1/GRCh38_full_analysis_set_plus_decoy_hla.fa"
     # vepcache = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_merged"
