@@ -45,6 +45,7 @@ def s05_merge_vep():
     for k in range(1, 7000):
         no = str_util.zero_format(k, 6)
         inputvcf = path + title + '_' + no + '.vcf'
+        print(inputvcf)
         if file_util.is_exist(inputvcf):
             vep = inputvcf + '.vep.txt'
             print("Processing..", vep)
