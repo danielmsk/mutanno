@@ -15,6 +15,25 @@ else:
     sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
 
+VEP_OPTION_CMD = "#VEP# -i #INPUTVCF# -o #OUT#"
+VEP_OPTION_CMD += " --hgvs"
+VEP_OPTION_CMD += " --fasta #FASTA#"
+VEP_OPTION_CMD += " --assembly GRCh38"
+VEP_OPTION_CMD += " --use_given_ref"
+VEP_OPTION_CMD += " --offline"
+VEP_OPTION_CMD += " --cache_version #CACHE_VERSION#"
+VEP_OPTION_CMD += " --dir_cache #VEPCACHE#"
+VEP_OPTION_CMD += " --everything"
+VEP_OPTION_CMD += " --force_overwrite"
+VEP_OPTION_CMD += " --vcf"
+# PLUGIN
+# VEP_OPTION_CMD += "--plugin LoF --plugin LoF,human_ancestor_fa:/home/mk446/BiO/Data/vep/human_ancestor.fa.gz "
+VEP_OPTION_CMD += " --plugin MaxEntScan,/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/fordownload"
+VEP_OPTION_CMD += " --plugin TSSDistance"
+VEP_OPTION_CMD += " --dir_plugins /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99"
+# v99 added
+VEP_OPTION_CMD += " --plugin SpliceRegion,Extended"
+
 
 def s03_mk_vep_runscript():
     i = 0
@@ -36,19 +55,21 @@ def s03_mk_vep_runscript():
                 no = str_util.zero_format(k, 6)
                 inputvcf = path + title + '_' + no + '.vcf'
                 shcmd = path + title + '_' + no + '.vcf.sh'
-                # vep = path + title + '_' + no + '.vcf.vep.txt'
-                vep = path + title + '_' + no + '.vcf.vep.vcf'
+                vep = path + title + '_' + no + '.vcf.vep.txt'
+                # vep = path + title + '_' + no + '.vcf.vep.vcf'
                 f = open(inputvcf, 'w')
                 print(inputvcf)
                 f.write(header)
 
-                cmd = "/home/mk446/bin/vep -i " + inputvcf + " -o " + vep + " --hgvs "
-                cmd += "--fasta " + fasta + " --assembly GRCh38 --use_given_ref "
-                cmd += "--offline --cache_version 98 --dir_cache " + vepcache + " "
-                cmd += "--plugin MaxEntScan,/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-98/MaxEntScan/fordownload "
-                cmd += "--plugin TSSDistance "
-                # cmd += "--everything --force_overwrite --tab;\n"
-                cmd += "--everything --force_overwrite --vcf;\n"
+                cmd = VEP_OPTION_CMD
+                cmd = cmd.replace('#VEP#', "/home/mk446/bin/vep")
+                cmd = cmd.replace('#INPUTVCF#', inputvcf)
+                cmd = cmd.replace('#OUT#', vep)
+                cmd = cmd.replace('#FASTA#', fasta)
+                cmd = cmd.replace('#VEPCACHE#', vepcache)
+                cmd = cmd.replace('#CACHE_VERSION#', '99')
+                cmd = cmd + ";"
+                cmd += "touch " + inputvcf + ".vep.txt.done;"
 
                 file_util.fileSave(shcmd, cmd, 'w')
                 proc_util.run_cmd('chmod 755 ' + shcmd)
@@ -67,5 +88,5 @@ if __name__ == "__main__":
     # vepcache = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_merged"
     vepcache = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_vep"
     vcf = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.sorted.uniq.vcf.gz'
-    path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp3/'
+    path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp/'
     s03_mk_vep_runscript()

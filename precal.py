@@ -197,5 +197,7 @@ class PreCalculate():
             spos = int(poslist[0])
             epos = int(poslist[1])
             self.save_input_vcf(fasta, self.opt['out'], chrom, spos, epos)
+        if self.opt['merge_vep']:
+            pass
         if self.opt['check_vep_result']:
             self.check_vep_result(self.opt['vcf'], self.opt['vep_result'])

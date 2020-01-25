@@ -7,6 +7,7 @@
 
 import sys
 import os
+from pyfaidx import Fasta
 SVRNAME = os.uname()[1]
 if "MBI" in SVRNAME.upper():
     sys_path = "/Users/pcaso/bin/python_lib"
@@ -49,6 +50,10 @@ def s03_merge_vep_by_chrom_pipe_bgzip(chrom):
     logfile = path + "vep.98.hg38." + chrom + ".tsv.gz.log"
     file_util.fileSave(logfile, '', 'w')
     i = 0
+    # fasta = Fasta(FASTA, as_raw=True, sequence_always_upper=True)
+    # ref = fasta[chrom][k - 1]
+    # if ref != 'N' and ref.strip() != '':
+
     for k in range(400):
         vcfmap = {}
         for tsv in file_util.walk(path + "chr" + chrom + "/" + str(k) + "/", '.tsv.vcf.gz'):
@@ -95,6 +100,7 @@ if __name__ == "__main__":
 
     path = "/home/mk446/mutanno/PRECALVEP/"
     spath = "/home/mk446/mutanno/SRC/scripts/precal_vep/"
+    FASTA = "/n/data1/hms/dbmi/park/SOFTWARE/REFERENCE/GRCh38d1/GRCh38_full_analysis_set_plus_decoy_hla.fa"
 
     # for chrom in seq_util.MAIN_CHROM_LIST:
     #     if chrom == "MT":

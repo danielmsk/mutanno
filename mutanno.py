@@ -78,6 +78,8 @@ def get_options():
     p1 = subparsers.add_parser('precal', help='pre-calculate', description='pre-calculate')
     p1.add_argument('-make_input_vcf', dest='make_input_vcf', action="store_true",
                     default=False, help='make input VCF file')
+    p1.add_argument('-merge_vep', dest='merge_vep',
+                    action="store_true", default=False, help='check and merge VEP result')
     p1.add_argument('-check_vep_result', dest='check_vep_result',
                     action="store_true", default=False, help='check VEP result')
     p1.add_argument('-run_vep', dest='run_vep', action="store_true", default=False, help='run vep')
