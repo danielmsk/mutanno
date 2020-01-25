@@ -96,7 +96,7 @@ def s05_merge_vep():
 if __name__ == "__main__":
     import file_util
     import str_util
-    title = 'aaakid'
+    title = 'sindel'
     path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp/'
     out = "/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.#CHROM#.vep.tsi"
     s05_merge_vep()
