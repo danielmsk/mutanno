@@ -50,6 +50,7 @@ def s05_vep_split_run():
         vepcmd = vepcmd.replace('#VEPCACHE#', vepcache)
         vepcmd = vepcmd.replace('#CACHE_VERSION#', cache_version)
         cmd = vepcmd + ";"
+        cmd += "tabixgz " + out + ";"
         cmd += "touch " + out + ".done;"
         print(cmd)
         '''
