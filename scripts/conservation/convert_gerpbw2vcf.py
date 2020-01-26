@@ -23,8 +23,8 @@ def convert_gerpbw2vcf(bwfile):
             chrom = "M"
         cmd = "bigWigToWig " + bwfile + ' ' + out.replace('#CHROM#', chrom)
         cmd += ' -chrom=' + chrom
-        cmd += ' -start=1'
-        cmd += ' -end=' + str(seq_util.CHROM_LEN['b38d'][chrom] + 1)
+        # cmd += ' -start=1'
+        # cmd += ' -end=' + str(seq_util.CHROM_LEN['b38d'][chrom] + 1)
         print(cmd)
 
 
