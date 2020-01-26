@@ -31,5 +31,5 @@ def convert_gerpbw2vcf(bwfile):
 if __name__ == "__main__":
     import seq_util
     bwfile = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/GERP/hg38/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
-    out = bwfile + '.#CHROM#.vcf'
+    out = bwfile + '.#CHROM#.wig'
     convert_gerpbw2vcf(bwfile)
