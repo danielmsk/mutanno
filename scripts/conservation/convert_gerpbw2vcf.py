@@ -19,7 +19,9 @@ sys.path.append(sys_path)
 def convert_gerpbw2vcf(bwfile):
     seq_util.load_refseq_info('b38d')
     for chrom in seq_util.MAIN_CHROM_LIST:
-        cmd = "bigWigToWig " + bwfile + ' ' + out
+        if chrom == "MT":
+            chrom = "M"
+        cmd = "bigWigToWig " + bwfile + ' ' + out.replace('#CHROM#', chrom)
         cmd += ' -chrom ' + chrom
         cmd += ' -start 1'
         cmd += ' -end ' + str(seq_util.CHROM_LEN['b38d'][chrom] + 1)
@@ -29,5 +31,5 @@ def convert_gerpbw2vcf(bwfile):
 if __name__ == "__main__":
     import seq_util
     bwfile = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/GERP/hg38/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
-    out = bwfile + '.vcf'
+    out = bwfile + '.#CHROM#.vcf'
     convert_gerpbw2vcf(bwfile)
