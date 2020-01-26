@@ -16,23 +16,42 @@ else:
 sys.path.append(sys_path)
 
 
+VEP_OPTION_CMD = "#VEP# -i #INPUTVCF# -o #OUT#"
+VEP_OPTION_CMD += " --hgvs"
+VEP_OPTION_CMD += " --fasta #FASTA#"
+VEP_OPTION_CMD += " --assembly GRCh38"
+VEP_OPTION_CMD += " --use_given_ref"
+VEP_OPTION_CMD += " --offline"
+VEP_OPTION_CMD += " --cache_version #CACHE_VERSION#"
+VEP_OPTION_CMD += " --dir_cache #VEPCACHE#"
+VEP_OPTION_CMD += " --everything"
+VEP_OPTION_CMD += " --force_overwrite"
+VEP_OPTION_CMD += " --vcf"
+# PLUGIN
+# VEP_OPTION_CMD += "--plugin LoF --plugin LoF,human_ancestor_fa:/home/mk446/BiO/Data/vep/human_ancestor.fa.gz "
+VEP_OPTION_CMD += " --plugin MaxEntScan,/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/fordownload"
+VEP_OPTION_CMD += " --plugin TSSDistance"
+VEP_OPTION_CMD += " --dir_plugins /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99"
+# v99 added
+VEP_OPTION_CMD += " --plugin SpliceRegion,Extended"
+# VEP_OPTION_CMD += " --plugin LoF,loftee_path:/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/VEP_plugins-release-99/loftee"
+
+
 def s05_vep_split_run():
     for line in open(missvcflist):
         vcf = line.strip()
-        vep = vcf + ".vep.txt"
-        # cmd = "vepsplit run " + vcf + " 1000;"
-        # cmd = "rm -rf " + vcf + "*"
-        # cmd = "mv " + vcf + "_tmp/*sh /home/mk446/jobs/."
-        # cmd = "vepsplit merge " + vcf + " 1000;"
-        # cmd = "python /home/mk446/mutanno/SRC/mutanno.py precal -check_vep_result -vcf " + vcf + " -vep_result " + vep
-        # cmd = "rm -rf " + vep + ".checked"
-        tsv = vcf.replace('.vcf', '') + '.tsv'
-        if file_util.is_exist(tsv + ".gz.checked"):
-            # cmd = "python /home/mk446/mutanno/SRC/mutanno.py precal -check_vep_result -vcf " + vcf + " -vep_result " + tsv + '.gz'
-            # cmd = "tabixgz " + tsv
-            cmd = "rm " + tsv + ".gz.checked"
-            print(cmd)
-            # proc_util.run_cmd(cmd)
+        out = vcf + ".vep.txt"
+
+        vepcmd = VEP_OPTION_CMD
+        vepcmd = vepcmd.replace('#VEP#', vep)
+        vepcmd = vepcmd.replace('#INPUTVCF#', vcf)
+        vepcmd = vepcmd.replace('#OUT#', out)
+        vepcmd = vepcmd.replace('#FASTA#', fasta)
+        vepcmd = vepcmd.replace('#VEPCACHE#', vepcache)
+        vepcmd = vepcmd.replace('#CACHE_VERSION#', cache_version)
+        cmd = vepcmd + ";"
+        cmd += "touch " + out + ".done;"
+        print(cmd)
         '''
         if not file_util.is_exist(vep + ".checked"):
             flag = True
@@ -73,7 +92,9 @@ def s05_vep_split_run():
 
 
 if __name__ == "__main__":
-    import proc_util
-    import file_util
+    vep = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/ensembl-vep-release-99/vep"
+    fasta = "/n/data1/hms/dbmi/park/SOFTWARE/REFERENCE/GRCh38d1/GRCh38_full_analysis_set_plus_decoy_hla.fa"
+    vepcache = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_vep"
+    cache_version = "99"
     missvcflist = "/home/mk446/mutanno/PRECALVEP/missvcf.txt"
     s05_vep_split_run()
