@@ -1,1 +1,0 @@
-python /home/mk446/mutanno/SRC/scripts/precal_vep/s03_merge_vep_by_chrom.py Y | bgzip -c > /home/mk446/mutanno/PRECALVEP/vep.98.hg38.Y.tsv.gz;sleep 120;tabix -f -p vcf /home/mk446/mutanno/PRECALVEP/vep.98.hg38.Y.tsv.gz;

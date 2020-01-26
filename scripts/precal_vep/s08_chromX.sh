@@ -1,1 +1,0 @@
-python /home/mk446/mutanno/SRC/scripts/precal_vep/s08_make_one_source.py X | bgzip -c > /home/mk446/mutanno/PRECALVEP/microannot_datasource.X.v1.0.tsv.gz;sleep 120;tabix -f -p vcf /home/mk446/mutanno/PRECALVEP/microannot_datasource.X.v1.0.tsv.gz;
