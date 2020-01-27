@@ -53,7 +53,12 @@ def s05_vep_split_run():
         cmd += "sleep 60;"
         cmd += "tabixgz " + out + ";"
         cmd += "touch " + out + ".done;"
+
+        cmd = "mutanno precal -check_vep_result "
+        cmd += "-vcf " + vcf + " "
+        cmd += "-vep_result " + out + ".gz;"
         print(cmd)
+
         '''
         if not file_util.is_exist(vep + ".checked"):
             flag = True
