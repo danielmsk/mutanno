@@ -54,10 +54,11 @@ def s05_vep_split_run():
         cmd += "tabixgz " + out + ";"
         cmd += "touch " + out + ".done;"
 
-        cmd = "mutanno precal -check_vep_result "
-        cmd += "-vcf " + vcf + " "
-        cmd += "-vep_result " + out + ".gz;"
-        print(cmd)
+        if file_util.is_exist(out + '.checked'):
+            cmd = "mutanno precal -check_vep_result "
+            cmd += "-vcf " + vcf + " "
+            cmd += "-vep_result " + out + ".gz;"
+            print(cmd)
 
         '''
         if not file_util.is_exist(vep + ".checked"):
@@ -99,6 +100,7 @@ def s05_vep_split_run():
 
 
 if __name__ == "__main__":
+    import file_util
     vep = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/ensembl-vep-release-99/vep"
     fasta = "/n/data1/hms/dbmi/park/SOFTWARE/REFERENCE/GRCh38d1/GRCh38_full_analysis_set_plus_decoy_hla.fa"
     vepcache = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_vep"
