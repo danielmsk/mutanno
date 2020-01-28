@@ -78,6 +78,19 @@
               {"name":"cytoband","desc":""}
           ]
       },{
+          "name":"CONSERVATION",
+          "desc":"conservation",
+          "version":"2017-07-17",
+          "version_date":"07/17/2017",
+          "datafile":"/home/mk446/mutanno/DATASOURCE/CONSERVATION/conservation_scores.hg38.chr#CHROM#.tsi.gz",
+          "format":"tsi",
+          "is_available":true,
+          "fields":[
+              {"name":"phastCons100way","desc":""},
+              {"name":"phastCons30way","desc":""},
+              {"name":"phastCons20way","desc":""}
+          ]
+      },{
           "name":"UK10K",
           "desc":"population AF by UK10K",
           "version":"20160215",

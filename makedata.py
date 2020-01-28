@@ -18,8 +18,9 @@ def pars_region_str(region):
 
 class TSVBlockReader():
 
-    def __init__(self, fname):
+    def __init__(self, fname, fileformat):
         self.fname = fname
+        self.fileformat = fileformat
         self.target_colidx = []
         self.header = []
         self.filter_start_with = {}
@@ -47,16 +48,44 @@ class TSVBlockReader():
                 if 'delimiter' in f1.keys():
                     self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
 
+    def add_block_bed(self, block, regionstr, sid):
+        region = pars_region_str(regionstr)
+        print(sid, self.fname, region)
+        if self.tp is None:
+            sourcefile = self.fname.replace('#CHROM#', region['chrom'])
+            if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
+                self.tp = tabix.open(self.fname.replace('#CHROM#', region['chrom']))
+        if self.tp is not None:
+            bedblock = []
+            for arr in self.tp.querys(regionstr):
+                d = {}
+                d['spos'] = int(arr[1])
+                d['epos'] = int(arr[2])
+                for cidx in self.target_colidx:
+                    d[cidx] = arr[cidx]
+                bedblock.append(d)
+
+            if len(bedblock) > 0:
+                for pos in block.keys():
+                    cont = ''
+                    for d in bedblock:
+                        if pos > d['spos'] and pos <= d['epos']:
+                            if cont != '':
+                                cont += ','
+                            for cidx in self.target_colidx:
+                                if cont != '':
+                                    cont += '|'
+                                delimiter = ''
+                                if cidx >= 0:
+                                    cont += vcf_util.encode_infovalue(d[cidx], delimiter)
+                    if cont != '':
+                        for refalt in block[pos].keys():
+                            block[pos][refalt][sid] = cont
+        return block
+
     def add_block(self, block, regionstr, sid):
         region = pars_region_str(regionstr)
         if self.tp is None:
-            # FIXME: temporary code
-            # if 'VEP' in self.fname:
-            #     fname = "/n/data1/hms/dbmi/park/daniel/BiO/Research/mutanno/PRECALVEP/chr" + region['chrom']
-            #     fname += "/" + str(int(region['spos'] / 1000000))
-            #     fname += "/chr" + self.ori_region.replace(':', '_').replace('-', '_') + ".tsv.gz"
-            #     print(fname)
-            #     self.fname = fname
             sourcefile = self.fname.replace('#CHROM#', region['chrom'])
             if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
                 self.tp = tabix.open(self.fname.replace('#CHROM#', region['chrom']))
@@ -122,9 +151,11 @@ class TSVBlockMerger():
 
         self.block = {}
         for sid in self.block_readers.keys():
-            # FIXME: temporary code
-            # self.block_readers[sid].ori_region = self.ori_region
-            self.block = self.block_readers[sid].add_block(self.block, range, sid)
+            if self.block_readers[sid].fileformat != "bed":
+                self.block = self.block_readers[sid].add_block(self.block, range, sid)
+        for sid in self.block_readers.keys():
+            if self.block_readers[sid].fileformat == "bed":
+                self.block = self.block_readers[sid].add_block_bed(self.block, range, sid)
 
     def get_block_tsi(self):
         self.read_block()
@@ -193,7 +224,7 @@ class DataSourceFile():
             # for chrom in seq_util.MAIN_CHROM_LIST:
             sid = s1['name']
             sidlist.append(sid)
-            blockreaders[sid] = TSVBlockReader(s1['datafile'])
+            blockreaders[sid] = TSVBlockReader(s1['datafile'], s1['format'])
             blockreaders[sid].set_target_column(s1['fields'])
 
         tbm = TSVBlockMerger(blockreaders, self.region, self.blocksize)

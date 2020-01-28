@@ -11,9 +11,10 @@
           "desc":"Predicted nonsense mediated decay effects for this variant by VEP",
           "version":"v98.4",
           "version_date":"07/04/2019",
-          "datafile":"/home/mk446/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.98.hg38.#CHROM#.tsv.gz",
+          "datafile":"/home/mk446/mutanno/DATASOURCE/ANNOT/VEP/hg38/v98/vep.98.hg38.#CHROM#.tsv.gz",
+          "datafile2":"/home/mk446/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.99.hg38.#CHROM#.tsi.gz",
           "subembedded":"transcript",
-          "format":"tab",
+          "format":"tsi",
           "fields":[
             {"name":"Location","desc":"Location of variant in standard coordinate format (chr:start or chr:start-end)"},
             {"name":"Allele","desc":"The variant allele used to calculate the consequence"},
@@ -65,6 +66,30 @@
             {"name":"MOTIF_POS","desc":"The relative position of the variation in the aligned TFBP"},
             {"name":"HIGH_INF_POS","desc":"A flag indicating if the variant falls in a high information position of the TFBP"},
             {"name":"MOTIF_SCORE_CHANGE","desc":"The difference in motif score of the reference and variant sequences for the TFBP"}
+          ]
+      },{
+          "name":"CYTOBAND",
+          "desc":"cytoband",
+          "version":"2017-07-17",
+          "version_date":"07/17/2017",
+          "datafile":"/home/mk446/mutanno/DATASOURCE/CYTOBAND/hg38/cytoBand_hg38.bed.gz",
+          "format":"bed",
+          "chrompre":"chr",
+          "is_available":true,
+          "fields":[
+              {"name":"cytoband","desc":""}
+          ]
+      },{
+          "name":"UNIPROT_TRANSMEM",
+          "desc":"transmembrane",
+          "version":"2019-12-18",
+          "version_date":"12/18/2019",
+          "datafile":"/home/mk446/mutanno/DATASOURCE/UNIPLOT/UP000005640_9606_transmem.mod.bed.gz",
+          "format":"bed",
+          "is_available":true,
+          "fields":[
+              {"name":"UNIPROTKB_AC","desc":""},
+              {"name":"ANNOT_DESC","desc":""}
           ]
       }
 

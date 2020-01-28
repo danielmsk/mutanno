@@ -56,7 +56,7 @@ def s03_merge_vep_by_chrom_pipe_bgzip(chrom):
 
     for k in range(400):
         vcfmap = {}
-        for tsv in file_util.walk(path + "chr" + chrom + "/" + str(k) + "/", '.tsv.vcf.gz'):
+        for tsv in file_util.walk(path + "chr" + chrom + "/" + str(k) + "/", '.vep.txt.gz'):
             k1 = int(tsv.split('/')[-1].split('_')[1])
             vcfmap[tsv] = k1
         (ks, vs) = struct_util.sortdict(vcfmap)
@@ -67,8 +67,10 @@ def s03_merge_vep_by_chrom_pipe_bgzip(chrom):
             file_util.fileSave(logfile, log + '\n', 'a')
             for line in file_util.gzopen(tsv):
                 line = line.decode('UTF-8')
-                if (i == 0 and line[0] == '#'):
-                    line = line.replace('\t.\t', '\tID\t')
+                if line[:len('#CHROM')] == "#CHROM" or line[0] != '#':
+                    arr = line.split('\t')
+                    arr[-1] = arr[-1].strip()
+                    line = arr[0].replace('chr', '') + '\t' + '\t'.join(arr[1:5]) + '\t' + arr[7][4:] + '\n'
                 if (i == 0) or (i > 0 and line[0] != '#'):
                     print(line, end='')
                 j += 1
@@ -83,7 +85,7 @@ def run():
     for chrom in seq_util.MAIN_CHROM_LIST:
         if chrom == "MT":
             chrom = "M"
-        outgz = path + "vep.98.hg38." + chrom + ".tsv.gz"
+        outgz = path + "vep.99.hg38." + chrom + ".tsi.gz"
         cmd = "python /home/mk446/mutanno/SRC/scripts/precal_vep/s03_merge_vep_by_chrom.py " + chrom
         cmd += " | bgzip -c > " + outgz + ";"
         cmd += "sleep 120;"
