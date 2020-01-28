@@ -8,6 +8,7 @@ ALTIDX = 4
 entrezmap = {}
 refseqmap = {}
 
+
 def pars_region_str(region):
     r = None
     if region != "":
@@ -18,6 +19,7 @@ def pars_region_str(region):
         r['spos'] = int(arr2[0])
         r['epos'] = int(arr2[1])
     return r
+
 
 def load_entrez_refseq_id():
     path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/"
@@ -36,6 +38,7 @@ def load_entrez_refseq_id():
         refseqmap[enst_id] = arr[3].strip()
     return entrezmap, refseqmap
 
+
 def get_entrez_id(gene):
     global entrezmap, refseqmap
     if len(entrezmap.keys()) == 0:
@@ -45,6 +48,7 @@ def get_entrez_id(gene):
     except KeyError:
         eid = ''
     return eid
+
 
 def get_refseq_id(transcript):
     global entrezmap, refseqmap
@@ -106,9 +110,6 @@ class TSVBlockReader():
                 if 'param' in f1.keys() and f1['param'] != '':
                     self.field_function_param[cidx_no] = f1['param']
 
-            
-        
-
     def add_block_bed(self, block, regionstr, sid):
         region = pars_region_str(regionstr)
         # print(sid, self.fname, region)
@@ -156,8 +157,8 @@ class TSVBlockReader():
                 cidxvalue = arr[cidx]
 
             if cidx_no in self.field_function.keys():
-                exec_str = self.field_function[cidx_no] 
-                exec_str += '(arr_selected_fields[' 
+                exec_str = self.field_function[cidx_no]
+                exec_str += '(arr_selected_fields['
                 exec_str += str(self.field_names.index(self.field_function_param[cidx_no]))
                 exec_str += '])'
                 cidxvalue = eval(exec_str)
@@ -165,7 +166,7 @@ class TSVBlockReader():
             delimiter = ''
             if cidx in self.delimiter.keys():
                 delimiter = self.delimiter[cidx]
-            
+
             arr_selected_fields.append(vcf_util.encode_infovalue(cidxvalue, delimiter))
 
             if cidx in self.filter_start_with.keys():
@@ -324,7 +325,7 @@ class DataSourceFile():
             start = time.time()
             block = tbm.get_block_tsi()
             fp.write(block)
-            lastpos = str(tbm.block_lpos)
+            # lastpos = str(tbm.block_lpos)
             end = time.time()
             elapsed = end - start
             log = 'processing.. ' + str(round(elapsed, 3)) + ' sec elapsed. '
