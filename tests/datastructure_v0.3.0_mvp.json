@@ -91,23 +91,6 @@
               {"name":"UNIPROTKB_AC","desc":""},
               {"name":"ANNOT_DESC","desc":""}
           ]
-      },{
-          "name":"CONSERVATION",
-          "desc":"conservation",
-          "version":"2017-07-17",
-          "version_date":"07/17/2017",
-          "datafile":"/home/mk446/mutanno/DATASOURCE/CONSERVATION/conservation_scores.hg38.chr#CHROM#.tsi.gz",
-          "format":"tsi",
-          "is_available":true,
-          "fields":[
-              {"name":"PHASTCONS100","desc":""},
-              {"name":"PHASTCONS30","desc":""},
-              {"name":"PHASTCONS20","desc":""},
-              {"name":"PHYLOP100","desc":""},
-              {"name":"PHYLOP30","desc":""},
-              {"name":"PHYLOP20","desc":""},
-              {"name":"GERP","desc":""}
-          ]
       }
 
     ],
