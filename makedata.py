@@ -3,6 +3,10 @@ import vcf_util
 import tabix
 import time
 
+REFIDX = 3
+ALTIDX = 4
+entrezmap = {}
+refseqmap = {}
 
 def pars_region_str(region):
     r = None
@@ -15,6 +19,43 @@ def pars_region_str(region):
         r['epos'] = int(arr2[1])
     return r
 
+def load_entrez_refseq_id():
+    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/"
+    entrezmap = {}
+    for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.entrez.tsv.gz'):
+        line = line.decode('UTF-8')
+        arr = line.split('\t')
+        arr[-1] = arr[-1].strip()
+        entrezmap[arr[0].strip()] = arr[3].strip()
+    refseqmap = {}
+    for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.refseq.sorted.tsv.gz'):
+        line = line.decode('UTF-8')
+        arr = line.split('\t')
+        arr[-1] = arr[-1].strip()
+        enst_id = arr[1].strip()
+        refseqmap[enst_id] = arr[3].strip()
+    return entrezmap, refseqmap
+
+def get_entrez_id(gene):
+    global entrezmap, refseqmap
+    if len(entrezmap.keys()) == 0:
+        entrezmap, refseqmap = load_entrez_refseq_id()
+    try:
+        eid = entrezmap[gene]
+    except KeyError:
+        eid = ''
+    return eid
+
+def get_refseq_id(transcript):
+    global entrezmap, refseqmap
+    if len(refseqmap.keys()) == 0:
+        entrezmap, refseqmap = load_entrez_refseq_id()
+    try:
+        tid = refseqmap[transcript]
+    except KeyError:
+        tid = ''
+    return tid
+
 
 class TSVBlockReader():
 
@@ -26,6 +67,9 @@ class TSVBlockReader():
         self.filter_start_with = {}
         self.filter_skip_equal_str = {}
         self.delimiter = {}
+        self.field_function = {}
+        self.field_function_param = {}
+        self.field_names = []
         self.tp = None
         self.chrom = ''
         self.read_header()
@@ -34,11 +78,16 @@ class TSVBlockReader():
         for line in file_util.gzopen(self.fname.replace('#CHROM#', "1")):
             line = line.decode('UTF-8')
             if line[0] == '#' and line[1] != '#':
-                self.header = line[1:].strip().split('\t')
+                if self.fileformat == "tsv" or self.fileformat == "bed":
+                    self.header = line[1:].strip().split('\t')
+                if self.fileformat == "tsi":
+                    self.header = line[1:].strip().split('\t')[-1].split('|')
                 break
 
     def set_target_column(self, fields_structure):
+        cidx_no = 0
         for f1 in fields_structure:
+            self.field_names.append(f1['name'])
             if f1['name'] in self.header:
                 self.target_colidx.append(self.header.index(f1['name']))
                 if 'start_with' in f1.keys():
@@ -47,10 +96,22 @@ class TSVBlockReader():
                     self.filter_skip_equal_str[self.header.index(f1['name'])] = f1['skip_equal_str']
                 if 'delimiter' in f1.keys():
                     self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
+            else:
+                self.target_colidx.append(-999)
+
+            cidx_no += 1
+            if 'function' in f1.keys() and f1['function'] != '':
+                self.field_function[cidx_no] = f1['function']
+                self.field_function_param[cidx_no] = ''
+                if 'param' in f1.keys() and f1['param'] != '':
+                    self.field_function_param[cidx_no] = f1['param']
+
+            
+        
 
     def add_block_bed(self, block, regionstr, sid):
         region = pars_region_str(regionstr)
-        print(sid, self.fname, region)
+        # print(sid, self.fname, region)
         if self.tp is None:
             sourcefile = self.fname.replace('#CHROM#', region['chrom'])
             if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
@@ -83,6 +144,38 @@ class TSVBlockReader():
                             block[pos][refalt][sid] = cont
         return block
 
+    def get_selected_fields_in_block(self, arr):
+        cidx_no = 0
+        flag_filter = True
+        arr_selected_fields = []
+        for cidx in self.target_colidx:
+            cidx_no += 1
+            if cidx == -999:
+                cidxvalue = ''
+            else:
+                cidxvalue = arr[cidx]
+
+            if cidx_no in self.field_function.keys():
+                exec_str = self.field_function[cidx_no] 
+                exec_str += '(arr_selected_fields[' 
+                exec_str += str(self.field_names.index(self.field_function_param[cidx_no]))
+                exec_str += '])'
+                cidxvalue = eval(exec_str)
+
+            delimiter = ''
+            if cidx in self.delimiter.keys():
+                delimiter = self.delimiter[cidx]
+            
+            arr_selected_fields.append(vcf_util.encode_infovalue(cidxvalue, delimiter))
+
+            if cidx in self.filter_start_with.keys():
+                flag_filter = cidxvalue.startswith(self.filter_start_with[cidx])
+            if cidx in self.filter_skip_equal_str.keys():
+                flag_filter = not (cidxvalue == self.filter_skip_equal_str[cidx])
+
+        cont = '|'.join(arr_selected_fields)
+        return flag_filter, cont
+
     def add_block(self, block, regionstr, sid):
         region = pars_region_str(regionstr)
         if self.tp is None:
@@ -93,35 +186,33 @@ class TSVBlockReader():
             for arr in self.tp.querys(regionstr):
                 pos = int(arr[1])
                 if pos >= region['spos'] and pos <= region['epos']:
-                    refalt = arr[self.header.index('REF')] + '_' + arr[self.header.index('ALT')]
-                    filter = True
-                    cont = ''
-                    for cidx in self.target_colidx:
-                        if cont != '':
-                            cont += '|'
-                        delimiter = ''
-                        if cidx in self.delimiter.keys():
-                            delimiter = self.delimiter[cidx]
-                        if cidx >= 0:
-                            cont += vcf_util.encode_infovalue(arr[cidx], delimiter)
+                    refalt = arr[REFIDX] + '_' + arr[ALTIDX]
 
-                        if cidx in self.filter_start_with.keys():
-                            filter = arr[cidx].startswith(self.filter_start_with[cidx])
-                        if cidx in self.filter_skip_equal_str.keys():
-                            filter = not (arr[cidx] == self.filter_skip_equal_str[cidx])
-                    if filter:
-                        try:
-                            block[pos]
-                        except KeyError:
-                            block[pos] = {}
-                        try:
-                            block[pos][refalt]
-                        except KeyError:
-                            block[pos][refalt] = {}
-                        try:
-                            block[pos][refalt][sid] += ',' + cont
-                        except KeyError:
-                            block[pos][refalt][sid] = cont
+                    if self.fileformat == 'tsi':
+                        if "," in arr[-1]:
+                            arrsection = []
+                            for f1 in arr[-1].split(','):
+                                arrsection.append(f1.split('|'))
+                        else:
+                            arrsection = [arr[-1].split('|')]
+                    else:
+                        arrsection = [arr]
+
+                    for sec in arrsection:
+                        flag_filter, cont = self.get_selected_fields_in_block(sec)
+                        if flag_filter:
+                            try:
+                                block[pos]
+                            except KeyError:
+                                block[pos] = {}
+                            try:
+                                block[pos][refalt]
+                            except KeyError:
+                                block[pos][refalt] = {}
+                            try:
+                                block[pos][refalt][sid] += ',' + cont
+                            except KeyError:
+                                block[pos][refalt][sid] = cont
         return block
 
 
