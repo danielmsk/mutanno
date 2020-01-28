@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#### reformat.py
-#### made by Daniel Minseok Kwon
-#### 2020-01-28 04:36:09
+# reformat.py
+# made by Daniel Minseok Kwon
+# 2020-01-28 04:36:09
 #########################
 import sys
 import os
 SVRNAME = os.uname()[1]
 if "MBI" in SVRNAME.upper():
-    sys_path="/Users/pcaso/bin/python_lib"
+    sys_path = "/Users/pcaso/bin/python_lib"
 elif SVRNAME == "T7":
-    sys_path="/ms1/bin/python_lib"
+    sys_path = "/ms1/bin/python_lib"
 else:
-    sys_path="/home/mk446/bin/python_lib"
+    sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
 
 
 def reformat(tsi):
-    out = path + "tmp/" + tsi.split('/')[-1].replace('.gz','')
+    out = path + "tmp/" + tsi.split('/')[-1].replace('.gz', '')
     f = open(out, 'w')
     for line in file_util.gzopen(tsi):
         if tsi.endswith('.gz'):
@@ -34,7 +34,6 @@ def reformat(tsi):
         f.write('\t'.join(cont) + '\n')
     f.close()
     print("Saved", out)
-    
 
 
 if __name__ == "__main__":
