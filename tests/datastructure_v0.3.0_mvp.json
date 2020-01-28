@@ -11,8 +11,9 @@
           "desc":"Predicted nonsense mediated decay effects for this variant by VEP",
           "version":"v98.4",
           "version_date":"07/04/2019",
-          "datafile":"/home/mk446/mutanno/DATASOURCE/ANNOT/VEP/hg38/v98/vep.98.hg38.#CHROM#.tsv.gz",
+          "datafile3":"/home/mk446/mutanno/DATASOURCE/ANNOT/VEP/hg38/v98/vep.98.hg38.#CHROM#.tsv.gz",
           "datafile2":"/home/mk446/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.99.hg38.#CHROM#.tsi.gz",
+          "datafile":"/home/mk446/mutanno/DATASOURCE/ANNOT/VEP/hg38/tmp/vep.99.hg38.#CHROM#.test.tsi.gz",
           "subembedded":"transcript",
           "format":"tsi",
           "fields":[
@@ -102,7 +103,7 @@
           "fields":[
               {"name":"primateDL_score","desc":""},
           ]
-      },
+      }
     ],
     "gene_source": [
         {
