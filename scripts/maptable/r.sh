@@ -1,0 +1,1 @@
+mutanno makedata -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json -out /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test_tmp/00001.tsi -vartype SNP -blocksize 10000 -region 1:1-20000

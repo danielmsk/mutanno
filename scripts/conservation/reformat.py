@@ -6,6 +6,7 @@
 #########################
 import sys
 import os
+import time
 SVRNAME = os.uname()[1]
 if "MBI" in SVRNAME.upper():
     sys_path = "/Users/pcaso/bin/python_lib"
@@ -17,7 +18,7 @@ sys.path.append(sys_path)
 
 
 def reformat(tsi):
-    out = path + "tmp/" + tsi.split('/')[-1].replace('.gz', '')
+    out = path + "tmp2/" + tsi.split('/')[-1].replace('.tsi.gz', '') + '.bed'
     f = open(out, 'w')
     for line in file_util.gzopen(tsi):
         if tsi.endswith('.gz'):
@@ -25,16 +26,22 @@ def reformat(tsi):
         arr = line.split('\t')
         arr[-1] = arr[-1].strip()
         if line[0] == '#':
-            ref = "REF"
-            alt = "ALT"
+            spos = "SPOS"
+            epos = "EPOS"
         else:
-            ref = "."
-            alt = "."
-        cont = [arr[0], arr[1], arr[2], ref, alt, arr[3]]
+            spos = str(int(arr[1]) - 1)
+            epos = arr[1]
+        cont = [arr[0], spos, epos, arr[3].replace('|','\t')]
         f.write('\t'.join(cont) + '\n')
     f.close()
     print("Saved", out)
 
+    time.sleep(120)
+    
+    proc_util.run_cmd('tabixgzbed ' + out)
+
+
+# /home/mk446/mutanno/SRC/scripts/conservation/reformat.py
 
 if __name__ == "__main__":
     import file_util

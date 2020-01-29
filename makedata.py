@@ -1,7 +1,9 @@
+import os
 import file_util
 import vcf_util
 import tabix
 import time
+import external_functions
 
 REFIDX = 3
 ALTIDX = 4
@@ -21,51 +23,12 @@ def pars_region_str(region):
     return r
 
 
-def load_entrez_refseq_id():
-    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/"
-    entrezmap = {}
-    for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.entrez.tsv.gz'):
-        line = line.decode('UTF-8')
-        arr = line.split('\t')
-        arr[-1] = arr[-1].strip()
-        entrezmap[arr[0].strip()] = arr[3].strip()
-    refseqmap = {}
-    for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.refseq.sorted.tsv.gz'):
-        line = line.decode('UTF-8')
-        arr = line.split('\t')
-        arr[-1] = arr[-1].strip()
-        enst_id = arr[1].strip()
-        refseqmap[enst_id] = arr[3].strip()
-    return entrezmap, refseqmap
-
-
-def get_entrez_id(gene):
-    global entrezmap, refseqmap
-    if len(entrezmap.keys()) == 0:
-        entrezmap, refseqmap = load_entrez_refseq_id()
-    try:
-        eid = entrezmap[gene]
-    except KeyError:
-        eid = ''
-    return eid
-
-
-def get_refseq_id(transcript):
-    global entrezmap, refseqmap
-    if len(refseqmap.keys()) == 0:
-        entrezmap, refseqmap = load_entrez_refseq_id()
-    try:
-        tid = refseqmap[transcript]
-    except KeyError:
-        tid = ''
-    return tid
-
-
 class TSVBlockReader():
 
-    def __init__(self, fname, fileformat):
-        self.fname = fname
-        self.fileformat = fileformat
+    def __init__(self, datastruct, datafile_path):
+        self.datastruct = datastruct
+        self.fname = os.path.join(datafile_path, self.datastruct['datafile'])
+        self.fileformat = self.datastruct['format']
         self.target_colidx = []
         self.header = []
         self.filter_start_with = {}
@@ -76,13 +39,25 @@ class TSVBlockReader():
         self.field_names = []
         self.tp = None
         self.chrom = ''
+        self.chrompre = ''
+        self.altidx = ALTIDX
+        self.refidx = REFIDX
+
+        if 'ref_column_index' in self.datastruct.keys():
+            self.refidx = self.datastruct['ref_column_index']
+        if 'ref_column_index' in self.datastruct.keys():
+            self.altidx = self.datastruct['alt_column_index']
+        if 'chrompre' in self.datastruct.keys():
+            self.chrompre = self.datastruct['chrompre']
+
         self.read_header()
+        self.set_target_column(self.datastruct['fields'])
 
     def read_header(self):
         for line in file_util.gzopen(self.fname.replace('#CHROM#', "1")):
             line = line.decode('UTF-8')
             if line[0] == '#' and line[1] != '#':
-                if self.fileformat == "tsv" or self.fileformat == "bed":
+                if self.fileformat == "tsv" or self.fileformat == "bed" or self.fileformat == "vcf":
                     self.header = line[1:].strip().split('\t')
                 if self.fileformat == "tsi":
                     self.header = line[1:].strip().split('\t')[-1].split('|')
@@ -134,18 +109,15 @@ class TSVBlockReader():
                         if pos > d['spos'] and pos <= d['epos']:
                             if cont != '':
                                 cont += ','
-                            for cidx in self.target_colidx:
-                                if cont != '':
-                                    cont += '|'
-                                delimiter = ''
-                                if cidx >= 0:
-                                    cont += vcf_util.encode_infovalue(d[cidx], delimiter)
+                            variantkey = region['chrom'] + '_' + str(pos)
+                            flag_filter, cont2 = self.get_selected_fields_in_block(d, variantkey)
+                            cont += cont2
                     if cont != '':
                         for refalt in block[pos].keys():
                             block[pos][refalt][sid] = cont
         return block
 
-    def get_selected_fields_in_block(self, arr):
+    def get_selected_fields_in_block(self, arr, variantkey):
         cidx_no = 0
         flag_filter = True
         arr_selected_fields = []
@@ -157,10 +129,23 @@ class TSVBlockReader():
                 cidxvalue = arr[cidx]
 
             if cidx_no in self.field_function.keys():
-                exec_str = self.field_function[cidx_no]
-                exec_str += '(arr_selected_fields['
-                exec_str += str(self.field_names.index(self.field_function_param[cidx_no]))
-                exec_str += '])'
+                # print(arr_selected_fields)
+                exec_str = "external_functions." + self.field_function[cidx_no]
+                exec_str += '('
+                paramstr_list = []
+                for param in self.field_function_param[cidx_no].split(','):
+                    if param == "mutanno_value_variantkey":
+                        pstr = 'variantkey'
+                    elif cidx_no-1 == self.field_names.index(param):
+                        pstr = 'cidxvalue'
+                    else:
+                        pstr = 'arr_selected_fields['
+                        pstr += str(self.field_names.index(param))
+                        pstr += ']'
+                    paramstr_list.append(pstr)
+                exec_str += ','.join(paramstr_list)
+                exec_str += ')'
+                # print(exec_str)
                 cidxvalue = eval(exec_str)
 
             delimiter = ''
@@ -184,10 +169,10 @@ class TSVBlockReader():
             if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
                 self.tp = tabix.open(self.fname.replace('#CHROM#', region['chrom']))
         if self.tp is not None:
-            for arr in self.tp.querys(regionstr):
+            for arr in self.tp.querys(self.chrompre + regionstr):
                 pos = int(arr[1])
                 if pos >= region['spos'] and pos <= region['epos']:
-                    refalt = arr[REFIDX] + '_' + arr[ALTIDX]
+                    refalt = arr[self.refidx] + '_' + arr[self.altidx]
 
                     if self.fileformat == 'tsi':
                         if "," in arr[-1]:
@@ -200,7 +185,8 @@ class TSVBlockReader():
                         arrsection = [arr]
 
                     for sec in arrsection:
-                        flag_filter, cont = self.get_selected_fields_in_block(sec)
+                        variantkey = region['chrom'] + '_' + str(pos) + '_' + arr[self.refidx] + '_' + arr[self.altidx]
+                        flag_filter, cont = self.get_selected_fields_in_block(sec, variantkey)
                         if flag_filter:
                             try:
                                 block[pos]
@@ -316,8 +302,12 @@ class DataSourceFile():
             # for chrom in seq_util.MAIN_CHROM_LIST:
             sid = s1['name']
             sidlist.append(sid)
-            blockreaders[sid] = TSVBlockReader(s1['datafile'], s1['format'])
-            blockreaders[sid].set_target_column(s1['fields'])
+            
+            datafile_path = ''
+            if 'datafile_path' in self.datastruct.keys():
+                datafile_path = self.datastruct['datafile_path']
+            blockreaders[sid] = TSVBlockReader(s1, datafile_path)
+
 
         tbm = TSVBlockMerger(blockreaders, self.region, self.blocksize)
 

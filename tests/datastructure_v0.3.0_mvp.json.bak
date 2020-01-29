@@ -82,8 +82,8 @@
           "desc":"conservation",
           "version":"2017-07-17",
           "version_date":"07/17/2017",
-          "datafile":"/home/mk446/mutanno/DATASOURCE/CONSERVATION/conservation_scores.hg38.chr#CHROM#.tsi.gz",
-          "format":"tsi",
+          "datafile":"/home/mk446/mutanno/DATASOURCE/CONSERVATION/conservation_scores.hg38.chr#CHROM#.bed.gz",
+          "format":"bed",
           "is_available":true,
           "fields":[
               {"name":"PHASTCONS100","desc":""},
@@ -119,16 +119,16 @@
           "desc":"population AF by TOPmed",
           "version":"freeze 5",
           "version_date":"08/28/2017",
-          "datafile":"POPULATION_AF/TOPMED/hg38/bravo-dbsnp-all.vcf.gz",
+          "datafile":"POPULATION_AF/TOPMED/hg38/bravo-dbsnp-all.tsi.gz",
           "chrompre":"chr",
-          "format":"infovar",
+          "format":"vcfinfo",
           "fieldselection":"",
           "fields":[
-              {"name":"AN","desc":""},
-              {"name":"AC","desc":""},
-              {"name":"AF","desc":""},
-              {"name":"Het","desc":""},
-              {"name":"Hom","desc":""}
+            {"name":"AN","desc":""},
+            {"name":"AC","desc":""},
+            {"name":"AF","desc":""},
+            {"name":"Het","desc":""},
+            {"name":"Hom","desc":""}
           ]
       },{
           "name":"dbSNP",

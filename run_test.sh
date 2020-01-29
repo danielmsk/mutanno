@@ -65,10 +65,15 @@ mutanno makedata -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json
     -out /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test \
     -vartype SNP \
     -blocksize 10000 \
-    -region 1:10001-20000
+    -region 1:69091-69191		### spliceAI
+    # -region 1:10701-20000   ### CONSERVATION
+    # -region 1:10051-10151  ### TOPMED
+    # -region 1:10037-10237  ### AF
+    # -region 1:69144-70144  ### UNIPROT_TRANSMEM
+    # -region 1:10039-11039   ### dbSNP
     # -region 1:200001-220000
 
-head /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi
+head -5 /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi
 
 #################################
 # micro-annotation
