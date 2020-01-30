@@ -769,33 +769,6 @@ class AnnotVCF():
 
     def run_by_loading_source(self):
         stime = time.time()
-        cnt = 0
-        m = []
-        for line in file_util.gzopen(self.datastruct['sourcefile'].replace('#CHROM#', '1')):
-            line = line.decode('UTF-8')
-            arr = line.split('\t')
-            cnt += 1
-            m.append(arr)
-            if cnt >= 100000:
-                break
-        etime = time.time()
-        elapsed = etime - stime
-        print(cnt, elapsed, 'sec')
-
-        stime = time.time()
-        cnt = 0
-        m = []
-        for line in open(self.datastruct['sourcefile2'].replace('#CHROM#', '1')):
-            arr = line.split('\t')
-            cnt += 1
-            m.append(arr)
-            if cnt >= 100000:
-                break
-        etime = time.time()
-        elapsed = etime - stime
-        print(cnt, elapsed, 'sec')
-
-        stime = time.time()
         annotmap = AnnotMapBlock(self.datastruct, self.datafileinfo, self.blocksize)
         etime = time.time()
         elapsed = etime - stime

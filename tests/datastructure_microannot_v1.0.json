@@ -4,8 +4,7 @@
     "version_date":"10/29/2019",
     "data_version":"0.2",
     "data_version_date":"10/29/2019",
-    "sourcefile2":"/home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.1.tsi",
-    "sourcefile":"/home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.1.tsv.gz",
+    "sourcefile":"/home/mk446/mutanno/DATASOURCE/MICROANNOT/v0.1_200122/microannot_datasource.#CHROM#.v0.1.tsv.gz",
     "use_sourcename_in_fieldname":false,
     "source": [
         {

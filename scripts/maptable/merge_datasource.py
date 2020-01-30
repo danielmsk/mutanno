@@ -6,6 +6,7 @@
 #########################
 import sys
 import os
+import time
 SVRNAME = os.uname()[1]
 if "MBI" in SVRNAME.upper():
     sys_path = "/Users/pcaso/bin/python_lib"
@@ -21,7 +22,7 @@ def zero_format(i, size):
     return s1.format(i)
 
 
-def merge_datasource():
+def old_merge_datasource():
     pos = 1
     k = 0
     flag = True
@@ -43,10 +44,51 @@ def merge_datasource():
     
     print ('sleep 120;')
     print ('tabixgz ' + out)
+
+def merge_datasource():
+    pos = 1
+    k = 0
+    flag = True
+    f = open(out, 'w')
+    prev_pos = 0
+    while flag:
+        k += 1
+        epos = pos + bsize - 1
+        if epos >= seq_util.CHROM_LEN['b38d']['1']:
+            epos = seq_util.CHROM_LEN['b38d']['1']
+            flag = False
+        
+        sfile = path + zero_format(k, 5) + '.tsi'
+        print('processing..', sfile)
+
+        for line in file_util.gzopen(sfile):
+            if line[0] == "#":
+                if k == 1:
+                    f.write(line)
+            else:
+                arr = line.split('\t')
+                posi = int(arr[1])
+                if prev_pos == 0:
+                    prev_pos = posi
+
+                if posi >= prev_pos:
+                    f.write(line)
+                    prev_pos = posi
+                else:
+                    print('POS ERROR:', prev_pos, posi)
+
+        pos = epos - 1
+        # if k > 10:
+        #     break
+    
+    f.close()
+    time.sleep(120)
+    proc_util.run_cmd('tabixgz ' + out)
     
 
 if __name__ == "__main__":
     import seq_util
+    import proc_util
     import file_util
     seq_util.load_refseq_info('b38d')
     bsize = 100000

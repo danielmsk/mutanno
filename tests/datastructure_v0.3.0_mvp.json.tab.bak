@@ -1,0 +1,253 @@
+vep_consequence	VEP	v98.4	string	Y	66	upstream_gene_variant;downstream_gene_variant;regulatory_region_variant;TF_binding_site_variant;non_coding_transcript_exon_variant;splice_region_variant&non_coding_transcript_exon_variant;splice_donor_variant&non_coding_transcript_variant;splice_region_variant&intron_variant&non_coding_transcript_variant;intron_variant&non_coding_transcript_variant;splice_acceptor_variant&non_coding_transcript_variant
+vep_impact	VEP	v98.4	string	N	8	MODIFIER;LOW;HIGH;MODERATE
+vep_symbol	VEP	v98.4	string	N	11	DDX11L1;WASH7P;;MIR6859-1;MIR1302-2HG;MIR1302-2;FAM138A;OR4G4P;OR4G11P;OR4F5
+vep_gene	VEP	v98.4	string	N	15	ENSG00000223972;ENSG00000227232;;ENSG00000278267;ENSG00000243485;ENSG00000284332;ENSG00000237613;ENSG00000268020;ENSG00000240361;ENSG00000186092
+vep_gene_ncbi	VEP	v98.4	string	N	6	;79501;729759;81399
+vep_feature_type	VEP	v98.4	string	N	17	Transcript;RegulatoryFeature;MotifFeature;
+vep_feature	VEP	v98.4	string	N	15	ENST00000450305;ENST00000456328;ENST00000488147;ENSR00000344264;ENSM00208374688;ENSM00207949539;ENSM00207314130;ENSM00524980244;ENSM00205183900;ENSM00208132675
+vep_feature_ncbi	VEP	v98.4	string	N	12	;NR_046018;NR_024540;NR_106918;XR_001737835;NR_036051;NR_026818;NP_001005484;XR_001737556;NR_107062
+vep_biotype	VEP	v98.4	string	N	34	transcribed_unprocessed_pseudogene;processed_transcript;unprocessed_pseudogene;CTCF_binding_site;;miRNA;TF_binding_site;lncRNA;promoter;enhancer
+vep_exon	VEP	v98.4	string	N	5	;1/3;1/6;2/6;3/6;2/3;4/6;5/6;3/3;6/6
+vep_intron	VEP	v98.4	string	N	5	;1/5;2/5;1/2;3/5;2/2;4/5;5/5;10/10;9/10
+vep_hgvsc	VEP	v98.4	string	N	33	;ENST00000456328.2:n.1G>A;ENST00000456328.2:n.1G>T;ENST00000456328.2:n.1G>C;ENST00000456328.2:n.2T>A;ENST00000456328.2:n.2T>G;ENST00000456328.2:n.2T>C;ENST00000456328.2:n.3T>A;ENST00000456328.2:n.3T>G;ENST00000456328.2:n.3T>C
+vep_hgvsp	VEP	v98.4	string	N	37	;ENSP00000493376.2:p.Met1?;ENSP00000493376.2:p.Lys2Ter;ENSP00000493376.2:p.Lys2Glu;ENSP00000493376.2:p.Lys2Gln;ENSP00000493376.2:p.Lys2Met;ENSP00000493376.2:p.Lys2Arg;ENSP00000493376.2:p.Lys2Thr;ENSP00000493376.2:p.Lys2%3D;ENSP00000493376.2:p.Lys2Asn
+vep_cdna_position	VEP	v98.4	string	N	4	;1;2;3;4;5;6;7;8;9
+vep_cds_position	VEP	v98.4	string	N	3	;1;2;3;4;5;6;7;8;9
+vep_protein_position	VEP	v98.4	string	N	3	;1;2;3;4;5;6;7;8;9
+vep_amino_acids	VEP	v98.4	string	N	3	;M/L;M/V;M/K;M/R;M/T;M/I;K/*;K/E;K/Q
+vep_codons	VEP	v98.4	string	N	7	;Atg/Ttg;Atg/Gtg;Atg/Ctg;aTg/aAg;aTg/aGg;aTg/aCg;atG/atA;atG/atT;atG/atC
+vep_existing_variation	VEP	v98.4	string	Y	35	;rs978760828;rs1008829651;rs1052373574;rs892501864;rs1010989343;rs1022805358;rs62651026;rs376007522;rs1390810297
+vep_distance	VEP	v98.4	string	N	4	2009;1868;4403;;2008;1867;4402;2007;1866;4401
+vep_strand	VEP	v98.4	string	N	2	1;-1;
+vep_flags	VEP	v98.4	string	N	0	
+vep_variant_class	VEP	v98.4	string	N	3	SNV
+vep_symbol_source	VEP	v98.4	string	N	24	HGNC;;Clone_based_ensembl_gene
+vep_hgnc_id	VEP	v98.4	string	N	10	HGNC:37102;HGNC:38034;;HGNC:50039;HGNC:52482;HGNC:35294;HGNC:32334;HGNC:14822;HGNC:31276;HGNC:14825
+vep_canonical	VEP	v98.4	string	N	3	;YES
+vep_mane	VEP	v98.4	string	N	0	
+vep_tsl	VEP	v98.4	string	N	1	;1;5;3;2;4
+vep_appris	VEP	v98.4	string	N	2	;P1
+vep_ccds	VEP	v98.4	string	N	11	;CCDS30547.1;CCDS72675.1;CCDS41221.1
+vep_ensp	VEP	v98.4	string	N	15	;ENSP00000493376;ENSP00000334393;ENSP00000409316;ENSP00000329982
+vep_swissprot	VEP	v98.4	string	N	6	;Q8NH21;Q6IEY1
+vep_trembl	VEP	v98.4	string	N	10	;A0A2U3U0J3;A0A126GV92
+vep_uniparc	VEP	v98.4	string	N	13	;UPI000D1938F0;UPI0000041BC1;UPI0000041D3C
+vep_gene_pheno	VEP	v98.4	string	N	0	
+vep_sift	VEP	v98.4	string	N	32	;tolerated_low_confidence(1);deleterious_low_confidence(0.04);deleterious_low_confidence(0);deleterious_low_confidence(0.01);tolerated_low_confidence(0.07);tolerated_low_confidence(0.33);tolerated_low_confidence(0.37);tolerated_low_confidence(0.06);tolerated_low_confidence(0.82)
+vep_polyphen	VEP	v98.4	string	N	24	;benign(0);benign(0.009);benign(0.003);benign(0.007);benign(0.025);benign(0.152);benign(0.012);benign(0.183);benign(0.033)
+vep_domains	VEP	v98.4	string	Y	202	;Low_complexity_(Seg):seg;Superfamily:SSF81321&Low_complexity_(Seg):seg;PANTHER:PTHR26451&PANTHER:PTHR26451:SF179;PANTHER:PTHR26451&PANTHER:PTHR26451:SF179&Superfamily:SSF81321&Low_complexity_(Seg):seg;PANTHER:PTHR26451&PANTHER:PTHR26451:SF179&Superfamily:SSF81321;Gene3D:1.20.1070.10&PANTHER:PTHR26451&PANTHER:PTHR26451:SF179&Superfamily:SSF81321;PANTHER:PTHR26451&PANTHER:PTHR26451:SF179&Gene3D:1.20.1070.10&Superfamily:SSF81321;Gene3D:1.20.1070.10&Prints:PR00237&PANTHER:PTHR26451&PANTHER:PTHR26451:SF179&Superfamily:SSF81321&CDD:cd15226;CDD:cd15226&PANTHER:PTHR26451&PANTHER:PTHR26451:SF179&Gene3D:1.20.1070.10&Superfamily:SSF81321&Prints:PR00237
+vep_mirna	VEP	v98.4	string	N	10	;miRNA_loop;miRNA_stem
+vep_hgvs_offset	VEP	v98.4	string	N	0	
+vep_clin_sig	VEP	v98.4	string	N	0	
+vep_somatic	VEP	v98.4	string	Y	5	;1;0&1;0&1&1
+vep_pheno	VEP	v98.4	string	Y	5	;1;0&1;0&1&1
+vep_pubmed	VEP	v98.4	string	Y	35	;25722852&26702340;29135816;23735648;20637081&20307285;20307285;20637081;19458495;19458495&21486463;30297886
+vep_motif_name	VEP	v98.4	string	N	15	;ENSM00208374688;ENSM00207949539;ENSM00207314130;ENSM00524980244;ENSM00205183900;ENSM00208132675;ENSM00521930390;ENSM00209489825;ENSM00525532133
+vep_motif_pos	VEP	v98.4	string	N	2	;18;17;16;15;14;13;12;11;10
+vep_high_inf_pos	VEP	v98.4	string	N	1	;N;Y
+vep_motif_score_change	VEP	v98.4	string	N	6	;-0.090;-0.049;-0.021;-0.015;0.022;-0.068;-0.024;-0.039;-0.036
+vep_maxentscan_alt	VEP	v98.4	string	N	7	;-13.775;-14.097;-5.593;-5.682;-13.329;-13.436;-7.478;-12.923;-11.980
+vep_maxentscan_diff	VEP	v98.4	string	N	7	;-0.091;0.231;-8.273;-8.183;-0.536;-0.429;-6.387;-0.942;-1.886
+vep_maxentscan_ref	VEP	v98.4	string	N	7	;-13.865;-31.989;9.092;11.897;7.154;7.656;7.609;1.139;3.895
+vep_tssdistance	VEP	v98.4	string	N	4	2009;1868;;2008;1867;2007;1866;2006;1865;2005
+vep_spliceregion	VEP	v98.4	string	N	39	;extended_intronic_splice_region_variant
+cytoband_cytoband	CYTOBAND	2017-07-17	string	N	7	1p36.33
+uniprot_transmem_uniprotkb_ac	UNIPROT_TRANSMEM	2019-12-18	string	N	10	A0A2U3U0J3;Q8NH21;A0A126GV92;Q6IEY1
+uniprot_transmem_annot_desc	UNIPROT_TRANSMEM	2019-12-18	string	Y	26	F40-I61~Helical;F19-V42~Helical~Name%3D1;P51-P72~Helical~Name%3D2;L112-F134~Helical;I94-F113~Helical~Name%3D3;Y146-L168~Helical;A133-S151~Helical~Name%3D4;D189-T212~Helical~Name%3D5;G218-I239~Helical;A229-Y251~Helical~Name%3D6
+dbsnp_rs_number	DBSNP	20190722	string	N	12	rs775809821;rs978760828;rs1008829651;rs1052373574;rs1326880612;rs892501864;rs768019142;rs1010989343;rs1489251879;rs1022805358
+conservation_phastcons100	CONSERVATION	2017-07-17	string	N	5	;0.253;0.251;0.249;0.247;0.245;0.243;0.240;0.237;0.234
+conservation_phastcons30	CONSERVATION	2017-07-17	string	N	5	0.095;0.088;0.081;0.073;0.065;0.066;0.067;0.068;0.063;0.061
+conservation_phastcons20	CONSERVATION	2017-07-17	string	N	5	;0.252;0.250;0.248;0.246;0.244;0.241;0.239;0.236;0.233
+conservation_phylop100	CONSERVATION	2017-07-17	string	N	7	;0.064;0.061;0.055;0.000;-2.013;-2.400;-2.136;-2.187;-2.263
+conservation_phylop30	CONSERVATION	2017-07-17	string	N	7	0.088;0.079;-2.228;0.095;-1.724;-2.191;-1.730;-1.836;0.000;-2.195
+conservation_phylop20	CONSERVATION	2017-07-17	string	N	6	;0.060;0.066;0.055;0.000;-2.031;-2.418;-2.104;-2.116;-2.390
+conservation_gerp	CONSERVATION	2017-07-17	string	N	9	;0.416;1.05;2.17;1.33;2.21;-0.631;1.3;0.398;-4.33
+primateai_primatedl_score	PRIMATEAI	v0.2_hg38	float	N	14	0.590256690979;0.56863451004;0.573166966438;0.506420195103;0.581349015236;0.46253234148;0.46985822916;0.474666565657;0.522812366486;0.562882900238
+cadd_phred	CADD	v1.5	float	N	5	9.191;9.367;9.588;9.182;9.512;9.310;9.186;9.517;9.314;8.052
+spliceai_symbol	SPLICEAI	20191004	string	N	10	OR4F5;AL627309.1;OR4F29;OR4F16;AL669831.1;AL645608.2
+spliceai_ds_ag	SPLICEAI	20191004	float	N	4	0.00;0.01;0.04;0.05;0.02;0.03;0.08;0.09;0.07;0.16
+spliceai_ds_al	SPLICEAI	20191004	float	N	4	0.02;0.01;0.00;0.05;0.04;0.03;0.15;0.06;0.07;0.17
+spliceai_ds_dg	SPLICEAI	20191004	float	N	4	0.02;0.07;0.00;0.22;0.09;0.01;0.16;0.08;0.27;0.03
+spliceai_ds_dl	SPLICEAI	20191004	float	N	4	0.10;0.11;0.01;0.08;0.02;0.31;0.32;0.35;0.40;0.19
+spliceai_dp_ag	SPLICEAI	20191004	integer	N	3	43;42;2;1;41;49;48;47;20;46
+spliceai_dp_al	SPLICEAI	20191004	integer	N	3	42;25;41;40;39;38;37;36;35;34
+spliceai_dp_dg	SPLICEAI	20191004	integer	N	3	-2;-1;24;1;35;40;22;39;20;-3
+spliceai_dp_dl	SPLICEAI	20191004	integer	N	3	2;23;0;-1;-2;19;-3;-4;17;35
+max_pop_af_af_popmax	MAX_POP_AF	0.2	float	N	11	0.000604595;4.30849e-05;3.98375e-05;0.000239234;0.000478469;0.0955882;0.000255232;0.000176803;0.00232558;2.85388e-05
+gnomad_ac	GNOMAD	3.0	integer	N	6	0;2;1;3;95;5;9;6;48;11
+gnomad_ac_afr	GNOMAD	3.0	integer	N	5	0;1;17;2;16;3;4;2588;10;20
+gnomad_ac_ami	GNOMAD	3.0	integer	N	3	0;1;39;3;2;6;4;66;47;5
+gnomad_ac_amr	GNOMAD	3.0	integer	N	5	0;10;1;4;2;846;3;5;27;7
+gnomad_ac_asj	GNOMAD	3.0	integer	N	4	0;2;1;301;3;4;25;21;16;280
+gnomad_ac_eas	GNOMAD	3.0	integer	N	4	0;1;2;200;4;3;5;23;187;9
+gnomad_ac_fin	GNOMAD	3.0	integer	N	5	0;1;2;9;4;300;3;7;10;41
+gnomad_ac_nfe	GNOMAD	3.0	integer	N	5	0;2;1;52;3;6;24;11;5;4
+gnomad_ac_sas	GNOMAD	3.0	integer	N	4	0;1;229;2;6;3;17;4;144;5
+gnomad_ac_oth	GNOMAD	3.0	integer	N	4	0;2;1;165;3;14;6;4;126;5
+gnomad_ac_male	GNOMAD	3.0	integer	N	5	0;1;45;4;3;21;6;7;2;4613
+gnomad_ac_afr_male	GNOMAD	3.0	integer	N	5	0;1;8;9;2;3;1196;4;6;5
+gnomad_ac_ami_male	GNOMAD	3.0	integer	N	3	0;22;1;2;3;30;23;4;86;75
+gnomad_ac_amr_male	GNOMAD	3.0	integer	N	4	0;3;1;2;458;4;17;5;9;11
+gnomad_ac_asj_male	GNOMAD	3.0	integer	N	4	0;1;153;2;3;14;6;10;137;4
+gnomad_ac_eas_male	GNOMAD	3.0	integer	N	4	0;1;2;107;3;14;99;7;20;68
+gnomad_ac_fin_male	GNOMAD	3.0	integer	N	4	0;1;4;3;148;2;6;32;23;19
+gnomad_ac_nfe_male	GNOMAD	3.0	integer	N	5	0;1;26;3;2;8;5;2258;14;15
+gnomad_ac_sas_male	GNOMAD	3.0	integer	N	4	0;1;195;2;4;16;107;3;5;14
+gnomad_ac_oth_male	GNOMAD	3.0	integer	N	4	0;1;76;2;8;3;54;10;11;9
+gnomad_ac_female	GNOMAD	3.0	integer	N	5	0;1;2;50;4;3;5;27;8;6
+gnomad_ac_afr_female	GNOMAD	3.0	integer	N	5	0;1;9;2;7;3;1392;6;14;4
+gnomad_ac_ami_female	GNOMAD	3.0	integer	N	3	0;1;17;4;36;24;2;8;97;75
+gnomad_ac_amr_female	GNOMAD	3.0	integer	N	4	0;7;1;3;2;388;10;5;4;8
+gnomad_ac_asj_female	GNOMAD	3.0	integer	N	4	0;1;148;2;4;11;15;6;143;5
+gnomad_ac_eas_female	GNOMAD	3.0	integer	N	4	0;1;93;2;9;88;3;24;71;109
+gnomad_ac_fin_female	GNOMAD	3.0	integer	N	4	0;1;5;152;3;2;4;9;10;11
+gnomad_ac_nfe_female	GNOMAD	3.0	integer	N	5	0;2;1;26;3;16;6;2989;10;5
+gnomad_ac_sas_female	GNOMAD	3.0	integer	N	3	0;34;2;1;37;5;8;10;13;82
+gnomad_ac_oth_female	GNOMAD	3.0	integer	N	4	0;1;89;2;3;6;72;5;13;15
+gnomad_ac_raw	GNOMAD	3.0	integer	N	6	2;4;1;3;8;10;5;129;17;18
+gnomad_an	GNOMAD	3.0	integer	N	6	53780;72762;81114;89638;107374;103816;140930;114200;9126;9128
+gnomad_an_afr	GNOMAD	3.0	integer	N	5	14854;20736;23210;26658;31312;30762;41296;34318;2964;2966
+gnomad_an_ami	GNOMAD	3.0	integer	N	3	350;484;566;688;736;744;892;780;90;10
+gnomad_an_amr	GNOMAD	3.0	integer	N	5	5846;7548;7704;7252;9330;8610;13380;10006;554;112
+gnomad_an_asj	GNOMAD	3.0	integer	N	4	1496;1986;2190;2260;2644;2580;3306;2804;164;24
+gnomad_an_eas	GNOMAD	3.0	integer	N	4	1170;1654;1930;2038;2496;2456;3108;2722;220;30
+gnomad_an_fin	GNOMAD	3.0	integer	N	5	4364;5578;5832;5562;6802;6596;10056;7206;646;164
+gnomad_an_nfe	GNOMAD	3.0	integer	N	5	24292;32798;37164;42048;50204;48358;63772;52294;4180;544
+gnomad_an_sas	GNOMAD	3.0	integer	N	4	606;946;1312;1802;2250;2174;2996;2390;208;8
+gnomad_an_oth	GNOMAD	3.0	integer	N	4	802;1032;1206;1330;1600;1536;2124;1680;100;12
+gnomad_an_male	GNOMAD	3.0	integer	N	5	25806;34484;38280;42136;50804;48972;68186;54164;4378;544
+gnomad_an_afr_male	GNOMAD	3.0	integer	N	5	6700;9296;10408;12040;14218;14124;18986;15690;1258;130
+gnomad_an_ami_male	GNOMAD	3.0	integer	N	3	200;250;278;336;354;368;430;382;48;4
+gnomad_an_amr_male	GNOMAD	3.0	integer	N	4	3392;4278;4260;3814;5044;4564;7588;5448;250;56
+gnomad_an_asj_male	GNOMAD	3.0	integer	N	4	720;938;1028;1094;1208;1210;1548;1308;74;10
+gnomad_an_eas_male	GNOMAD	3.0	integer	N	4	612;848;1026;1156;1384;1328;1674;1466;134;18
+gnomad_an_fin_male	GNOMAD	3.0	integer	N	4	3278;4236;4530;4522;5358;5234;7710;5670;500;80
+gnomad_an_nfe_male	GNOMAD	3.0	integer	N	5	10036;13398;15116;17104;20634;19644;26770;21476;1870;234
+gnomad_an_sas_male	GNOMAD	3.0	integer	N	4	496;768;1072;1444;1836;1770;2440;1930;182;6
+gnomad_an_oth_male	GNOMAD	3.0	integer	N	4	372;472;562;626;768;730;1040;794;62;6
+gnomad_an_female	GNOMAD	3.0	integer	N	5	27974;38278;42834;47502;56570;54844;72744;60036;4748;4750
+gnomad_an_afr_female	GNOMAD	3.0	integer	N	5	8154;11440;12802;14618;17094;16638;22310;18628;1706;1708
+gnomad_an_ami_female	GNOMAD	3.0	integer	N	3	150;234;288;352;382;376;462;398;42;6
+gnomad_an_amr_female	GNOMAD	3.0	integer	N	4	2454;3270;3444;3438;4286;4046;5792;4558;304;56
+gnomad_an_asj_female	GNOMAD	3.0	integer	N	4	776;1048;1162;1166;1436;1370;1758;1496;90;14
+gnomad_an_eas_female	GNOMAD	3.0	integer	N	4	558;806;904;882;1112;1128;1434;1256;86;12
+gnomad_an_fin_female	GNOMAD	3.0	integer	N	4	1086;1342;1302;1040;1444;1362;2346;1536;146;84
+gnomad_an_nfe_female	GNOMAD	3.0	integer	N	5	14256;19400;22048;24944;29570;28714;37002;30818;2310;310
+gnomad_an_sas_female	GNOMAD	3.0	integer	N	3	110;178;240;358;414;404;556;460;26;2
+gnomad_an_oth_female	GNOMAD	3.0	integer	N	4	430;560;644;704;832;806;1084;886;38;6
+gnomad_an_raw	GNOMAD	3.0	integer	N	6	115882;120882;115528;102618;117646;112600;142242;121114;12698;5868
+gnomad_af	GNOMAD	3.0	float	N	11	0.00000e+00;2.74869e-05;1.23283e-05;1.11560e-05;2.79397e-05;1.75131e-05;1.09553e-04;2.19106e-04;7.90349e-02;2.29400e-05
+gnomad_af_afr	GNOMAD	3.0	float	N	11	0.00000e+00;4.30849e-05;3.19366e-05;5.70470e-02;1.76554e-04;1.76803e-04;1.09004e-04;3.53857e-05;8.96861e-05;4.88806e-05
+gnomad_af_ami	GNOMAD	3.0	float	N	11	0.00000e+00;1.00000e-01;5.57143e-01;;9.80392e-03;8.33333e-02;9.20245e-03;5.00000e-01;3.33333e-01;7.46269e-03
+gnomad_af_amr	GNOMAD	3.0	float	N	11	0.00000e+00;8.92857e-02;9.44465e-05;1.05419e-04;1.60051e-04;1.09553e-04;6.00240e-04;5.89971e-04;3.73134e-03;1.85185e-03
+gnomad_af_asj	GNOMAD	3.0	float	N	11	0.00000e+00;8.33333e-02;8.71840e-04;4.22654e-04;5.12821e-04;5.13347e-04;6.45923e-01;2.13675e-03;3.22581e-02;1.03093e-02
+gnomad_af_eas	GNOMAD	3.0	float	N	11	0.00000e+00;6.04595e-04;3.33333e-02;2.32558e-03;1.21507e-03;5.98802e-01;2.99401e-03;1.25000e-01;2.50000e-02;1.51057e-03
+gnomad_af_fin	GNOMAD	3.0	float	N	11	0.00000e+00;1.79276e-04;1.79791e-04;2.77546e-04;5.48780e-02;4.72590e-04;1.05485e-03;1.05042e-03;1.20890e-04;7.81250e-04
+gnomad_af_nfe	GNOMAD	3.0	float	N	11	0.00000e+00;3.98375e-05;2.39234e-04;4.78469e-04;9.55882e-02;2.55232e-04;8.51064e-05;2.85388e-05;3.17058e-05;2.61986e-05
+gnomad_af_sas	GNOMAD	3.0	float	N	11	0.00000e+00;1.25000e-01;5.37634e-03;6.65698e-01;5.00000e-02;1.00000e-01;2.57732e-03;1.70068e-03;3.17460e-03;8.04290e-03
+gnomad_af_oth	GNOMAD	3.0	float	N	11	0.00000e+00;1.66667e-01;1.72414e-03;7.10227e-04;6.29771e-01;4.20168e-03;3.57143e-02;3.12500e-02;6.45161e-03;2.50000e-02
+gnomad_af_male	GNOMAD	3.0	float	N	11	0.00000e+00;2.89990e-05;1.96835e-05;1.84624e-05;2.28415e-04;8.27206e-02;4.88234e-05;1.03370e-04;1.03413e-04;2.48843e-05
+gnomad_af_afr_male	GNOMAD	3.0	float	N	11	0.00000e+00;7.03334e-05;6.15385e-02;3.80807e-04;2.35627e-04;1.05197e-04;8.79972e-05;8.11293e-05;3.05998e-04;1.12082e-04
+gnomad_af_ami_male	GNOMAD	3.0	float	N	11	0.00000e+00;5.78947e-01;;1.72414e-02;1.00000e-01;1.17647e-02;5.00000e-01;2.50000e-01;1.19048e-02;8.33333e-02
+gnomad_af_amr_male	GNOMAD	3.0	float	N	11	0.00000e+00;5.35714e-02;1.80636e-04;2.84900e-04;1.88041e-04;2.58933e-04;3.31126e-03;3.21543e-03;1.60772e-03;6.50568e-01
+gnomad_af_asj_male	GNOMAD	3.0	float	N	11	0.00000e+00;1.00000e-01;9.32836e-04;8.97666e-04;6.83036e-01;6.25000e-02;2.04082e-02;3.92157e-03;1.63934e-02;1.74216e-03
+gnomad_af_eas_male	GNOMAD	3.0	float	N	11	0.00000e+00;5.55556e-02;2.25225e-03;6.14943e-01;5.74713e-03;;4.54545e-02;1.93798e-03;1.83824e-03;5.00000e-01
+gnomad_af_fin_male	GNOMAD	3.0	float	N	11	0.00000e+00;2.36072e-04;1.76367e-04;5.00000e-02;8.02568e-04;2.17391e-03;1.01351e-03;2.76243e-03;4.53988e-01;2.88462e-03
+gnomad_af_nfe_male	GNOMAD	3.0	float	N	11	0.00000e+00;5.34759e-04;1.11111e-01;6.53937e-05;6.02918e-05;1.36240e-04;6.56858e-05;3.57739e-04;1.17869e-04;5.54017e-05
+gnomad_af_sas_male	GNOMAD	3.0	float	N	11	0.00000e+00;1.66667e-01;6.75676e-03;6.77083e-01;1.25000e-01;3.12500e-03;2.07469e-03;3.92157e-03;6.36943e-03;3.40136e-03
+gnomad_af_oth_male	GNOMAD	3.0	float	N	11	0.00000e+00;1.66667e-01;3.62319e-03;6.44068e-01;6.25000e-02;5.00000e-02;4.16667e-02;1.02041e-02;9.43396e-03;
+gnomad_af_female	GNOMAD	3.0	float	N	11	0.00000e+00;2.61247e-05;2.33459e-05;2.10517e-05;3.53544e-05;1.66567e-05;2.10526e-04;7.59878e-02;3.28677e-04;1.64339e-04
+gnomad_af_afr_female	GNOMAD	3.0	float	N	11	0.00000e+00;7.81128e-05;5.35714e-02;3.29815e-04;6.47501e-05;1.68124e-04;3.69413e-04;7.29501e-05;9.73331e-05;1.21773e-04
+gnomad_af_ami_female	GNOMAD	3.0	float	N	11	0.00000e+00;1.66667e-01;5.31250e-01;;6.41026e-03;5.00000e-01;2.50000e-01;1.31579e-02;4.50450e-03;2.94118e-02
+gnomad_af_amr_female	GNOMAD	3.0	float	N	11	0.00000e+00;1.25000e-01;2.35516e-04;1.11359e-03;1.02810e-03;8.54701e-03;1.83824e-03;6.23794e-01;3.57143e-02;1.72414e-02
+gnomad_af_asj_female	GNOMAD	3.0	float	N	11	0.00000e+00;7.14286e-02;8.18331e-04;9.92063e-04;6.11570e-01;4.09836e-03;3.87597e-03;3.19489e-03;2.50000e-01;
+gnomad_af_eas_female	GNOMAD	3.0	float	N	11	0.00000e+00;1.24069e-03;4.27350e-03;5.81250e-01;1.25000e-01;3.20513e-03;8.62069e-03;4.54545e-03;2.26244e-03;1.00000e+00
+gnomad_af_fin_female	GNOMAD	3.0	float	N	11	0.00000e+00;9.61538e-04;6.51042e-04;5.95238e-02;2.04082e-03;5.30786e-04;1.38122e-03;6.78426e-04;1.77936e-03;8.97666e-04
+gnomad_af_nfe_female	GNOMAD	3.0	float	N	11	0.00000e+00;6.76361e-05;4.32900e-04;8.38710e-02;4.29307e-04;1.43102e-04;5.45256e-05;4.72724e-05;4.19322e-05;4.34292e-05
+gnomad_af_sas_female	GNOMAD	3.0	float	N	11	0.00000e+00;6.07143e-01;;1.69492e-02;5.00000e-01;3.33333e-01;1.66667e-01;8.33333e-02;4.00000e-02;8.47458e-03
+gnomad_af_oth_female	GNOMAD	3.0	float	N	11	0.00000e+00;1.66667e-01;1.37363e-03;6.18056e-01;8.62069e-03;1.25000e-02;3.90625e-03;3.73134e-03;1.17188e-02;2.50000e-01
+gnomad_af_raw	GNOMAD	3.0	float	N	11	1.72589e-05;3.30901e-05;8.65591e-06;3.89795e-05;2.55002e-05;8.88099e-06;7.10480e-05;7.03027e-06;8.25668e-05;3.93763e-04
+gnomad_dp	GNOMAD	3.0	integer	N	8	26;82;35;62;128;58;77;4;83;56
+topmed_an	TOPMED	freeze 5	integer	N	6	125568
+topmed_ac	TOPMED	freeze 5	integer	N	6	2;1;334;32;2897;7137;20;158;488;29222
+topmed_af	TOPMED	freeze 5	float	N	11	1.59276e-05;7.96381e-06;0.00265991;0.000254842;0.0230712;0.0568377;0.000159276;0.00125828;0.00388634;0.232719
+topmed_het	TOPMED	freeze 5	string	N	5	2;1;334;32;2897;7137;20;158;488;29222
+topmed_hom	TOPMED	freeze 5	string	N	5	0;1;375;2;1545;56093;4;7618;877;1604
+uk10k_ac	UK10K	20160215	integer	N	4	7226;753;198;9;1;2;3221;605;113;484
+uk10k_an	UK10K	20160215	integer	N	4	7562
+uk10k_af	UK10K	20160215	float	N	8	0.955567;0.099577;0.026184;0.00119;0.000132;0.000264;0.425946;0.080005;0.014943;0.064004
+uk10k_af_afr	UK10K	20160215	float	N	8	;0.002033;0.030488;0.093496;0;0.014228;0.006098;0.020325;0.02439;1
+uk10k_af_amr	UK10K	20160215	float	N	8	;0.019337;0.082873;0.024862;0.01105;0.038674;0.022099;0;0.008287;1
+uk10k_af_asn	UK10K	20160215	float	N	8	;0.003497;0.157343;0;0.001748;1;0.041958;0.777972;0.653846;0.122378
+uk10k_af_eur	UK10K	20160215	float	N	8	;0;0.021108;0.010554;0.056728;0.030343;0.002639;0.01715;0.044855;1
+uk10k_af_max	UK10K	20160215	float	N	8	;0.019337;0.157343;0.093496;0.01105;0.056728;0.030343;0.002639;0.01715;0.044855
+uk10k_esp_maf	UK10K	20160215	float	N	0	
+genomic_super_duplicates_otherchrom	GENOMIC_SUPER_DUPLICATES	19-Oct-2014	string	N	23	chr15;chr12;chrX;chr1;chr2;chr16;chr9;chr19;chr6;chr8
+genomic_super_duplicates_otherstart	GENOMIC_SUPER_DUPLICATES	19-Oct-2014	string	N	9	101906152;10043;156020216;180723;113572720;10426;10843;60000;22923;90169616
+genomic_super_duplicates_otherend	GENOMIC_SUPER_DUPLICATES	19-Oct-2014	string	N	9	101981189;20853;156030574;207666;113602409;19533;40515;128672;44900;77075
+genomic_super_duplicates_fracmatch	GENOMIC_SUPER_DUPLICATES	19-Oct-2014	string	N	8	0.992918;0.983054;0.982898;0.989999;0.987856;0.986907;0.994232;0.995437;0.988957;0.992021
+simple_repeat_name	SIMPLE_REPEAT	11-Mar-2019	string	N	3	trf
+simple_repeat_sequence	SIMPLE_REPEAT	11-Mar-2019	string	N	314	TAACCC;AGGCGCGCCGCGCCGGCGCAGGCGCAGAG;GGCGCAGGCGCAGAGAGGCGCGCCGCGCCGGCGCAGGCGCAGAGACACATGCTAGCGCGTCCAGGGGTGGAGGCGT;CGCCCCCTGCTGGCGACTAGGGCAACTGCAGGGTCCTCTTGCTCAAGGTGAGTGGCAGACGCCCACCTGCTGGCAGCCGGGGACACTGCAGGGCCCTCTTGCTTACTGTATAGTGGTGGCA;AGTGGTGGCACGCCACCTGCTGGCAGCTAGGGACACTGCAGGGCCCTCTTGCTCAAGGTAT;CGCCCCCTGCTGGCAGCTGGGGACACTGCAGGGCCCTCTTGCTCAAGGTATAGTGGCAGCA;TGAGAAGGCAGAGGCGCGACTGGGGTTCATGAGGAAAGGGAGGAGGAGGATGTGGGATGGTGGAGGGGTT;CACCACAGAAAACAGAGC;TC;AAAT
+simple_repeat_chrom	SIMPLE_REPEAT	11-Mar-2019	string	N	1	1
+simple_repeat_chromstart	SIMPLE_REPEAT	11-Mar-2019	string	N	6	10000;10627;10757;11225;11271;11283;19305;20828;30862;44835
+simple_repeat_chromend	SIMPLE_REPEAT	11-Mar-2019	string	N	6	10468;10800;10997;11447;11448;19443;20863;30959;44876;50513
+simple_repeat_score	SIMPLE_REPEAT	11-Mar-2019	string	N	4	789;346;434;273;187;199;242;70;79;73
+simple_repeat_entropy	SIMPLE_REPEAT	11-Mar-2019	string	N	4	1.43;1.73;1.9;1.65;1.45;1.31;0.84;1;0.91;1.8
+rmsk_repname	RMSK	11-Mar-2019	string	N	14	Simple_repeat;Satellite;LINE;DNA;SINE;LTR;Low_complexity;LTR?;snRNA;tRNA
+rmsk_repclass	RMSK	11-Mar-2019	string	N	14	Simple_repeat;telo;L1;hAT-Charlie;MIR;L2;CR1;ERVL-MaLR;Alu;hAT
+rmsk_repfamily	RMSK	11-Mar-2019	string	N	5	1;-399;-2382;-74;-119;2942;2680;2802;15;-6
+rmsk_chromstart	RMSK	11-Mar-2019	string	N	6	10000;10468;11504;11677;15264;15797;16712;18906;19971;20530
+rmsk_chromend	RMSK	11-Mar-2019	string	N	6	10468;11447;11675;11780;15355;15849;16744;19048;20405;20679
+rmsk_strand	RMSK	11-Mar-2019	string	N	15	(TAACCC)n;TAR1;L1MC5a;MER5B;MIR3;(TGCTCC)n;(TGG)n;L2a;L3;Plat_L3
+nested_repeats_name	NESTED_REPEATS	06-Mar-2014	string	N	3	585;586;73;587;588;589;590;591
+nested_repeats_chrom	NESTED_REPEATS	06-Mar-2014	string	N	1	1
+nested_repeats_chromstart	NESTED_REPEATS	06-Mar-2014	string	N	6	23803;26582;30693;31292;38058;38255;43242;54464;61603;71368
+nested_repeats_chromend	NESTED_REPEATS	06-Mar-2014	string	N	6	24448;27137;31131;31754;40626;40294;45753;55608;62229;73843
+nested_repeats_strand	NESTED_REPEATS	06-Mar-2014	string	N	1	+;
+nested_repeats_score	NESTED_REPEATS	06-Mar-2014	string	N	3	110;0;510;224;369;178;473;102;96;239
+nested_repeats_repclass	NESTED_REPEATS	06-Mar-2014	string	N	4	LINE;LTR;SINE;DNA;LTR?
+nested_repeats_repfamily	NESTED_REPEATS	06-Mar-2014	string	N	12	L2;ERVL-MaLR;MIR;L1;TcMar-Tigger;ERV1;CR1;LTR?;ERVL;Alu
+microsatellite_name	MICROSATELLITE	23-Aug-2015	string	N	3	585;586;588;589;591
+microsatellite_chrom	MICROSATELLITE	23-Aug-2015	string	N	1	1
+microsatellite_chromstart	MICROSATELLITE	23-Aug-2015	string	N	6	50481;144527;396901;414629;503138;626781;650383;893801
+microsatellite_chromend	MICROSATELLITE	23-Aug-2015	string	N	6	50513;144576;396941;414675;503172;626821;650423;893840
+clinvar_alleleid	CLINVAR	20191021	string	N	199	
+clinvar_clndn	CLINVAR	20191021	string	Y	199	
+clinvar_clndnincl	CLINVAR	20191021	string	N	199	
+clinvar_clndisdb	CLINVAR	20191021	string	N	199	
+clinvar_clndisdbincl	CLINVAR	20191021	string	N	199	
+clinvar_clnhgvs	CLINVAR	20191021	string	N	199	
+clinvar_clnrevstat	CLINVAR	20191021	string	N	199	
+clinvar_clnsig	CLINVAR	20191021	string	N	199	
+clinvar_clnsigconf	CLINVAR	20191021	string	N	199	
+clinvar_clnsigincl	CLINVAR	20191021	string	N	199	
+clinvar_clnvc	CLINVAR	20191021	string	N	199	
+clinvar_clnvcso	CLINVAR	20191021	string	N	199	
+clinvar_clnvi	CLINVAR	20191021	string	N	199	
+clinvar_geneinfo	CLINVAR	20191021	string	N	199	
+clinvar_mc	CLINVAR	20191021	string	N	199	
+clinvar_origin	CLINVAR	20191021	string	N	199	
+clinvar_ssr	CLINVAR	20191021	string	N	199	
+cosmic_genomic_mutation_id	COSMIC	v90	string	N	12	COSV58737025;COSV58737120;COSV58736766;COSV58736797;COSV58737050;COSV58737143;COSV58736978;COSV58736981;COSV58736785;COSV58736887
+cosmic_legacy_mutation_id	COSMIC	v90	string	N	12	COSN24406961;COSN17493387;COSN28005260;COSN7277204;COSN29614816;COSN17943257;COSN4902613;COSN25961150;COSN26239301;COSN19551483
+cosmic_mutation_id	COSMIC	v90	string	N	9	146785750;146785931;146785366;146785428;146785870;146785953;146785699;146785712;146785390;146785561
+cosmic_transcript_id	COSMIC	v90	string	N	17	ENST00000641515.2;ENST00000335137.4;ENST00000426406.3;ENST00000332831.4
+cosmic_primary_site	COSMIC	v90	string	N	34	large_intestine;skin;prostate;pancreas;oesophagus;breast;stomach;central_nervous_system;haematopoietic_and_lymphoid_tissue;endometrium
+cosmic_site_subtype_1	COSMIC	v90	string	N	7	NS;brain;bladder;colon;rectum
+cosmic_site_subtype_2	COSMIC	v90	string	N	9	NS;ascending
+cosmic_site_subtype_3	COSMIC	v90	string	N	2	NS
+cosmic_primary_histology	COSMIC	v90	string	N	48	carcinoma;primitive_neuroectodermal_tumour-medulloblastoma;haematopoietic_neoplasm;other;malignant_melanoma;glioma;mesothelioma
+cosmic_histology_subtype_1	COSMIC	v90	string	N	23	adenocarcinoma;NS;ductal_carcinoma;acute_myeloid_leukaemia;endometrioid_carcinoma;neoplasm;serous_carcinoma;astrocytoma_Grade_IV;sarcomatous-fibrous
+cosmic_histology_subtype_2	COSMIC	v90	string	N	23	NS;glioblastoma_multiforme
+cosmic_histology_subtype_3	COSMIC	v90	string	N	2	NS
+cosmic_mutation_cds	COSMIC	v90	string	N	37	c.9+468A>G;c.9+558C>G;c.9+601_9+602del;c.9+739A>T;c.9+793_9+805delinsTATATTTT;c.9+798A>T;c.9+800A>T;c.9+811_9+812insATAATA;c.9+949_9+950insATATA;c.9+1005_9+1006insTATATTATATAAATATATT
+cosmic_mutation_aa	COSMIC	v90	string	N	11	p.?;p.D45A;p.D66A;p.H47P;p.H68P;p.H49P;p.H70P;p.S60%3D;p.S81%3D;p.I85%3D
+cosmic_mutation_description	COSMIC	v90	string	N	34	Unknown;Substitution%20-%20Missense;Substitution%20-%20coding%20silent;Insertion%20-%20Frameshift;Substitution%20-%20Nonsense
+cosmic_mutation_zygosity	COSMIC	v90	string	N	3	;het;hom
+cosmic_loh	COSMIC	v90	string	N	0	
+cosmic_mutation_genome_position	COSMIC	v90	string	N	15	1:66041-66041;1:66131-66131;1:66174-66175;1:66312-66312;1:66366-66378;1:66371-66371;1:66373-66373;1:66384-66385;1:66522-66523;1:66578-66579
+cosmic_resistance_mutation	COSMIC	v90	string	N	0	
+cosmic_mutation_somatic_status	COSMIC	v90	string	N	31	Confirmed%20somatic%20variant;Variant%20of%20unknown%20origin
+cosmic_pubmed_pmid	COSMIC	v90	string	N	8	;27149842;21720365;26214590;23441165;25957691;26928227;24599305;25855536
+cosmic_id_study	COSMIC	v90	string	N	3	670;656;537;328;535;538;652;371;379;544
+cosmic_tumour_origin	COSMIC	v90	string	N	10	NS;primary;metastasis

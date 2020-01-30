@@ -61,11 +61,15 @@
     # -region 1:939300-2041000
 
 
-mutanno makedata -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-    -out /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test \
-    -vartype SNP \
-    -blocksize 10000 \
-    -region 1:69091-69191		### spliceAI
+# mutanno makedata -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+#     -out /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test \
+#     -vartype SNP \
+#     -blocksize 10000 \
+# 	-region 1:66041-66141 ### COSMIC
+    # -region 1:1-100000
+    # -region 1:930248-930348	### clinvar
+    # -region 1:28590-28690	### UK10k
+    # -region 1:69091-69191		### spliceAI
     # -region 1:10701-20000   ### CONSERVATION
     # -region 1:10051-10151  ### TOPMED
     # -region 1:10037-10237  ### AF
@@ -73,7 +77,7 @@ mutanno makedata -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json
     # -region 1:10039-11039   ### dbSNP
     # -region 1:200001-220000
 
-head -5 /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi
+# head -5 /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi
 
 #################################
 # micro-annotation
@@ -91,3 +95,11 @@ head -5 /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi
 #     -out /home/mk446/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf \
 #     -ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v1.0.json
 # tail /home/mk446/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf
+
+mutanno annot -vcf /home/mk446/mutanno/DATASOURCE/TEST/test_trio_v0.3.vcf.gz \
+    -out /home/mk446/mutanno/DATASOURCE/TEST/test_trio_v0.3.annot.vcf \
+    -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+	-blocksize 10
+    
+
+

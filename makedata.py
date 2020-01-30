@@ -22,6 +22,12 @@ def pars_region_str(region):
         r['epos'] = int(arr2[1])
     return r
 
+def is_available(field):
+    flag = True
+    if 'is_available' in field.keys() and field['is_available'] == False:
+        flag = False
+    return flag
+
 
 class TSVBlockReader():
 
@@ -66,24 +72,25 @@ class TSVBlockReader():
     def set_target_column(self, fields_structure):
         cidx_no = 0
         for f1 in fields_structure:
-            self.field_names.append(f1['name'])
-            if f1['name'] in self.header:
-                self.target_colidx.append(self.header.index(f1['name']))
-                if 'start_with' in f1.keys():
-                    self.filter_start_with[self.header.index(f1['name'])] = f1['start_with']
-                if 'skip_equal_str' in f1.keys():
-                    self.filter_skip_equal_str[self.header.index(f1['name'])] = f1['skip_equal_str']
-                if 'delimiter' in f1.keys():
-                    self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
-            else:
-                self.target_colidx.append(-999)
+            if is_available(f1):
+                self.field_names.append(f1['name'])
+                if f1['name'] in self.header:
+                    self.target_colidx.append(self.header.index(f1['name']))
+                    if 'start_with' in f1.keys():
+                        self.filter_start_with[self.header.index(f1['name'])] = f1['start_with']
+                    if 'skip_equal_str' in f1.keys():
+                        self.filter_skip_equal_str[self.header.index(f1['name'])] = f1['skip_equal_str']
+                    if 'delimiter' in f1.keys():
+                        self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
+                else:
+                    self.target_colidx.append(-999)
 
-            cidx_no += 1
-            if 'function' in f1.keys() and f1['function'] != '':
-                self.field_function[cidx_no] = f1['function']
-                self.field_function_param[cidx_no] = ''
-                if 'param' in f1.keys() and f1['param'] != '':
-                    self.field_function_param[cidx_no] = f1['param']
+                cidx_no += 1
+                if 'function' in f1.keys() and f1['function'] != '':
+                    self.field_function[cidx_no] = f1['function']
+                    self.field_function_param[cidx_no] = ''
+                    if 'param' in f1.keys() and f1['param'] != '':
+                        self.field_function_param[cidx_no] = f1['param']
 
     def add_block_bed(self, block, regionstr, sid):
         region = pars_region_str(regionstr)
@@ -99,7 +106,10 @@ class TSVBlockReader():
                 d['spos'] = int(arr[1])
                 d['epos'] = int(arr[2])
                 for cidx in self.target_colidx:
-                    d[cidx] = arr[cidx]
+                    if cidx == -999:
+                        d[cidx] = ''
+                    else:
+                        d[cidx] = arr[cidx]
                 bedblock.append(d)
 
             if len(bedblock) > 0:
@@ -271,10 +281,11 @@ class DataSourceFile():
         header = ["#CHROM", "POS", "ID", "REF", "ALT"]
         for s1 in self.datastruct['source']:
             for f1 in s1['fields']:
-                if 'name2' in f1.keys() and f1['name2'] != '':
-                    header.append(f1['name2'])
-                else:
-                    header.append(f1['name'])
+                if is_available(f1):
+                    if 'name2' in f1.keys() and f1['name2'] != '':
+                        header.append(f1['name2'])
+                    else:
+                        header.append(f1['name'])
         return '\t'.join(header)
 
     def get_tsi_header(self):
@@ -283,10 +294,11 @@ class DataSourceFile():
         for s1 in self.datastruct['source']:
             info_header = []
             for f1 in s1['fields']:
-                if 'name2' in f1.keys() and f1['name2'] != '':
-                    info_header.append(f1['name2'])
-                else:
-                    info_header.append(f1['name'])
+                if is_available(f1):
+                    if 'name2' in f1.keys() and f1['name2'] != '':
+                        info_header.append(f1['name2'])
+                    else:
+                        info_header.append(f1['name'])
             info_arr.append(s1['name'] + '=' + '|'.join(info_header))
         header.append(';'.join(info_arr))
         return '\t'.join(header)
