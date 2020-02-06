@@ -1,2 +1,4 @@
 *.pyc
 __pycache__
+._.DS_Store
+.DS_Store

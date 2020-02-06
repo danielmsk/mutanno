@@ -1,8 +1,9 @@
 import os
-import file_util
-import vcf_util
 import tabix
 import time
+import file_util
+import vcf_util
+import struct_util
 import external_functions
 
 REFIDX = 3
@@ -23,11 +24,7 @@ def pars_region_str(region):
     return r
 
 def is_available(field):
-    flag = True
-    if 'is_available' in field.keys() and field['is_available'] == False:
-        flag = False
-    return flag
-
+    return struct_util.is_available(field)
 
 class TSVBlockReader():
 
@@ -179,6 +176,7 @@ class TSVBlockReader():
             if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
                 self.tp = tabix.open(self.fname.replace('#CHROM#', region['chrom']))
         if self.tp is not None:
+            # print(self.chrompre + regionstr)
             for arr in self.tp.querys(self.chrompre + regionstr):
                 pos = int(arr[1])
                 if pos >= region['spos'] and pos <= region['epos']:

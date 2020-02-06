@@ -15,7 +15,7 @@ MAXBUFF = 1000000
 
 
 def load_entrez_refseq():
-    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/"
+    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
     entrezmap = {}
     for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.entrez.tsv.gz'):
         line = line.decode('UTF-8')

@@ -1,0 +1,68 @@
+{
+    "name": "MUTANNO",
+    "version":"0.2",
+    "version_date":"10/29/2019",
+    "data_version":"0.2",
+    "data_version_date":"10/29/2019",
+    "sourcefile1":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.1_200122/microannot_datasource.#CHROM#.v0.1.tsv.gz",
+    "sourcefile":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v1.0_test.tsi.gz",
+    "use_sourcename_in_fieldname":false,
+    "source": [
+        {
+            "name":"VEP",
+            "desc":"Predicted nonsense mediated decay effects for this variant by VEP",
+            "version":"v97.4",
+            "version_date":"07/04/2019",
+            "datafile2":"/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/v97_2019-10-02/vep.97.20191002.hg38.#CHROM#.vcf.gz",
+            "datafile3":"/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.99.hg38.#CHROM#.tsi.gz",
+            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/v98/vep.98.hg38.#CHROM#.tsv.gz",
+            "format":"tsv",
+            "fields":[
+              {"name":"Gene","desc":"Stable ID of affected gene"},
+              {"name":"Feature","desc":"Stable ID of feature","start_with":"ENST"},
+              {"name":"Feature_type","desc":"Type of feature - Transcript, RegulatoryFeature or MotifFeature"},
+              {"name":"Consequence","desc":"Consequence type","delimiter":","},
+              {"name":"SYMBOL","desc":"Gene symbol (e.g. HGNC)"}
+            ]
+        },{
+            "name":"gnomADgenome",
+            "desc":"population AF by gnomAD",
+            "version":"3.0",
+            "version_date":"03/06/2019",
+            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/POPULATION_AF/gnomAD/hg38/gnomad.genomes.r3.0.sites.AF_popmax.tsv.gz",
+            "chrompre":"",
+            "format":"tsv",
+            "ref_column_index":2,
+            "alt_column_index":3,
+            "fieldselection":"",
+            "fields":[
+                {"name":"AF_popmax","name2":"gnomAD_popMaxAF_genome","type":"float","desc":"Maximum allele frequency across populations (excluding samples of Ashkenazi, Finnish, and indeterminate ancestry)"}
+            ]
+        },{
+            "name":"CLINVAR",
+            "desc":"CLINVAR variants",
+            "version":"20200106",
+            "version_date":"01/06/2020",
+            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/VARIANTDB/CLINVAR/hg38/clinvar.20200106.hg38.tsv.gz",
+            "format":"tsv",
+            "ref_column_index":2,
+            "alt_column_index":3,
+            "fields":[
+                {"name":"ALLELEID","name2":"CLINVAR_ALLELEID","desc":"the ClinVar Allele ID"},
+                {"name":"CLNSIG","name2":"CLINVAR_CLNSIG","desc":"Clinical significance for this single variant"}
+            ]
+        },{
+            "name":"SpliceAI",
+            "desc":"SpliceAI scores",
+            "version":"20191004",
+            "version_date":"10/04/2019",
+            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/SPLICING/SpliceAI/hg38/spliceai.20191004.hg38.#CHROM#.maxsc.tsv.gz",
+            "format":"tsv",
+            "ref_column_index":2,
+            "alt_column_index":3,
+            "fields":[
+                {"name":"MAXDS","name2":"SpliceAI_MaxScore","desc":"SpliceAI max delta score","skip_equal_str":"0.00"}
+            ]
+        }
+    ]
+}

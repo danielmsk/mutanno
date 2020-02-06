@@ -46,23 +46,26 @@
 #################################
 # Test convert
 #################################
-# mutanno convert -in /home/mk446/mutanno/DATASOURCE/SPLICING/SpliceAI/hg38/spliceai_scores.raw.snv.hg38.vcf.gz -ds /home/mk446/mutanno/SRC/datastructure/spliceai.20191004.hg38.json -out /home/mk446/mutanno/DATASOURCE/SPLICING/SpliceAI/hg38/spliceai.20191004.hg38 -chromsplit
-# mutanno convert -in /home/mk446/mutanno/DATASOURCE/VARIANTDB/CLINVAR/hg38/clinvar_20200106.vcf.gz -ds /home/mk446/mutanno/SRC/datastructure/clinvar.hg38.json -out /home/mk446/mutanno/DATASOURCE/VARIANTDB/CLINVAR/hg38/clinvar.20200106.hg38
+# mutanno convert -in /home/mk446/bio/mutanno/DATASOURCE/SPLICING/SpliceAI/hg38/spliceai_scores.raw.snv.hg38.vcf.gz -ds /home/mk446/bio/mutanno/SRC/datastructure/spliceai.20191004.hg38.json -out /home/mk446/bio/mutanno/DATASOURCE/SPLICING/SpliceAI/hg38/spliceai.20191004.hg38 -chromsplit
+# mutanno convert -in /home/mk446/bio/mutanno/DATASOURCE/VARIANTDB/CLINVAR/hg38/clinvar_20200106.vcf.gz -ds /home/mk446/bio/mutanno/SRC/datastructure/clinvar.hg38.json -out /home/mk446/bio/mutanno/DATASOURCE/VARIANTDB/CLINVAR/hg38/clinvar.20200106.hg38
 
 
 #################################
-# Test makedata
+# make data for microannotation
 #################################
-# mutanno makedata -ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v1.0.json \
-#     -out /home/mk446/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v1.0_test \
-#     -vartype SNP \
-#     -region 1:200001-400000
+mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
+    -out /home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v0.2_test \
+    -vartype SNP \
+    -region 1:1-4000000
     # -region 1:1-100000
     # -region 1:939300-2041000
 
 
-# mutanno makedata -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-#     -out /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test \
+#################################
+# make data for annotation
+#################################
+# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test \
 #     -vartype SNP \
 #     -blocksize 10000 \
 # 	-region 1:66041-66141 ### COSMIC
@@ -76,30 +79,61 @@
     # -region 1:69144-70144  ### UNIPROT_TRANSMEM
     # -region 1:10039-11039   ### dbSNP
     # -region 1:200001-220000
+# head -5 /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi
 
-# head -5 /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi
+
+#################################
+# make gene data
+#################################
+# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3 \
+#     -vartype GENE
+
+# head /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.bed
+
+
 
 #################################
 # micro-annotation
 #################################
-# mutanno annot -vcf /home/mk446/mutanno/DATASOURCE/TEST/trio_test2.vcf \
-#     -out /home/mk446/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf \
-#     -ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v1.0.json \
+# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test2.vcf \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100_microannot.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v1.0.json \
 #     -blocksize 100
 
-# tail /home/mk446/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf
+# tail /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf
 
 
 ## Multi-allelic test
-# mutanno annot -vcf /home/mk446/mutanno/DATASOURCE/TEST/trio_test_multiallele.vcf \
-#     -out /home/mk446/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf \
-#     -ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v1.0.json
-# tail /home/mk446/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf
+# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test_multiallele.vcf \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v1.0.json
+# tail /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf
 
-mutanno annot -vcf /home/mk446/mutanno/DATASOURCE/TEST/test_trio_v0.3.vcf.gz \
-    -out /home/mk446/mutanno/DATASOURCE/TEST/test_trio_v0.3.annot.vcf \
-    -ds /home/mk446/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-	-blocksize 10
+#################################
+# Trio GATK vcf
+#################################
+# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/test_trio_v0.3.vcf.gz \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/test_trio_v0.3.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+# 	-blocksize 10
     
+#################################
+# deNOVO vcf
+#################################
+# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.vcf.gz \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+#     -blocksize 10
+ 
+
+# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.vcf \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+#     -blocksize 10
+
+
+
+
 
 

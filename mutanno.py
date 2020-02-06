@@ -8,11 +8,12 @@ import sys
 import argparse
 import annot
 import makedata
+import makegenedata
 import convert
 import preprocess
 import precal
 
-VERSION = "0.2.7"
+VERSION = "0.2.8"
 VERSION_DATE = "2020.01.21"
 PROG = "mutanno"
 
@@ -21,7 +22,7 @@ PROG = "mutanno"
 # 0.2.5 : merge some dbNSFP fields into transcript table (dbNSFPTranscript)
 # 0.2.6 : add makedata
 # 0.2.7 : update annot module
-
+# 0.2.8 : 
 
 def get_options():
     parser = argparse.ArgumentParser(
@@ -57,6 +58,7 @@ def get_options():
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=10000, help='blocksize')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=False, help='turn on the debugging mode')
+
 
     p1 = subparsers.add_parser('convert', help='convert', description='convert')
     p1.add_argument('-vcf2tsv', dest='vcf2tsv', action="store_true", default=False, help='convert vcf to tsv format')
@@ -123,8 +125,12 @@ def cli():
         else:
             annotvcf.run()
     if opt['subcommand'] == 'makedata' and 'out' in opt.keys() and opt['out'] != "":
-        md = makedata.DataSourceFile(opt)
-        md.make_single_source_file()
+        if opt['vartype'] == 'GENE':
+            md = makegenedata.GeneDataSourceFile(opt)
+            md.make_single_source_file()
+        else:
+            md = makedata.DataSourceFile(opt)
+            md.make_single_source_file()
     if opt['subcommand'] == 'convert' and 'in' in opt.keys() and opt['in'] != "":
         if 'ds' in opt.keys() and opt['ds'] != "":
             cv = convert.CONVFILE(opt)
