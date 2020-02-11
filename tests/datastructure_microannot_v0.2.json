@@ -4,10 +4,7 @@
     "version_date":"10/29/2020",
     "data_version":"0.2",
     "data_version_date":"02/05/2020",
-    "sourcefile1":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.1_200122/microannot_datasource.#CHROM#.v0.1.tsv.gz",
-    "sourcefile3":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.2_200205/microanot_datasource_v0.2_test.tsi.gz",
-    "sourcefile":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.2_200211_test.tsi.gz",
-    "sourcefile0":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.2_200211.tsi.gz",
+    "sourcefile":"/home/mk446/mutanno/DATASOURCE/MICROANNOT/v0.2_200211/microannot_datasource.#CHROM#.v0.2_200211.tsi.gz",
     "use_sourcename_in_fieldname":false,
     "source": [
         {
