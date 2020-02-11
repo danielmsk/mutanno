@@ -5,7 +5,9 @@
     "data_version":"0.2",
     "data_version_date":"02/05/2020",
     "sourcefile1":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.1_200122/microannot_datasource.#CHROM#.v0.1.tsv.gz",
-    "sourcefile":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.2_200205/microanot_datasource_v0.2_test.tsi.gz",
+    "sourcefile3":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.2_200205/microanot_datasource_v0.2_test.tsi.gz",
+    "sourcefile":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.2_200211_test.tsi.gz",
+    "sourcefile0":"/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.2_200211.tsi.gz",
     "use_sourcename_in_fieldname":false,
     "source": [
         {
@@ -13,12 +15,11 @@
             "desc":"Predicted nonsense mediated decay effects for this variant by VEP",
             "version":"v99",
             "version_date":"11/04/2019",
-            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.99.hg38.#CHROM#.tsi.gz",
-            "datafile2":"/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/v98/vep.98.hg38.#CHROM#.tsv.gz",
+            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz",
             "format":"tsi",
             "fields":[
               {"name":"Gene","desc":"Stable ID of affected gene"},
-              {"name":"Feature","desc":"Stable ID of feature","start_with":"ENST"},
+              {"name":"Feature","desc":"Stable ID of feature"},
               {"name":"Feature_type","desc":"Type of feature - Transcript, RegulatoryFeature or MotifFeature"},
               {"name":"Consequence","desc":"Consequence type","delimiter":","},
               {"name":"SYMBOL","desc":"Gene symbol (e.g. HGNC)"}

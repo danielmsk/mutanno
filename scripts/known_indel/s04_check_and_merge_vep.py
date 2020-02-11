@@ -44,7 +44,8 @@ def s05_merge_vep():
     f = ''
     for k in range(1, 7000):
         no = str_util.zero_format(k, 6)
-        inputvcf = path + title + '_' + no + '.vcf'
+        spath = path + str(int(k / 1000)) + '/'
+        inputvcf = spath + title + '_' + no + '.vcf'
         print(inputvcf)
         if file_util.is_exist(inputvcf):
             vep = inputvcf + '.vep.txt'
@@ -52,7 +53,7 @@ def s05_merge_vep():
 
             if not check_vcf_vep(inputvcf, vep):
                 print('Error:', vep)
-                exit()
+                # exit()
 
             for line in open(vep):
                 if line[0] == '#':
@@ -97,6 +98,8 @@ if __name__ == "__main__":
     import file_util
     import str_util
     title = 'sindel'
-    path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp/'
-    out = "/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.#CHROM#.vep.tsi"
+    path = '/home/mk446/bio/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp/'
+    vcf = '/home/mk446/bio/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel_new.uniq.vcf'
+    # out = "/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.#CHROM#.vep.tsi"
+    out = "/home/mk446/bio/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel_new.#CHROM#.vep.tsi"
     s05_merge_vep()

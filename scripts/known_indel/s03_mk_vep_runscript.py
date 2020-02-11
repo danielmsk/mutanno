@@ -41,7 +41,8 @@ def s03_mk_vep_runscript():
     header = ''
     f = ''
     for line in file_util.gzopen(vcf):
-        line = line.decode('UTF-8')
+        if vcf.endswith('.gz'):
+            line = line.decode('UTF-8')
         if line[0] == '#':
             header = line
         else:
@@ -53,26 +54,32 @@ def s03_mk_vep_runscript():
                 k += 1
 
                 no = str_util.zero_format(k, 6)
-                inputvcf = path + title + '_' + no + '.vcf'
-                shcmd = path + title + '_' + no + '.vcf.sh'
-                vep = path + title + '_' + no + '.vcf.vep.txt'
-                # vep = path + title + '_' + no + '.vcf.vep.vcf'
+
+                spath = path + str(int(k / 1000)) + '/'
+
+                inputvcf = spath + title + '_' + no + '.vcf'
+                shcmd = spath + title + '_' + no + '.vcf.sh'
+                vep = spath + title + '_' + no + '.vcf.vep.txt'
+                # vep = spath + title + '_' + no + '.vcf.vep.vcf'
+                file_util.check_dir(inputvcf)
+
                 f = open(inputvcf, 'w')
                 print(inputvcf)
                 f.write(header)
 
-                cmd = VEP_OPTION_CMD
-                cmd = cmd.replace('#VEP#', "/home/mk446/bin/vep")
-                cmd = cmd.replace('#INPUTVCF#', inputvcf)
-                cmd = cmd.replace('#OUT#', vep)
-                cmd = cmd.replace('#FASTA#', fasta)
-                cmd = cmd.replace('#VEPCACHE#', vepcache)
-                cmd = cmd.replace('#CACHE_VERSION#', '99')
-                cmd = cmd + ";"
-                cmd += "touch " + inputvcf + ".vep.txt.done;"
+                if not file_util.is_exist(vep + "_summary.html"):
+                    cmd = VEP_OPTION_CMD
+                    cmd = cmd.replace('#VEP#', "/home/mk446/bin/vep")
+                    cmd = cmd.replace('#INPUTVCF#', inputvcf)
+                    cmd = cmd.replace('#OUT#', vep)
+                    cmd = cmd.replace('#FASTA#', fasta)
+                    cmd = cmd.replace('#VEPCACHE#', vepcache)
+                    cmd = cmd.replace('#CACHE_VERSION#', '99')
+                    cmd = cmd + ";"
+                    cmd += "touch " + inputvcf + ".vep.txt.done;"
 
-                file_util.fileSave(shcmd, cmd, 'w')
-                proc_util.run_cmd('chmod 755 ' + shcmd)
+                    file_util.fileSave(shcmd, cmd, 'w')
+                    proc_util.run_cmd('chmod 755 ' + shcmd)
             i += 1
             f.write(line)
     f.close()
@@ -83,10 +90,12 @@ if __name__ == "__main__":
     import file_util
     import str_util
     title = 'sindel'
-    varsize = 20000
+    varsize = 5000
     fasta = "/n/data1/hms/dbmi/park/SOFTWARE/REFERENCE/GRCh38d1/GRCh38_full_analysis_set_plus_decoy_hla.fa"
     # vepcache = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_merged"
     vepcache = "/home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_vep"
-    vcf = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.sorted.uniq.vcf.gz'
-    path = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp/'
+    # vcf = '/home/mk446/bio/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.sorted.uniq.vcf.gz'
+    # vcf = '/home/mk446/bio/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel_new.vcf'
+    vcf = '/home/mk446/bio/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel_new.uniq.vcf'
+    path = '/home/mk446/bio/mutanno/DATASOURCE/KNOWN_INDEL/hg38/tmp/'
     s03_mk_vep_runscript()

@@ -28,6 +28,7 @@ def rm_redundant_variant(vcf, out):
 
 
 if __name__ == "__main__":
-    vcf = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.sorted.vcf'
-    out = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.sorted.uniq.vcf'
+    # vcf = '/home/mk446/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel.sorted.vcf'
+    vcf = "/home/mk446/bio/mutanno/DATASOURCE/KNOWN_INDEL/hg38/known_indel_new.vcf"
+    out = vcf.replace('.vcf','') + '.uniq.vcf'
     rm_redundant_variant(vcf, out)

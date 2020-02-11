@@ -309,10 +309,8 @@ class DataSourceFile():
         sidlist = []
         blockreaders = {}
         for s1 in self.datastruct['source']:
-            # for chrom in seq_util.MAIN_CHROM_LIST:
             sid = s1['name']
             sidlist.append(sid)
-            
             datafile_path = ''
             if 'datafile_path' in self.datastruct.keys():
                 datafile_path = self.datastruct['datafile_path']

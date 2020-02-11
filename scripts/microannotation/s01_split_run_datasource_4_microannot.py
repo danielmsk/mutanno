@@ -22,12 +22,22 @@ def split_run_datasource_4_microannot():
     # print(regionlist[:20])
     # print(len(regionlist))
     for r1 in regionlist:
-        cmd = 'python /home/mk446/mutanno/SRC/mutanno.py makedata '
-        cmd += "-ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v1.0.json "
-        cmd += "-out /home/mk446/mutanno/DATASOURCE/MICROANNOT/tmp/" + str(r1[3]) + ".tsv "
-        cmd += "-region " + r1[0] + ":" + str(r1[1]) + "-" + str(r1[2]) + ";"
+        cmd = ""
+        # cmd = 'python /home/mk446/mutanno/SRC/mutanno.py makedata '
+        # cmd += "-ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v0.2.json "
+        # cmd += "-out /home/mk446/mutanno/DATASOURCE/MICROANNOT/tmp/mc_" + str(r1[3]) + ".tsv "
+        # cmd += "-region " + r1[0] + ":" + str(r1[1]) + "-" + str(r1[2]) + " "
+        # cmd += "-blocksize 100;"
+
+        # cmd += "sleep 5;"
+
+        tsifile = path + "mc_" + str(r1[3]) + ".tsv.tsi"
+        cmd += "python /home/mk446/mutanno/SRC/scripts/microannotation/s02_mk_check_tsi.py " + tsifile
+        cmd += " " + str(r1[1])
+        cmd += " " + str(r1[2])
+        cmd += ";"
         # print(cmd)
-        sh = path + 'aaaaa_' + str(r1[3]) + ".tsv.sh"
+        sh = path + 'mc_' + str(r1[3]) + ".tsv.sh"
         file_util.fileSave(sh, cmd + '\n', 'w')
     proc_util.run_cmd('chmod 755 ' + path + '*.sh')
 

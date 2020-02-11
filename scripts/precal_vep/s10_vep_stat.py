@@ -19,10 +19,9 @@ import tabix
 def s10_vep_stat_splitrun(chrom, spos, epos, k):
     cnt = {}
     cnt_each = {}
-
-    cnt = {}
-    cnt_each = {}
+    cnt_merge = {}
     vep = vepfile.replace('#CHROM#',chrom)
+    print(vep)
     tb = tabix.open(vep)
     print(vep)
     i = 0
@@ -60,17 +59,28 @@ def s10_vep_stat_splitrun(chrom, spos, epos, k):
                 cnt_each[tag] += i_cnt_tag[tag] / i_total_tag
             except KeyError:
                 cnt_each[tag] = i_cnt_tag[tag] / i_total_tag
-                    
+        
+        arrtag = list(i_cnt_tag.keys())
+        mtag = '&'.join(sorted(arrtag))
+
+        try:
+            cnt_merge[mtag] += 1
+        except KeyError:
+            cnt_merge[mtag] = 1
+
         if i % 10000 == 0:
             print(i, chrom, arr[1], len(cnt.keys()))
             # break
     cnt['snv'] = i
     cnt_each['snv'] = i
+    cnt_merge['snv'] = i
     print(cnt)
     print(cnt_each)
+    print(cnt_merge)
 
     file_util.jsonSave(vep + '.' + k + '.stat_tag.json', cnt_each)
     file_util.jsonSave(vep + '.' + k + '.stat_tags.json', cnt)
+    file_util.jsonSave(vep + '.' + k + '.stat_mergedtag.json', cnt_merge)
     print('Saved', vep + '.' + k + '.stat_tag.json')
 
 
@@ -115,17 +125,21 @@ def s10_vep_stat(chrom):
 
 def save_stat(jsontype = 'chrom'):
     cnt_each = {}
+    cnt_merge = {}
     cnt = {}
+    mtagsmap = {}
     tagsmap = {}
     tagmap = {}
 
     for chrom in seq_util.MAIN_CHROM_LIST:
         vep = vepfile.replace('#CHROM#',chrom)
         if jsontype == 'chrom':
+            cnt_merge[chrom] = file_util.jsonOpen(vep + '.stat_mergedtag.json')
             cnt_each[chrom] = file_util.jsonOpen(vep + '.stat_tag.json')
             cnt[chrom] = file_util.jsonOpen(vep + '.stat_tags.json')
         else:
             cnt_each[chrom] = {}
+            cnt_merge[chrom] = {}
             cnt[chrom] = {}
 
             seq_util.load_refseq_info('b38d')
@@ -139,10 +153,12 @@ def save_stat(jsontype = 'chrom'):
                 if epos > chrlen:
                     epos = chrlen
                 
+                k_cnt_merge = {}
                 k_cnt_each = {}
                 k_cnt = {}
                 if file_util.is_exist(vep + '.' + str(k) + '.stat_tag.json'):
                     # print(vep + '.' + str(k) + '.stat_tag.json')
+                    k_cnt_merge = file_util.jsonOpen(vep + '.' + str(k) + '.stat_mergedtag.json')
                     k_cnt_each = file_util.jsonOpen(vep + '.' + str(k) + '.stat_tag.json')
                     k_cnt = file_util.jsonOpen(vep + '.' + str(k) + '.stat_tags.json')
                 else:
@@ -151,6 +167,12 @@ def save_stat(jsontype = 'chrom'):
                     cmd += " " + str(epos)
                     cmd += " " + str(k)
                     print(cmd)
+
+                for f1 in k_cnt_merge.keys():
+                    try:
+                        cnt_merge[chrom][f1] += k_cnt_merge[f1]
+                    except KeyError:
+                        cnt_merge[chrom][f1] = k_cnt_merge[f1]
 
                 for f1 in k_cnt_each.keys():
                     try:
@@ -171,11 +193,37 @@ def save_stat(jsontype = 'chrom'):
             tagsmap[tags] = 1
         for tag in cnt_each[chrom].keys():
             tagmap[tag] = 1
+        for tag in cnt_merge[chrom].keys():
+            mtagsmap[tag] = 1
 
+    mtagslist = list(mtagsmap.keys())
     tagslist = list(tagsmap.keys())
     taglist = list(tagmap.keys())
 
     f = open(statfile, 'w')
+    f.write("## VEPmergedtag\n")
+    cont = ['VEP_tag']
+    cont.append('chr' + '\tchr'.join(seq_util.MAIN_CHROM_LIST))
+    cont.append('Total')
+    header = '\t'.join(cont) + '\n'
+    f.write(header)
+
+    for tag in sorted(mtagslist):
+        cont = [tag]
+        total = 0
+        for chrom in seq_util.MAIN_CHROM_LIST:
+            try:
+                c1 = cnt_merge[chrom][tag]
+            except KeyError:
+                c1 = 0
+            total += c1
+            cont.append(str_util.comma(c1))
+        cont.append(str_util.comma(total))
+        f.write('\t'.join(cont) + '\n')
+
+
+
+    f.write("\n\n\n########################\n")
     f.write("## VEPtags\n")
     cont = ['VEP_tag']
     cont.append('chr' + '\tchr'.join(seq_util.MAIN_CHROM_LIST))
@@ -255,8 +303,8 @@ if __name__ == "__main__":
     import seq_util
     import str_util
     bsize = 1000000
-    vepfile = "/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.99.hg38.#CHROM#.tsi.gz"
-    statfile = "/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.99.hg38.tag_stat"
+    vepfile = "/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/v99_SNV/vep.99.hg38.#CHROM#.tsi.gz"
+    statfile = "/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/v99_SNV/vep.99.hg38.tag_stat"
     if len(sys.argv) == 1:
         # run()
         # save_stat()

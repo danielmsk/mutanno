@@ -19,7 +19,9 @@
 
 
 ### make a single data source file
-# python mutanno.py makedata -out datasource_microannot_v1.0.vcf -ds datastructure_microannot_v1.0.json
+# python mutanno.py makedata \
+#     -out datasource_microannot_v1.0.vcf \
+#     -ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v0.2.json
 
 
 # python mutanno.py annot -vcf /home/mk446/bio/DATA/AshkenazimTrio/hg38/TRIO.x60/Trio.hs38d1.60x.1.GVCF.mnvindel.vqsr.vcf.gz -out ./test_trio_all.annot.vcf -ds datastructure_microannot_v1.0.json
@@ -53,10 +55,11 @@
 #################################
 # make data for microannotation
 #################################
-mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
-    -out /home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v0.2_test \
-    -vartype SNP \
-    -region 1:1-4000000
+# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v0.2_test \
+#     -vartype SNP \
+#     -region 1:990600-990958
+    # -region 1:1-4000000
     # -region 1:1-100000
     # -region 1:939300-2041000
 
@@ -96,10 +99,10 @@ mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_
 #################################
 # micro-annotation
 #################################
-# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test2.vcf \
-#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100_microannot.annot.vcf \
-#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v1.0.json \
-#     -blocksize 100
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test2.vcf \
+    -out /home/mk446/bio/mutanno/TEST/trio_clinvar_variants_100_microannot.annot.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
+    -blocksize 100
 
 # tail /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf
 
@@ -109,6 +112,8 @@ mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_
 #     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf \
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v1.0.json
 # tail /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf
+
+
 
 #################################
 # Trio GATK vcf
@@ -121,8 +126,18 @@ mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_
 #################################
 # deNOVO vcf
 #################################
-# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.vcf.gz \
-#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.annot.vcf \
+
+
+# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3.chr1_00.tsi \
+#     -vartype SNP \
+#     -blocksize 10 \
+#   -region 1:567876-567876
+
+# tabixgz /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3.chr1.tsi
+
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.vcf.gz \
+#     -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.annot.vcf \
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
 #     -blocksize 10
  
@@ -131,7 +146,6 @@ mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_
 #     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.annot.vcf \
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
 #     -blocksize 10
-
 
 
 

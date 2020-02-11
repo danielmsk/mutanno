@@ -36,7 +36,7 @@ def convert_uniprot_transmem(desc_value):
     return ";".join(arr)
 
 def load_entrez_refseq_id():
-    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/"
+    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
     entrezmap = {}
     for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.entrez.tsv.gz'):
         line = line.decode('UTF-8')

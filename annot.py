@@ -746,7 +746,10 @@ class AnnotVCF():
                     else:
                         for f1 in s1['fields']:
                             if get_dict_value(f1, 'is_available', True):
-                                fields.append(f1['name'])
+                                if get_dict_value(f1, 'name2', False):
+                                    fields.append(f1['name2'])
+                                else:
+                                    fields.append(f1['name'])
                     sourcename = get_sourcename(s1)
                     cont += "##INFO=<ID=" + sourcename + ",Number=.,Type=String"
 
@@ -812,9 +815,9 @@ class AnnotVCF():
         vblock = VCFBlockReader(self.opt['vcf'], self.opt['blocksize'])
         f.write(vblock.get_header(self.get_version_info() + self.get_annot_header()))
         while(not vblock.eof):
-            varno += am.write_annotvcf_with_vcfblock(vblock.get_block(), f)
+            # varno += am.write_annotvcf_with_vcfblock(vblock.get_block(), f)
             # FIXME: too slow but useful for sparse VCF
-            # varno += am.write_annotvcf_with_vcfblock_tabix(vblock.get_block(), f)
+            varno += am.write_annotvcf_with_vcfblock_tabix(vblock.get_block(), f)
 
         etime = time.time()
         elapsed = etime - stime
