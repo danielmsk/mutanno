@@ -15,20 +15,25 @@ MAXBUFF = 1000000
 
 
 def load_entrez_refseq():
-    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
+    # path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
+    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38_/"
     entrezmap = {}
-    for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.entrez.tsv.gz'):
-        line = line.decode('UTF-8')
-        arr = line.split('\t')
-        arr[-1] = arr[-1].strip()
-        entrezmap[arr[0].strip()] = arr[3].strip()
     refseqmap = {}
-    for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.refseq.sorted.tsv.gz'):
-        line = line.decode('UTF-8')
-        arr = line.split('\t')
-        arr[-1] = arr[-1].strip()
-        enst_id = arr[1].strip()
-        refseqmap[enst_id] = arr[3].strip()
+    try:
+        for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.entrez.tsv.gz'):
+            line = line.decode('UTF-8')
+            arr = line.split('\t')
+            arr[-1] = arr[-1].strip()
+            entrezmap[arr[0].strip()] = arr[3].strip()
+        
+        for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.refseq.sorted.tsv.gz'):
+            line = line.decode('UTF-8')
+            arr = line.split('\t')
+            arr[-1] = arr[-1].strip()
+            enst_id = arr[1].strip()
+            refseqmap[enst_id] = arr[3].strip()
+    except FileNotFoundError:
+        pass
     return entrezmap, refseqmap
 
 

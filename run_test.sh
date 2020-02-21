@@ -99,8 +99,8 @@
 #################################
 # micro-annotation
 #################################
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test2.vcf \
-    -out /home/mk446/bio/mutanno/TEST/trio_clinvar_variants_100_microannot.annot.vcf \
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test3.vcf \
+    -out /home/mk446/bio/mutanno/TEST/trio_clinvar_variants3_microannot.annot.vcf \
     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
     -blocksize 100
 
