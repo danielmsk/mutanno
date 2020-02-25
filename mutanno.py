@@ -14,7 +14,7 @@ import preprocess
 import precal
 
 VERSION = "0.2.8"
-VERSION_DATE = "2020.01.21"
+VERSION_DATE = "2020.02.25"
 PROG = "mutanno"
 
 # 0.2.3 : encode 'space' to '%20' (remove blank space)
@@ -22,7 +22,7 @@ PROG = "mutanno"
 # 0.2.5 : merge some dbNSFP fields into transcript table (dbNSFPTranscript)
 # 0.2.6 : add makedata
 # 0.2.7 : update annot module
-# 0.2.8 : 
+# 0.2.8 (2020.02.25) : debugged first variant missing in annot module
 
 def get_options():
     parser = argparse.ArgumentParser(
@@ -125,7 +125,7 @@ def cli():
         else:
             annotvcf.run()
     if opt['subcommand'] == 'makedata' and 'out' in opt.keys() and opt['out'] != "":
-        if opt['vartype'] == 'GENE':
+        if opt['vartype'].upper() == 'GENE':
             md = makegenedata.GeneDataSourceFile(opt)
             md.make_single_source_file()
         else:

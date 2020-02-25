@@ -88,10 +88,14 @@
 #################################
 # make gene data
 #################################
-# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-#     -out /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3 \
-#     -vartype GENE
 
+# python scripts/ensembl/convert_ensemblgene_gtf2bed.py
+# mutanno makedata -ds ./tests/datastructure_v0.3.1_mvp.json \
+#     -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.1 \
+#     -vartype GENE
+# tabixgzbed ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.1.bed
+# python /home/mk446/mutanno/SRC/scripts/gene/cal_genetable_stat.py
+# python /home/mk446/mutanno/SRC/scripts/gene/make_genetable.py
 # head /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.bed
 
 
@@ -99,10 +103,10 @@
 #################################
 # micro-annotation
 #################################
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test3.vcf \
-    -out /home/mk446/bio/mutanno/TEST/trio_clinvar_variants3_microannot.annot.vcf \
-    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
-    -blocksize 100
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test3.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/trio_clinvar_variants3_microannot.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
+#     -blocksize 100
 
 # tail /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf
 
@@ -118,10 +122,10 @@ mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test3.vcf \
 #################################
 # Trio GATK vcf
 #################################
-# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/test_trio_v0.3.vcf.gz \
-#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/test_trio_v0.3.annot.vcf \
-#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-# 	-blocksize 10
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_v0.3.vcf.gz \
+    -out /home/mk446/bio/mutanno/TEST/test_trio_v0.3.annot.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+	-blocksize 10
     
 #################################
 # deNOVO vcf

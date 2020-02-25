@@ -37,7 +37,7 @@ def count_no_fields(cnt, fieldname, value):
 
 def convert_ensemblgene_gtf2bed(gtf, bed):
     f = open(bed, 'w')
-    cont = ["#chrom", "spos", "epos", "strand", "engsid", "gene_version", "gene_symbol"]
+    cont = ["#chrom", "spos", "epos", "strand", "ensgid", "gene_version", "gene_symbol"]
     cont.extend(["gene_source", "gene_biotype"])
     f.write('\t'.join(cont) + '\n')
     i = 0
@@ -49,6 +49,8 @@ def convert_ensemblgene_gtf2bed(gtf, bed):
             arr[-1] = arr[-1].strip()
             if arr[2] == "gene":
                 i += 1
+                if arr[0] == "MT":
+                    arr[0] = "M"
                 cont = [arr[0], arr[3], arr[4], arr[5]]
                 cnt = count_no_fields(cnt, 'chrom', arr[0])
                 m = {}

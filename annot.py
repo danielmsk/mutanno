@@ -15,8 +15,7 @@ MAXBUFF = 1000000
 
 
 def load_entrez_refseq():
-    # path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
-    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38_/"
+    path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
     entrezmap = {}
     refseqmap = {}
     try:
@@ -578,6 +577,7 @@ class AnnotMap():
                     b1[7] += r1[5]
                     break
             fp.write('\t'.join(b1) + '\n')
+            
         etime = time.time()
         elapsed = etime - stime
         print('processed...', len(vcfblock), "elapsed:", elapsed)
@@ -588,6 +588,7 @@ class VCFBlockReader():
     def __init__(self, vcf, blocksize=10000):
         self.vcf = vcf
         self.blocksize = blocksize
+        self.buffline = ""
         self.fp = file_util.gzopen(self.vcf)
         self.is_gz = self.vcf.endswith('.gz')
         self.eof = False
@@ -604,15 +605,21 @@ class VCFBlockReader():
                 if line[:len('##contig=')] != '##contig=':
                     headercont += line
             else:
+                self.buffline = line
                 break
         return headercont
 
     def get_block(self):
         block = []
         while True:
-            line = self.fp.readline()
-            if self.is_gz:
-                line = line.decode('UTF-8')
+            if self.buffline != '':
+                line = self.buffline
+                self.buffline = ''
+            else:
+                line = self.fp.readline()
+                if self.is_gz:
+                    line = line.decode('UTF-8')
+
             if line.strip() != '':
                 arr = line.split('\t')
                 arr[-1] = arr[-1].strip()
@@ -705,7 +712,8 @@ class AnnotVCF():
                 self.datafileinfo['tps'][s1['name']] = tp
                 self.datafileinfo['headers'][s1['name']] = header
             else:
-                print('Error: File not exist.', datafile)
+                # print('Error: File not exist.', datafile)
+                pass
 
     def get_annot_header(self):
         cont = ""
@@ -821,7 +829,6 @@ class AnnotVCF():
         f.write(vblock.get_header(self.get_version_info() + self.get_annot_header()))
         while(not vblock.eof):
             # varno += am.write_annotvcf_with_vcfblock(vblock.get_block(), f)
-            # FIXME: too slow but useful for sparse VCF
             varno += am.write_annotvcf_with_vcfblock_tabix(vblock.get_block(), f)
 
         etime = time.time()
