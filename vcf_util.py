@@ -42,7 +42,7 @@ def split_multiallelic_variants(vcfrecord):
                     arr2 = arr[1].split(',')
                     f1 = arr[0] + "=" + arr2[k]
             info.append(f1)
-        info.append('multiallele=' + vcfrecord[0] + ':' + vcfrecord[1] + '_' + vcfrecord[3] + '_' + vcfrecord[4])
+        info.append('multiallele=' + vcfrecord[0] + ':' + vcfrecord[1] + ' ' + vcfrecord[3] + '/' + vcfrecord[4])
         r1[7] = ';'.join(info)
         rst.append(r1)
     return rst

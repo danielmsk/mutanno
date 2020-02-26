@@ -23,7 +23,9 @@ PROG = "mutanno"
 # 0.2.6 : add makedata
 # 0.2.7 : update annot module
 # 0.2.8 (2020.02.25) : debugged first variant missing in annot module
-# 0.2.9 (2020.02.26) : remove unannotated variant (-remove_unannotated_variant)
+# 0.2.9 (2020.02.26) : 
+#    - remove unannotated variant (-remove_unannotated_variant)
+#    - update the format of multiallele tag
 
 def get_options():
     parser = argparse.ArgumentParser(
