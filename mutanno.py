@@ -13,8 +13,8 @@ import convert
 import preprocess
 import precal
 
-VERSION = "0.2.8"
-VERSION_DATE = "2020.02.25"
+VERSION = "0.2.9"
+VERSION_DATE = "2020.02.26"
 PROG = "mutanno"
 
 # 0.2.3 : encode 'space' to '%20' (remove blank space)
@@ -23,6 +23,7 @@ PROG = "mutanno"
 # 0.2.6 : add makedata
 # 0.2.7 : update annot module
 # 0.2.8 (2020.02.25) : debugged first variant missing in annot module
+# 0.2.9 (2020.02.26) : remove unannotated variant (-remove_unannotated_variant)
 
 def get_options():
     parser = argparse.ArgumentParser(
@@ -36,7 +37,7 @@ def get_options():
     p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
     p1.add_argument('-out', dest='out', default='', help='title of output file')
     p1.add_argument('-ds', dest='ds', default='datastructure.json', help='datasource json file')
-    p1.add_argument('-temp', dest='temp', default='qcboard_bamqc.html', help='template html file')
+    p1.add_argument('-remove_unannotated_variant', dest='remove_unannotated_variant', default=False, action="store_true", help='remove unannotated variants in out vcf')
     # p1.add_argument('-buff', dest='buff', type=int, default=100, help='loading size in memory')
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=1000, help='loading size in memory')
     p1.add_argument('-load_source_in_memory', dest='load_source_in_memory',

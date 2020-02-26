@@ -103,29 +103,44 @@
 #################################
 # micro-annotation
 #################################
-# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test3.vcf \
-#     -out /home/mk446/bio/mutanno/TEST/trio_clinvar_variants3_microannot.annot.vcf \
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test2.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/trio_test2.microannot.vcf \
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
 #     -blocksize 100
+    # -remove_unannotated_variant \
+    
 
-# tail /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_clinvar_variants_100.annot.vcf
+# tail /home/mk446/bio/mutanno/TEST/trio_clinvar_variants_100.annot.vcf
+
+## Unannotated variants
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test_unannot2.vcf \
+    -out /home/mk446/bio/mutanno/TEST/trio_test_unannot.microannot.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
+    -blocksize 100 
+    # -remove_unannotated_variant 
+
 
 
 ## Multi-allelic test
-# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test_multiallele.vcf \
-#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf \
-#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v1.0.json
-# tail /home/mk446/bio/mutanno/DATASOURCE/TEST/trio_test_multiallele.annot.vcf
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test_multiallele.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/trio_test_multiallele.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json
+# python scripts/mutanno/check_multiallelic_variant.py ../TEST/trio_test_multiallele.vcf ../TEST/trio_test_multiallele.annot.vcf
+# tail /home/mk446/bio/mutanno/TEST/trio_test_multiallele.annot.vcf
 
+## AshkenazimTrio all
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/AshkenazimTrio.hs38d1.60x.1.GVCF.mnvindel.vqsr.vcf.gz \
+#     -out /home/mk446/bio/mutanno/TEST/AshkenazimTrio.hs38d1.60x.1.GVCF.mnvindel.vqsr.microannot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json
 
 
 #################################
 # Trio GATK vcf
 #################################
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_v0.3.vcf.gz \
-    -out /home/mk446/bio/mutanno/TEST/test_trio_v0.3.annot.vcf \
-    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-	-blocksize 10
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_v0.3.vcf.gz \
+#     -out /home/mk446/bio/mutanno/TEST/test_trio_v0.3.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+# 	-blocksize 10
     
 #################################
 # deNOVO vcf
@@ -146,8 +161,8 @@ mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_v0.3.vcf.gz \
 #     -blocksize 10
  
 
-# mutanno annot -vcf /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.vcf \
-#     -out /home/mk446/bio/mutanno/DATASOURCE/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.annot.vcf \
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.annot.vcf \
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
 #     -blocksize 10
 

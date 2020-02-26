@@ -555,8 +555,7 @@ class AnnotMap():
         return len(vcfblock)
 
     # slow but useful for sparse VCF
-    def write_annotvcf_with_vcfblock_tabix(self, vcfblock, fp):
-        stime = time.time()
+    def write_annotvcf_with_vcfblock_tabix(self, vcfblock, fp, is_rm_unannotated = False):
         for b1 in vcfblock:
             chrom = b1[0].replace('chr', '')
             pos = int(b1[1])
@@ -566,6 +565,7 @@ class AnnotMap():
                 self.tchrom = chrom
                 self.load_tabixpointer()
 
+            flag_add = False
             recs = self.tabixpointer.query(chrom, pos, pos+1)
             for r1 in recs:
                 # print(r1,b1)
@@ -575,12 +575,11 @@ class AnnotMap():
                     if b1[7].strip() != '':
                         b1[7] += ';'
                     b1[7] += r1[5]
+                    flag_add = True
                     break
-            fp.write('\t'.join(b1) + '\n')
-            
-        etime = time.time()
-        elapsed = etime - stime
-        print('processed...', len(vcfblock), "elapsed:", elapsed)
+            if flag_add or not is_rm_unannotated:
+                fp.write('\t'.join(b1) + '\n')
+        
         return len(vcfblock)
 
 
@@ -588,15 +587,15 @@ class VCFBlockReader():
     def __init__(self, vcf, blocksize=10000):
         self.vcf = vcf
         self.blocksize = blocksize
-        self.buffline = ""
         self.fp = file_util.gzopen(self.vcf)
         self.is_gz = self.vcf.endswith('.gz')
         self.eof = False
+        self.total_variant = 0
+        self.i_variant = 0
 
     def get_header(self, add_header):
         headercont = ""
-        while True:
-            line = self.fp.readline()
+        for line in file_util.gzopen(self.vcf):
             if self.is_gz:
                 line = line.decode('UTF-8')
             if line[0] == "#":
@@ -604,30 +603,28 @@ class VCFBlockReader():
                     headercont += add_header
                 if line[:len('##contig=')] != '##contig=':
                     headercont += line
-            else:
-                self.buffline = line
-                break
+            elif line.strip() != '':
+                self.total_variant += 1
         return headercont
 
     def get_block(self):
         block = []
         while True:
-            if self.buffline != '':
-                line = self.buffline
-                self.buffline = ''
-            else:
-                line = self.fp.readline()
-                if self.is_gz:
-                    line = line.decode('UTF-8')
+            line = self.fp.readline()
+            if self.is_gz:
+                line = line.decode('UTF-8')
 
             if line.strip() != '':
-                arr = line.split('\t')
-                arr[-1] = arr[-1].strip()
-                if "," in arr[4]:
-                    for a1 in vcf_util.split_multiallelic_variants(arr):
-                        block.append(a1)
-                else:
-                    block.append(arr)
+                if line[0] != '#':
+                    arr = line.split('\t')
+                    arr[-1] = arr[-1].strip()
+                    if "," in arr[4]:
+                        for a1 in vcf_util.split_multiallelic_variants(arr):
+                            block.append(a1)
+                            self.i_variant += 1
+                    else:
+                        block.append(arr)
+                        self.i_variant += 1
             else:
                 self.eof = True
                 break
@@ -822,20 +819,29 @@ class AnnotVCF():
 
     def run(self):
         f = open(self.opt['out'], 'w')
-        stime = time.time()
-        varno = 0
+        stime0 = time.time()
+        total_varno = 0
         am = AnnotMap(self.datastruct, self.datafileinfo)
         vblock = VCFBlockReader(self.opt['vcf'], self.opt['blocksize'])
         f.write(vblock.get_header(self.get_version_info() + self.get_annot_header()))
         while(not vblock.eof):
+            stime1 = time.time()
             # varno += am.write_annotvcf_with_vcfblock(vblock.get_block(), f)
-            varno += am.write_annotvcf_with_vcfblock_tabix(vblock.get_block(), f)
+            varno = am.write_annotvcf_with_vcfblock_tabix(vblock.get_block(), f, self.opt['remove_unannotated_variant'])
+            total_varno += varno
+            etime1 = time.time()
+            elapsed1 = etime1 - stime1
+            log = 'processed... ' + str(total_varno) + '/' + str(vblock.total_variant) 
+            log += " elapsed:" + str(round(elapsed1,2)) + "s"
+            # log += " time:" + str( (elapsed1/varno) * (vblock.total_variant - total_varno))
+            print(log)
 
-        etime = time.time()
-        elapsed = etime - stime
-        print("total:", elapsed, ", time per variant:", elapsed / varno,
-              ", time for 4M:", str(round(elapsed / varno * 4000000 / 3600, 4)) + "hr")
+        etime0 = time.time()
+        elapsed0 = etime0 - stime0
+        print("total:", elapsed0, ", time per variant:", elapsed0 / total_varno,
+              ", time for 4M:", str(round(elapsed0 / total_varno * 4000000 / 3600, 4)) + "hr")
         f.close()
+        print("Saved " + self.opt['out'])
 
 
 if __name__ == "__main__":
