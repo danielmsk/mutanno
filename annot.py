@@ -701,16 +701,17 @@ class AnnotVCF():
 
     def set_datafile(self, chrom='1'):
         for s1 in self.datastruct['source']:
-            datafile = s1['datafile'].replace('#CHROM#', chrom)
-            if file_util.is_exist(datafile):
-                tp = tabix.open(datafile)
-                header = self.get_datafile_header(datafile, s1['name'], s1['format'])
-                self.datafileinfo['files'][s1['name']] = datafile
-                self.datafileinfo['tps'][s1['name']] = tp
-                self.datafileinfo['headers'][s1['name']] = header
-            else:
-                # print('Error: File not exist.', datafile)
-                pass
+            if 'datafile' in s1.keys():
+                datafile = s1['datafile'].replace('#CHROM#', chrom)
+                if file_util.is_exist(datafile):
+                    tp = tabix.open(datafile)
+                    header = self.get_datafile_header(datafile, s1['name'], s1['format'])
+                    self.datafileinfo['files'][s1['name']] = datafile
+                    self.datafileinfo['tps'][s1['name']] = tp
+                    self.datafileinfo['headers'][s1['name']] = header
+                else:
+                    # print('Error: File not exist.', datafile)
+                    pass
 
     def get_annot_header(self):
         cont = ""
@@ -770,14 +771,28 @@ class AnnotVCF():
         return cont
 
     def get_version_info(self):
-        cont = '##MUTANNO=<ID=MUTANNO,Version="' + \
-            self.datastruct['version'] + '",Date="' + self.datastruct['version_date'] + '"'
-        cont += ',DataVersion="' + self.datastruct['data_version'] + \
-            '",DataDate="' + self.datastruct['data_version_date'] + '">\n'
-        for s1 in self.datastruct['source']:
+        ds = self.datastruct
+
+        cont = ""
+        cont += '##MUTANNO=<ID=MUTANNO'
+        if 'version' in ds.keys():
+            cont += ',Version="' + ds['version'] + '"'
+        if 'version_date' in ds.keys():
+            cont += ',Date="' + ds['version_date'] + '"'
+        if 'data_version' in ds.keys():
+            cont += ',DataVersion="' + ds['data_version'] + '"'
+        if  'data_version_date' in ds.keys():
+            cont += ',DataDate="' + ds['data_version_date'] + '"'
+        cont += '>\n'
+
+        for s1 in ds['source']:
             sourcename = get_sourcename(s1)
-            cont += '##MUTANNO=<ID=' + sourcename + ',Version="' + s1['version'] + '",Date="'
-            cont += s1['version_date'] + '">\n'
+            cont += '##MUTANNO=<ID=' + sourcename 
+            if 'version' in s1.keys():
+                cont += ',Version="' + s1['version'] + '"'
+            if 'version_date' in s1.keys():
+                cont += ',Date="' + s1['version_date'] + '"'
+            cont += '">\n'
         return cont
 
     def run_by_loading_source(self):

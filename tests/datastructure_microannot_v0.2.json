@@ -1,10 +1,6 @@
 {
     "name": "MUTANNO",
-    "version":"0.3",
-    "version_date":"10/29/2020",
-    "data_version":"0.2",
-    "data_version_date":"02/05/2020",
-    "sourcefile":"/home/mk446/mutanno/DATASOURCE/MICROANNOT/v0.2_200211/microannot_datasource.#CHROM#.v0.2_200211.tsi.gz",
+    "sourcefile":"../DATASOURCE/MICROANNOT/v0.2_200211/microannot_datasource.#CHROM#.v0.2_200211.tsi.gz",
     "use_sourcename_in_fieldname":false,
     "source": [
         {
@@ -12,7 +8,6 @@
             "desc":"Predicted nonsense mediated decay effects for this variant by VEP",
             "version":"v99",
             "version_date":"11/04/2019",
-            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz",
             "format":"tsi",
             "fields":[
               {"name":"Gene","desc":"Stable ID of affected gene"},
@@ -26,8 +21,6 @@
             "desc":"population AF by gnomAD",
             "version":"3.0",
             "version_date":"03/06/2019",
-            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/POPULATION_AF/gnomAD/hg38/gnomad.genomes.r3.0.sites.AF_popmax.tsv.gz",
-            "chrompre":"",
             "format":"tsv",
             "ref_column_index":2,
             "alt_column_index":3,
@@ -40,7 +33,6 @@
             "desc":"CLINVAR variants",
             "version":"20200106",
             "version_date":"01/06/2020",
-            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/VARIANTDB/CLINVAR/hg38/clinvar.20200106.hg38.tsv.gz",
             "format":"tsv",
             "ref_column_index":2,
             "alt_column_index":3,
@@ -53,7 +45,6 @@
             "desc":"SpliceAI scores",
             "version":"20191004",
             "version_date":"10/04/2019",
-            "datafile":"/home/mk446/bio/mutanno/DATASOURCE/SPLICING/SpliceAI/hg38/spliceai.20191004.hg38.#CHROM#.maxsc.tsv.gz",
             "format":"tsv",
             "ref_column_index":2,
             "alt_column_index":3,
