@@ -13,7 +13,7 @@ import convert
 import preprocess
 import precal
 
-VERSION = "0.2.9"
+VERSION = "0.2.10"
 VERSION_DATE = "2020.02.26"
 PROG = "mutanno"
 
@@ -26,6 +26,8 @@ PROG = "mutanno"
 # 0.2.9 (2020.02.26) : 
 #    - remove unannotated variant (-remove_unannotated_variant)
 #    - update the format of multiallele tag
+# 0.2.10 (2020.02.26) : 
+#    - minor update in version tag
 
 def get_options():
     parser = argparse.ArgumentParser(
