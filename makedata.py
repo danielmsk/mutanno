@@ -177,37 +177,43 @@ class TSVBlockReader():
                 self.tp = tabix.open(self.fname.replace('#CHROM#', region['chrom']))
         if self.tp is not None:
             # print(self.chrompre + regionstr)
-            for arr in self.tp.querys(self.chrompre + regionstr):
-                pos = int(arr[1])
-                if pos >= region['spos'] and pos <= region['epos']:
-                    refalt = arr[self.refidx] + '_' + arr[self.altidx]
+            try:
+            # print(attributes(self.tp))
+            # if True:
+                for arr in self.tp.querys(self.chrompre + regionstr):
+                    pos = int(arr[1])
+                    if pos >= region['spos'] and pos <= region['epos']:
+                        refalt = arr[self.refidx] + '_' + arr[self.altidx]
 
-                    if self.fileformat == 'tsi':
-                        if "," in arr[-1]:
-                            arrsection = []
-                            for f1 in arr[-1].split(','):
-                                arrsection.append(f1.split('|'))
+                        if self.fileformat == 'tsi':
+                            if "," in arr[-1]:
+                                arrsection = []
+                                for f1 in arr[-1].split(','):
+                                    arrsection.append(f1.split('|'))
+                            else:
+                                arrsection = [arr[-1].split('|')]
                         else:
-                            arrsection = [arr[-1].split('|')]
-                    else:
-                        arrsection = [arr]
+                            arrsection = [arr]
 
-                    for sec in arrsection:
-                        variantkey = region['chrom'] + '_' + str(pos) + '_' + arr[self.refidx] + '_' + arr[self.altidx]
-                        flag_filter, cont = self.get_selected_fields_in_block(sec, variantkey)
-                        if flag_filter:
-                            try:
-                                block[pos]
-                            except KeyError:
-                                block[pos] = {}
-                            try:
-                                block[pos][refalt]
-                            except KeyError:
-                                block[pos][refalt] = {}
-                            try:
-                                block[pos][refalt][sid] += ',' + cont
-                            except KeyError:
-                                block[pos][refalt][sid] = cont
+                        for sec in arrsection:
+                            variantkey = region['chrom'] + '_' + str(pos) + '_' + arr[self.refidx] + '_' + arr[self.altidx]
+                            flag_filter, cont = self.get_selected_fields_in_block(sec, variantkey)
+                            if flag_filter:
+                                try:
+                                    block[pos]
+                                except KeyError:
+                                    block[pos] = {}
+                                try:
+                                    block[pos][refalt]
+                                except KeyError:
+                                    block[pos][refalt] = {}
+                                try:
+                                    block[pos][refalt][sid] += ',' + cont
+                                except KeyError:
+                                    block[pos][refalt][sid] = cont
+            except tabix.TabixError:
+                ### there is no annotation in the chrom. (ex. Y, M)
+                pass
         return block
 
 

@@ -792,7 +792,7 @@ class AnnotVCF():
                 cont += ',Version="' + s1['version'] + '"'
             if 'version_date' in s1.keys():
                 cont += ',Date="' + s1['version_date'] + '"'
-            cont += '">\n'
+            cont += '>\n'
         return cont
 
     def run_by_loading_source(self):

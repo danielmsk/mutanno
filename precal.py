@@ -52,6 +52,7 @@ class PreCalculate():
         f.write(header + '\n')
         for k in range(spos, epos + 1):
             ref = fastaobj[chrom][k - 1]
+            print(ref)
             if ref != 'N' and ref.strip() != '':
                 cont = chrom
                 cont += '\t' + str(k)

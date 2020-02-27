@@ -71,11 +71,11 @@
 #     -out /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test \
 #     -vartype SNP \
 #     -blocksize 10000 \
-# 	-region 1:66041-66141 ### COSMIC
+#   -region 1:66041-66141 ### COSMIC
     # -region 1:1-100000
-    # -region 1:930248-930348	### clinvar
-    # -region 1:28590-28690	### UK10k
-    # -region 1:69091-69191		### spliceAI
+    # -region 1:930248-930348   ### clinvar
+    # -region 1:28590-28690 ### UK10k
+    # -region 1:69091-69191     ### spliceAI
     # -region 1:10701-20000   ### CONSERVATION
     # -region 1:10051-10151  ### TOPMED
     # -region 1:10037-10237  ### AF
@@ -113,10 +113,10 @@
 # tail /home/mk446/bio/mutanno/TEST/trio_clinvar_variants_100.annot.vcf
 
 ## Unannotated variants
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test_unannot2.vcf \
-    -out /home/mk446/bio/mutanno/TEST/trio_test_unannot.microannot.vcf \
-    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
-    -blocksize 100 
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test_unannot2.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/trio_test_unannot.microannot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
+#     -blocksize 100 
     # -remove_unannotated_variant 
 
 
@@ -137,10 +137,10 @@ mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test_unannot2.vcf \
 #################################
 # Trio GATK vcf
 #################################
-# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_v0.3.vcf.gz \
-#     -out /home/mk446/bio/mutanno/TEST/test_trio_v0.3.annot.vcf \
-#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-# 	-blocksize 10
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_v0.3.vcf.gz \
+    -out /home/mk446/bio/mutanno/TEST/test_trio_v0.3.annot.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.1_mvp.json \
+    -blocksize 10
     
 #################################
 # deNOVO vcf

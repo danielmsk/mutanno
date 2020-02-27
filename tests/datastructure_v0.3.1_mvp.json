@@ -2,8 +2,6 @@
   "name": "MUTANNO",
   "version":"0.3",
   "version_date":"01/22/2020",
-  "data_version":"0.3",
-  "data_version_date":"01/22/2020",
   "sourcefile2":"/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3.chr#CHROM#.tsi.gz",
   "sourcefile":"/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi.gz",
   "datafile_path":"/home/mk446/bio/mutanno/DATASOURCE",
@@ -14,7 +12,7 @@
       "version":"v98.4",
       "version_date":"07/04/2019",
       "datafile2":"ANNOT/VEP/hg38/v98/vep.98.hg38.#CHROM#.tsv.gz",
-      "datafile":"ANNOT/VEP/hg38/vep.99.hg38.#CHROM#.tsi.gz",
+      "datafile":"ANNOT/VEP/hg38/v99/vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz",
       "subembedded":"transcript",
       "format":"tsi",
       "fields":[
