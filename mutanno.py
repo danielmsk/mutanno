@@ -12,28 +12,17 @@ import makegenedata
 import convert
 import preprocess
 import precal
+import _version
 
-VERSION = "0.2.10"
-VERSION_DATE = "2020.02.26"
 PROG = "mutanno"
-
-# 0.2.3 : encode 'space' to '%20' (remove blank space)
-# 0.2.4 : change type of `dbNSFP SiPhy_29way_pi` to list
-# 0.2.5 : merge some dbNSFP fields into transcript table (dbNSFPTranscript)
-# 0.2.6 : add makedata
-# 0.2.7 : update annot module
-# 0.2.8 (2020.02.25) : debugged first variant missing in annot module
-# 0.2.9 (2020.02.26) : 
-#    - remove unannotated variant (-remove_unannotated_variant)
-#    - update the format of multiallele tag
-# 0.2.10 (2020.02.26) : 
-#    - minor update in version tag
 
 def get_options():
     parser = argparse.ArgumentParser(
-        usage='%(prog)s <sub-command> [options]', description='%(prog)s ver' + VERSION + " (" + VERSION_DATE + ")" + ': python tool for variant annotation')
+        usage='%(prog)s <sub-command> [options]', description='%(prog)s ver' + _version.VERSION + \
+                " (" + _version.VERSION_DATE + ")" + ': python tool for variant annotation')
     parser.add_argument('-v', '--version', action='version',
-                        version="%(prog)s ver" + VERSION + " (" + VERSION_DATE + ")")
+                        version="%(prog)s ver" + _version.VERSION + " (" + \
+                        _version.VERSION_DATE + ")")
     subparsers = parser.add_subparsers(
         title="sub-commands", dest="subcommand", metavar='', prog=PROG)
 

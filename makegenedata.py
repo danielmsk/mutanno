@@ -1,7 +1,9 @@
 import os
 import time
 import file_util
+import vcf_util
 import struct_util
+import external_functions
 
 
 RESERVED_COL = ["chrom", "spos", "epos", "ensgid"]
@@ -19,6 +21,14 @@ def strip_value(v1):
     v1 = v1.replace('"','')
     return v1
 
+def encode_value(v1, delimiter=""):
+    if v1 == '.' or v1 == '-':
+        v1 = ''
+    if delimiter != "":
+        v1 = v1.replace(delimiter, '|')
+    # v1 = urllib.parse.quote(v1)
+    return v1
+
 class GeneSourceReader():
     def __init__(self, datastruct, datafile_path):
         self.datastruct = datastruct
@@ -27,6 +37,8 @@ class GeneSourceReader():
         self.fileformat = self.datastruct['format']
         self.target_colidx = []
         self.header = []
+        self.delimiter = {}
+        self.defaultvalue = {}
         self.field_function = {}
         self.field_function_param = {}
         self.field_names = []
@@ -56,30 +68,34 @@ class GeneSourceReader():
                 break
 
     def set_target_column(self, fields_structure):
-        cidx_no = 0
         for f1 in fields_structure:
 
             if is_available(f1):
                 self.field_names.append(f1['name'])
 
                 # print("self.header",self.header, f1['name'], self.key_colidx)
+                colidx = self.header.index(f1['name'])
                 if f1['name'] in self.header:
                     if is_reserved_column(f1):
                         for resv in RESERVED_COL:
                             if f1['name'] == resv or ('name2' in f1.keys() and f1['name2'] == resv):
                                 self.reserved_colidx[resv] = self.header.index(f1['name'])
                     else:
-                        self.target_colidx.append(self.header.index(f1['name']))
+                        if 'delimiter' in f1.keys():
+                            self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
+                        if 'default' in f1.keys():
+                            self.defaultvalue[self.header.index(f1['name'])] = f1['default']
+
+                        self.target_colidx.append(colidx)
                 else:
                     if not is_reserved_column(f1):
                         self.target_colidx.append(-999)
 
-                cidx_no += 1
                 if 'function' in f1.keys() and f1['function'] != '':
-                    self.field_function[cidx_no] = f1['function']
-                    self.field_function_param[cidx_no] = ''
+                    self.field_function[colidx] = f1['function']
+                    self.field_function_param[colidx] = ''
                     if 'param' in f1.keys() and f1['param'] != '':
-                        self.field_function_param[cidx_no] = f1['param']
+                        self.field_function_param[colidx] = f1['param']
 
         if 'ensgid' in self.reserved_colidx.keys():
             self.key_colidx = self.reserved_colidx['ensgid']
@@ -97,12 +113,41 @@ class GeneSourceReader():
                 ensgid = self.rm_version_in_ensgid(arr[self.key_colidx])
                 self.ensgid_list.append(ensgid)
                 self.data[ensgid] = []
-                for cidx in self.target_colidx:
-                    if cidx == -999:
-                        v1 = ""
+
+                cidx_no = 0
+                for colidx in self.target_colidx:
+                    cidx_no += 1
+                    if colidx == -999:
+                        cidxvalue = ""
                     else:
-                        v1 = strip_value(arr[cidx])
-                    self.data[ensgid].append(v1)
+                        cidxvalue = strip_value(arr[colidx])
+
+                    if colidx in self.field_function.keys():
+                        exec_str = "external_functions." + self.field_function[colidx]
+                        exec_str += '('
+                        paramstr_list = []
+                        for param in self.field_function_param[colidx].split(','):
+                            if param == "mutanno_value_variantkey":
+                                pstr = 'variantkey'
+                            elif cidx_no == self.field_names.index(param):
+                                pstr = 'cidxvalue'
+                            else:
+                                pstr = 'arr_selected_fields['
+                                pstr += str(self.field_names.index(param))
+                                pstr += ']'
+                            paramstr_list.append(pstr)
+                        exec_str += ','.join(paramstr_list)
+                        exec_str += ')'
+                        # print(exec_str)
+                        cidxvalue = eval(exec_str)
+
+                    delimiter = ''
+                    if colidx in self.delimiter.keys():
+                        delimiter = self.delimiter[colidx]
+
+                    # self.data[ensgid].append(cidxvalue)
+                    self.data[ensgid].append(encode_value(cidxvalue, delimiter))
+                    
 
                 for resv in self.reserved_colidx.keys():
                     try:

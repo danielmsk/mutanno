@@ -52,13 +52,16 @@ def make_genetable_stat(datasource):
                 print(i)
                 # break
 
+    cont = "Field\tFilled\tBlank"
+    f.write(cont + '\n')
     for h1 in cntmap.keys():
-        cont = h1 + '\tfilled:' + str(cntmap[h1]['filled']) + '\tblank:' + str(cntmap[h1]['blank'])
+        cont = h1 + '\t' + str(cntmap[h1]['filled']) + '\t' + str(cntmap[h1]['blank'])
         f.write(cont + '\n')
     f.close()
     print('Saved', out)
 if __name__ == "__main__":
     import proc_util
     import file_util
-    datasource = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.1.bed.gz"
+    # datasource = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.1.bed.gz"
+    datasource = sys.argv[1]
     make_genetable_stat(datasource)

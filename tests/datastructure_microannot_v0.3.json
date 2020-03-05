@@ -1,0 +1,48 @@
+{
+    "name": "MUTANNO",
+    "sourcefile":"../DATASOURCE/MICROANNOT/v0.3_200305/microannot_datasource.#CHROM#.v0.3_200305.tsi.gz",
+    "use_sourcename_in_fieldname":false,
+    "source": [
+        {
+            "name":"VEP",
+            "desc":"Predicted nonsense mediated decay effects for this variant by VEP",
+            "version":"v99",
+            "version_date":"11/04/2019",
+            "format":"tsi",
+            "fields":[
+              {"name":"Gene","desc":"Stable ID of affected gene"},
+              {"name":"Feature","desc":"Stable ID of feature"},
+              {"name":"Feature_type","desc":"Type of feature - Transcript, RegulatoryFeature or MotifFeature"},
+              {"name":"Consequence","desc":"Consequence type","delimiter":","},
+              {"name":"SYMBOL","desc":"Gene symbol (e.g. HGNC)"}
+            ]
+        },{
+            "name":"gnomADgenome",
+            "desc":"population AF by gnomAD",
+            "version":"3.0",
+            "version_date":"03/06/2019",
+            "format":"tsv",
+            "fieldselection":"",
+            "fields":[
+                {"name":"AF_popmax","name2":"gnomAD_popMaxAF_genome","type":"float","default":"NA","desc":"Maximum allele frequency across populations (excluding samples of Ashkenazi, Finnish, and indeterminate ancestry)"}
+            ]
+        },{
+            "name":"CLINVAR",
+            "desc":"CLINVAR variants",
+            "version":"20200106",
+            "version_date":"01/06/2020",
+            "fields":[
+                {"name":"ALLELEID","name2":"CLINVAR_ALLELEID","desc":"the ClinVar Allele ID"},
+                {"name":"CLNSIG","name2":"CLINVAR_CLNSIG","desc":"Clinical significance for this single variant"}
+            ]
+        },{
+            "name":"SpliceAI",
+            "desc":"SpliceAI scores",
+            "version":"20191004",
+            "version_date":"10/04/2019",
+            "fields":[
+                {"name":"MAXDS","name2":"SpliceAI_MaxScore","desc":"SpliceAI max delta score","skip_equal_str":"0.00"}
+            ]
+        }
+    ]
+}

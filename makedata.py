@@ -26,6 +26,8 @@ def pars_region_str(region):
 def is_available(field):
     return struct_util.is_available(field)
 
+
+
 class TSVBlockReader():
 
     def __init__(self, datastruct, datafile_path):
@@ -37,6 +39,7 @@ class TSVBlockReader():
         self.filter_start_with = {}
         self.filter_skip_equal_str = {}
         self.delimiter = {}
+        self.defaultvalue = {}
         self.field_function = {}
         self.field_function_param = {}
         self.field_names = []
@@ -79,6 +82,8 @@ class TSVBlockReader():
                         self.filter_skip_equal_str[self.header.index(f1['name'])] = f1['skip_equal_str']
                     if 'delimiter' in f1.keys():
                         self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
+                    if 'default' in f1.keys():
+                        self.defaultvalue[self.header.index(f1['name'])] = f1['default']
                 else:
                     self.target_colidx.append(-999)
 
@@ -123,6 +128,9 @@ class TSVBlockReader():
                         for refalt in block[pos].keys():
                             block[pos][refalt][sid] = cont
         return block
+
+
+
 
     def get_selected_fields_in_block(self, arr, variantkey):
         cidx_no = 0

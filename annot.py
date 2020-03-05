@@ -6,13 +6,14 @@ import tabix
 import file_util
 import vcf_util
 import time
+import _version
 
 VCFCOLIDX = {'CHROM': 0, 'POS': 1, 'ID': 2, 'REF': 3, 'ALT': 4, 'QUAL': 5, 'FILTER': 6, 'INFO': 7, 'FORMAT': 8}
 TSVCOLIDX = {'CHROM': 0, 'POS': 1, 'REF': 2, 'ALT': 3}
 DATAHEADER = {}
 
 MAXBUFF = 1000000
-
+INFOCOLIDX = 7
 
 def load_entrez_refseq():
     path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
@@ -491,6 +492,8 @@ class AnnotMap():
         self.tchrom = ""
         self.flag_gzsource = True
         self.prev_record = []
+        self.defaultvalue = ""
+        self.load_defaultvalue()
 
     def load_tabixpointer(self):
         self.tabixpointer = tabix.open(self.datastruct['sourcefile'].replace("#CHROM#", self.tchrom))
@@ -502,6 +505,20 @@ class AnnotMap():
         else:
             self.flag_gzsource = False
             self.gzpointer = open(self.datastruct['sourcefile'].replace("#CHROM#", self.tchrom), 'r')
+
+    def load_defaultvalue(self):
+        for source in self.datastruct['source']:
+            flag_add = False
+            defaultvaluelist = []
+            for field in source['fields']:
+                defaultvalue = get_dict_value(field, 'default', "")
+                defaultvaluelist.append(defaultvalue)
+                if defaultvalue != "":
+                    flag_add = True
+            if flag_add:
+                if self.defaultvalue != "":
+                    self.defaultvalue += ";"
+                self.defaultvalue += source['name'] + '=' + "|".join(defaultvaluelist)
 
     def get_annotrecord_from_gzpoint(self):
         rec = []
@@ -568,17 +585,23 @@ class AnnotMap():
             flag_add = False
             recs = self.tabixpointer.query(chrom, pos, pos+1)
             for r1 in recs:
-                # print(r1,b1)
                 if int(r1[1]) == pos and r1[3] == ref and r1[4] == alt:
-                    if b1[7] == '.':
-                        b1[7] = ""
-                    if b1[7].strip() != '':
-                        b1[7] += ';'
-                    b1[7] += r1[5]
+                    if b1[INFOCOLIDX] == '.':
+                        b1[INFOCOLIDX] = ""
+                    if b1[INFOCOLIDX].strip() != '':
+                        b1[INFOCOLIDX] += ';'
+                    b1[INFOCOLIDX] += r1[5]
                     flag_add = True
                     break
-            if flag_add or not is_rm_unannotated:
+
+            if flag_add:
                 fp.write('\t'.join(b1) + '\n')
+            elif not is_rm_unannotated:
+                if b1[INFOCOLIDX] != '':
+                    b1[INFOCOLIDX] += ';'
+                b1[INFOCOLIDX] += self.defaultvalue
+                fp.write('\t'.join(b1) + '\n')
+
         
         return len(vcfblock)
 
@@ -607,6 +630,24 @@ class VCFBlockReader():
                 self.total_variant += 1
         return headercont
 
+    def add_genotypeinfo_in_infofield(self, vcfrecord):
+        if not "SAMPLEGENO" in vcfrecord[7]:
+            samplegeno = []
+            for k in range(9,len(vcfrecord)):
+                gtinfo = vcfrecord[k].split(':')
+                converted_gtinfo = []
+                converted_gtinfo.append(gtinfo[0].replace('|','/'))
+                converted_gtinfo.append(vcf_util.get_genotype(gtinfo[0], vcfrecord[3], vcfrecord[4]))
+                converted_gtinfo.append(gtinfo[1].replace(',','/'))
+                samplegeno.append('|'.join(converted_gtinfo))
+            if len(samplegeno) > 0:
+                if vcfrecord[7] == ".":
+                    vcfrecord[7] = ""
+                if vcfrecord[7] != "":
+                    vcfrecord[7] += ";"
+                vcfrecord[7] += "SAMPLEGENO=" + ",".join(samplegeno)
+        return vcfrecord
+
     def get_block(self):
         block = []
         while True:
@@ -616,14 +657,15 @@ class VCFBlockReader():
 
             if line.strip() != '':
                 if line[0] != '#':
-                    arr = line.split('\t')
-                    arr[-1] = arr[-1].strip()
-                    if "," in arr[4]:
-                        for a1 in vcf_util.split_multiallelic_variants(arr):
+                    vcfrecord = line.split('\t')
+                    vcfrecord[-1] = vcfrecord[-1].strip()
+                    vcfrecord = self.add_genotypeinfo_in_infofield(vcfrecord)
+                    if "," in vcfrecord[4]:
+                        for a1 in vcf_util.split_multiallelic_variants(vcfrecord):
                             block.append(a1)
                             self.i_variant += 1
                     else:
-                        block.append(arr)
+                        block.append(vcfrecord)
                         self.i_variant += 1
             else:
                 self.eof = True
@@ -715,6 +757,8 @@ class AnnotVCF():
 
     def get_annot_header(self):
         cont = ""
+        cont += vcf_util.get_info_header("SAMPLEGENO", "Sample genotype information", ["NUMGT","GT","AD"])
+        cont += vcf_util.get_info_header("multiallele", "sample-variant key for multi-allelic variants", ["SAMPLEVARIANTKEY"])
         if 'merged_one_field' in self.datastruct.keys() and self.datastruct['merged_one_field'] != '':
             fields = []
             for s1 in self.datastruct['source']:
@@ -741,8 +785,9 @@ class AnnotVCF():
                                     fields.append(s1['name'] + "_" + f1['name2'])
                                 else:
                                     fields.append(s1['name'] + "_" + f1['name'])
-            cont += "##INFO=<ID=" + self.datastruct['merged_one_field'] + ",Number=.,Type=String,Description=\"" + \
-                    self.datastruct['merged_one_field_desc'] + ". Format:'" + '|'.join(fields) + "' \">\n"
+            sourcename = self.datastruct['merged_one_field']
+            sourcedesc = get_dict_value(self.datastruct, 'merged_one_field_desc', '')
+            cont += vcf_util.get_info_header(sourcename, sourcedesc, fields)
         else:
             for s1 in self.datastruct['source']:
                 if get_dict_value(s1, 'is_available', True):
@@ -762,12 +807,9 @@ class AnnotVCF():
                                 else:
                                     fields.append(f1['name'])
                     sourcename = get_sourcename(s1)
-                    cont += "##INFO=<ID=" + sourcename + ",Number=.,Type=String"
-
-                    cont += ",Description=\"" + s1['desc'] + ". "
-                    if get_dict_value(s1, 'subembedded', '') != '':
-                        cont += "Subembedded:'" + s1['subembedded'] + "':"
-                    cont += "Format:'" + '|'.join(fields) + "' \">\n"
+                    sourcedesc = get_dict_value(s1, 'desc', '')
+                    sourcesubembed = get_dict_value(s1, 'subembedded', '')
+                    cont += vcf_util.get_info_header(sourcename, sourcedesc, fields, sourcesubembed)
         return cont
 
     def get_version_info(self):
@@ -775,14 +817,14 @@ class AnnotVCF():
 
         cont = ""
         cont += '##MUTANNO=<ID=MUTANNO'
-        if 'version' in ds.keys():
-            cont += ',Version="' + ds['version'] + '"'
-        if 'version_date' in ds.keys():
-            cont += ',Date="' + ds['version_date'] + '"'
+        cont += ',Version="' + _version.VERSION + '"'
+        cont += ',Date="' + _version.VERSION_DATE + '"'
+
         if 'data_version' in ds.keys():
             cont += ',DataVersion="' + ds['data_version'] + '"'
         if  'data_version_date' in ds.keys():
             cont += ',DataDate="' + ds['data_version_date'] + '"'
+        
         cont += '>\n'
 
         for s1 in ds['source']:
@@ -854,7 +896,7 @@ class AnnotVCF():
         etime0 = time.time()
         elapsed0 = etime0 - stime0
         print("total:", elapsed0, ", time per variant:", elapsed0 / total_varno,
-              ", time for 4M:", str(round(elapsed0 / total_varno * 4000000 / 3600, 4)) + "hr")
+              ", time for 4M variants:", str(round(elapsed0 / total_varno * 4000000 / 3600, 3)) + "hr")
         f.close()
         print("Saved " + self.opt['out'])
 

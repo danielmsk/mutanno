@@ -6,6 +6,13 @@ import tabix
 entrezmap = {}
 refseqmap = {}
 
+def remove_pdb_subversion(id_list):
+    pidmap = {}
+    for pid in id_list.split('|'):
+        pidmap[pid.split(':')[0]] = 1
+    pidlist = list(pidmap.keys())
+    return '|'.join(pidlist)
+
 def convert_rmsk_strand(v1):
     r1 = '0'
     if v1  == '+':

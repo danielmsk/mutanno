@@ -6,6 +6,32 @@
 #########################
 
 
+def get_info_header(infoid, infodesc, subfields, sourcesubembed=""):
+    header = ""
+    header += "##INFO=<ID=" + infoid + ",Number=.,Type=String"
+    header += ",Description=\"" + infodesc + ". "
+    if sourcesubembed != '':
+        header += "Subembedded:'" + sourcesubembed + "':"
+    header += "Format:'" + '|'.join(subfields) + "'\">\n"
+    return header
+
+
+# numgt: number format of genotype (0/0, 1/1)
+# ref: reference allele
+# alt: alternative allele or allels
+def get_genotype(numgt, ref, alt):
+    numgt = numgt.replace('|', '/')
+    allele = [ref]
+    allele.extend(alt.split(','))
+    gt = []
+    for ngt in numgt.split('/'):
+        if ngt == '.':
+            gt.append('.')
+        else:
+            gt.append(allele[int(ngt)])
+    return '/'.join(gt)
+
+
 def split_multiallelic_variants(vcfrecord):
     arralt = vcfrecord[4].split(',')
     rst = []

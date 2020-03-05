@@ -58,17 +58,17 @@ def load_example_values():
             if not flag_add:
                 # break
                 pass
-    print(line)
+    # print(line)
     return exmap
 
-def make_genetable(datasource, json):
+def make_genetable(datasource, json, out):
 
     exmap = load_example_values()
 
     reservedlist = ['chrom','spos','epos','ensgid']
 
-    f = open(json + '.genetab.txt','w')
-    cont = ["no","Field Name","Datasource","Version","Description","value_example (separated by ';')"]
+    f = open(out,'w')
+    cont = ["no","Field Name","Datasource","Version","Title","do import","Link","is_list","Description","value_example (separated by ';')"]
     f.write('\t'.join(cont)+'\n')
     ds = file_util.jsonOpen(json)
     no = 0
@@ -80,6 +80,14 @@ def make_genetable(datasource, json):
                 if name2 != '':
                     fieldname = name2
 
+                do_import = "Y"
+                if not get_dict_value(f1, 'do_import', True):
+                    do_import = "N"
+
+                is_list = "N"
+                if get_dict_value(f1, 'is_list', False):
+                    is_list = "Y"
+
                 if get_dict_value(f1, 'is_available', True):
                     if (fieldname != 'ensgid' and not get_dict_value(s1,'is_ensemblegene',False)) or get_dict_value(s1,'is_ensemblegene',False):
                         no += 1
@@ -88,11 +96,16 @@ def make_genetable(datasource, json):
                         cont.append(fieldname)
                         cont.append(s1['name'])
                         cont.append(s1['version'])
-                        cont.append(f1['desc'])
+                        cont.append(get_dict_value(f1, 'title', ''))
+                        cont.append(do_import)
+                        cont.append(get_dict_value(f1, 'link', ''))
+                        cont.append(is_list)
+                        cont.append(get_dict_value(f1, 'desc', ''))
                         if fieldname in reservedlist:
                             k1 = fieldname
                         else:
                             k1 = s1['name'] + '_' + fieldname
+                            # k1 = s1['name'] + '_' + f1['name']
                         cont.append('; '.join(exmap[k1]))
 
                         # print('\t'.join(cont))
@@ -105,6 +118,7 @@ def make_genetable(datasource, json):
 if __name__ == "__main__":
     import proc_util
     import file_util
-    datasource = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.1.bed.gz"
-    json = "/home/mk446/mutanno/SRC/tests/datastructure_v0.3.1_mvp.json"
-    make_genetable(datasource, json)
+    datasource = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz"
+    json = "/home/mk446/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json"
+    out = json + '.genetab.txt'
+    make_genetable(datasource, json, out)
