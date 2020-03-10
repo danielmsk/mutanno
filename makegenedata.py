@@ -25,7 +25,9 @@ def encode_value(v1, delimiter=""):
     if v1 == '.' or v1 == '-':
         v1 = ''
     if delimiter != "":
-        v1 = v1.replace(delimiter, '|')
+        if delimiter != '|':
+            v1 = v1.replace("|", "%7C")
+            v1 = v1.replace(delimiter, '|')
     # v1 = urllib.parse.quote(v1)
     return v1
 
@@ -62,7 +64,8 @@ class GeneSourceReader():
 
     def read_header(self):
         for line in file_util.gzopen(self.fname):
-            line = line.decode('UTF-8')
+            if self.fname.endswith('.gz'):
+                line = line.decode('UTF-8')
             if line[0] == '#' and line[1] != '#':
                 self.header = line[1:].strip().split('\t')
                 break
@@ -106,7 +109,8 @@ class GeneSourceReader():
 
     def load_data(self):
         for line in file_util.gzopen(self.fname):
-            line = line.decode('UTF-8')
+            if self.fname.endswith('.gz'):
+                line = line.decode('UTF-8')
             if line[0] != '#':
                 arr = line.split('\t')
                 arr[-1] = arr[-1].strip()

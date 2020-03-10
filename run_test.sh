@@ -34,7 +34,7 @@
 #     -out ../PRECALVEP \
 #     -fasta /n/data1/hms/dbmi/park/SOFTWARE/REFERENCE/GRCh38d1/GRCh38_full_analysis_set_plus_decoy_hla.fa \
 #     -vepcache /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/nonindexed_vep_cache/homo_sapiens_merged \
-#     -vep /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/ensembl-vep-release-98/vep \
+#     -vep /home/mk446/bio/mutanno/ANNOT3TOOLS/BIN/ensembl-vep-release-99/vep \
 #     -cache_version 98
 
 # python mutanno.py precal -check_vep_result \
@@ -96,17 +96,17 @@
 # tabixgzbed ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed
 # python /home/mk446/mutanno/SRC/scripts/gene/make_genetable.py
 # python ./scripts/gene/cal_genetable_stat.py /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz
-# head /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.bed
+# gzhead /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz 200 > /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz.ex.txt
 
 
 
 #################################
 # micro-annotation
 #################################
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test2.vcf \
-    -out /home/mk446/bio/mutanno/TEST/trio_test2.microannot.vcf \
-    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
-    -blocksize 100
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test2.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/trio_test2.microannot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
+#     -blocksize 100
 #     # -remove_unannotated_variant \
     
 
@@ -147,7 +147,7 @@ mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test2.vcf \
 #################################
 
 
-# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
+# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
 #     -out /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3.chr1_00.tsi \
 #     -vartype SNP \
 #     -blocksize 10 \
@@ -157,8 +157,8 @@ mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test2.vcf \
 
 # mutanno annot -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.vcf.gz \
 #     -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.annot.vcf \
-#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-#     -blocksize 10
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
+#     -blocksize 1000
  
 
 # mutanno annot -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.vcf \
@@ -168,5 +168,31 @@ mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test2.vcf \
 
 
 
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_v0.3.vcf.gz \
+#     -out /home/mk446/bio/mutanno/TEST/test_trio_v0.3.microannot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
+#     -blocksize 1000
+
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_v0.3.microannot.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/test_trio_v0.3.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
+#     -blocksize 100
+
+#################################
+# Trio GATK 10 SAMPLE
+#################################
+
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_10.vcf \
+    -out /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
+    -add_genoinfo \
+    -split_multi_allelic_variant \
+    -blocksize 1000
+
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.vcf \
+    -out /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.annot.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
+    -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
+    -blocksize 100
 
 

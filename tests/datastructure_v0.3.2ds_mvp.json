@@ -1,12 +1,18 @@
 {
   "name": "MUTANNO",
+  "version":"0.3.2",
+  "version_date":"01/22/2020",
   "sourcefile":"/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/v0.3.2_200309/mvp_datasource_v0.3.2_200309.chr#CHROM#.tsi.gz",
+  "sourcefile2":"/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi.gz",
+  "datafile_path":"/home/mk446/bio/mutanno/DATASOURCE",
   "source": [
     {
       "name":"VEP",
       "desc":"Predicted nonsense mediated decay effects for this variant by VEP",
       "version":"v99",
       "version_date":"11/04/2019",
+      "datafile2":"ANNOT/VEP/hg38/v98/vep.98.hg38.#CHROM#.tsv.gz",
+      "datafile":"ANNOT/VEP/hg38/v99/vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz",
       "subembedded":"transcript",
       "format":"tsi",
       "fields":[
@@ -69,6 +75,7 @@
         "desc":"cytoband",
         "version":"2017-07-17",
         "version_date":"07/17/2017",
+        "datafile":"CYTOBAND/hg38/cytoBand_hg38.bed.gz",
         "format":"bed",
         "is_available":true,
         "fields":[
@@ -79,6 +86,7 @@
         "desc":"transmembrane",
         "version":"2019-12-18",
         "version_date":"12/18/2019",
+        "datafile":"UNIPLOT/UP000005640_9606_transmem.mod.bed.gz",
         "format":"bed",
         "is_available":true,
         "fields":[
@@ -90,6 +98,7 @@
         "desc":"dbSNP",
         "version":"20190722",
         "version_date":"07/22/2019",
+        "datafile":"dbSNP/hg38/GRCh38_latest_dbSNP_all.convchrom.onlyid.vcf.gz",
         "chrompre":"",
         "format":"tsv",
         "fieldselection":"",
@@ -101,6 +110,7 @@
         "desc":"conservation",
         "version":"2017-07-17",
         "version_date":"07/17/2017",
+        "datafile":"CONSERVATION/conservation_scores.hg38.chr#CHROM#.bed.gz",
         "format":"bed",
         "is_available":true,
         "fields":[
@@ -117,6 +127,7 @@
         "desc":"PrimateAI score",
         "version":"v0.2_hg38",
         "version_date":"12/18/2019",
+        "datafile":"PATHOGENICITY/PrimateAI/hg38/PrimateAI_scores.v0.2.hg38.#CHROM#.sorted.tsi.gz",
         "format":"tsi",
         "is_available":true,
         "fields":[
@@ -127,6 +138,7 @@
         "desc":"Pathgenicity score by CADD",
         "version":"v1.5",
         "version_date":"02/26/2019",
+        "datafile":"PATHOGENICITY/CADD/hg38/v1.5/whole_genome_SNVs.tsv.gz",
         "format":"tsv",
         "fieldselection":"",
         "hidden":true,
@@ -140,6 +152,7 @@
         "desc":"SpliceAI",
         "version":"20191004",
         "version_date":"10/04/2019",
+        "datafile":"SPLICING/SpliceAI/hg38/spliceai.20191004.hg38.#CHROM#.tsv.gz",
         "format":"tsv",
         "ref_column_index":2,
         "alt_column_index":3,
@@ -160,6 +173,7 @@
         "desc":"Maximum population allele frequency",
         "version":"0.2",
         "version_date":"11/08/2019",
+        "datafile":"POPULATION_AF/gnomAD/hg38/gnomad.genomes.r3.0.sites.AF_popmax.tsv.gz",
         "format":"tsv",
         "ref_column_index":2,
         "alt_column_index":3,
@@ -172,6 +186,7 @@
         "desc":"population AF by gnomAD",
         "version":"v3.0",
         "version_date":"03/06/2019",
+        "datafile":"POPULATION_AF/gnomAD/hg38/gnomad.genomes.r3.0.sites.chr#CHROM#.tsi.gz",
         "format":"tsv",
         "fieldselection":"",
         "fields":[
@@ -275,6 +290,7 @@
         "desc":"population AF by TOPmed",
         "version":"freeze 5",
         "version_date":"08/28/2017",
+        "datafile":"POPULATION_AF/TOPMED/hg38/bravo-dbsnp-all.tsv.gz",
         "format":"tsv",
         "fieldselection":"",
         "fields":[
@@ -289,6 +305,7 @@
         "desc":"population AF by UK10K",
         "version":"20160215",
         "version_date":"02/15/2016",
+        "datafile":"POPULATION_AF/UK10K/hg38/UK10K_COHORT.20160215.sites.listover.sorted.tsi.gz",
         "format":"tsv",
         "fieldselection":"",
         "fields":[
@@ -307,6 +324,7 @@
         "desc":"genomic super duplicates from UCSC",
         "version":"19-Oct-2014",
         "version_date":"10/19/2014",
+        "datafile":"UCSC/hg38/genomicSuperDups.bed.gz",
         "format":"bed",
         "datatype":"region",
         "fields":[
@@ -320,6 +338,7 @@
         "desc":"simple repeat region from UCSC",
         "version":"11-Mar-2019",
         "version_date":"03/11/2019",
+        "datafile":"UCSC/hg38/simpleRepeat.bed.gz",
         "format":"bed",
         "datatype":"region",
         "fields":[
@@ -336,6 +355,7 @@
       "desc":"rmsk region from UCSC",
       "version":"11-Mar-2019",
       "version_date":"03/11/2019",
+      "datafile":"UCSC/hg38/rmsk.bed.gz",
       "format":"bed",
       "datatype":"region",
       "fields":[
@@ -351,6 +371,7 @@
       "desc":"nested repeat region from UCSC",
       "version":"06-Mar-2014",
       "version_date":"03/06/2014",
+      "datafile":"UCSC/hg38/nestedRepeats.bed.gz",
       "format":"bed",
       "datatype":"region",
       "fields":[
@@ -368,6 +389,7 @@
       "desc":"microsatellite region from UCSC",
       "version":"23-Aug-2015",
       "version_date":"08/23/2015",
+      "datafile":"UCSC/hg38/microsat.bed.gz",
       "format":"bed",
       "datatype":"region",
       "fields":[
@@ -381,6 +403,7 @@
       "desc":"CLINVAR variants",
       "version":"20191021",
       "version_date":"10/21/2019",
+      "datafile":"VARIANTDB/CLINVAR/hg38/clinvar.20200106.hg38.tsv.gz",
       "format":"tsv",
       "ref_column_index":2,
       "alt_column_index":3,
@@ -408,6 +431,7 @@
       "desc":"COSMIC variants",
       "version":"v90",
       "version_date":"08/05/2019",
+      "datafile":"VARIANTDB/COSMIC/v90.20190805/CosmicMutantExport.bed.sorted.gz",
       "format":"bed",
       "ref_column_index":2,
       "alt_column_index":3,
@@ -443,6 +467,7 @@
       "name":"ENSEMBLgene",
       "version":"v99",
       "version_date":"11/22/2019",
+      "datafile":"ENSEMBL/hg38/Homo_sapiens.GRCh38.99.bed.gz",
       "format":"bed",
       "is_ensemblegene":true,
       "fields":[
@@ -461,6 +486,7 @@
       "desc":"cytoband",
       "version":"2017-07-17",
       "version_date":"07/17/2017",
+      "datafile":"CYTOBAND/hg38/cytoBand_hg38.bed.gz",
       "format":"bed",
       "is_available":true,
       "fields":[
@@ -471,6 +497,7 @@
       "desc":"cytoband",
       "version":"2020-03-20",
       "version_date":"03/20/2020",
+      "datafile":"NCBI/REFSEQ/refseqgene.genomic.tsv.gz",
       "format":"tab",
       "is_available":true,
       "fields":[
@@ -482,6 +509,7 @@
       "desc":"HGNC",
       "version":"2020-02-24",
       "version_date":"02/24/2020",
+      "datafile":"GENE/HGNC/hgnc_complete_set.mod.txt.gz",
       "chrompre":"",
       "format":"tab",
       "is_available":true,
@@ -543,6 +571,7 @@
       "name":"ClinGen",
       "version":"20200309",
       "version_date":"03/09/2020",
+      "datafile":"GENE/CLINGEN/clingen_list_2020-03-09.html.genelist.tsv",
       "format":"tsv",
       "is_available":true,
       "fields":[
@@ -557,6 +586,7 @@
       "name":"ClinGenDisease",
       "version":"20200309",
       "version_date":"03/09/2020",
+      "datafile":"GENE/CLINGEN/clingen_gene-validity_2020-03-09_genebased.csv.mod.tsv",
       "format":"tsv",
       "is_available":true,
       "fields":[
@@ -573,6 +603,7 @@
       "name":"ENSEMBLIDxref",
       "version":"v2.1.1",
       "version_date":"11/22/2017",
+      "datafile":"ENSEMBL/hg38/idmap_ensembl_uniprot_xref.tsv.gz",
       "format":"tsv",
       "is_available":true,
       "fields":[
@@ -658,6 +689,7 @@
       "desc":"GTEx",
       "version":"4.0c",
       "version_date":"06/05/2017",
+      "datafile":"VARIANTDB/dbNSFP/hg38/dbNSFP4.0c/dbNSFP4.0_gene.complete.mod.gz",
       "chrompre":"",
       "format":"tsv",
       "is_available":true,
@@ -774,6 +806,7 @@
       "name":"gnomADmetrics",
       "version":"v2.1.1",
       "version_date":"11/22/2017",
+      "datafile":"POPULATION_AF/gnomAD/metrics/gnomad.v2.1.1.lof_metrics.by_gene.txt.gz",
       "format":"tsv",
       "is_available":true,
       "fields":[
@@ -861,6 +894,7 @@
       "desc":"GTEx",
       "version":"v8",
       "version_date":"06/05/2017",
+      "datafile":"EXPRESSION/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.mod.gz",
       "chrompre":"",
       "format":"tsv",
       "is_available":true,

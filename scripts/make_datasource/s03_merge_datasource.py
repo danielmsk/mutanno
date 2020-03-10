@@ -14,52 +14,55 @@ elif SVRNAME == "T7":
 else:
     sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
+import time
 
 
-def merge():
-    # f = open(out, 'w')
-    logfile = out + '.log'
+def merge(chrom):
+    out2 = out.replace('#CHROM#', chrom)
+    f = open(out2, 'w')
+    print('Saving..',out2)
     chunklist = seq_util.get_split_region(binsize, 'b38d')
     # print('total chunk size:', len(chunklist))
-    flag = True
+    flag_header = True
     for c1 in chunklist:
-        tsvgz = path + str_util.zero_format(c1[3], 5) + ".tsv.gz"
-        file_util.fileSave(logfile, tsvgz + '\n', 'a')
-        for line in file_util.gzopen(tsvgz):
-            line = line.decode('UTF-8')
-            if line[0] != '#' or flag:
-                # f.write(line)
-                print(line, end='')
-                flag = False
-    # f.close()
+        # if chrom != c1[0]:
+        #     f.close()
+        #     chrom = c1[0]
+        #     out2 = out.replace('#CHROM#', chrom)
+        #     f = open(out2, 'w')
+        #     print('Saving..',out2)
+        #     flag_header = True
+        if chrom == c1[0]:
+            tsvgz = tmp_path + str_util.zero_format(c1[3], 5) + ".tsi.gz"
+            print (tsvgz)
+            for line in file_util.gzopen(tsvgz):
+                line = line.decode('UTF-8')
+                if line[0] == '#' and flag_header:
+                    f.write(line)
+                    flag_header = False
+                if line[0] != '#':
+                    f.write(line)
+    f.close()
+    time.sleep(5)
+    proc_util.run_cmd('tabixgz ' + out2)
 
-def split_run():
-    chunklist = seq_util.get_split_region(binsize, 'b38d')
-    for c1 in chunklist:
-        # cmd = "python /home/mk446/mutanno/SRC/scripts/make_datasource/make_datasource_with_split.py "
-        tmpout = os.path.abspath(tmp_path + str_util.zero_format(c1[3], 5) + ".tsi")
-        cmd = "mutanno makedata -ds " + os.path.abspath(dsfile)
-        cmd += " -out " + tmpout
-        cmd += " -region " + str(c1[0]) + ":" + str(c1[1]) + "-" + str(c1[2])
-        cmd += ";"
-        cmd += "wc -l "+tmpout+" > "+tmpout+".lineno;"
-        cmd += "tabixgz " + tmpout + ";"
-        cmd += "wc -l "+tmpout+".gz > "+tmpout+".gz.lineno;"
-        cmd += "rm " + tmpout + ";"
-        print(cmd)
-    print('#total chunk size:', len(chunklist))
+def run_bychrom():
+    for chrom in seq_util.MAIN_CHROM_LIST:
+        print ("python " + os.path.abspath("./s03_merge_datasource.py") + " " + chrom)
 
 if __name__ == "__main__":
     import seq_util
     import str_util
     import file_util
+    import proc_util
     path = "../../../DATASOURCE/MUTANOANNOT/"
-    out = path + "microanot_datasource_v1.0.tsi"
+    # out = path + "microanot_datasource_v1.0.tsi"
+    out = path + "mvp_datasource_v0.3.2.chr#CHROM#.tsi"
     tmp_path = path + "datasource_v0.3_tmp/"
-    dsfile = "../../tests/datastructure_v0.3.1_mvp.json"
     binsize = 1000000
+    
     if len(sys.argv) == 1:
-        split_run()
+        run_bychrom()
     else:
-        merge()
-        # python make_datasource_with_split.py merge | bgzip -c > /home/mk446/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v1.0.tsv.gz
+        merge(sys.argv[1])
+    # python make_datasource_with_split.py merge | bgzip -c > /home/mk446/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v1.0.tsv.gz

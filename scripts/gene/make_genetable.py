@@ -84,6 +84,10 @@ def make_genetable(datasource, json, out):
                 if not get_dict_value(f1, 'do_import', True):
                     do_import = "N"
 
+                do_import = "Y"
+                if not get_dict_value(f1, 'do_import', True):
+                    do_import = "N"
+
                 is_list = "N"
                 if get_dict_value(f1, 'is_list', False):
                     is_list = "Y"

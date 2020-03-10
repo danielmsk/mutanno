@@ -6,6 +6,11 @@ import tabix
 entrezmap = {}
 refseqmap = {}
 
+def trim_DIP_ID(v1):
+    # DIP-39616N;
+    v1 = v1.split('-')[-1].replace('N','')
+    return v1
+
 def remove_pdb_subversion(id_list):
     pidmap = {}
     for pid in id_list.split('|'):

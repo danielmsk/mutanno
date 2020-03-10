@@ -33,6 +33,12 @@ def get_options():
     p1.add_argument('-remove_unannotated_variant', dest='remove_unannotated_variant', default=False, action="store_true", help='remove unannotated variants in out vcf')
     # p1.add_argument('-buff', dest='buff', type=int, default=100, help='loading size in memory')
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=1000, help='loading size in memory')
+    p1.add_argument('-add_genoinfo', dest='add_genoinfo',
+                    action="store_true", default=False, help='add genotype info. in INFO field')
+    p1.add_argument('-split_multi_allelic_variant', dest='split_multi_allelic_variant',
+                    action="store_true", default=False, help='split multi-allelic variants')
+    p1.add_argument('-clean_tag', dest='clean_tag_list',
+                    default=[], help='remove previous annotation information', nargs='*')
     p1.add_argument('-load_source_in_memory', dest='load_source_in_memory',
                     action="store_true", default=False, help='loading data source in memory')
     p1.add_argument('-sparse', dest='sparse',

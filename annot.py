@@ -607,7 +607,7 @@ class AnnotMap():
 
 
 class VCFBlockReader():
-    def __init__(self, vcf, blocksize=10000):
+    def __init__(self, vcf, blocksize=10000, add_genoinfo = False, clean_tag_list = []):
         self.vcf = vcf
         self.blocksize = blocksize
         self.fp = file_util.gzopen(self.vcf)
@@ -615,6 +615,17 @@ class VCFBlockReader():
         self.eof = False
         self.total_variant = 0
         self.i_variant = 0
+        self.add_genoinfo = add_genoinfo
+        self.clean_tag_list = clean_tag_list
+
+    def is_clean_tag(self, line):
+        flag = False
+        for prevtag in ["##MUTANNO=<ID=", "##INFO=<ID="]:
+            if line[:len(prevtag)] == prevtag:
+                for tag in self.clean_tag_list:
+                    if tag in line:
+                        flag = True
+        return flag
 
     def get_header(self, add_header):
         headercont = ""
@@ -625,28 +636,40 @@ class VCFBlockReader():
                 if line[:len('#CHROM')] == "#CHROM":
                     headercont += add_header
                 if line[:len('##contig=')] != '##contig=':
-                    headercont += line
+                    if not self.is_clean_tag(line):
+                        headercont += line
             elif line.strip() != '':
                 self.total_variant += 1
         return headercont
 
     def add_genotypeinfo_in_infofield(self, vcfrecord):
-        if not "SAMPLEGENO" in vcfrecord[7]:
-            samplegeno = []
-            for k in range(9,len(vcfrecord)):
-                gtinfo = vcfrecord[k].split(':')
-                converted_gtinfo = []
-                converted_gtinfo.append(gtinfo[0].replace('|','/'))
-                converted_gtinfo.append(vcf_util.get_genotype(gtinfo[0], vcfrecord[3], vcfrecord[4]))
-                converted_gtinfo.append(gtinfo[1].replace(',','/'))
-                samplegeno.append('|'.join(converted_gtinfo))
-            if len(samplegeno) > 0:
-                if vcfrecord[7] == ".":
-                    vcfrecord[7] = ""
-                if vcfrecord[7] != "":
-                    vcfrecord[7] += ";"
-                vcfrecord[7] += "SAMPLEGENO=" + ",".join(samplegeno)
+        samplegeno = []
+        for k in range(9,len(vcfrecord)):
+            gtinfo = vcfrecord[k].split(':')
+            converted_gtinfo = []
+            converted_gtinfo.append(gtinfo[0].replace('|','/'))
+            converted_gtinfo.append(vcf_util.get_genotype(gtinfo[0], vcfrecord[3], vcfrecord[4]))
+            converted_gtinfo.append(gtinfo[1].replace(',','/'))
+            samplegeno.append('|'.join(converted_gtinfo))
+        if len(samplegeno) > 0:
+            if vcfrecord[7] == ".":
+                vcfrecord[7] = ""
+            if vcfrecord[7] != "":
+                vcfrecord[7] += ";"
+            vcfrecord[7] += "SAMPLEGENO=" + ",".join(samplegeno)
         return vcfrecord
+
+    def clean_tag_infofield(self, vcfrecord):
+        rstinfo = ""
+        for infofield in vcfrecord[7].split(';'):
+            tag = infofield.split('=')[0]
+            if not tag in self.clean_tag_list:
+                if rstinfo != "":
+                    rstinfo += ";"
+                rstinfo += infofield
+        vcfrecord[7] = rstinfo
+        return vcfrecord
+
 
     def get_block(self):
         block = []
@@ -659,7 +682,10 @@ class VCFBlockReader():
                 if line[0] != '#':
                     vcfrecord = line.split('\t')
                     vcfrecord[-1] = vcfrecord[-1].strip()
-                    vcfrecord = self.add_genotypeinfo_in_infofield(vcfrecord)
+                    if self.add_genoinfo:
+                        vcfrecord = self.add_genotypeinfo_in_infofield(vcfrecord)
+                    if len(self.clean_tag_list) > 0:
+                        vcfrecord = self.clean_tag_infofield(vcfrecord)
                     if "," in vcfrecord[4]:
                         for a1 in vcf_util.split_multiallelic_variants(vcfrecord):
                             block.append(a1)
@@ -692,6 +718,8 @@ class AnnotVCF():
         self.opt = opt
         self.datastruct = file_util.load_json(opt['ds'])
         self.blocksize = opt['blocksize']
+        self.add_genoinfo = opt['add_genoinfo']
+        self.split_multi_allelic_variant = opt['split_multi_allelic_variant']
 
         self.set_datafile()
 
@@ -757,8 +785,11 @@ class AnnotVCF():
 
     def get_annot_header(self):
         cont = ""
-        cont += vcf_util.get_info_header("SAMPLEGENO", "Sample genotype information", ["NUMGT","GT","AD"])
-        cont += vcf_util.get_info_header("multiallele", "sample-variant key for multi-allelic variants", ["SAMPLEVARIANTKEY"])
+        if self.add_genoinfo:
+            cont += vcf_util.get_info_header("SAMPLEGENO", "Sample genotype information", ["NUMGT","GT","AD"])
+        if self.split_multi_allelic_variant:
+            cont += vcf_util.get_info_header("multiallele", "sample-variant key for multi-allelic variants", ["SAMPLEVARIANTKEY"])
+
         if 'merged_one_field' in self.datastruct.keys() and self.datastruct['merged_one_field'] != '':
             fields = []
             for s1 in self.datastruct['source']:
@@ -879,7 +910,7 @@ class AnnotVCF():
         stime0 = time.time()
         total_varno = 0
         am = AnnotMap(self.datastruct, self.datafileinfo)
-        vblock = VCFBlockReader(self.opt['vcf'], self.opt['blocksize'])
+        vblock = VCFBlockReader(self.opt['vcf'], self.opt['blocksize'], self.opt['add_genoinfo'], self.opt['clean_tag_list'])
         f.write(vblock.get_header(self.get_version_info() + self.get_annot_header()))
         while(not vblock.eof):
             stime1 = time.time()

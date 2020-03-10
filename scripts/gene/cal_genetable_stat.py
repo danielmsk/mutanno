@@ -34,7 +34,7 @@ def make_genetable_stat(datasource):
             header[0] = header[0][1:]
             for k in range(len(header)):
                 h1 = header[k]
-                cntmap[h1] = {'filled':0, 'blank':0}
+                cntmap[h1] = {'filled':0, 'blank':0, 'list':0, 'list2':0}
         else:
             i += 1
             for k in range(len(arr)):
@@ -43,7 +43,11 @@ def make_genetable_stat(datasource):
                     cntmap[h1]['blank'] += 1
                 else:
                     cntmap[h1]['filled'] += 1
-                
+                    if '|' in arr[k]:
+                        cntmap[h1]['list'] += 1
+                    if '~' in arr[k]:
+                        cntmap[h1]['list2'] += 1
+
                 try:
                     cnt = cntmap[h1]
                 except KeyError:
@@ -52,10 +56,12 @@ def make_genetable_stat(datasource):
                 print(i)
                 # break
 
-    cont = "Field\tFilled\tBlank"
+    cont = "Field\tFilled\tBlank\tno_list"
     f.write(cont + '\n')
     for h1 in cntmap.keys():
         cont = h1 + '\t' + str(cntmap[h1]['filled']) + '\t' + str(cntmap[h1]['blank'])
+        cont += '\t' + str(cntmap[h1]['list'])
+        cont += '\t' + str(cntmap[h1]['list2'])
         f.write(cont + '\n')
     f.close()
     print('Saved', out)

@@ -1,5 +1,5 @@
-VERSION = "0.2.12"
-VERSION_DATE = "2020.03.05"
+VERSION = "0.2.13"
+VERSION_DATE = "2020.03.10"
 
 # MUTANNO version
 # 0.2.3 : encode 'space' to '%20' (remove blank space)
@@ -18,3 +18,7 @@ VERSION_DATE = "2020.03.05"
 #    - minor fix in header
 # 0.2.12 (2020.03.05) :
 #    - add 'default' value
+# 0.2.13 (2020.03.10) :
+#    - add 'add_genoinfo' option
+#    - add 'split_multi_allelic_variant' option
+#    - add 'clean_tag' option

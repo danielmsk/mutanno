@@ -27,16 +27,20 @@ def check_file(chunk_file, region, vep):
             k1 = r1[0] + '\t' + r1[1] + '\t' + r1[3]+ '\t' + r1[4]
             varmap[k1] = 0
 
+    chrom = region.split(':')[0]
+    spos = int(region.split(':')[1].split('-')[0])
+    epos = int(region.split(':')[1].split('-')[1])
     errmsg = ""
     tp = tabix.open(vep)
     for r1 in tp.querys(region):
-        k1 = r1[0] + '\t' + r1[1] + '\t' + r1[3]+ '\t' + r1[4]
-        try:
-            tmp = varmap[k1]
-        except KeyError:
-            flag = False
-            errmsg += k1 + '\n'
-        
+        pos = int(r1[1])
+        if pos >= spos and pos <= epos:
+            k1 = r1[0] + '\t' + r1[1] + '\t' + r1[3]+ '\t' + r1[4]
+            try:
+                tmp = varmap[k1]
+            except KeyError:
+                flag = False
+                errmsg += k1 + '\n'
 
     if flag:
         file_util.fileSave(chunk_file + '.checked', '', 'w')
