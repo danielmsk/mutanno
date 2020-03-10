@@ -182,17 +182,29 @@
 # Trio GATK 10 SAMPLE
 #################################
 
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_10.vcf \
-    -out /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.vcf \
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_10.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
+#     -add_genoinfo \
+#     -split_multi_allelic_variant \
+#     -blocksize 1000
+
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
+#     -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
+#     -blocksize 100
+
+
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/header_only.vcf.gz \
+    -out /home/mk446/bio/mutanno/TEST/header_only.microannot.vcf \
     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
     -add_genoinfo \
     -split_multi_allelic_variant \
     -blocksize 1000
 
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.vcf \
-    -out /home/mk446/bio/mutanno/TEST/test_trio_10.microannot.annot.vcf \
+mutanno annot -vcf /home/mk446/bio/mutanno/TEST/header_only.microannot.vcf \
+    -out /home/mk446/bio/mutanno/TEST/header_only.microannot.annot.vcf \
     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
     -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
     -blocksize 100
-
-

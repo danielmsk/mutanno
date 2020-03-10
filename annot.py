@@ -926,9 +926,10 @@ class AnnotVCF():
 
         etime0 = time.time()
         elapsed0 = etime0 - stime0
-        print("total:", elapsed0, ", time per variant:", elapsed0 / total_varno,
-              ", time for 4M variants:", str(round(elapsed0 / total_varno * 4000000 / 3600, 3)) + "hr")
-        f.close()
+        if total_varno > 0:
+            print("total:", elapsed0, ", time per variant:", elapsed0 / total_varno,
+                  ", time for 4M variants:", str(round(elapsed0 / total_varno * 4000000 / 3600, 3)) + "hr")
+            f.close()
         print("Saved " + self.opt['out'])
 
 
