@@ -1,32 +1,35 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#### preproc.py
-#### made by Min-Seok Kwon
-#### 2019-11-04 07:55:02
+# preproc.py
+# made by Min-Seok Kwon
+# 2019-11-04 07:55:02
 #########################
+import proc_util
+import file_util
 import sys
 import os
 import argparse
 SVRNAME = os.uname()[1]
 if "MBI" in SVRNAME.upper():
-	sys_path="/Users/pcaso/bin/python_lib"
+    sys_path = "/Users/pcaso/bin/python_lib"
 elif SVRNAME == "T7":
-	sys_path="/ms1/bin/python_lib"
+    sys_path = "/ms1/bin/python_lib"
 else:
-	sys_path="/home/mk446/bin/python_lib"
+    sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
-import file_util
-import proc_util
 
 VERSION = "0.1"
 VERSION_DATE = "2019.11.04"
 PROG = "preproc"
 
+
 def get_options():
-    parser = argparse.ArgumentParser(usage='%(prog)s <sub-command> [options]', description='%(prog)s ver' + VERSION + " (" + VERSION_DATE + ")" + ': convert bam to image')
-    parser.add_argument('-v', '--version', action='version', version="%(prog)s ver" + VERSION + " (" + VERSION_DATE + ")")
-    subparsers = parser.add_subparsers(title="sub-commands", dest="subcommand",metavar='', prog=PROG)
-    
+    parser = argparse.ArgumentParser(
+        usage='%(prog)s <sub-command> [options]', description='%(prog)s ver' + VERSION + " (" + VERSION_DATE + ")" + ': convert bam to image')
+    parser.add_argument('-v', '--version', action='version',
+                        version="%(prog)s ver" + VERSION + " (" + VERSION_DATE + ")")
+    subparsers = parser.add_subparsers(title="sub-commands", dest="subcommand", metavar='', prog=PROG)
+
     p1 = subparsers.add_parser('preproc', help='quality check for VCF', description='quality check for VCF')
     p1.add_argument('-ds', dest='ds', default='', help='data source')
     p1.add_argument('-out', dest='out', default='', help='title of output file')
@@ -60,16 +63,17 @@ def get_options():
     opt = vars(parser.parse_args())
     return opt
 
+
 def cli():
     opt = get_options()
     # print (opt)
-    if opt['subcommand']=='annot' and 'vcf' in opt.keys() and opt['vcf'] != "":
+    if opt['subcommand'] == 'annot' and 'vcf' in opt.keys() and opt['vcf'] != "":
         av = annot.AnnotVCF(opt)
         av.run()
-    if opt['subcommand']=='vcfqc' and 'vcflist' in opt.keys() and opt['vcflist'] != []:
+    if opt['subcommand'] == 'vcfqc' and 'vcflist' in opt.keys() and opt['vcflist'] != []:
         qcb = vcfqc.QCBoardVCF(opt)
         qcb.run()
-    if opt['subcommand']=='vcfstat' and 'vcflist' in opt.keys() and opt['vcflist'] != []:
+    if opt['subcommand'] == 'vcfstat' and 'vcflist' in opt.keys() and opt['vcflist'] != []:
         if opt['ped'] == "":
             for vcf in opt['vcflist']:
                 opt['vcf'] = vcf
@@ -83,7 +87,6 @@ def cli():
 if __name__ == "__main__":
     cli()
 
-		
 
 if __name__ == "__main__":
-	cli()
+    cli()

@@ -23,9 +23,9 @@ def pars_region_str(region):
         r['epos'] = int(arr2[1])
     return r
 
+
 def is_available(field):
     return struct_util.is_available(field)
-
 
 
 class TSVBlockReader():
@@ -129,9 +129,6 @@ class TSVBlockReader():
                             block[pos][refalt][sid] = cont
         return block
 
-
-
-
     def get_selected_fields_in_block(self, arr, variantkey):
         cidx_no = 0
         flag_filter = True
@@ -186,8 +183,8 @@ class TSVBlockReader():
         if self.tp is not None:
             # print(self.chrompre + regionstr)
             try:
-            # print(attributes(self.tp))
-            # if True:
+                # print(attributes(self.tp))
+                # if True:
                 for arr in self.tp.querys(self.chrompre + regionstr):
                     pos = int(arr[1])
                     if pos >= region['spos'] and pos <= region['epos']:
@@ -204,7 +201,8 @@ class TSVBlockReader():
                             arrsection = [arr]
 
                         for sec in arrsection:
-                            variantkey = region['chrom'] + '_' + str(pos) + '_' + arr[self.refidx] + '_' + arr[self.altidx]
+                            variantkey = region['chrom'] + '_' + \
+                                str(pos) + '_' + arr[self.refidx] + '_' + arr[self.altidx]
                             flag_filter, cont = self.get_selected_fields_in_block(sec, variantkey)
                             if flag_filter:
                                 try:
@@ -220,7 +218,7 @@ class TSVBlockReader():
                                 except KeyError:
                                     block[pos][refalt][sid] = cont
             except tabix.TabixError:
-                ### there is no annotation in the chrom. (ex. Y, M)
+                # there is no annotation in the chrom. (ex. Y, M)
                 pass
         return block
 
@@ -329,7 +327,6 @@ class DataSourceFile():
             if 'datafile_path' in self.datastruct.keys():
                 datafile_path = self.datastruct['datafile_path']
             blockreaders[sid] = TSVBlockReader(s1, datafile_path)
-
 
         tbm = TSVBlockMerger(blockreaders, self.region, self.blocksize)
 

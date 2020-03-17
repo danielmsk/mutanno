@@ -16,12 +16,13 @@ import _version
 
 PROG = "mutanno"
 
+
 def get_options():
     parser = argparse.ArgumentParser(
-        usage='%(prog)s <sub-command> [options]', description='%(prog)s ver' + _version.VERSION + \
-                " (" + _version.VERSION_DATE + ")" + ': python tool for variant annotation')
+        usage='%(prog)s <sub-command> [options]', description='%(prog)s ver' + _version.VERSION +
+        " (" + _version.VERSION_DATE + ")" + ': python tool for variant annotation')
     parser.add_argument('-v', '--version', action='version',
-                        version="%(prog)s ver" + _version.VERSION + " (" + \
+                        version="%(prog)s ver" + _version.VERSION + " (" +
                         _version.VERSION_DATE + ")")
     subparsers = parser.add_subparsers(
         title="sub-commands", dest="subcommand", metavar='', prog=PROG)
@@ -30,7 +31,8 @@ def get_options():
     p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
     p1.add_argument('-out', dest='out', default='', help='title of output file')
     p1.add_argument('-ds', dest='ds', default='datastructure.json', help='datasource json file')
-    p1.add_argument('-remove_unannotated_variant', dest='remove_unannotated_variant', default=False, action="store_true", help='remove unannotated variants in out vcf')
+    p1.add_argument('-remove_unannotated_variant', dest='remove_unannotated_variant', default=False,
+                    action="store_true", help='remove unannotated variants in out vcf')
     # p1.add_argument('-buff', dest='buff', type=int, default=100, help='loading size in memory')
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=1000, help='loading size in memory')
     p1.add_argument('-add_genoinfo', dest='add_genoinfo',
@@ -58,7 +60,6 @@ def get_options():
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=10000, help='blocksize')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=False, help='turn on the debugging mode')
-
 
     p1 = subparsers.add_parser('convert', help='convert', description='convert')
     p1.add_argument('-vcf2tsv', dest='vcf2tsv', action="store_true", default=False, help='convert vcf to tsv format')

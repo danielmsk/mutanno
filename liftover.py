@@ -1,33 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#### liftover.py
-#### made by Min-Seok Kwon
-#### 2019-11-05 17:30:11
+# liftover.py
+# made by Min-Seok Kwon
+# 2019-11-05 17:30:11
 #########################
+import tabix
+from pyliftover import LiftOver
+import proc_util
+import file_util
 import sys
 import os
 SVRNAME = os.uname()[1]
 if "MBI" in SVRNAME.upper():
-    sys_path="/Users/pcaso/bin/python_lib"
+    sys_path = "/Users/pcaso/bin/python_lib"
 elif SVRNAME == "T7":
-    sys_path="/ms1/bin/python_lib"
+    sys_path = "/ms1/bin/python_lib"
 else:
-    sys_path="/home/mk446/bin/python_lib"
+    sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
-import file_util
-import proc_util
-from pyliftover import LiftOver
-import tabix
+
 
 def liftover(vcf):
 
     tb_b38 = tabix.open(b38)
 
-
     lo = LiftOver('hg19', 'hg38')
 
-    out = vcf.replace('.vcf.gz','') + '.liftover.vcf'
-    out2 = vcf.replace('.vcf.gz','') + '.liftover.unmatch.vcf'
+    out = vcf.replace('.vcf.gz', '') + '.liftover.vcf'
+    out2 = vcf.replace('.vcf.gz', '') + '.liftover.unmatch.vcf'
     i = 0
     f = open(out, 'w')
     f2 = open(out2, 'w')
@@ -40,7 +40,7 @@ def liftover(vcf):
             arr = line.split('\t')
             arr[-1] = arr[-1].strip()
 
-            liftpos = lo.convert_coordinate('chr'+arr[0], int(arr[1]))
+            liftpos = lo.convert_coordinate('chr' + arr[0], int(arr[1]))
 
             ref_b38 = ''
             chrom_b38 = ''
@@ -48,9 +48,9 @@ def liftover(vcf):
 
             for l1 in range(len(arr[3].strip())):
                 for p2 in liftpos:
-                    recs = tb_b38.query(p2[0].replace('chr',''), int(p2[1])+l1, int(p2[1])+l1)
+                    recs = tb_b38.query(p2[0].replace('chr', ''), int(p2[1]) + l1, int(p2[1]) + l1)
                     for r1 in recs:
-                        chrom_b38 = p2[0].replace('chr','')
+                        chrom_b38 = p2[0].replace('chr', '')
                         pos_b38 = p2[1]
                         ref_b38 += r1[2]
                         break
@@ -59,14 +59,14 @@ def liftover(vcf):
                 arr[7] += ';GRCh37=' + arr[0] + ':' + arr[1]
                 arr[0] = chrom_b38
                 arr[1] = str(pos_b38)
-                f.write('\t'.join(arr)+'\n')
+                f.write('\t'.join(arr) + '\n')
 
             else:
-                f2.write('\t'.join(arr)+'\n')
+                f2.write('\t'.join(arr) + '\n')
             # break
             i += 1
             if i % 10000 == 0:
-                print (i, arr)
+                print(i, arr)
                 # break
 
             pass
@@ -75,12 +75,10 @@ def liftover(vcf):
     f2.close()
 
     proc_util.run_cmd('vcf-sort -c ' + out + ' > ' + out + '.sorted.vcf')
-    proc_util.run_cmd('tabixgz '+out+ '.sorted.vcf',True)
+    proc_util.run_cmd('tabixgz ' + out + '.sorted.vcf', True)
 
     proc_util.run_cmd('vcf-sort -c ' + out2 + ' > ' + out2 + '.sorted.vcf')
-    proc_util.run_cmd('tabixgz '+out2+ '.sorted.vcf',True)
-
-
+    proc_util.run_cmd('tabixgz ' + out2 + '.sorted.vcf', True)
 
 
 def liftover_with_map(vcf):
@@ -97,10 +95,10 @@ def liftover_with_map(vcf):
     #             if i % 10000 == 0:
     #                 print (i, arr)
 
-    tb_lm = tabix.open(liftover_map.replace('#CHROM#','1'))
+    tb_lm = tabix.open(liftover_map.replace('#CHROM#', '1'))
 
-    out = vcf.replace('.vcf.gz','') + '.liftover.vcf'
-    out2 = vcf.replace('.vcf.gz','') + '.liftover.unmatch.vcf'
+    out = vcf.replace('.vcf.gz', '') + '.liftover.vcf'
+    out2 = vcf.replace('.vcf.gz', '') + '.liftover.unmatch.vcf'
     i = 0
     f = open(out, 'w')
     f2 = open(out2, 'w')
@@ -117,21 +115,21 @@ def liftover_with_map(vcf):
             chrom_b38 = ''
             pos_b38 = ''
 
-            chrom_b37 = arr[0].replace('chr','')
+            chrom_b37 = arr[0].replace('chr', '')
             pos_b37 = arr[1]
             ref_b37 = arr[3].strip()
 
             for l1 in range(len(ref_b37)):
-                recs = tb_lm.query(chrom_b37, int(pos_b37)+l1, int(pos_b37)+l1)
+                recs = tb_lm.query(chrom_b37, int(pos_b37) + l1, int(pos_b37) + l1)
                 for r1 in recs:
-                    if int(r1[1]) == int(arr[1])+l1:
+                    if int(r1[1]) == int(arr[1]) + l1:
                         if r1[3] != '':
                             arr2 = r1[3].split('_')
-                            chrom_b38 = arr2[0].replace('chr','')
+                            chrom_b38 = arr2[0].replace('chr', '')
                             try:
                                 pos_b38 = arr2[1]
                             except IndexError:
-                                print (r1)
+                                print(r1)
                             ref_b38 += arr2[2]
                         break
             if chrom_b38 != '' and ref_b37 == ref_b38:
@@ -139,14 +137,14 @@ def liftover_with_map(vcf):
                 arr[7] += ';GRCh37=' + arr[0] + ':' + arr[1]
                 arr[0] = chrom_b38
                 arr[1] = str(pos_b38)
-                f.write('\t'.join(arr)+'\n')
+                f.write('\t'.join(arr) + '\n')
             else:
                 # print (arr[:5], chrom_b38, pos_b38, ref_b38)
-                f2.write('\t'.join(arr)+'\n')
+                f2.write('\t'.join(arr) + '\n')
             # break
             i += 1
             if i % 1000 == 0:
-                print (i, arr)
+                print(i, arr)
                 # break
 
             pass
@@ -155,11 +153,10 @@ def liftover_with_map(vcf):
     f2.close()
 
     proc_util.run_cmd('vcf-sort -c ' + out + ' > ' + out + '.sorted.vcf')
-    proc_util.run_cmd('tabixgz '+out+ '.sorted.vcf',True)
+    proc_util.run_cmd('tabixgz ' + out + '.sorted.vcf', True)
 
     proc_util.run_cmd('vcf-sort -c ' + out2 + ' > ' + out2 + '.sorted.vcf')
-    proc_util.run_cmd('tabixgz '+out2+ '.sorted.vcf',True)
-
+    proc_util.run_cmd('tabixgz ' + out2 + '.sorted.vcf', True)
 
 
 if __name__ == "__main__":

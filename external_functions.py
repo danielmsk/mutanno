@@ -1,15 +1,14 @@
-import sys
-import os
 import file_util
-import tabix
 
 entrezmap = {}
 refseqmap = {}
 
+
 def trim_DIP_ID(v1):
     # DIP-39616N;
-    v1 = v1.split('-')[-1].replace('N','')
+    v1 = v1.split('-')[-1].replace('N', '')
     return v1
+
 
 def remove_pdb_subversion(id_list):
     pidmap = {}
@@ -18,22 +17,27 @@ def remove_pdb_subversion(id_list):
     pidlist = list(pidmap.keys())
     return '|'.join(pidlist)
 
+
 def convert_rmsk_strand(v1):
     r1 = '0'
-    if v1  == '+':
+    if v1 == '+':
         r1 = '1'
     return r1
+
 
 def convert_NS2blank(v1):
     if v1 == 'NS':
         v1 = ''
     return v1
 
+
 def convert_vep_strand(v1):
-    return v1.replace('-1','0')
+    return v1.replace('-1', '0')
+
 
 def convert_high_inf_pos(v1):
-    return v1.replace('Y','1').replace('N','0')
+    return v1.replace('Y', '1').replace('N', '0')
+
 
 def convert_canonical2boolean(canonical):
     r1 = '0'
@@ -41,11 +45,13 @@ def convert_canonical2boolean(canonical):
         r1 = '1'
     return r1
 
+
 def convert_uniprot_transmem(desc_value):
     arr = []
     for v1 in desc_value.split(';'):
         arr.append(v1.strip())
     return ";".join(arr)
+
 
 def load_entrez_refseq_id():
     path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
@@ -85,4 +91,3 @@ def get_refseq_id(transcriptid):
     except KeyError:
         tid = ''
     return tid
-

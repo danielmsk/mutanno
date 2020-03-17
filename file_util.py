@@ -4,6 +4,7 @@
 # made by Min-Seok Kwon
 #########################
 import os
+import sys
 import tabix
 import json
 
@@ -29,9 +30,9 @@ def get_tblist(vcfgzlist):
 
 
 def getRowTabix(tb, chrom, pos, ref="", alt=""):
-    if type(pos) != type(1):
+    if not isinstance(pos, int):
         pos = int(pos)
-    recs = tb.query(chrom, pos-1, pos)
+    recs = tb.query(chrom, pos - 1, pos)
     rec = []
     for r1 in recs:
         if int(r1[1]) == pos:
@@ -59,7 +60,7 @@ def check_dir(fname):
         fpath += "/" + d
         if not is_exist(fpath):
             mkDir(fpath)
-            #print ("make directory : " + fpath)
+            # print("make directory : " + fpath)
 
 
 def fileOpenOffset(filepath, start_pos, end_pos):
@@ -147,7 +148,7 @@ def read_table_col(filename, delemeter="\t"):
                 for j in range(0, len(arr)):
                     h1 = arr[j].strip()
                     if h1 in header:
-                        header.append(h1+"_"+str(repeatmap[h1]))
+                        header.append(h1 + "_" + str(repeatmap[h1]))
                         repeatmap[h1] += 1
                     else:
                         header.append(h1)
@@ -179,7 +180,7 @@ def read_table(filename, delemeter="\t"):
                 for j in range(0, len(arr)):
                     h1 = arr[j].strip()
                     if h1 in header:
-                        header.append(h1+"_"+str(repeatmap[h1]))
+                        header.append(h1 + "_" + str(repeatmap[h1]))
                         repeatmap[h1] += 1
                     else:
                         header.append(h1)
@@ -207,7 +208,7 @@ def read_table_key(filename, key_col_idx=0, delemeter="\t"):
                 for j in range(0, len(arr)):
                     h1 = arr[j].strip()
                     if h1 in header:
-                        header.append(h1+"_"+str(repeatmap[h1]))
+                        header.append(h1 + "_" + str(repeatmap[h1]))
                         repeatmap[h1] += 1
                     else:
                         header.append(h1)
@@ -282,11 +283,6 @@ def gzopen(fname):
         f1 = open(fname)
     return f1
 
-#### function : extract_line
-# 파일에 findme 문자열이 나오면 해당 문자열만 return 시켜줌.
-# delimeter : space (한개 및 여러개 모두 포함) 외에는 실제 분리 문자열을 넣어주어야 함. ex) \t
-####
-
 
 def extract_line(fname, findme, column=-9, delimiter="space", outfile="", header=False):
     import str_util
@@ -317,7 +313,7 @@ def extract_line(fname, findme, column=-9, delimiter="space", outfile="", header
                     cont = line.strip()
 
         if cont != "" and outfile != "":
-            fileSave(outfile, cont+"\n", "a")
+            fileSave(outfile, cont + "\n", "a")
         elif cont != "":
             print(cont)
 
@@ -330,9 +326,6 @@ def load_series_file(fname, coat="n"):
     m = {}
     cont = ""
     for line in gzopen(fname):
-        #print (line.strip())
-        # if coat=="n":
-        #   line = line.replace('"','')
         if line[0] == "!":
             arr = line[1:].strip().split('"\t"')
             arr_k = arr[0].split("\t")
@@ -355,7 +348,6 @@ def load_series_file(fname, coat="n"):
                     else:
                         arr2.append(v)
                     '''
-                    #m[k] = arr2
                 except KeyError:
                     m[k] = []
                     m[k].append(v)
@@ -387,7 +379,7 @@ def log(msg, logfile="", silence=False):
     if "#DATE#" in logfile:
         logfile = logfile.replace("#DATE#", time_util.getToday())
 
-    cont = "["+time_util.getNow() + "] " + msg + "\n"
+    cont = "[" + time_util.getNow() + "] " + msg + "\n"
 
     if not silence:
         print(cont,)
@@ -416,7 +408,7 @@ def get_header_idx(fname):
 
 
 def decodeb(bstr):
-    if type(bstr) == type(b'a'):
+    if isinstance(bstr, bytes):
         rst = bstr.decode('UTF-8')
     else:
         rst = bstr
@@ -424,4 +416,4 @@ def decodeb(bstr):
 
 
 def rmext(fname, ext):
-    return fname[:(-1*len(ext))]
+    return fname[:(-1 * len(ext))]
