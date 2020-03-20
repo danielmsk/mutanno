@@ -1,7 +1,10 @@
 # MutAnno
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+[![Build Status](https://travis-ci.org/dbmi-bgm/mutanno.svg?branch=master)](https://travis-ci.org/dbmi-bgm/mutanno)
 
 
+* github : https://github.com/dbmi-bgm/mutanno
+* manual : 
 
 ```
 mutanno annot -vcf trio_test2.vcf \
