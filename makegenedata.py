@@ -1,15 +1,15 @@
 import os
-import time
 import file_util
-import vcf_util
 import struct_util
 import external_functions
 
 
 RESERVED_COL = ["chrom", "spos", "epos", "ensgid"]
 
+
 def is_available(field):
     return struct_util.is_available(field)
+
 
 def is_reserved_column(f1):
     flag = False
@@ -17,9 +17,11 @@ def is_reserved_column(f1):
         flag = True
     return flag
 
+
 def strip_value(v1):
-    v1 = v1.replace('"','')
+    v1 = v1.replace('"', '')
     return v1
+
 
 def encode_value(v1, delimiter=""):
     if v1 == '.' or v1 == '-':
@@ -30,6 +32,7 @@ def encode_value(v1, delimiter=""):
             v1 = v1.replace(delimiter, '|')
     # v1 = urllib.parse.quote(v1)
     return v1
+
 
 class GeneSourceReader():
     def __init__(self, datastruct, datafile_path):
@@ -50,7 +53,7 @@ class GeneSourceReader():
         self.data = {}
         self.ensgid_list = []
         self.is_range_data = False
-        self.is_ensemblegene = struct_util.get_dict_value(datastruct,'is_ensemblegene',False)
+        self.is_ensemblegene = struct_util.get_dict_value(datastruct, 'is_ensemblegene', False)
         self.read_header()
         print("loading..", self.source_name)
         # print(self.header)
@@ -103,7 +106,6 @@ class GeneSourceReader():
         if 'ensgid' in self.reserved_colidx.keys():
             self.key_colidx = self.reserved_colidx['ensgid']
 
-
     def rm_version_in_ensgid(self, ensg):
         return ensg.strip().split('.')[0]
 
@@ -151,7 +153,6 @@ class GeneSourceReader():
 
                     # self.data[ensgid].append(cidxvalue)
                     self.data[ensgid].append(encode_value(cidxvalue, delimiter))
-                    
 
                 for resv in self.reserved_colidx.keys():
                     try:
@@ -163,7 +164,8 @@ class GeneSourceReader():
                         tmp = self.reserved_data[resv][ensgid]
                     except KeyError:
                         if resv == 'ensgid':
-                            self.reserved_data[resv][ensgid] = self.rm_version_in_ensgid(arr[self.reserved_colidx[resv]])
+                            self.reserved_data[resv][ensgid] = self.rm_version_in_ensgid(
+                                arr[self.reserved_colidx[resv]])
                         else:
                             self.reserved_data[resv][ensgid] = strip_value(arr[self.reserved_colidx[resv]])
 
@@ -176,7 +178,7 @@ class GeneSourceReader():
                 chrom = arr[0].strip()
                 spos = int(arr[1].strip())
                 epos = int(arr[2].strip())
-                d = {'spos':spos, 'epos':epos, 'v':[]}
+                d = {'spos': spos, 'epos': epos, 'v': []}
                 for cidx in self.target_colidx:
                     if cidx == -999:
                         d['v'].append('')
@@ -187,12 +189,13 @@ class GeneSourceReader():
                     except KeyError:
                         self.data[chrom] = [d]
 
+
 class GeneSourceMerger():
     def __init__(self, source_readers):
         self.source_readers = source_readers
         self.ensgid_list = []
         self.merge_ensgid_list()
-    
+
     def merge_ensgid_list(self):
         ensgid_map = {}
         for sid in self.source_readers.keys():
@@ -271,7 +274,7 @@ class GeneDataSourceFile():
         self.out = out2
 
     def get_bed_header(self):
-        header = [] 
+        header = []
         for r1 in RESERVED_COL:
             header.append(r1)
         info_arr = []
@@ -302,7 +305,7 @@ class GeneDataSourceFile():
             if is_available(s1):
                 sid = s1['name']
                 sidlist.append(sid)
-                
+
                 datafile_path = ''
                 if 'datafile_path' in self.datastruct.keys():
                     datafile_path = self.datastruct['datafile_path']
@@ -319,10 +322,6 @@ class GeneDataSourceFile():
             if i > 1000:
                 pass
                 # break
-            
+
         print('Saved', self.out)
         fp.close()
-
-
-
-

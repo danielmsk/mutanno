@@ -29,7 +29,7 @@ def get_varmap(fp, k1, chrom, pos):
         else:
             ref = r1[2]
             alt = r1[3]
-        varmap['recs'][ref+'/'+alt] = r1
+        varmap['recs'][ref + '/' + alt] = r1
     return varmap
 
 
@@ -66,22 +66,21 @@ def convert_microannot():
                     if 'pos' not in varmap[k1].keys() or varmap[k1]['pos'] != pos:
                         varmap[k1] = get_varmap(fp, k1, chrom, pos)
                     try:
-                        annot = varmap[k1]['recs'][ref+'/'+alt]
+                        annot = varmap[k1]['recs'][ref + '/' + alt]
                         print(annot)
-                        info.append(k1+'=')
+                        info.append(k1 + '=')
                     except KeyError:
                         pass
 
                 cont.append(';'.join(info))
                 print(cont)
-                f.write('\t'.join(cont)+'\n')
+                f.write('\t'.join(cont) + '\n')
         break
     f.close()
 
 
 if __name__ == "__main__":
     import file_util
-    import proc_util
     import seq_util
 
     vep = "/home/mk446/bio/mutanno/DATASOURCE/ANNOT/VEP/hg38/b38_WGSNV.vep.chr#CHROM#.vcf.gz"

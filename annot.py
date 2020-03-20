@@ -15,6 +15,7 @@ DATAHEADER = {}
 MAXBUFF = 1000000
 INFOCOLIDX = 7
 
+
 def load_entrez_refseq():
     path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
     entrezmap = {}
@@ -25,7 +26,7 @@ def load_entrez_refseq():
             arr = line.split('\t')
             arr[-1] = arr[-1].strip()
             entrezmap[arr[0].strip()] = arr[3].strip()
-        
+
         for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.refseq.sorted.tsv.gz'):
             line = line.decode('UTF-8')
             arr = line.split('\t')
@@ -572,7 +573,7 @@ class AnnotMap():
         return len(vcfblock)
 
     # slow but useful for sparse VCF
-    def write_annotvcf_with_vcfblock_tabix(self, vcfblock, fp, is_rm_unannotated = False):
+    def write_annotvcf_with_vcfblock_tabix(self, vcfblock, fp, is_rm_unannotated=False):
         for b1 in vcfblock:
             chrom = b1[0].replace('chr', '')
             pos = int(b1[1])
@@ -583,7 +584,7 @@ class AnnotMap():
                 self.load_tabixpointer()
 
             flag_add = False
-            recs = self.tabixpointer.query(chrom, pos, pos+1)
+            recs = self.tabixpointer.query(chrom, pos, pos + 1)
             for r1 in recs:
                 if int(r1[1]) == pos and r1[3] == ref and r1[4] == alt:
                     if b1[INFOCOLIDX] == '.':
@@ -602,12 +603,11 @@ class AnnotMap():
                 b1[INFOCOLIDX] += self.defaultvalue
                 fp.write('\t'.join(b1) + '\n')
 
-        
         return len(vcfblock)
 
 
 class VCFBlockReader():
-    def __init__(self, vcf, blocksize=10000, add_genoinfo = False, clean_tag_list = []):
+    def __init__(self, vcf, blocksize=10000, add_genoinfo=False, clean_tag_list=[]):
         self.vcf = vcf
         self.blocksize = blocksize
         self.fp = file_util.gzopen(self.vcf)
@@ -644,12 +644,12 @@ class VCFBlockReader():
 
     def add_genotypeinfo_in_infofield(self, vcfrecord):
         samplegeno = []
-        for k in range(9,len(vcfrecord)):
+        for k in range(9, len(vcfrecord)):
             gtinfo = vcfrecord[k].split(':')
             converted_gtinfo = []
-            converted_gtinfo.append(gtinfo[0].replace('|','/'))
+            converted_gtinfo.append(gtinfo[0].replace('|', '/'))
             converted_gtinfo.append(vcf_util.get_genotype(gtinfo[0], vcfrecord[3], vcfrecord[4]))
-            converted_gtinfo.append(gtinfo[1].replace(',','/'))
+            converted_gtinfo.append(gtinfo[1].replace(',', '/'))
             samplegeno.append('|'.join(converted_gtinfo))
         if len(samplegeno) > 0:
             if vcfrecord[7] == ".":
@@ -663,13 +663,12 @@ class VCFBlockReader():
         rstinfo = ""
         for infofield in vcfrecord[7].split(';'):
             tag = infofield.split('=')[0]
-            if not tag in self.clean_tag_list:
+            if tag not in self.clean_tag_list:
                 if rstinfo != "":
                     rstinfo += ";"
                 rstinfo += infofield
         vcfrecord[7] = rstinfo
         return vcfrecord
-
 
     def get_block(self):
         block = []
@@ -786,9 +785,10 @@ class AnnotVCF():
     def get_annot_header(self):
         cont = ""
         if self.add_genoinfo:
-            cont += vcf_util.get_info_header("SAMPLEGENO", "Sample genotype information", ["NUMGT","GT","AD"])
+            cont += vcf_util.get_info_header("SAMPLEGENO", "Sample genotype information", ["NUMGT", "GT", "AD"])
         if self.split_multi_allelic_variant:
-            cont += vcf_util.get_info_header("multiallele", "sample-variant key for multi-allelic variants", ["SAMPLEVARIANTKEY"])
+            cont += vcf_util.get_info_header("multiallele",
+                                             "sample-variant key for multi-allelic variants", ["SAMPLEVARIANTKEY"])
 
         if 'merged_one_field' in self.datastruct.keys() and self.datastruct['merged_one_field'] != '':
             fields = []
@@ -853,14 +853,14 @@ class AnnotVCF():
 
         if 'data_version' in ds.keys():
             cont += ',DataVersion="' + ds['data_version'] + '"'
-        if  'data_version_date' in ds.keys():
+        if 'data_version_date' in ds.keys():
             cont += ',DataDate="' + ds['data_version_date'] + '"'
-        
+
         cont += '>\n'
 
         for s1 in ds['source']:
             sourcename = get_sourcename(s1)
-            cont += '##MUTANNO=<ID=' + sourcename 
+            cont += '##MUTANNO=<ID=' + sourcename
             if 'version' in s1.keys():
                 cont += ',Version="' + s1['version'] + '"'
             if 'version_date' in s1.keys():
@@ -910,7 +910,8 @@ class AnnotVCF():
         stime0 = time.time()
         total_varno = 0
         am = AnnotMap(self.datastruct, self.datafileinfo)
-        vblock = VCFBlockReader(self.opt['vcf'], self.opt['blocksize'], self.opt['add_genoinfo'], self.opt['clean_tag_list'])
+        vblock = VCFBlockReader(self.opt['vcf'], self.opt['blocksize'],
+                                self.opt['add_genoinfo'], self.opt['clean_tag_list'])
         f.write(vblock.get_header(self.get_version_info() + self.get_annot_header()))
         while(not vblock.eof):
             stime1 = time.time()
@@ -919,8 +920,8 @@ class AnnotVCF():
             total_varno += varno
             etime1 = time.time()
             elapsed1 = etime1 - stime1
-            log = 'processed... ' + str(total_varno) + '/' + str(vblock.total_variant) 
-            log += " elapsed:" + str(round(elapsed1,2)) + "s"
+            log = 'processed... ' + str(total_varno) + '/' + str(vblock.total_variant)
+            log += " elapsed:" + str(round(elapsed1, 2)) + "s"
             # log += " time:" + str( (elapsed1/varno) * (vblock.total_variant - total_varno))
             print(log)
 
