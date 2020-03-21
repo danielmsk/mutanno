@@ -1,5 +1,5 @@
-VERSION = "0.3.13"
-VERSION_DATE = "2020.03.10"
+VERSION = "0.3.14"
+VERSION_DATE = "2020.03.21"
 
 # MUTANNO version
 # 0.3.3 : encode 'space' to '%20' (remove blank space)
@@ -22,3 +22,6 @@ VERSION_DATE = "2020.03.10"
 #    - add 'add_genoinfo' option
 #    - add 'split_multi_allelic_variant' option
 #    - add 'clean_tag' option
+# 0.3.14 (2020.03.21) :
+#    - implement pypi installation
+#    - apply pytest

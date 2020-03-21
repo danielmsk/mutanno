@@ -4,8 +4,6 @@
 # made by Min-Seok Kwon
 # 2019-11-04 07:55:02
 #########################
-import proc_util
-import file_util
 import sys
 import os
 import argparse

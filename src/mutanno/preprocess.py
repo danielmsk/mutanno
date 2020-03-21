@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#### preprocess.py
-#### made by Daniel Minseok Kwon
-#### 2019-11-26 10:58:18
-#########################
-import sys
-import os
-import file_util
-import proc_util
+from .util import file_util
+from .util import proc_util
+
 
 class MakeDbnsfpTranscript():
     def __init__(self, infile, outfile, ds, opt):
@@ -26,13 +21,11 @@ class MakeDbnsfpTranscript():
                 rst = source
         return rst
 
-
     def run(self):
         # print (self.datastruct)
 
         f = open(self.outfile2, 'w')
         headermap = {}
-        header = []
         i = 0
         for line in file_util.gzopen(self.infile):
             i += 1
@@ -44,7 +37,6 @@ class MakeDbnsfpTranscript():
             if line[0] == '#':
                 for k in range(len(arr)):
                     headermap[arr[k].strip()] = k
-                header = arr
 
             enstarr = arr[headermap['Ensembl_transcriptid']].strip().split(';')
 
@@ -63,7 +55,7 @@ class MakeDbnsfpTranscript():
                             v1 = arrv1[eidx].strip()
                         cont.append(v1)
                     # print ("<=", cont)
-                    f.write('\t'.join(cont)+'\n')
+                    f.write('\t'.join(cont) + '\n')
                 # print()
                 # break
             else:
@@ -71,16 +63,17 @@ class MakeDbnsfpTranscript():
                 for field in self.datastruct['fields']:
                     v1 = arr[headermap[field['name']]].strip()
                     cont.append(v1)
-                f.write('\t'.join(cont)+'\n')
+                f.write('\t'.join(cont) + '\n')
 
-            if i%10000==0:
-                print (i, arr[0], arr[1])
+            if i % 10000 == 0:
+                print(i, arr[0], arr[1])
                 pass
                 # break
 
         f.close()
         if self.outfile.endswith('.gz'):
             proc_util.run_cmd('tabixgz ' + self.outfile2)
+
 
 if __name__ == "__main__":
     pass

@@ -108,7 +108,7 @@
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
 #     -blocksize 100
 #     # -remove_unannotated_variant \
-    
+
 
 # tail /home/mk446/bio/mutanno/TEST/trio_clinvar_variants_100.annot.vcf
 
@@ -116,8 +116,8 @@
 # mutanno annot -vcf /home/mk446/bio/mutanno/TEST/trio_test_unannot2.vcf \
 #     -out /home/mk446/bio/mutanno/TEST/trio_test_unannot.microannot.vcf \
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
-#     -blocksize 100 
-    # -remove_unannotated_variant 
+#     -blocksize 100
+    # -remove_unannotated_variant
 
 
 
@@ -141,7 +141,7 @@
 #     -out /home/mk446/bio/mutanno/TEST/test_trio_v0.3.annot.vcf \
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.1_mvp.json \
 #     -blocksize 10
-    
+
 #################################
 # deNOVO vcf
 #################################
@@ -159,7 +159,7 @@
 #     -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.annot.vcf \
 #     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
 #     -blocksize 1000
- 
+
 
 # mutanno annot -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.vcf \
 #     -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.annot.vcf \
@@ -196,15 +196,25 @@
 #     -blocksize 100
 
 
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/header_only.vcf.gz \
-    -out /home/mk446/bio/mutanno/TEST/header_only.microannot.vcf \
-    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/header_only.vcf.gz \
+#     -out /home/mk446/bio/mutanno/TEST/header_only.microannot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.3.json \
+#     -add_genoinfo \
+#     -split_multi_allelic_variant \
+#     -blocksize 1000
+#
+# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/header_only.microannot.vcf \
+#     -out /home/mk446/bio/mutanno/TEST/header_only.microannot.annot.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
+#     -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
+#     -blocksize 100
+
+./pack.sh
+
+mutanno annot -vcf tests/data/test_normal_snv.vcf.gz \
+    -out tests/data/test_normal_snv.annot.vcf \
+    -ds tests/data/datastructure_microannot_v0.3.json \
+    -sourcefile tests/data/mvp_datasource_v0.3.2_200309.chr1.test.tsi.gz \
     -add_genoinfo \
     -split_multi_allelic_variant \
-    -blocksize 1000
-
-mutanno annot -vcf /home/mk446/bio/mutanno/TEST/header_only.microannot.vcf \
-    -out /home/mk446/bio/mutanno/TEST/header_only.microannot.annot.vcf \
-    -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
-    -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
-    -blocksize 100
+    -blocksize 10

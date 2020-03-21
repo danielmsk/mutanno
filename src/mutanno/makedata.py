@@ -1,10 +1,9 @@
 import os
 import tabix
 import time
-import file_util
-import vcf_util
-import struct_util
-import external_functions
+from .util import file_util
+from .util import vcf_util
+from .util import struct_util
 
 REFIDX = 3
 ALTIDX = 4
@@ -148,7 +147,7 @@ class TSVBlockReader():
                 for param in self.field_function_param[cidx_no].split(','):
                     if param == "mutanno_value_variantkey":
                         pstr = 'variantkey'
-                    elif cidx_no-1 == self.field_names.index(param):
+                    elif cidx_no - 1 == self.field_names.index(param):
                         pstr = 'cidxvalue'
                     else:
                         pstr = 'arr_selected_fields['

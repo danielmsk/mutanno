@@ -1,7 +1,6 @@
 import os
-import file_util
-import struct_util
-import external_functions
+from .util import file_util
+from .util import struct_util
 
 
 RESERVED_COL = ["chrom", "spos", "epos", "ensgid"]
@@ -156,12 +155,12 @@ class GeneSourceReader():
 
                 for resv in self.reserved_colidx.keys():
                     try:
-                        tmp = self.reserved_data[resv]
+                        self.reserved_data[resv]
                     except KeyError:
                         self.reserved_data[resv] = {}
 
                     try:
-                        tmp = self.reserved_data[resv][ensgid]
+                        self.reserved_data[resv][ensgid]
                     except KeyError:
                         if resv == 'ensgid':
                             self.reserved_data[resv][ensgid] = self.rm_version_in_ensgid(

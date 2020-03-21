@@ -1,6 +1,6 @@
 from pyfaidx import Fasta
 from os import path
-import file_util
+from .util import file_util
 
 VEP_OPTION_CMD = "#VEP# -i #INPUTVCF# -o #OUT#"
 VEP_OPTION_CMD += " --hgvs"

@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# convert.py
-# made by Min-Seok Kwon
-# 2019-11-06 03:43:19
-#########################
 import time
-import file_util
-import vcf_util
-import proc_util
 import tabix
+from .util import file_util
+from .util import vcf_util
+from .util import proc_util
 
 
 def conv_cgap_filed(f1):

@@ -3,10 +3,10 @@
 # made by Daniel Minseok Kwon
 #########################
 import tabix
-import file_util
-import vcf_util
 import time
-import _version
+from .util import file_util
+from .util import vcf_util
+from . import _version
 
 VCFCOLIDX = {'CHROM': 0, 'POS': 1, 'ID': 2, 'REF': 3, 'ALT': 4, 'QUAL': 5, 'FILTER': 6, 'INFO': 7, 'FORMAT': 8}
 TSVCOLIDX = {'CHROM': 0, 'POS': 1, 'REF': 2, 'ALT': 3}
@@ -122,7 +122,6 @@ class AnnotBlock():
         elif self.fileformat == 'bed':
             sidx = 0
 
-        # recs = self.tabixpointer.query(self.chrompre+chrom, pos, pos+self.buff)
         recs = self.tabixpointer.query(self.chrompre + chrom, pos, pos + MAXBUFF)
         for r1 in recs:
             d = {}
@@ -497,6 +496,7 @@ class AnnotMap():
         self.load_defaultvalue()
 
     def load_tabixpointer(self):
+        print(self.datastruct['sourcefile'].replace("#CHROM#", self.tchrom))
         self.tabixpointer = tabix.open(self.datastruct['sourcefile'].replace("#CHROM#", self.tchrom))
 
     def load_gzpointer(self):
@@ -584,7 +584,7 @@ class AnnotMap():
                 self.load_tabixpointer()
 
             flag_add = False
-            recs = self.tabixpointer.query(chrom, pos, pos + 1)
+            recs = self.tabixpointer.query(chrom, pos - 1, pos + 1)
             for r1 in recs:
                 if int(r1[1]) == pos and r1[3] == ref and r1[4] == alt:
                     if b1[INFOCOLIDX] == '.':
@@ -716,6 +716,8 @@ class AnnotVCF():
 
         self.opt = opt
         self.datastruct = file_util.load_json(opt['ds'])
+        if self.opt['sourcefile'] != '':
+            self.datastruct['sourcefile'] = self.opt['sourcefile']
         self.blocksize = opt['blocksize']
         self.add_genoinfo = opt['add_genoinfo']
         self.split_multi_allelic_variant = opt['split_multi_allelic_variant']

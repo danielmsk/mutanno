@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: mutanno
+Version: 0.3.14
+Summary: Mutation Annotation Tool
+Home-page: https://github.com/dbmi-bgm/mutanno
+Author: CGAP team at Harvard Medical School
+Author-email: daniel.minseok.kwon@gmail.com
+License: MIT
+Download-URL: https://github.com/dbmi-bgm/mutanno/archive/0.3.14.tar.gz
+Description: # MutAnno
+        [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+        [![Build Status](https://travis-ci.org/dbmi-bgm/mutanno.svg?branch=master)](https://travis-ci.org/dbmi-bgm/mutanno)
+        
+        
+        * github : https://github.com/dbmi-bgm/mutanno
+        * manual : 
+        
+        ```
+        mutanno annot -vcf trio_test2.vcf \
+            -out trio_test2.annot.vcf \
+            -ds tests/datastructure_microannot_v1.0.json \
+            -blocksize 10000
+        ```
+        
+        
+        
+        ## Convert data set
+        
+Keywords: genomics,bioinformatics
+Platform: UNKNOWN
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Requires-Python: >=3.4
+Description-Content-Type: text/markdown
