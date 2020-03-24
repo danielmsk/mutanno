@@ -686,7 +686,7 @@
       ]
     },{
       "name":"dbNSFP",
-      "desc":"GTEx",
+      "desc":"dbNSFP",
       "version":"4.0c",
       "version_date":"06/05/2017",
       "datafile":"VARIANTDB/dbNSFP/hg38/dbNSFP4.0c/dbNSFP4.0_gene.complete.mod.gz",

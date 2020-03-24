@@ -4,7 +4,7 @@
 
 
 * github : https://github.com/dbmi-bgm/mutanno
-* manual : 
+* manual : https://mutanno.readthedocs.io/en/latest/
 
 ```
 mutanno annot -vcf trio_test2.vcf \
