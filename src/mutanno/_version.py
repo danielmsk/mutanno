@@ -1,5 +1,5 @@
-VERSION = "0.3.14"
-VERSION_DATE = "2020.03.21"
+VERSION = "0.3.15"
+VERSION_DATE = "2020.03.26"
 
 # MUTANNO version
 # 0.3.3 : encode 'space' to '%20' (remove blank space)
@@ -25,3 +25,5 @@ VERSION_DATE = "2020.03.21"
 # 0.3.14 (2020.03.21) :
 #    - implement pypi installation
 #    - apply pytest
+# 0.3.15 (2020.03.26) :
+#    - add 'web' option

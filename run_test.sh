@@ -209,12 +209,21 @@
 #     -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
 #     -blocksize 100
 
-./pack.sh
 
-mutanno annot -vcf tests/data/test_normal_snv.vcf.gz \
-    -out tests/data/test_normal_snv.annot.vcf \
-    -ds tests/data/datastructure_microannot_v0.3.json \
-    -sourcefile tests/data/mvp_datasource_v0.3.2_200309.chr1.test.tsi.gz \
-    -add_genoinfo \
-    -split_multi_allelic_variant \
-    -blocksize 10
+
+# mutanno annot -vcf tests/data/test_normal_snv.vcf.gz \
+#     -out tests/data/test_normal_snv.annot.vcf \
+#     -ds tests/data/datastructure_microannot_v0.3.json \
+#     -sourcefile tests/data/mvp_datasource_v0.3.2_200309.chr1.test.tsi.gz \
+#     -add_genoinfo \
+#     -split_multi_allelic_variant \
+#     -blocksize 10
+
+
+#################################
+# web view
+#################################
+
+./pack.sh
+# mutanno web -ds tests/data/datastructure_microannot_v0.3.json -port 8088
+python ./src/mutanno.py web -ds tests/data/datastructure_microannot_v0.3.json -port 8088

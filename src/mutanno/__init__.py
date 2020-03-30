@@ -7,6 +7,7 @@ from . import makedata
 from . import convert
 from . import precal
 from . import preprocess
+from . import web
 
 
 def cli():
@@ -48,3 +49,5 @@ def dispatch_job(opt):
         if opt['make_dbnsfp_transcript']:
             obj = preprocess.MakeDbnsfpTranscript(opt['infile'], opt['out'], opt['ds'], opt)
             obj.run()
+    if opt['subcommand'] == 'web' and 'ds' in opt.keys() and opt['ds'] != "":
+        web.runserver(opt)

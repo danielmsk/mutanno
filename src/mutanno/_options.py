@@ -102,6 +102,14 @@ def get_options():
     p1.add_argument('-make_dbnsfp_transcript', dest='make_dbnsfp_transcript', default=False, action="store_true",
                     help='make dbNSFP transcript file')
 
+    p1 = subparsers.add_parser('web', help='web view',
+                               description='web view')
+    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
+    p1.add_argument('-port', dest='port', default='8080', help='port')
+    p1.add_argument('-log', dest='logfile', default='', help='log file')
+    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
+    p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
+
     if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1][0] != '-'):
         sys.argv.append('-h')
     opt = vars(parser.parse_args())
