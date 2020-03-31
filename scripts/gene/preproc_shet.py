@@ -19,7 +19,7 @@ sys.path.append("..")
 
 def preproc_shet(shet_file, out):
     hgnc_ensg_map = preproc_util.get_map_genesymbol_ensgid_from_hgnc()
-    # hgnc_ensg_map = preproc_util.get_map_genesymbol_ensgid_from_ensembl()
+    hgnc_ensg_map2 = preproc_util.get_map_genesymbol_ensgid_from_ensembl()
 
     # print(hgnc_ensg_map)
 
@@ -36,8 +36,11 @@ def preproc_shet(shet_file, out):
             try:
                 ensg_id = hgnc_ensg_map[gene_symbol.upper()]
             except KeyError:
-                print('KeyError: ' + gene_symbol)
-                ensg_id = ''
+                try:
+                    ensg_id = hgnc_ensg_map2[gene_symbol.upper()]
+                except KeyError:
+                    print('KeyError: ' + gene_symbol)
+                    ensg_id = ''
             cont = [ensg_id]
             for k in range(len(arr)):
                 arr[k] = arr[k].strip()
