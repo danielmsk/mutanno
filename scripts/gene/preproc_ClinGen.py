@@ -37,7 +37,6 @@ def pars_clingen_gene_list(cont):
             hgnc_id = arr2[0].strip()
             gene = arr2[1].strip()
 
-
             arr2 = block.split('<td>')
             clinical_validity = strip_tag(arr2[1])
             evidence = strip_tag(arr2[2])
