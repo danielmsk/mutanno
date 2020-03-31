@@ -34,7 +34,7 @@ def preproc_shet(shet_file, out):
         else:
             gene_symbol = arr[0].strip()
             try:
-                ensg_id = hgnc_ensg_map[gene_symbol]
+                ensg_id = hgnc_ensg_map[gene_symbol.upper()]
             except IndexError:
                 ensg_id = ''
             cont = [ensg_id]
