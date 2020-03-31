@@ -35,7 +35,8 @@ def preproc_shet(shet_file, out):
             gene_symbol = arr[0].strip()
             try:
                 ensg_id = hgnc_ensg_map[gene_symbol.upper()]
-            except IndexError:
+            except KeyError:
+                print('KeyError: ' + gene_symbol)
                 ensg_id = ''
             cont = [ensg_id]
             for k in range(len(arr)):
