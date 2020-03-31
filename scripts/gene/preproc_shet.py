@@ -18,7 +18,9 @@ sys.path.append("..")
 
 
 def preproc_shet(shet_file, out):
-    hgnc_ensg_map = preproc_util.get_map_genesymbol_ensgid_from_hgnc()
+    # hgnc_ensg_map = preproc_util.get_map_genesymbol_ensgid_from_hgnc()
+    hgnc_ensg_map = preproc_util.get_map_genesymbol_ensgid_from_ensembl()
+
     # print(hgnc_ensg_map)
 
     f = open(out, 'w')

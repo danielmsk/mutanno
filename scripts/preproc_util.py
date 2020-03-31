@@ -30,11 +30,11 @@ def get_map_genesymbol_ensgid_from_hgnc():
             for k in range(len(arr)):
                 h[arr[k]] = k
         else:
-            m[arr[h['symbol']].strip()] = arr[h['ensembl_gene_id']]
+            m[arr[h['symbol']].strip().upper()] = arr[h['ensembl_gene_id']]
             for asymbol in arr[h['alias_symbol']].replace('"', '').split('|'):
-                m[asymbol.strip()] = arr[h['ensembl_gene_id']]
+                m[asymbol.strip().upper()] = arr[h['ensembl_gene_id']]
             for asymbol in arr[h['prev_symbol']].replace('"', '').split('|'):
-                m[asymbol.strip()] = arr[h['ensembl_gene_id']]
+                m[asymbol.strip().upper()] = arr[h['ensembl_gene_id']]
 
     return m
 
@@ -52,7 +52,7 @@ def get_map_genesymbol_ensgid_from_ensembl():
             for k in range(len(arr)):
                 h[arr[k]] = k
         else:
-            m[arr[h['gene_symbol']]] = arr[h['ensgid']]
+            m[arr[h['gene_symbol']].upper()] = arr[h['ensgid']]
 
     return m
 
