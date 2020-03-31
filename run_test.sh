@@ -90,9 +90,9 @@
 #################################
 
 # python scripts/ensembl/convert_ensemblgene_gtf2bed.py
-# mutanno makedata -ds ./tests/datastructure_v0.3.2_mvp.json \
-#     -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2 \
-#     -vartype GENE
+mutanno makedata -ds ./tests/data/datastructure_v0.3.3ds_mvp.json \
+    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.3 \
+    -vartype GENE
 # tabixgzbed ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed
 # python /home/mk446/mutanno/SRC/scripts/gene/make_genetable.py
 # python ./scripts/gene/cal_genetable_stat.py /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz
@@ -224,6 +224,6 @@
 # web view
 #################################
 
-./pack.sh
+# ./pack.sh
 # mutanno web -ds tests/data/datastructure_microannot_v0.3.json -port 8088
-python ./src/mutanno.py web -ds tests/data/datastructure_microannot_v0.3.json -port 8088
+# python ./src/mutanno.py web -ds tests/data/datastructure_microannot_v0.3.json -port 8088
