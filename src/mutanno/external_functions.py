@@ -1,4 +1,4 @@
-import file_util
+from .util import file_util
 
 entrezmap = {}
 refseqmap = {}

@@ -64,6 +64,12 @@
     # -region 1:939300-2041000
 
 
+# mutanno makedata -ds ./tests/data/datastructure_microannot_v0.3.1ds.json \
+#     -out ../DATASOURCE/MICROANNOT/microanot_datasource_v0.3.1 \
+#     -vartype SNV \
+#     -region 1:925931-926931
+
+
 #################################
 # make data for annotation
 #################################
@@ -90,15 +96,31 @@
 #################################
 
 # python scripts/ensembl/convert_ensemblgene_gtf2bed.py
-mutanno makedata -ds ./tests/data/datastructure_v0.3.3ds_mvp.json \
-    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.3 \
-    -vartype GENE
-# tabixgzbed ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed
-# python /home/mk446/mutanno/SRC/scripts/gene/make_genetable.py
-# python ./scripts/gene/cal_genetable_stat.py /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz
-# gzhead /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz 200 > /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz.ex.txt
+mutanno makedata -ds ./tests/data/datastructure_v0.4.0ds_mvp.json \
+    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0 \
+    -vartype GENE \
+    -outtype json
+gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.json
 
+mutanno makedata -ds ./tests/data/datastructure_v0.4.0ds_mvp.json \
+    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene \
+    -vartype CODINGGENE \
+    -outtype json
+gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.json
 
+python ./scripts/gene/make_genetable.py \
+    ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz \
+    ./tests/data/datastructure_v0.4.0ds_mvp.json
+python ./scripts/gene/cal_genetable_stat.py ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz
+gzhead ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz 200 > ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz.ex.txt
+
+python ./scripts/gene/select_codinggene.py \
+    ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz \
+    ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed
+tabixgzbed ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed
+python ./scripts/gene/cal_genetable_stat.py ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz
+zcat ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz | cut -f 13 | sort | uniq -c
+zcat ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz | cut -f 8 | sort | uniq -c
 
 #################################
 # micro-annotation

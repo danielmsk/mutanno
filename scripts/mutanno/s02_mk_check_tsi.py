@@ -50,7 +50,7 @@ def run():
     regionlist = seq_util.get_split_region()
     for r1 in regionlist:
         tsifile = path + "mc_" + str(r1[3]) + ".tsv.tsi"
-        cmd = "python /home/mk446/mutanno/SRC/scripts/microannotation/s02_mk_check_tsi.py " + tsifile
+        cmd = "python /home/mk446/mutanno/SRC/scripts/mutanno/s02_mk_check_tsi.py " + tsifile
         cmd += " " + str(r1[1])
         cmd += " " + str(r1[2])
         print(cmd)

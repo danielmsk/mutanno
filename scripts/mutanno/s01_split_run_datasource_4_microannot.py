@@ -23,13 +23,15 @@ def split_run_datasource_4_microannot():
     # print(len(regionlist))
     for r1 in regionlist:
         cmd = ""
-        # cmd = 'python /home/mk446/mutanno/SRC/mutanno.py makedata '
+        cmd = 'mutanno makedata '
         # cmd += "-ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v0.2.json "
-        # cmd += "-out /home/mk446/mutanno/DATASOURCE/MICROANNOT/tmp/mc_" + str(r1[3]) + ".tsv "
-        # cmd += "-region " + r1[0] + ":" + str(r1[1]) + "-" + str(r1[2]) + " "
-        # cmd += "-blocksize 100;"
+        cmd += "-ds /home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.3.1ds.json "
+        cmd += "-out /home/mk446/mutanno/DATASOURCE/MICROANNOT/tmp/mc_" + str(r1[3]) + ".tsv "
+        cmd += "-vartype SNV "
+        cmd += "-region " + r1[0] + ":" + str(r1[1]) + "-" + str(r1[2]) + " "
+        cmd += "-blocksize 100;"
 
-        # cmd += "sleep 5;"
+        cmd += "sleep 5;"
 
         tsifile = path + "mc_" + str(r1[3]) + ".tsv.tsi"
         cmd += "python /home/mk446/mutanno/SRC/scripts/microannotation/s02_mk_check_tsi.py " + tsifile

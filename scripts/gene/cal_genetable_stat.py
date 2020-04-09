@@ -39,6 +39,13 @@ def make_genetable_stat(datasource):
             i += 1
             for k in range(len(arr)):
                 h1 = header[k]
+                try:
+                    tmp = cntvalues[h1]
+                except KeyError:
+                    cntvalues[h1] = {}
+
+
+
                 if arr[k] == "":
                     cntmap[h1]['blank'] += 1
                 else:

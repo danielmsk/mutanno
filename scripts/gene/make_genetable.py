@@ -116,6 +116,7 @@ def make_genetable(datasource, json, out):
                         f.write('\t'.join(cont)+'\n')
     
     f.close()
+    print('Saved', out)
     
     
 
@@ -124,5 +125,9 @@ if __name__ == "__main__":
     import file_util
     datasource = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.3.2.bed.gz"
     json = "/home/mk446/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json"
+    
+
+    datasource = sys.argv[1]
+    json = sys.argv[2]
     out = json + '.genetab.txt'
     make_genetable(datasource, json, out)

@@ -51,7 +51,7 @@ def convert_ensemblgene_gtf2bed(gtf, bed):
                 i += 1
                 if arr[0] == "MT":
                     arr[0] = "M"
-                cont = [arr[0], arr[3], arr[4], arr[5]]
+                cont = [arr[0], arr[3], arr[4], arr[6]]
                 cnt = count_no_fields(cnt, 'chrom', arr[0])
                 m = {}
                 for f1 in arr[-1].strip().split(';'):
@@ -82,7 +82,7 @@ def convert_ensemblgene_gtf2bed(gtf, bed):
             cont += '\t' + k2 + '\t' + str(cnt[k1][k2]) + '\n'
             # print('\t',k2, cnt[k1][k2])
     file_util.fileSave(bed + '.stat', cont, 'w')
-    proc_util.run_cmd('tabixgzbed ' + bed)
+    proc_util.run_cmd('tabixgzbed ' + bed, True)
 
 if __name__ == "__main__":
     import proc_util

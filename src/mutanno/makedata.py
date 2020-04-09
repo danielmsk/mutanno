@@ -163,6 +163,9 @@ class TSVBlockReader():
             if cidx in self.delimiter.keys():
                 delimiter = self.delimiter[cidx]
 
+            if cidx in self.defaultvalue.keys() and cidxvalue == '':
+                cidxvalue = self.defaultvalue[cidx]
+
             arr_selected_fields.append(vcf_util.encode_infovalue(cidxvalue, delimiter))
 
             if cidx in self.filter_start_with.keys():
@@ -221,6 +224,17 @@ class TSVBlockReader():
                 pass
         return block
 
+    def get_default_value(self):
+        arr_selected_fields = []
+        for cidx in self.target_colidx:
+            cidxvalue = ''
+            if cidx in self.defaultvalue.keys():
+                cidxvalue = self.defaultvalue[cidx]
+            arr_selected_fields.append(cidxvalue)
+        cont = '|'.join(arr_selected_fields)
+        return cont
+
+
 
 class TSVBlockMerger():
     def __init__(self, block_readers, region, block_size):
@@ -263,12 +277,15 @@ class TSVBlockMerger():
         poslist = list(self.block.keys())
         for pos in sorted(poslist):
             for refalt in self.block[pos].keys():
-                info = ''
-                for sid in self.block[pos][refalt].keys():
-                    if info != '':
-                        info += ';'
-                    info += sid + '=' + self.block[pos][refalt][sid]
-                cont += self.region['chrom'] + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t' + info + '\n'
+                infoarr = []
+                for sid in self.block_readers.keys():
+                    if sid in self.block[pos][refalt].keys():
+                        infoarr.append(sid + '=' + self.block[pos][refalt][sid])
+                    else:
+                        defailtvalue = self.block_readers[sid].get_default_value()
+                        if defailtvalue.replace('|','') != '':
+                            infoarr.append(sid + '=' + defailtvalue)
+                cont += self.region['chrom'] + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t' + ';'.join(infoarr) + '\n'
             self.block_lpos = pos
         return cont
 

@@ -44,13 +44,15 @@ def get_options():
     p1 = subparsers.add_parser('makedata', help='make a single data source file',
                                description='make a single data source file')
     p1.add_argument('-out', dest='out', default='', help='title of output file')
+    p1.add_argument('-outtype', dest='outtype', default='json', choices=['tsv','json'], help='output file type (default: tsv)')
     p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
     p1.add_argument('-region', dest='region', default='',
                     help='target region: (ex -region chr1:12345678-22345678 )')
-    p1.add_argument('-vartype', dest='vartype', default='all', help='variant type')
+    p1.add_argument('-vartype', dest='vartype', default='all', choices=['SNV','GENE','CODINGGENE'], help='variant type')
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=10000, help='blocksize')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=False, help='turn on the debugging mode')
+    p1.add_argument('-log', dest='logfile', default='', help='log file')
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
 
     p1 = subparsers.add_parser('convert', help='convert', description='convert')

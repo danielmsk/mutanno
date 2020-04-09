@@ -64,7 +64,7 @@ def download_list(htmlfile):
     file_util.fileSave(htmlfile, cont, 'w')
     return cont
 
-def save_tsv(htmlfile,datalist):
+def save_tsv(htmlfile, datalist):
     hgnc = loading_hgnc()
     out = htmlfile + ".mod.tsv"
 

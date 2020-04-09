@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# preproc_RefSeq.py
+# preproc_shet.py
 # made by Daniel Minseok Kwon
 # 2020-03-08 21:59:44
 #########################
@@ -29,7 +29,7 @@ def preproc_shet(shet_file, out):
         arr = line.split('\t')
         arr[-1] = arr[-1].strip()
         if arr[0] == "gene_symbol":
-            cont = ['#ensg_id']
+            cont = ['#ensgid']
             cont.extend(arr)
         else:
             gene_symbol = arr[0].strip()

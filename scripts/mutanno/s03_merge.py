@@ -28,6 +28,7 @@ def s03_merge(tchrom):
         chrom = r1[0]
         if chrom == tchrom:
             tsifile = path + "tmp/mc_" + str(r1[3]) + ".tsv.tsi"
+            print(tsifile)
             for line in open(tsifile):
                 if line[0]=='#':
                     if flagheader:
@@ -51,7 +52,7 @@ def run():
     for r1 in regionlist:
         chrom = r1[0]
         if chrom != prev_chrom:
-            cmd = "python /home/mk446/mutanno/SRC/scripts/microannotation/s03_merge.py " + chrom
+            cmd = "python /home/mk446/mutanno/SRC/scripts/mutanno/s03_merge.py " + chrom
             print(cmd)
         prev_chrom = chrom
 

@@ -56,6 +56,9 @@ def make_maxsc_spliceai_tsv_from_chromtsv(raw_file, chrom):
     f = open(out, 'w')
     i = 0
     header = []
+    prev_cont = ""
+    prev_pos = ""
+    prev_maxscf = 0
     for line in file_util.gzopen(raw_file):
         line = line.decode('UTF-8')
         if line[0] == '#':
@@ -64,6 +67,7 @@ def make_maxsc_spliceai_tsv_from_chromtsv(raw_file, chrom):
         else:
             i += 1
             arr = line.split('\t')
+            pos1 = '_'.join(arr[:4])
             maxsc = ''
             maxscname = ''
             maxscf = -1
@@ -80,12 +84,31 @@ def make_maxsc_spliceai_tsv_from_chromtsv(raw_file, chrom):
             if maxsc == '0.00':
                 maxscname = ''
 
+            
             cont = line.strip() + '\t' + maxsc + '\t' + maxscname
-            f.write(cont + '\n')
+            if pos1 == prev_pos:
+                if prev_maxscf < maxscf:
+                    prev_cont = cont
+                    prev_maxscf = maxscf
+                    prev_pos = pos1
+            else:
+                # cont = line.strip() + '\t' + maxsc + '\t' + maxscname
+                if prev_cont != "":
+                    f.write(prev_cont + '\n')
+                    
+                prev_cont = cont
+                prev_maxscf = maxscf
+                prev_pos = pos1
+            
             # break
+            # if i % 1000 == 0:
             if i % 1000000 == 0:
                 print(i, cont)
+                # break
+
+    f.write(prev_cont + '\n')
     f.close()
+    print('Saved', out)
 
 
 if __name__ == "__main__":
