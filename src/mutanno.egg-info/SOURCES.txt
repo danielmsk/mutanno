@@ -1,6 +1,5 @@
 MANIFEST.in
 README.md
-setup.cfg
 setup.py
 src/mutanno/__init__.py
 src/mutanno/_logging.py
@@ -32,10 +31,13 @@ src/mutanno/web/admin.py
 src/mutanno/web/apps.py
 src/mutanno/web/asgi.py
 src/mutanno/web/conf.py
+src/mutanno/web/gene.py
 src/mutanno/web/models.py
 src/mutanno/web/settings.py
+src/mutanno/web/stat.py
 src/mutanno/web/tests.py
 src/mutanno/web/urls.py
+src/mutanno/web/variant.py
 src/mutanno/web/views.py
 src/mutanno/web/wsgi.py
 src/mutanno/web/migrations/__init__.py
@@ -89,7 +91,6 @@ src/mutanno/web/static/js/drop.js
 src/mutanno/web/static/js/elias-kitesurfing.png
 src/mutanno/web/static/js/elias.png
 src/mutanno/web/static/js/hg-launcher.js
-src/mutanno/web/static/js/jquery-2.1.1.min.js
 src/mutanno/web/static/js/jquery-3.4.1.min.js
 src/mutanno/web/static/js/jquery-ui-1.12.1.min.js
 src/mutanno/web/static/js/jquery.cookie.js
@@ -281,10 +282,15 @@ src/mutanno/web/static/semantic/themes/default/assets/fonts/outline-icons.woff
 src/mutanno/web/static/semantic/themes/default/assets/fonts/outline-icons.woff2
 src/mutanno/web/static/semantic/themes/default/assets/images/__init__.py
 src/mutanno/web/static/semantic/themes/default/assets/images/flags.png
+src/mutanno/web/static/semantic/themes/default/assets/images/white-image.png
 src/mutanno/web/templates/__init__.py
 src/mutanno/web/templates/base.html
 src/mutanno/web/templates/base_blank.html
 src/mutanno/web/templates/base_index.html
+src/mutanno/web/templates/gene_view.html
 src/mutanno/web/templates/index.html
+src/mutanno/web/templates/test.html
+src/mutanno/web/templates/variant_list.html
+src/mutanno/web/templates/variant_view.html
 src/mutanno/web/util/__init__.py
 src/mutanno/web/util/web.py

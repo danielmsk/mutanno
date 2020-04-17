@@ -44,47 +44,17 @@
 ##INFO=<ID=culprit,Number=1,Type=String,Description="The annotation which was the worst performing in the Gaussian mixture model, likely the reason why the variant was filtered out">
 ##reference=file:///home/mk446/BiO/Install/GATK-bundle/2.8/b38/GRCh38_full_analysis_set_plus_decoy_hla.fa
 ##source=SelectVariants
-##MUTANNO=<ID=MUTANNO,Version="0.3.14",Date="2020.03.21">
+##MUTANNO=<ID=MUTANNO,Version="0.3.15",Date="2020.03.26">
 ##MUTANNO=<ID=VEP,Version="v99",Date="11/04/2019">
-##MUTANNO=<ID=CYTOBAND,Version="2017-07-17",Date="07/17/2017">
-##MUTANNO=<ID=UNIPROT_TRANSMEM,Version="2019-12-18",Date="12/18/2019">
-##MUTANNO=<ID=DBSNP,Version="20190722",Date="07/22/2019">
-##MUTANNO=<ID=CONSERVATION,Version="2017-07-17",Date="07/17/2017">
-##MUTANNO=<ID=PRIMATEAI,Version="v0.2_hg38",Date="12/18/2019">
-##MUTANNO=<ID=CADD,Version="v1.5",Date="02/26/2019">
-##MUTANNO=<ID=SPLICEAI,Version="20191004",Date="10/04/2019">
-##MUTANNO=<ID=MAX_POP_AF,Version="0.2",Date="11/08/2019">
-##MUTANNO=<ID=GNOMAD,Version="v3.0",Date="03/06/2019">
-##MUTANNO=<ID=TOPMED,Version="freeze 5",Date="08/28/2017">
-##MUTANNO=<ID=UK10K,Version="20160215",Date="02/15/2016">
-##MUTANNO=<ID=GENOMIC_SUPER_DUPLICATES,Version="19-Oct-2014",Date="10/19/2014">
-##MUTANNO=<ID=SIMPLE_REPEAT,Version="11-Mar-2019",Date="03/11/2019">
-##MUTANNO=<ID=RMSK,Version="11-Mar-2019",Date="03/11/2019">
-##MUTANNO=<ID=NESTED_REPEATS,Version="06-Mar-2014",Date="03/06/2014">
-##MUTANNO=<ID=MICROSATELLITE,Version="23-Aug-2015",Date="08/23/2015">
-##MUTANNO=<ID=CLINVAR,Version="20191021",Date="10/21/2019">
-##MUTANNO=<ID=COSMIC,Version="v90",Date="08/05/2019">
+##MUTANNO=<ID=gnomADgenome,Version="3.0",Date="03/06/2019">
+##MUTANNO=<ID=CLINVAR,Version="20200106",Date="01/06/2020">
+##MUTANNO=<ID=SpliceAI,Version="20191004",Date="10/04/2019">
 ##INFO=<ID=SAMPLEGENO,Number=.,Type=String,Description="Sample genotype information. Format:'NUMGT|GT|AD'">
 ##INFO=<ID=multiallele,Number=.,Type=String,Description="sample-variant key for multi-allelic variants. Format:'SAMPLEVARIANTKEY'">
-##INFO=<ID=VEP,Number=.,Type=String,Description="Predicted nonsense mediated decay effects for this variant by VEP. Subembedded:'transcript':Format:'Consequence|IMPACT|SYMBOL|Gene|Gene_ncbi|Feature_type|Feature|Feature_ncbi|BIOTYPE|EXON|INTRON|HGVSc|HGVSp|cDNA_position|CDS_position|Protein_position|Amino_acids|Codons|DISTANCE|STRAND|VARIANT_CLASS|HGNC_ID|CANONICAL|TSL|CCDS|ENSP|SWISSPROT|TREMBL|UNIPARC|SIFT|PolyPhen|DOMAINS|miRNA|HGVS_OFFSET|CLIN_SIG|SOMATIC|PHENO|PUBMED|MOTIF_NAME|MOTIF_POS|HIGH_INF_POS|MOTIF_SCORE_CHANGE|MaxEntScan_alt|MaxEntScan_diff|MaxEntScan_ref|TSSDistance|SpliceRegion'">
-##INFO=<ID=CYTOBAND,Number=.,Type=String,Description="cytoband. Format:'cytoband'">
-##INFO=<ID=UNIPROT_TRANSMEM,Number=.,Type=String,Description="transmembrane. Format:'UNIPROTKB_AC|ANNOT_DESC'">
-##INFO=<ID=DBSNP,Number=.,Type=String,Description="dbSNP. Format:'RS_number'">
-##INFO=<ID=CONSERVATION,Number=.,Type=String,Description="conservation. Format:'PHASTCONS100|PHASTCONS30|PHASTCONS20|PHYLOP100|PHYLOP30|PHYLOP20|GERP'">
-##INFO=<ID=PRIMATEAI,Number=.,Type=String,Description="PrimateAI score. Format:'primateDL_score'">
-##INFO=<ID=CADD,Number=.,Type=String,Description="Pathgenicity score by CADD. Format:'PHRED'">
-##INFO=<ID=SPLICEAI,Number=.,Type=String,Description="SpliceAI. Format:'SYMBOL|DS_AG|DS_AL|DS_DG|DS_DL|DP_AG|DP_AL|DP_DG|DP_DL'">
-##INFO=<ID=MAX_POP_AF,Number=.,Type=String,Description="Maximum population allele frequency. Format:'AF_popmax'">
-##INFO=<ID=GNOMAD,Number=.,Type=String,Description="population AF by gnomAD. Format:'AC|AC_afr|AC_ami|AC_amr|AC_asj|AC_eas|AC_fin|AC_nfe|AC_sas|AC_oth|AC_male|AC_afr_male|AC_ami_male|AC_amr_male|AC_asj_male|AC_eas_male|AC_fin_male|AC_nfe_male|AC_sas_male|AC_oth_male|AC_female|AC_afr_female|AC_ami_female|AC_amr_female|AC_asj_female|AC_eas_female|AC_fin_female|AC_nfe_female|AC_sas_female|AC_oth_female|AC_raw|AN|AN_afr|AN_ami|AN_amr|AN_asj|AN_eas|AN_fin|AN_nfe|AN_sas|AN_oth|AN_male|AN_afr_male|AN_ami_male|AN_amr_male|AN_asj_male|AN_eas_male|AN_fin_male|AN_nfe_male|AN_sas_male|AN_oth_male|AN_female|AN_afr_female|AN_ami_female|AN_amr_female|AN_asj_female|AN_eas_female|AN_fin_female|AN_nfe_female|AN_sas_female|AN_oth_female|AN_raw|AF|AF_afr|AF_ami|AF_amr|AF_asj|AF_eas|AF_fin|AF_nfe|AF_sas|AF_oth|AF_male|AF_afr_male|AF_ami_male|AF_amr_male|AF_asj_male|AF_eas_male|AF_fin_male|AF_nfe_male|AF_sas_male|AF_oth_male|AF_female|AF_afr_female|AF_ami_female|AF_amr_female|AF_asj_female|AF_eas_female|AF_fin_female|AF_nfe_female|AF_sas_female|AF_oth_female|AF_raw|DP'">
-##INFO=<ID=TOPMED,Number=.,Type=String,Description="population AF by TOPmed. Format:'AN|AC|AF|Het|Hom'">
-##INFO=<ID=UK10K,Number=.,Type=String,Description="population AF by UK10K. Format:'AC|AN|AF|AF_AFR|AF_AMR|AF_ASN|AF_EUR|AF_MAX|ESP_MAF'">
-##INFO=<ID=GENOMIC_SUPER_DUPLICATES,Number=.,Type=String,Description="genomic super duplicates from UCSC. Format:'otherChrom|otherStart|otherEnd|fracMatch'">
-##INFO=<ID=SIMPLE_REPEAT,Number=.,Type=String,Description="simple repeat region from UCSC. Format:'name|sequence|chromStart|chromEnd|score|entropy'">
-##INFO=<ID=RMSK,Number=.,Type=String,Description="rmsk region from UCSC. Format:'repName|repClass|repFamily|chromStart|chromEnd|strand'">
-##INFO=<ID=NESTED_REPEATS,Number=.,Type=String,Description="nested repeat region from UCSC. Format:'name|chromStart|chromEnd|strand|score|repClass|repFamily'">
-##INFO=<ID=MICROSATELLITE,Number=.,Type=String,Description="microsatellite region from UCSC. Format:'name|chromStart|chromEnd'">
-##INFO=<ID=CLINVAR,Number=.,Type=String,Description="CLINVAR variants. Format:'ALLELEID|CLNDN|CLNDNINCL|CLNDISDB|CLNDISDBINCL|CLNHGVS|CLNREVSTAT|CLNSIG|CLNSIGCONF|CLNSIGINCL|CLNVC|CLNVCSO|CLNVI|GENEINFO|MC|ORIGIN|SSR'">
-##INFO=<ID=COSMIC,Number=.,Type=String,Description="COSMIC variants. Format:'GENOMIC_MUTATION_ID|LEGACY_MUTATION_ID|MUTATION_ID|Transcript_ID|Primary_site|Site_subtype_1|Site_subtype_2|Site_subtype_3|Primary_histology|Histology_subtype_1|Histology_subtype_2|Histology_subtype_3|Mutation_CDS|Mutation_AA|Mutation_Description|Mutation_zygosity|LOH|Mutation_genome_position|Resistance_Mutation|Mutation_somatic_status|Pubmed_PMID|ID_STUDY|Tumour_origin'">
+##INFO=<ID=VEP,Number=.,Type=String,Description="Predicted nonsense mediated decay effects for this variant by VEP. Format:'Gene|Feature|Feature_type|Consequence|SYMBOL'">
+##INFO=<ID=gnomADgenome,Number=.,Type=String,Description="population AF by gnomAD. Format:'gnomAD_popMaxAF_genome'">
+##INFO=<ID=CLINVAR,Number=.,Type=String,Description="CLINVAR variants. Format:'CLINVAR_ALLELEID|CLINVAR_CLNSIG'">
+##INFO=<ID=SpliceAI,Number=.,Type=String,Description="SpliceAI scores. Format:'SpliceAI_MaxScore'">
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	HG002	HG003	HG004
 chr1	10492	.	C	T	959.14	VQSRTrancheSNP99.90to100.00	AC=2;AF=0.333;AN=6;BaseQRankSum=-7.720e-01;ClippingRankSum=0.00;DP=146;ExcessHet=5.4407;FS=4.033;MLEAC=3;MLEAF=0.500;MQ=53.22;MQRankSum=0.866;QD=9.99;ReadPosRankSum=1.07;SOR=0.475;VQSLOD=-1.284e+01;culprit=MQ;SAMPLEGENO=0/1|C/T|34/21,0/0|C/C|39/4,0/1|C/T|27/14;VEP=upstream_gene_variant|MODIFIER|DDX11L1|ENSG00000223972||Transcript|ENST00000450305||transcribed_unprocessed_pseudogene||||||||||1518|1|SNV|HGNC:37102|0|||||||||||||||||||||||1518|,upstream_gene_variant|MODIFIER|DDX11L1|ENSG00000223972||Transcript|ENST00000456328|NR_046018|processed_transcript||||||||||1377|1|SNV|HGNC:37102|1|1||||||||||||||||||||||1377|,downstream_gene_variant|MODIFIER|WASH7P|ENSG00000227232||Transcript|ENST00000488147|NR_024540|unprocessed_pseudogene||||||||||3912|0|SNV|HGNC:38034|1||||||||||||||||||||||||;DBSNP=rs55998931;CADD=8.584;MAX_POP_AF=0.0830189;GNOMAD=1533|295|47|251|63|44|49|745|16|23|716|133|23|161|27|20|35|293|14|10|817|162|24|90|36|24|14|452|2|13|4681|55130|11148|292|4298|1704|530|4614|31070|746|728|26140|5054|148|2548|814|286|3514|12790|616|370|28990|6094|144|1750|890|244|1100|18280|130|358|97960|2.78070e-02|2.64621e-02|1.60959e-01|5.83993e-02|3.69718e-02|8.30189e-02|1.06199e-02|2.39781e-02|2.14477e-02|3.15934e-02|2.73910e-02|2.63158e-02|1.55405e-01|6.31868e-02|3.31695e-02|6.99301e-02|9.96016e-03|2.29085e-02|2.27273e-02|2.70270e-02|2.81821e-02|2.65835e-02|1.66667e-01|5.14286e-02|4.04494e-02|9.83607e-02|1.27273e-02|2.47265e-02|1.53846e-02|3.63128e-02|4.77848e-02|108574;TOPMED=125568|15253|0.121472|14503|375;CYTOBAND=1p36.33;GENOMIC_SUPER_DUPLICATES=chr15|101906152|101981189|0.992918,chr12|10043|20853|0.983054,chrX|156020216|156030574|0.982898,chr1|180723|207666|0.989999,chr2|113572720|113602409|0.987856,chr16|10426|19533|0.986907,chr9|10843|40515|0.994232;RMSK=TAR1|Satellite|telo|10468|11447|0	GT:AD:DP:GQ:PL	0/1:34,21:55:99:594,0,1111	0/0:39,4:43:0:0,0,1305	0/1:27,14:41:99:393,0,910
 chr1	11022	.	G	A	39.60	VQSRTrancheSNP99.00to99.90	AC=1;AF=0.167;AN=6;BaseQRankSum=0.623;ClippingRankSum=0.00;DP=18;ExcessHet=3.0103;FS=0.000;MLEAC=1;MLEAF=0.167;MQ=64.46;MQRankSum=-8.400e-02;NEGATIVE_TRAIN_SITE;QD=6.60;ReadPosRankSum=0.00;SOR=0.307;VQSLOD=-4.318e+00;culprit=DP;SAMPLEGENO=0/1|G/A|4/2,0/0|G/G|2/0,0/0|G/G|10/0;VEP=upstream_gene_variant|MODIFIER|DDX11L1|ENSG00000223972||Transcript|ENST00000450305||transcribed_unprocessed_pseudogene||||||||||988|1|SNV|HGNC:37102|0|||||||||||||||||||||||988|,upstream_gene_variant|MODIFIER|DDX11L1|ENSG00000223972||Transcript|ENST00000456328|NR_046018|processed_transcript||||||||||847|1|SNV|HGNC:37102|1|1||||||||||||||||||||||847|,downstream_gene_variant|MODIFIER|WASH7P|ENSG00000227232||Transcript|ENST00000488147|NR_024540|unprocessed_pseudogene||||||||||3382|0|SNV|HGNC:38034|1||||||||||||||||||||||||;DBSNP=rs28775022;CADD=7.543;MAX_POP_AF=0.0326087;GNOMAD=37|19|0|5|0|3|1|9|0|0|20|9|0|5|0|1|1|4|0|0|17|10|0|0|0|2|0|5|0|0|794|3006|1538|0|504|64|92|44|694|10|60|1364|634|0|326|36|38|42|254|10|24|1642|904|0|178|28|54|2|440|0|36|73494|1.23087e-02|1.23537e-02||9.92063e-03|0.00000e+00|3.26087e-02|2.27273e-02|1.29683e-02|0.00000e+00|0.00000e+00|1.46628e-02|1.41956e-02||1.53374e-02|0.00000e+00|2.63158e-02|2.38095e-02|1.57480e-02|0.00000e+00|0.00000e+00|1.03532e-02|1.10619e-02||0.00000e+00|0.00000e+00|3.70370e-02|0.00000e+00|1.13636e-02||0.00000e+00|1.08036e-02|6861;TOPMED=125568|4864|0.038736|4782|41;CYTOBAND=1p36.33;CONSERVATION=0.012|0.006|0.012|0.064|0.093|0.060|;GENOMIC_SUPER_DUPLICATES=chr15|101906152|101981189|0.992918,chr12|10043|20853|0.983054,chrX|156020216|156030574|0.982898,chr1|180723|207666|0.989999,chr2|113572720|113602409|0.987856,chr16|10426|19533|0.986907,chr9|10843|40515|0.994232;RMSK=TAR1|Satellite|telo|10468|11447|0	GT:AD:DP:GQ:PL	0/1:4,2:6:69:69,0,151	0/0:2,0:2:3:0,3,45	0/0:10,0:10:27:0,27,405
