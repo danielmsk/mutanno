@@ -96,17 +96,17 @@
 #################################
 
 # python scripts/ensembl/convert_ensemblgene_gtf2bed.py
-mutanno makedata -ds ./tests/data/datastructure_v0.4.0ds_mvp.json \
-    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0 \
+mutanno makedata -ds ./tests/data/datastructure_v0.4.1ds_mvp.json \
+    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1 \
     -vartype GENE \
     -outtype json
-gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.json
+gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.json
 
-mutanno makedata -ds ./tests/data/datastructure_v0.4.0ds_mvp.json \
-    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene \
+mutanno makedata -ds ./tests/data/datastructure_v0.4.1ds_mvp.json \
+    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.coding_gene \
     -vartype CODINGGENE \
     -outtype json
-gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.json
+gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.coding_gene.json
 
 python ./scripts/gene/make_genetable.py \
     ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz \

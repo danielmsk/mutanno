@@ -158,7 +158,7 @@ def merge_expression_file(out1, out2, merged_out):
 if __name__ == "__main__":
     import preproc_util
     import file_util
-    path = preproc_util.DATASOURCEPATH + "/EXPRESSION/BRAIN_ATLAS/"
+    path = preproc_util.DATASOURCEPATH + "/EXPRESSION/BRAINATLAS/"
     out = "RNAseqTPM.tsv"
     # modify_ontology_file(path + "rnaseq_donor10021/Ontology.csv", path + "Ontology.tsv")
     preproc_BRAINATLAS(path + "rnaseq_donor10021/", "RNAseqTPM.csv", "SampleAnnot.csv", path + "Ontology.tsv", out)

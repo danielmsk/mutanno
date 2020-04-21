@@ -3,8 +3,7 @@ from setuptools import setup, find_packages
 
 install_requires = [
     'pyfaidx>=0.5.3.1',
-    'pysam>=0.11.2.2y7',
-    'pysamstats>=1.0.1'
+    'pysam>=0.11.2.2y7'
 ]
 
 tests_require = [
