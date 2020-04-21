@@ -44,7 +44,7 @@
 ##INFO=<ID=culprit,Number=1,Type=String,Description="The annotation which was the worst performing in the Gaussian mixture model, likely the reason why the variant was filtered out">
 ##reference=file:///home/mk446/BiO/Install/GATK-bundle/2.8/b38/GRCh38_full_analysis_set_plus_decoy_hla.fa
 ##source=SelectVariants
-##MUTANNO=<ID=MUTANNO,Version="0.3.14",Date="2020.03.21">
+##MUTANNO=<ID=MUTANNO,Version="0.3.15",Date="2020.03.26">
 ##MUTANNO=<ID=VEP,Version="v99",Date="11/04/2019">
 ##MUTANNO=<ID=CYTOBAND,Version="2017-07-17",Date="07/17/2017">
 ##MUTANNO=<ID=UNIPROT_TRANSMEM,Version="2019-12-18",Date="12/18/2019">
