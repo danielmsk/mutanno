@@ -14,6 +14,7 @@ elif SVRNAME == "T7":
 else:
     sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
+sys.path.append("..")
 
 
 idmap_selected_col = []
@@ -43,8 +44,8 @@ idmap_selected_col.append("PubMed2")
 def rm_idmap_version(id):
     return id.split('-')[0]
 
-def save_idmap(uniprotid, idmap, m):
-    for k1 in m.keys():
+def insert_idmap(uniprotid, idmap, record):
+    for k1 in record.keys():
         try:
             tmp = idmap[uniprotid]
         except KeyError:
@@ -54,45 +55,43 @@ def save_idmap(uniprotid, idmap, m):
         except KeyError:
             idmap[uniprotid][k1] = []
 
-        idmap[uniprotid][k1].extend(m[k1])
+        idmap[uniprotid][k1].extend(record[k1])
         # for xid in m[k1]:
         #     if xid not in idmap[uniprotid][k1]:
         #         idmap[uniprotid][k1].append(xid)
     return idmap
 
-def load_idmap_file(idmap):
+def load_idmap_file(idmap, idmap_file):
     print("load_idmap_file")
     i = 0
     prev_uniprotid = ""
-    m = {}
+    record = {}
     for line in file_util.gzopen(idmap_file):
         i += 1
         line = line.decode('UTF-8')
         arr = line.split('\t')
         arr[-1] = arr[-1].strip()
-        # print(arr)
         uniprotid = rm_idmap_version(arr[0].strip())
         
-        if prev_uniprotid != uniprotid and len(m.keys()) > 1:
-            idmap = save_idmap(uniprotid, idmap, m)
-            
-            m = {}
+        if prev_uniprotid != uniprotid and len(record.keys()) > 1:
+            idmap = insert_idmap(prev_uniprotid, idmap, record)
+            record = {}
 
         xid = arr[2].strip()
         site = arr[1].strip()
         try:
-            m[site].append(xid)
+            record[site].append(xid)
         except KeyError:
-            m[site] = [xid]
+            record[site] = [xid]
 
         prev_uniprotid = uniprotid
-        if i % 100000 == 0:
-            print(i, arr)
-            # break
-            pass
+        # if i % 100000 == 0:
+        #     print(i, arr)
+        #     # break
+        #     pass
 
-    if len(m.keys()) > 1:
-        save_idmap(uniprotid, idmap, m)
+    if len(record.keys()) > 1:
+        insert_idmap(prev_uniprotid, idmap, record)
 
     return idmap
 
@@ -167,7 +166,7 @@ def save_all_merged_xref_map(idmap, idmap_uniprot):
     print("save_all_merged_xref_map")
 
     f = open(out, 'w')
-    cont = ['EnsemblID']
+    cont = ['#EnsemblID']
     cont.append('Ensembl_TRS')
     cont.append('Ensembl_PRO')
     cont.append('UniProtID')
@@ -205,12 +204,15 @@ def save_all_merged_xref_map(idmap, idmap_uniprot):
                     pass
 
         for site in uniprot_site_list:
-            try:
-                tmp = uniprotmap[site]
-                xidlist = list(uniprotmap[site].keys())
-                cont.append('|'.join(xidlist))
-            except KeyError:
-                cont.append('')
+            if site == "GeneCards":
+                cont.append(ensgid) # GeneCards supports ENSG ID.
+            else:
+                try:
+                    tmp = uniprotmap[site]
+                    xidlist = list(uniprotmap[site].keys())
+                    cont.append('|'.join(xidlist))
+                except KeyError:
+                    cont.append('')
 
         if i % 1000 == 0:
             print(i)
@@ -220,23 +222,23 @@ def save_all_merged_xref_map(idmap, idmap_uniprot):
     print('Saved',out)
 
 
-def mk_idmap():
-    
+def mk_idmap(idmap_file, idmap_seleted_file):
     idmap_uniprot = {}
-    idmap_uniprot = load_idmap_file(idmap_uniprot)
+    idmap_uniprot = load_idmap_file(idmap_uniprot, idmap_file)
     idmap_uniprot = load_idmap_selected_file(idmap_uniprot)
     idmap = {}
     idmap = load_ensembl_uniprot_map(idmap)
     save_all_merged_xref_map(idmap, idmap_uniprot)
 
-    
 
 
 if __name__ == "__main__":
     import proc_util
     import file_util
-    out = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/idmap_ensembl_uniprot_xref.tsv"
-    ensembl_uniprot_map = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/Homo_sapiens.GRCh38.98.uniprot.tsv.gz"
-    idmap_file = "/home/mk446/bio/mutanno/DATASOURCE/UNIPLOT/HUMAN_9606_idmapping.dat.gz"
-    idmap_seleted_file = "/home/mk446/bio/mutanno/DATASOURCE/UNIPLOT/HUMAN_9606_idmapping_selected.tab.gz"
-    mk_idmap()
+    import preproc_util
+    path = preproc_util.DATASOURCEPATH + '/'
+    out = path + "ENSEMBL/hg38/idmap_ensembl_uniprot_xref.tsv"
+    ensembl_uniprot_map = path + "ENSEMBL/hg38/Homo_sapiens.GRCh38.99.uniprot.tsv.gz"
+    idmap_file = path + "UNIPLOT/HUMAN_9606_idmapping.dat.gz"
+    idmap_seleted_file = path + "UNIPLOT/HUMAN_9606_idmapping_selected.tab.gz"
+    mk_idmap(idmap_file, idmap_seleted_file)

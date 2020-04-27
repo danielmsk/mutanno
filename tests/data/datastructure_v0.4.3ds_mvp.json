@@ -1,7 +1,7 @@
 {
     "name": "MUTANNO",
-    "version": "0.4.1",
-    "version_date": "04/20/2020",
+    "version": "0.4.3",
+    "version_date": "04/24/2020",
     "sourcefile": "/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/v0.3.2_200309/mvp_datasource_v0.3.2_200309.chr#CHROM#.tsi.gz",
     "sourcefile2": "/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi.gz",
     "datafile_path": "/home/mk446/bio/mutanno/DATASOURCE",
@@ -1653,6 +1653,57 @@
             ]
         },
         {
+            "name": "ENSEMBLgeneGRCh37",
+            "desc": "hg19 coordinates",
+            "version": "v75(GRCh37.p13)",
+            "version_date": "09/01/2013",
+            "datafile": "GENE/ensgid_hg19_coordination.tsv.gz",
+            "format": "tsv",
+            "is_available": true,
+            "fields": [
+                {
+                    "name": "chrom_hg19",
+                    "title": "Chromosome (hg19)",
+                    "do_import": true,
+                    "desc": "name of the chromosome or scaffold in hg19; chromosome names without a 'chr'",
+                    "is_list": false,
+                    "type": "string"
+                },
+                {
+                    "name": "spos_hg19",
+                    "title": "Start position (hg19)",
+                    "do_import": true,
+                    "type": "integer",
+                    "desc": "start position",
+                    "is_list": false
+                },
+                {
+                    "name": "epos_hg19",
+                    "title": "End position (hg19)",
+                    "do_import": true,
+                    "type": "integer",
+                    "desc": "end position",
+                    "is_list": false
+                },
+                {
+                    "name": "strand_hg19",
+                    "title": "Strand (hg19)",
+                    "do_import": true,
+                    "desc": "strand",
+                    "is_available": true,
+                    "is_list": false,
+                    "type": "string"
+                },
+                {
+                    "name": "ensgid",
+                    "title": "ENSEMBL gene ID (hg19)",
+                    "do_import": true,
+                    "link": "https://grch37.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=ENSG00000223972<ID>",
+                    "desc": "The stable identifier for the gene"
+                }
+            ]
+        },
+        {
             "name": "CYTOBAND",
             "desc": "cytoband",
             "version": "2017-07-17",
@@ -2199,7 +2250,7 @@
                     "name2": "disease_label",
                     "title": "Disease Label",
                     "desc": "Disease label list",
-                    "is_list": true,
+                    "is_list": false,
                     "delimiter": "|",
                     "do_import": true,
                     "type": "string"
@@ -2208,7 +2259,7 @@
                     "name": "DISEASE_ID",
                     "name2": "disease_id",
                     "title": "Disease ID (MONDO)",
-                    "is_list": true,
+                    "is_list": false,
                     "delimiter": "|",
                     "link": "https://search.clinicalgenome.org/kb/conditions/<ID>",
                     "do_import": true,
@@ -2218,9 +2269,9 @@
                     "name": "MOI",
                     "name2": "Inheritance",
                     "title": "Inheritance",
-                    "is_list": true,
+                    "is_list": false,
                     "delimiter": "|",
-                    "do_import": true,
+                    "do_import": false,
                     "type": "string"
                 },
                 {
@@ -2228,14 +2279,14 @@
                     "title": "SOP",
                     "is_available": false,
                     "do_import": false,
-                    "is_list": true,
+                    "is_list": false,
                     "delimiter": "|"
                 },
                 {
                     "name": "CLASSIFICATION",
                     "name2": "classification",
                     "title": "Classification",
-                    "is_list": true,
+                    "is_list": false,
                     "delimiter": "|",
                     "do_import": true,
                     "type": "string"
@@ -2245,7 +2296,7 @@
                     "is_available": true,
                     "name2": "online_report",
                     "title": "Online report",
-                    "is_list": true,
+                    "is_list": false,
                     "delimiter": "|",
                     "do_import": false,
                     "type": "string"
@@ -2255,7 +2306,7 @@
                     "is_available": true,
                     "name2": "classification_date",
                     "title": "Classification date",
-                    "is_list": true,
+                    "is_list": false,
                     "delimiter": "|",
                     "do_import": false,
                     "type": "string"
@@ -2598,7 +2649,7 @@
                     "name": "GeneCards",
                     "title": "GeneCards",
                     "link": "https://www.genecards.org/cgi-bin/carddisp.pl?gene=<ID>",
-                    "is_list": true,
+                    "is_list": false,
                     "delimiter": "|",
                     "desc": "a database of human genes that provides genomic, proteomic, transcriptomic, genetic and functional information on all known and predicted human genes.",
                     "do_import": true,

@@ -14,7 +14,8 @@ elif SVRNAME == "T7":
 else:
     sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
-
+sys.path.append('..')
+import tabix
 
 class WIG:
     def __init__(self, fname):
@@ -22,7 +23,7 @@ class WIG:
         self.fname = fname
         self.lastline = ''
 
-    def load_block(self, spos, epos):
+    def load_block(self, spos, epos, chrom=''):
         self.block = {}
         while True:
             if self.lastline != '':
@@ -54,7 +55,7 @@ class GERP:
         self.f = file_util.gzopen(fname)
         self.lastline = ''
 
-    def load_block(self, spos, epos):
+    def load_block(self, spos, epos, chrom=''):
         self.block = {}
         while True:
             if self.lastline != '':
@@ -81,6 +82,26 @@ class GERP:
                     if flag_break:
                         break
 
+class SIPHY:
+    def __init__(self, fname):
+        self.tb = tabix.open(fname)
+        self.lastline = ''
+
+    def load_block(self, spos, epos, chrom):
+        self.block = {}
+        if not 'chr' in chrom:
+            chrom = 'chr' + chrom
+
+        try:
+            recs = self.tb.querys(chrom + ":"+str(spos)+"-" + str(epos))
+            for rec in recs:
+                for posi in range(int(rec[1]) + 1, int(rec[2]) + 1):
+                    if posi > spos and posi <= epos:
+                        self.block[posi] = rec[3]
+                    if posi > epos:
+                        break
+        except tabix.TabixError:
+            pass
 
 def convert_phastcon_wigfix2tsi(chrom):
     out = tsifile.replace('#CHROM#', chrom)
@@ -92,6 +113,8 @@ def convert_phastcon_wigfix2tsi(chrom):
     for k1 in wigfile.keys():
         if k1 == "GERP":
             f[k1] = GERP(wigfile[k1].replace('#CHROM#', chrom))
+        elif k1 == "SIPHY_OMEGA" or k1 == "SIPHY_P":
+            f[k1] = SIPHY(wigfile[k1])
         else:
             f[k1] = WIG(wigfile[k1].replace('#CHROM#', chrom))
 
@@ -104,7 +127,7 @@ def convert_phastcon_wigfix2tsi(chrom):
             epos = spos + block_size
 
         for k1 in wigfile.keys():
-            f[k1].load_block(spos, epos)
+            f[k1].load_block(spos, epos, chrom)
         print(spos, epos)
         for posi in range(spos + 1, epos + 1):
             sclist = []
@@ -133,7 +156,7 @@ def run():
     for chrom in seq_util.MAIN_CHROM_LIST:
         if chrom == 'MT':
             chrom = "M"
-        cmd = "python /home/mk446/mutanno/SRC/scripts/conservation/convert_phastcon_wigfix2tsi.py "
+        cmd = "python /home/mk446/mutanno/SRC/scripts/conservation/preproc_convert_and_merge_conservation_wigfix2tsi.py "
         cmd += chrom
         # cmd += " | bgzip -c "
         # cmd += " > " + tsifile + ";"
@@ -144,19 +167,28 @@ def run():
 if __name__ == "__main__":
     import seq_util
     import file_util
+    import preproc_util
+
+    path = preproc_util.DATASOURCEPATH + '/CONSERVATION/'
+
     seq_util.load_refseq_info('b38d')
     block_size = 100000
+
     wigfile = {}
-    wigfile['PHASTCONS100'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/PHASTCONS/PHASTCONS100WAY/hg38/chr#CHROM#.phastCons100way.wigFix.gz"
-    wigfile['PHASTCONS30'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/PHASTCONS/PHASTCONS30WAY/hg38/chr#CHROM#.phastCons30way.wigFix.gz"
-    wigfile['PHASTCONS20'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/PHASTCONS/PHASTCONS20WAY/hg38/chr#CHROM#.phastCons20way.wigFix"
-    # wigfile['PHASTCONS20'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/PHASTCONS/PHASTCONS20WAY/hg38/hg38.phastCons20way.wigFix.gz"
-    wigfile['PHYLOP100'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/PHYLOP/PHYLOP100WAY/hg38/chr#CHROM#.phyloP100way.wigFix.gz"
-    wigfile['PHYLOP30'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/PHYLOP/PHYLOP30WAY/hg38/chr#CHROM#.phyloP30way.wigFix.gz"
-    wigfile['PHYLOP20'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/PHYLOP/PHYLOP20WAY/hg38/chr#CHROM#.phyloP20way.wigFix"
+    wigfile['PHASTCONS100'] = path + "PHASTCONS/PHASTCONS100WAY/hg38/chr#CHROM#.phastCons100way.wigFix.gz"
+    wigfile['PHASTCONS30'] = path + "PHASTCONS/PHASTCONS30WAY/hg38/chr#CHROM#.phastCons30way.wigFix.gz"
+    wigfile['PHASTCONS20'] = path + "PHASTCONS/PHASTCONS20WAY/hg38/chr#CHROM#.phastCons20way.wigFix"
+    # wigfile['PHASTCONS20'] = path + "PHASTCONS/PHASTCONS20WAY/hg38/hg38.phastCons20way.wigFix.gz"
+    wigfile['PHYLOP100'] = path + "PHYLOP/PHYLOP100WAY/hg38/chr#CHROM#.phyloP100way.wigFix.gz"
+    wigfile['PHYLOP30'] = path + "PHYLOP/PHYLOP30WAY/hg38/chr#CHROM#.phyloP30way.wigFix.gz"
+    wigfile['PHYLOP20'] = path + "PHYLOP/PHYLOP20WAY/hg38/chr#CHROM#.phyloP20way.wigFix"
     # wigfile['PHYLOP20'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/PHYLOP/PHYLOP20WAY/hg38/hg38.phyloP20way.wigFix.gz"
-    wigfile['GERP'] = "/home/mk446/mutanno/DATASOURCE/CONSERVATION/GERP/hg38/gerp_conservation_scores.homo_sapiens.GRCh38.bw.#CHROM#.wig.gz"
-    tsifile = '/home/mk446/mutanno/DATASOURCE/CONSERVATION/conservation_scores.hg38.chr#CHROM#.tsi'
+    wigfile['GERP'] = path + "GERP/hg38/gerp_conservation_scores.homo_sapiens.GRCh38.bw.#CHROM#.wig.gz"
+    # SIPHY is bed file, not wig
+    wigfile['SIPHY_OMEGA'] = path + "SIPHY/29mammals/hg38liftover_29way_omega_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.txt.sorted.bed.gz"
+    wigfile['SIPHY_P'] = path + "SIPHY/29mammals/hg38liftover_29way_pi_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.tsv.sorted.bed.gz"
+
+    tsifile = path + "conservation_scores.hg38.chr#CHROM#.tsi"
     if len(sys.argv) > 1:
         chrom = sys.argv[1]
         convert_phastcon_wigfix2tsi(chrom)

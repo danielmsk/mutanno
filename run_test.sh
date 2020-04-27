@@ -55,9 +55,9 @@
 #################################
 # make data for microannotation
 #################################
-# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_microannot_v0.2.json \
-#     -out /home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v0.2_test \
-#     -vartype SNP \
+# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/data/datastructure_microannot_v0.4.1ds.json \
+#     -out /home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microanot_datasource_v0.4.1ds_test \
+#     -vartype SNV \
 #     -region 1:990600-990958
     # -region 1:1-4000000
     # -region 1:1-100000

@@ -1,0 +1,1 @@
+python s04_merge_and_tabixgz.py merge | bgzip -c > /n/data1/hms/dbmi/park/daniel/BiO/Research/mutanno/DATASOURCE/MICROANNOT/tmp/all2.tsi.gz; tabix -f -p vcf /n/data1/hms/dbmi/park/daniel/BiO/Research/mutanno/DATASOURCE/MICROANNOT/tmp/all2.tsi.gz

@@ -1,0 +1,325 @@
+{
+    "name": "MUTANNO",
+    "sourcefile":"../DATASOURCE/MICROANNOT/v0.2_200211/microannot_datasource.#CHROM#.v0.2_200211.tsi.gz",
+    "datafile_path":"/home/mk446/bio/mutanno/DATASOURCE",
+    "use_sourcename_in_fieldname":false,
+    "source": [
+        {
+            "name":"VEP",
+            "desc":"Predicted nonsense mediated decay effects for this variant by VEP",
+            "version":"v99",
+            "version_date":"11/04/2019",
+            "datafile":"ANNOT/VEP/hg38/v99/vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz",
+            "format":"tsi",
+            "fields":[
+              {"name":"Gene","desc":"Stable ID of affected gene"},
+              {"name":"Feature","desc":"Stable ID of feature"},
+              {"name":"Feature_type","desc":"Type of feature - Transcript, RegulatoryFeature or MotifFeature"},
+              {"name":"Consequence","desc":"Consequence type","delimiter":","},
+              {"name":"SYMBOL","desc":"Gene symbol (e.g. HGNC)"},
+                {
+                    "name": "IMPACT",
+                    "type": "string",
+                    "desc": "Subjective impact classification of consequence type"
+                },
+                {
+                    "name": "Gene_ncbi",
+                    "type": "string",
+                    "desc": "Stable ID of feature",
+                    "function": "get_entrez_id",
+                    "param": "Gene"
+                },
+                {
+                    "name": "Feature_ncbi",
+                    "type": "string",
+                    "desc": "Stable ID of feature",
+                    "function": "get_refseq_id",
+                    "param": "Feature"
+                },
+                {
+                    "name": "BIOTYPE",
+                    "type": "string",
+                    "desc": "Biotype of transcript or regulatory feature"
+                },
+                {
+                    "name": "EXON",
+                    "type": "string",
+                    "desc": "Exon number(s) / total"
+                },
+                {
+                    "name": "INTRON",
+                    "type": "string",
+                    "desc": "Intron number(s) / total"
+                },
+                {
+                    "name": "HGVSc",
+                    "type": "string",
+                    "desc": "HGVS coding sequence name"
+                },
+                {
+                    "name": "HGVSp",
+                    "type": "string",
+                    "desc": "HGVS protein sequence name"
+                },
+                {
+                    "name": "cDNA_position",
+                    "type": "integer",
+                    "desc": "Relative position of base pair in cDNA sequence"
+                },
+                {
+                    "name": "CDS_position",
+                    "type": "integer",
+                    "desc": "Relative position of base pair in coding sequence"
+                },
+                {
+                    "name": "Protein_position",
+                    "type": "integer",
+                    "desc": "Relative position of amino acid in protein"
+                },
+                {
+                    "name": "Amino_acids",
+                    "type": "string",
+                    "desc": "Reference and variant amino acids"
+                },
+                {
+                    "name": "Codons",
+                    "type": "string",
+                    "desc": "Reference and variant codon sequence"
+                },
+                {
+                    "name": "Existing_variation",
+                    "is_available": false,
+                    "type": "string",
+                    "desc": "Identifier(s) of co-located known variants"
+                },
+                {
+                    "name": "DISTANCE",
+                    "type": "string",
+                    "desc": "Shortest distance from variant to transcript"
+                },
+                {
+                    "name": "STRAND",
+                    "type": "boolean",
+                    "desc": "Strand of the feature",
+                    "function": "convert_vep_strand",
+                    "param": "STRAND"
+                },
+                {
+                    "name": "FLAGS",
+                    "is_available": false,
+                    "type": "string",
+                    "desc": "Transcript quality flags"
+                },
+                {
+                    "name": "VARIANT_CLASS",
+                    "type": "string",
+                    "desc": "SO variant class"
+                },
+                {
+                    "name": "SYMBOL_SOURCE",
+                    "is_available": false,
+                    "type": "string",
+                    "desc": "Source of gene symbol"
+                },
+                {
+                    "name": "HGNC_ID",
+                    "type": "string",
+                    "desc": "Stable identifer of HGNC gene symbol"
+                },
+                {
+                    "name": "CANONICAL",
+                    "type": "boolean",
+                    "desc": "Indicates if transcript is canonical for this gene",
+                    "function": "convert_canonical2boolean",
+                    "param": "CANONICAL"
+                },
+                {
+                    "name": "MANE",
+                    "is_available": false,
+                    "type": "string",
+                    "desc": "MANE (Matched Annotation by NCBI and EMBL-EBI) Transcript"
+                },
+                {
+                    "name": "TSL",
+                    "type": "integer",
+                    "desc": "Transcript support level"
+                },
+                {
+                    "name": "APPRIS",
+                    "is_available": false,
+                    "type": "string",
+                    "desc": "Annotates alternatively spliced transcripts as primary or alternate based on a range of computational methods"
+                },
+                {
+                    "name": "CCDS",
+                    "type": "string",
+                    "desc": "Indicates if transcript is a CCDS transcript"
+                },
+                {
+                    "name": "ENSP",
+                    "type": "string",
+                    "desc": "Protein identifer"
+                },
+                {
+                    "name": "SWISSPROT",
+                    "type": "string",
+                    "desc": "UniProtKB/Swiss-Prot accession"
+                },
+                {
+                    "name": "TREMBL",
+                    "type": "string",
+                    "desc": "UniProtKB/TrEMBL accession"
+                },
+                {
+                    "name": "UNIPARC",
+                    "type": "string",
+                    "desc": "UniParc accession"
+                },
+                {
+                    "name": "GENE_PHENO",
+                    "is_available": false,
+                    "type": "string",
+                    "desc": "Indicates if gene is associated with a phenotype, disease or trait"
+                },
+                {
+                    "name": "SIFT",
+                    "type": "string",
+                    "desc": "SIFT prediction and/or score"
+                },
+                {
+                    "name": "PolyPhen",
+                    "type": "string",
+                    "desc": "PolyPhen prediction and/or score"
+                },
+                {
+                    "name": "DOMAINS",
+                    "type": "string",
+                    "desc": "The source and identifer of any overlapping protein domains",
+                    "is_list": true,
+                    "delimiter": "&"
+                },
+                {
+                    "name": "miRNA",
+                    "type": "string",
+                    "desc": "SO terms of overlapped miRNA secondary structure feature(s)"
+                },
+                {
+                    "name": "HGVS_OFFSET",
+                    "type": "string",
+                    "desc": "Indicates by how many bases the HGVS notations for this variant have been shifted"
+                },
+                {
+                    "name": "CLIN_SIG",
+                    "type": "string",
+                    "desc": "ClinVar clinical significance of the dbSNP variant"
+                },
+                {
+                    "name": "SOMATIC",
+                    "type": "boolean",
+                    "desc": "Somatic status of existing variant",
+                    "is_list": true,
+                    "delimiter": "&"
+                },
+                {
+                    "name": "PHENO",
+                    "type": "boolean",
+                    "desc": "Indicates if existing variant(s) is associated with a phenotype, disease or trait; multiple values correspond to multiple variants",
+                    "is_list": true,
+                    "delimiter": "&"
+                },
+                {
+                    "name": "PUBMED",
+                    "type": "string",
+                    "desc": "Pubmed ID(s) of publications that cite existing variant",
+                    "is_list": true,
+                    "delimiter": "&"
+                },
+                {
+                    "name": "MOTIF_NAME",
+                    "type": "string",
+                    "desc": "The source and identifier of a transcription factor binding profile (TFBP) aligned at this position"
+                },
+                {
+                    "name": "MOTIF_POS",
+                    "type": "string",
+                    "desc": "The relative position of the variation in the aligned TFBP"
+                },
+                {
+                    "name": "HIGH_INF_POS",
+                    "type": "boolean",
+                    "desc": "A flag indicating if the variant falls in a high information position of the TFBP",
+                    "function": "convert_high_inf_pos",
+                    "param": "HIGH_INF_POS"
+                },
+                {
+                    "name": "MOTIF_SCORE_CHANGE",
+                    "type": "float",
+                    "desc": "The difference in motif score of the reference and variant sequences for the TFBP"
+                },
+                {
+                    "name": "MaxEntScan_alt",
+                    "type": "float",
+                    "desc": "MaxEntScan alternate sequence score"
+                },
+                {
+                    "name": "MaxEntScan_diff",
+                    "type": "float",
+                    "desc": "MaxEntScan score difference"
+                },
+                {
+                    "name": "MaxEntScan_ref",
+                    "type": "float",
+                    "desc": "MaxEntScan reference sequence score"
+                },
+                {
+                    "name": "TSSDistance",
+                    "type": "integer",
+                    "desc": "Distance from the transcription start site"
+                },
+                {
+                    "name": "SpliceRegion",
+                    "type": "string",
+                    "desc": "SpliceRegion predictions"
+                }
+            ]
+        },{
+            "name":"gnomADgenome",
+            "desc":"population AF by gnomAD",
+            "version":"3.0",
+            "version_date":"03/06/2019",
+            "datafile":"POPULATION_AF/gnomAD/hg38/gnomad.genomes.r3.0.sites.chr#CHROM#.tsi.gz",
+            "format":"tsv",
+            "ref_column_index":3,
+            "alt_column_index":4,
+            "fieldselection":"",
+            "fields":[
+                {"name":"AF","name2":"gnomAD_AF","type":"float","default":"NA","desc":"Allele frequency across populations"}
+            ]
+        },{
+            "name":"CLINVAR",
+            "desc":"CLINVAR variants",
+            "version":"20200106",
+            "version_date":"01/06/2020",
+            "datafile":"VARIANTDB/CLINVAR/hg38/clinvar.20200106.hg38.tsv.gz",
+            "format":"tsv",
+            "ref_column_index":2,
+            "alt_column_index":3,
+            "fields":[
+                {"name":"ALLELEID","name2":"CLINVAR_ALLELEID","desc":"the ClinVar Allele ID"},
+                {"name":"CLNSIG","name2":"CLINVAR_CLNSIG","desc":"Clinical significance for this single variant"}
+            ]
+        },{
+            "name":"SpliceAI",
+            "desc":"SpliceAI scores",
+            "version":"20191004",
+            "version_date":"10/04/2019",
+            "datafile":"SPLICING/SpliceAI/hg38/spliceai.20191004.hg38.#CHROM#.maxsc.tsv.gz",
+            "format":"tsv",
+            "ref_column_index":2,
+            "alt_column_index":3,
+            "fields":[
+                {"name":"MAXDS","name2":"SpliceAI_MaxScore","desc":"SpliceAI max delta score"}
+            ]
+        }
+    ]
+}

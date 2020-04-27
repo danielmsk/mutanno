@@ -4,6 +4,7 @@ import time
 from .util import file_util
 from .util import vcf_util
 from .util import struct_util
+from . import external_functions
 
 REFIDX = 3
 ALTIDX = 4
