@@ -1,0 +1,174 @@
+<ClinVarSet ID="49364595">
+  <RecordStatus>current</RecordStatus>
+  <Title>NM_005101.4(ISG15):c.296G&gt;A (p.Arg99Gln) AND Immunodeficiency 38 with basal ganglia calcification</Title>
+  <ReferenceClinVarAssertion DateCreated="2018-10-10" DateLastUpdated="2020-01-04" ID="1615901">
+    <ClinVarAccession Acc="RCV000688470" Version="1" Type="RCV" DateUpdated="2020-01-04"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance DateLastEvaluated="2018-05-14">
+      <ReviewStatus>criteria provided, single submitter</ReviewStatus>
+      <Description>Uncertain significance</Description>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ObservedIn>
+      <Sample>
+        <Origin>germline</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>unknown</AffectedStatus>
+      </Sample>
+      <Method>
+        <MethodType>clinical testing</MethodType>
+      </Method>
+      <ObservedData ID="50126718">
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant" ID="568195" Acc="VCV000568195" Version="1">
+      <Measure Type="single nucleotide variant" ID="556512">
+        <Name>
+          <ElementValue Type="Preferred">NM_005101.4(ISG15):c.296G&gt;A (p.Arg99Gln)</ElementValue>
+        </Name>
+        <CanonicalSPDI>NC_000001.11:1014275:G:A</CanonicalSPDI>
+        <AttributeSet>
+          <Attribute Accession="LRG_1231t1" Change="c.296G&gt;A" Type="HGVS, coding, LRG">LRG_1231t1:c.296G&gt;A</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NM_005101" Version="4" Change="c.296G&gt;A" Type="HGVS, coding, RefSeq">NM_005101.4:c.296G&gt;A</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="LRG_1231" Change="g.18139G&gt;A" Type="HGVS, genomic, LRG">LRG_1231:g.18139G&gt;A</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NG_033033" Version="2" Change="g.18139G&gt;A" Type="HGVS, genomic, RefSeqGene">NG_033033.2:g.18139G&gt;A</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NG_033033" Version="1" Change="g.5810G&gt;A" Type="HGVS, genomic, RefSeqGene">NG_033033.1:g.5810G&gt;A</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NC_000001" Version="11" Change="g.1014276G&gt;A" Type="HGVS, genomic, top level" integerValue="38">NC_000001.11:g.1014276G&gt;A</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NC_000001" Version="10" Change="g.949656G&gt;A" Type="HGVS, genomic, top level, previous" integerValue="37">NC_000001.10:g.949656G&gt;A</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NM_005101" Version="3" Change="c.296G&gt;A" Type="HGVS, previous">NM_005101.3:c.296G&gt;A</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="LRG_1231p1" Change="p.Arg99Gln" Type="HGVS, protein">LRG_1231p1:p.Arg99Gln</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Accession="NP_005092" Version="1" Change="p.Arg99Gln" Type="HGVS, protein, RefSeq">NP_005092.1:p.Arg99Gln</Attribute>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Type="MolecularConsequence">missense variant</Attribute>
+          <XRef ID="SO:0001583" DB="Sequence Ontology"/>
+          <XRef ID="NM_005101.4:c.296G&gt;A" DB="RefSeq"/>
+        </AttributeSet>
+        <AttributeSet>
+          <Attribute Type="ProteinChange1LetterCode">R99Q</Attribute>
+        </AttributeSet>
+        <AlleleFrequencyList>
+          <AlleleFrequency Value="0.00007" Source="Exome Aggregation Consortium (ExAC)"/>
+          <AlleleFrequency Value="0.00013" Source="The Genome Aggregation Database (gnomAD)"/>
+          <AlleleFrequency Value="0.00006" Source="The Genome Aggregation Database (gnomAD), exomes"/>
+          <AlleleFrequency Value="0.00012" Source="Trans-Omics for Precision Medicine (TOPMed)"/>
+        </AlleleFrequencyList>
+        <CytogeneticLocation>1p36.33</CytogeneticLocation>
+        <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="1014276" stop="1014276" display_start="1014276" display_stop="1014276" variantLength="1" positionVCF="1014276" referenceAlleleVCF="G" alternateAlleleVCF="A"/>
+        <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="949656" stop="949656" display_start="949656" display_stop="949656" variantLength="1" positionVCF="949656" referenceAlleleVCF="G" alternateAlleleVCF="A"/>
+        <MeasureRelationship Type="within single gene">
+          <Name>
+            <ElementValue Type="Preferred">ISG15 ubiquitin like modifier</ElementValue>
+          </Name>
+          <Symbol>
+            <ElementValue Type="Preferred">ISG15</ElementValue>
+          </Symbol>
+          <SequenceLocation Assembly="GRCh38" AssemblyAccessionVersion="GCF_000001405.38" AssemblyStatus="current" Chr="1" Accession="NC_000001.11" start="1013497" stop="1014540" display_start="1013497" display_stop="1014540" Strand="+"/>
+          <SequenceLocation Assembly="GRCh37" AssemblyAccessionVersion="GCF_000001405.25" AssemblyStatus="previous" Chr="1" Accession="NC_000001.10" start="948846" stop="949919" display_start="948846" display_stop="949919" variantLength="1074" Strand="+"/>
+          <XRef ID="9636" DB="Gene"/>
+          <XRef Type="MIM" ID="147571" DB="OMIM"/>
+          <XRef ID="HGNC:4053" DB="HGNC"/>
+        </MeasureRelationship>
+        <XRef Type="rs" ID="374404353" DB="dbSNP"/>
+      </Measure>
+      <Name>
+        <ElementValue Type="Preferred">NM_005101.4(ISG15):c.296G&gt;A (p.Arg99Gln)</ElementValue>
+      </Name>
+    </MeasureSet>
+    <TraitSet Type="Disease" ID="20303">
+      <Trait ID="32448" Type="Disease">
+        <Name>
+          <ElementValue Type="Preferred">Immunodeficiency 38 with basal ganglia calcification</ElementValue>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">IMMUNODEFICIENCY 38, MYCOBACTERIOSIS, AUTOSOMAL RECESSIVE</ElementValue>
+          <XRef Type="MIM" ID="616126" DB="OMIM"/>
+        </Name>
+        <Name>
+          <ElementValue Type="Alternate">ISG15 DEFICIENCY, AUTOSOMAL RECESSIVE</ElementValue>
+          <XRef Type="MIM" ID="616126" DB="OMIM"/>
+        </Name>
+        <Symbol>
+          <ElementValue Type="Preferred">IMD38</ElementValue>
+          <XRef Type="MIM" ID="616126" DB="OMIM"/>
+        </Symbol>
+        <XRef ID="C4015293" DB="MedGen"/>
+        <XRef ID="319563" DB="Orphanet"/>
+        <XRef Type="MIM" ID="616126" DB="OMIM"/>
+      </Trait>
+    </TraitSet>
+  </ReferenceClinVarAssertion>
+  <ClinVarAssertion ID="1588271" SubmissionName="SUB4474525">
+    <ClinVarSubmissionID localKey="1969400|MedGen:C4015293" submittedAssembly="GRCh37" submitter="Invitae" submitterDate="2018-08-29"/>
+    <ClinVarAccession Acc="SCV000816082" Version="1" Type="SCV" OrgID="500031" OrganizationCategory="laboratory" OrgType="primary" DateUpdated="2019-03-31"/>
+    <RecordStatus>current</RecordStatus>
+    <ClinicalSignificance DateLastEvaluated="2018-05-14">
+      <ReviewStatus>criteria provided, single submitter</ReviewStatus>
+      <Description>Uncertain significance</Description>
+      <Comment Type="public">This sequence change replaces arginine with glutamine at codon 99 of the ISG15 protein (p.Arg99Gln). The arginine residue is weakly conserved and there is a small physicochemical difference between arginine and glutamine. This variant is present in population databases (rs374404353, ExAC 0.06%). This variant has not been reported in the literature in individuals with ISG15-related disease. Algorithms developed to predict the effect of missense changes on protein structure and function output the following: SIFT: "Tolerated"; PolyPhen-2: "Benign"; Align-GVGD: "Class C0". The glutamine amino acid residue is found in multiple mammalian species, suggesting that this missense change does not adversely affect protein function. These predictions have not been confirmed by published functional studies and their clinical significance is uncertain. In summary, the available evidence is currently insufficient to determine the role of this variant in disease. Therefore, it has been classified as a Variant of Uncertain Significance.</Comment>
+    </ClinicalSignificance>
+    <Assertion Type="variation to disease"/>
+    <ExternalID DB="Invitae" ID="1969400"/>
+    <AttributeSet>
+      <Attribute Type="AssertionMethod">Nykamp K et al. (Genet Med 2017)</Attribute>
+      <Citation>
+        <ID Source="PubMed">28492532</ID>
+      </Citation>
+    </AttributeSet>
+    <ObservedIn>
+      <Sample>
+        <Origin>germline</Origin>
+        <Species TaxonomyId="9606">human</Species>
+        <AffectedStatus>unknown</AffectedStatus>
+      </Sample>
+      <Method>
+        <MethodType>clinical testing</MethodType>
+      </Method>
+      <ObservedData>
+        <Attribute Type="Description">not provided</Attribute>
+      </ObservedData>
+    </ObservedIn>
+    <MeasureSet Type="Variant">
+      <Measure Type="Variation">
+        <AttributeSet>
+          <Attribute Type="HGVS">NM_005101.3:c.296G&gt;A</Attribute>
+        </AttributeSet>
+        <MeasureRelationship Type="variant in gene">
+          <Symbol>
+            <ElementValue Type="Preferred">ISG15</ElementValue>
+          </Symbol>
+        </MeasureRelationship>
+      </Measure>
+    </MeasureSet>
+    <TraitSet Type="Disease">
+      <Trait Type="Disease">
+        <Name>
+          <ElementValue Type="Preferred">Immunodeficiency 38 with basal ganglia calcification</ElementValue>
+        </Name>
+        <XRef DB="MedGen" ID="C4015293" Type="CUI"/>
+      </Trait>
+    </TraitSet>
+    <Citation Type="general">
+      <ID Source="PubMed">28492532</ID>
+    </Citation>
+  </ClinVarAssertion>
+</ClinVarSet>

@@ -1,0 +1,3411 @@
+{
+  "name": "MUTANNO",
+  "version": "0.4.4",
+  "version_date": "05/04/2020",
+  "sourcefile": "/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/v0.3.2_200309/mvp_datasource_v0.3.2_200309.chr#CHROM#.tsi.gz",
+  "sourcefile2": "/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi.gz",
+  "datafile_path": "/home/mk446/bio/mutanno/DATASOURCE",
+  "gene_source": [
+    {
+      "name": "ENSEMBLgene",
+      "version": "v99",
+      "version_date": "11/22/2019",
+      "datafile": "ENSEMBL/hg38/Homo_sapiens.GRCh38.99.bed.gz",
+      "format": "bed",
+      "is_ensemblegene": true,
+      "fields": [
+        {
+          "name": "chrom",
+          "title": "Chromosome",
+          "do_import": true,
+          "desc": "name of the chromosome or scaffold; chromosome names without a 'chr'",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "spos",
+          "title": "Start position",
+          "do_import": true,
+          "type": "integer",
+          "desc": "start position",
+          "is_list": false
+        },
+        {
+          "name": "epos",
+          "title": "End position",
+          "do_import": true,
+          "type": "integer",
+          "desc": "end position",
+          "is_list": false
+        },
+        {
+          "name": "strand",
+          "title": "Strand",
+          "do_import": true,
+          "desc": "strand",
+          "is_available": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "ensgid",
+          "title": "ENSEMBL gene ID",
+          "do_import": true,
+          "link": "https://useast.ensembl.org/Homo_sapiens/Gene/Summary?g=<ID>",
+          "desc": "The stable identifier for the gene"
+        },
+        {
+          "name": "gene_version",
+          "title": "ENSEMBL gene version",
+          "do_import": true,
+          "desc": "The stable identifier version for the gene",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "gene_symbol",
+          "title": "Gene symbol",
+          "do_import": true,
+          "desc": "The official symbol of this gene",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "gene_source",
+          "title": "Gene source",
+          "do_import": false,
+          "is_available": true,
+          "desc": "The annotation source for this gene",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "gene_biotype",
+          "title": "Gene biotype",
+          "do_import": true,
+          "desc": "The biotype of this gene",
+          "is_list": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "ENSEMBLgeneGRCh37",
+      "desc": "hg19 coordinates",
+      "version": "v75(GRCh37.p13)",
+      "version_date": "09/01/2013",
+      "datafile": "GENE/ensgid_hg19_coordination.tsv.gz",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "chrom_hg19",
+          "title": "Chromosome (hg19)",
+          "do_import": true,
+          "desc": "name of the chromosome or scaffold in hg19; chromosome names without a 'chr'",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "spos_hg19",
+          "title": "Start position (hg19)",
+          "do_import": true,
+          "type": "integer",
+          "desc": "start position",
+          "is_list": false
+        },
+        {
+          "name": "epos_hg19",
+          "title": "End position (hg19)",
+          "do_import": true,
+          "type": "integer",
+          "desc": "end position",
+          "is_list": false
+        },
+        {
+          "name": "strand_hg19",
+          "title": "Strand (hg19)",
+          "do_import": true,
+          "desc": "strand",
+          "is_available": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "ensgid",
+          "title": "ENSEMBL gene ID (hg19)",
+          "do_import": true,
+          "link": "https://grch37.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=ENSG00000223972<ID>",
+          "desc": "The stable identifier for the gene"
+        }
+      ]
+    },
+    {
+      "name": "CYTOBAND",
+      "desc": "cytoband",
+      "version": "2017-07-17",
+      "version_date": "07/17/2017",
+      "datafile": "CYTOBAND/hg38/cytoBand_hg38.bed.gz",
+      "format": "bed",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "cytoband",
+          "title": "Cytoband",
+          "do_import": true,
+          "type": "string",
+          "desc": "cytoband",
+          "is_list": true
+        }
+      ]
+    },
+    {
+      "name": "RefSeq",
+      "desc": "cytoband",
+      "version": "2020-03-20",
+      "version_date": "03/20/2020",
+      "datafile": "NCBI/REFSEQ/refseqgene.genomic.tsv.gz",
+      "format": "tab",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "SUMMARY",
+          "name2": "gene_summary",
+          "title": "Gene summary",
+          "do_import": true,
+          "type": "string",
+          "desc": "Gene summary from RefSeq",
+          "is_list": false
+        }
+      ]
+    },
+    {
+      "name": "HGNC",
+      "desc": "HGNC",
+      "version": "2020-02-24",
+      "version_date": "02/24/2020",
+      "datafile": "GENE/HGNC/hgnc_complete_set.mod.txt.gz",
+      "chrompre": "",
+      "format": "tab",
+      "is_available": true,
+      "fieldselection": "all",
+      "fields": [
+        {
+          "name": "hgnc_id",
+          "title": "HGNC ID",
+          "do_import": true,
+          "link": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:<ID>",
+          "desc": "A unique ID provided by the HGNC for each gene with an approved symbol.",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "title": "Gene Symbol",
+          "do_import": false,
+          "is_available": false,
+          "desc": "The official gene symbol approved by the HGNC, which is typically a short form of the gene name."
+        },
+        {
+          "name": "name",
+          "title": "Gene full name",
+          "desc": "The full gene name approved by the HGNC.",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "locus_group",
+          "is_available": true,
+          "title": "Locus group",
+          "desc": "",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "locus_type",
+          "is_available": true,
+          "title": "Locus type",
+          "desc": "Specifies the genetic class of each gene entry.",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "title": "Status",
+          "is_available": false,
+          "desc": "Status of the symbol report, which can be either 'Approved' or 'Entry Withdrawn'."
+        },
+        {
+          "name": "location",
+          "is_available": false,
+          "desc": ""
+        },
+        {
+          "name": "location_sortable",
+          "is_available": false,
+          "desc": ""
+        },
+        {
+          "name": "alias_symbol",
+          "is_available": true,
+          "title": "Alias gene symbol",
+          "desc": "Alias gene symbol",
+          "is_list": true,
+          "delimiter": "|",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "alias_name",
+          "is_available": true,
+          "title": "Alias gene name",
+          "desc": "Alias gene name",
+          "is_list": true,
+          "delimiter": "|",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "prev_symbol",
+          "is_available": true,
+          "title": "Previous gene symbol",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "This field displays any symbols that were previously HGNC-approved nomenclature.",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "prev_name",
+          "is_available": true,
+          "title": "Previous gene name",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "This field displays any names that were previously HGNC-approved nomenclature.",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "gene_family",
+          "desc": "",
+          "is_available": false
+        },
+        {
+          "name": "gene_family_id",
+          "desc": "",
+          "is_available": false
+        },
+        {
+          "name": "date_approved_reserved",
+          "is_available": false,
+          "desc": ""
+        },
+        {
+          "name": "date_symbol_changed",
+          "is_available": false,
+          "desc": ""
+        },
+        {
+          "name": "date_name_changed",
+          "is_available": false,
+          "desc": ""
+        },
+        {
+          "name": "date_modified",
+          "is_available": false,
+          "desc": ""
+        },
+        {
+          "name": "entrez_id",
+          "title": "NCBI Gene",
+          "link": "https://www.ncbi.nlm.nih.gov/gene/<ID>",
+          "desc": "NCBI Gene ID",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "ensembl_gene_id",
+          "title": "ENSEMBL Gene",
+          "link": "",
+          "name2": "ensgid",
+          "desc": "ENSEMBL Gene ID"
+        },
+        {
+          "name": "vega_id",
+          "is_available": true,
+          "title": "VEGA",
+          "do_import": false,
+          "link": "http://vega.archive.ensembl.org/Homo_sapiens/Gene/Summary?db=core;g=<ID>",
+          "desc": "",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "ucsc_id",
+          "title": "UCSC",
+          "link": "",
+          "desc": "UCSC genome browser gene ID",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "ena",
+          "is_available": false,
+          "title": "NCBI nucleotide",
+          "link": "https://www.ncbi.nlm.nih.gov/nuccore/<ID>",
+          "desc": ""
+        },
+        {
+          "name": "refseq_accession",
+          "title": "RefSeq",
+          "is_list": true,
+          "delimiter": "|",
+          "link": "https://www.ncbi.nlm.nih.gov/gene/?term=<ID>",
+          "desc": "The Reference Sequence (RefSeq) collection",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "ccds_id",
+          "title": "CCDS",
+          "is_list": true,
+          "delimiter": "|",
+          "link": "https://www.ncbi.nlm.nih.gov/CCDS/CcdsBrowse.cgi?REQUEST=CCDS&DATA=<ID>",
+          "desc": "The Consensus CDS (CCDS) project: a collaborative effort to identify a core set of human and mouse protein coding regions that are consistently annotated and of high quality",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "uniprot_ids",
+          "title": "UniProt",
+          "is_list": true,
+          "delimiter": "|",
+          "link": "https://www.uniprot.org/uniprot/<ID>",
+          "desc": "UniProt accession number",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "pubmed_id",
+          "is_available": true,
+          "title": "PubMed",
+          "link": "https://pubmed.ncbi.nlm.nih.gov/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "PubMed",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "mgd_id",
+          "title": "MGI",
+          "is_list": true,
+          "delimiter": "|",
+          "do_import": true,
+          "link": "http://www.informatics.jax.org/marker/<ID>",
+          "desc": "Mouse Genome Informatics Database",
+          "type": "string"
+        },
+        {
+          "name": "rgd_id",
+          "title": "MouseMine",
+          "is_list": true,
+          "delimiter": "|",
+          "do_import": false,
+          "is_available": true,
+          "link": "http://ratmine.mcw.edu/ratmine/portal.do?externalids=<ID>&class=Gene&origin=MouseMine",
+          "desc": "",
+          "type": "string"
+        },
+        {
+          "name": "lsdb",
+          "title": "LRG",
+          "is_list": true,
+          "delimiter": "|",
+          "do_import": false,
+          "link": "",
+          "desc": "A Locus Reference Genomic (LRG) record contains stable reference sequences that are used for reporting sequence variants with clinical implications",
+          "type": "string"
+        },
+        {
+          "name": "cosmic",
+          "is_available": true,
+          "title": "Cosmic",
+          "link": "https://cancer.sanger.ac.uk/cosmic/gene/analysis?ln=<ID>",
+          "desc": "Catalog of somatic mutations in cancer",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "omim_id",
+          "title": "OMIM",
+          "is_list": true,
+          "delimiter": "|",
+          "link": "https://omim.org/entry/<ID>",
+          "desc": "Online Mendelian Inheritance in Man (OMIM)",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "mirbase",
+          "is_available": true,
+          "title": "miRBase",
+          "do_import": false,
+          "link": "http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc=<ID>",
+          "desc": "the microRNA database",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "homeodb",
+          "is_available": true,
+          "title": "HomeoDB",
+          "do_import": false,
+          "link": "http://homeodb.zoo.ox.ac.uk/gene_info.get?id=<ID>&og=Human",
+          "desc": "a database of homeobox gene diversity",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "snornabase",
+          "is_available": true,
+          "title": "snoRNABase",
+          "do_import": false,
+          "link": "https://www-snorna.biotoul.fr/plus.php?id=<ID>",
+          "desc": "database of human H/ACA and C/D box snoRNAs",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "bioparadigms_slc",
+          "do_import": false,
+          "is_available": false,
+          "link": "",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "orphanet",
+          "title": "OrphaNet",
+          "link": "https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Lng=GB&Expert=<ID>",
+          "desc": "portal for rare diseases and orphan drugs",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "pseudogene.org",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": "database of identified pseudogenes"
+        },
+        {
+          "name": "horde_id",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": "Human Olfactory Receptor Data Exploratorium"
+        },
+        {
+          "name": "merops",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": "the peptidase database"
+        },
+        {
+          "name": "imgt",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": "the international ImMunoGeneTics information system for immunoglobulins (mapped)"
+        },
+        {
+          "name": "iuphar",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": "Committee on Receptor Nomenclature and Drug Classification.(mapped)"
+        },
+        {
+          "name": "kznf_gene_catalog",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": "Human KZNF Gene Catalog"
+        },
+        {
+          "name": "mamit-trnadb",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": ""
+        },
+        {
+          "name": "cd",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": "Human Cell Differentiation Antigens"
+        },
+        {
+          "name": "lncrnadb",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": ""
+        },
+        {
+          "name": "enzyme_id",
+          "is_available": true,
+          "title": "ENZYME",
+          "is_list": true,
+          "delimiter": "|",
+          "link": "http://enzyme.expasy.org/EC/<ID>",
+          "desc": "ENZYME database",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "intermediate_filament_db",
+          "is_available": false,
+          "desc": "DB Human Intermediate Filament Database"
+        },
+        {
+          "name": "rna_central_ids",
+          "is_available": false,
+          "desc": ""
+        },
+        {
+          "name": "lncipedia",
+          "is_available": false,
+          "title": "",
+          "link": "",
+          "desc": ""
+        },
+        {
+          "name": "gtrnadb",
+          "is_available": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "name": "ClinGen",
+      "version": "20200403",
+      "version_date": "04/03/2020",
+      "datafile": "GENE/CLINGEN/clingen_list_2020-04-03.html.mod.tsv",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "hgnc_id",
+          "name2": "clingen",
+          "title": "ClinGen",
+          "link": "https://search.clinicalgenome.org/kb/genes/HGNC:<ID>",
+          "desc": "ClinGen",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "clinical_validity",
+          "is_available": true,
+          "title": "Clinical Validity",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "evidence",
+          "is_available": true,
+          "title": "Evidence-Based Summary",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "haploinsufficiency_score",
+          "is_available": true,
+          "title": "Haploinsufficiency Score",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "triplosensitivity_score",
+          "is_available": true,
+          "title": "Triplosensitivity Score",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "ClinGenDisease",
+      "version": "20200403",
+      "version_date": "04/03/2020",
+      "datafile": "GENE/CLINGEN/clingen_gene-validity_2020-04-03.csv.mod.tsv",
+      "format": "tsv",
+      "subembedded": "clingendis",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "DISEASE_LABEL",
+          "name2": "disease_label",
+          "title": "Disease Label",
+          "desc": "Disease label list",
+          "is_list": false,
+          "delimiter": "|",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "DISEASE_ID",
+          "name2": "disease_id",
+          "title": "Disease ID (MONDO)",
+          "is_list": false,
+          "delimiter": "|",
+          "link": "https://search.clinicalgenome.org/kb/conditions/<ID>",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "MOI",
+          "name2": "inheritance",
+          "title": "Inheritance",
+          "is_list": false,
+          "delimiter": "|",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "SOP",
+          "title": "SOP",
+          "is_available": false,
+          "do_import": false,
+          "is_list": false,
+          "delimiter": "|",
+          "name2": "sop"
+        },
+        {
+          "name": "CLASSIFICATION",
+          "name2": "classification",
+          "title": "Classification",
+          "is_list": false,
+          "delimiter": "|",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "ONLINE_REPORT",
+          "is_available": true,
+          "name2": "online_report",
+          "title": "Online report",
+          "is_list": false,
+          "delimiter": "|",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "CLASSIFICATION_DATE",
+          "is_available": true,
+          "name2": "classification_date",
+          "title": "Classification date",
+          "is_list": false,
+          "delimiter": "|",
+          "do_import": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "ENSEMBLIDxrefTrscriptID",
+      "version": "v2.1.1",
+      "version_date": "11/22/2017",
+      "datafile": "ENSEMBL/hg38/idmap_ensembl_uniprot_xref.transcriptid.tsv.gz",
+      "format": "tsv",
+      "subembedded": "transcriptid",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "EnsemblID",
+          "name2": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "Ensembl_TRS",
+          "title": "ENSEMBL transcript",
+          "desc": "ENSEMBL transcript ID list",
+          "is_list": false,
+          "link": "https://useast.ensembl.org/Homo_sapiens/Transcript/Summary?t=<ID>",
+          "do_import": true,
+          "type": "string",
+          "name2": "ensembl_trs"
+        },
+        {
+          "name": "Ensembl_PRO",
+          "title": "ENSEMBL protein",
+          "desc": "ENSEMBL protein ID list",
+          "is_list": false,
+          "link": "http://www.ensembl.org/Homo_sapiens/protview?peptide=<ID>",
+          "do_import": true,
+          "type": "string",
+          "name2": "ensembl_pro"
+        }
+      ]
+    },
+    {
+      "name": "ENSEMBLIDxref",
+      "version": "v2.1.1",
+      "version_date": "11/22/2017",
+      "datafile": "ENSEMBL/hg38/idmap_ensembl_uniprot_xref.tsv.gz",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "EnsemblID",
+          "name2": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "UniProtID",
+          "is_available": false,
+          "desc": "",
+          "name2": "uniprotid"
+        },
+        {
+          "name": "UniProtKB-ID",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "uniprotkb_id"
+        },
+        {
+          "name": "Gene_Name",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "gene_name"
+        },
+        {
+          "name": "GI",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "gi"
+        },
+        {
+          "name": "UniRef100",
+          "is_available": true,
+          "title": "UinRef 100% sequence identity genes",
+          "link": "https://www.uniprot.org/uniref/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "UniRef100 combines identical sequences and sub-fragments with 11 or more residues from any organism into a single UniRef entry.",
+          "do_import": false,
+          "type": "string",
+          "name2": "uniref100"
+        },
+        {
+          "name": "UniRef90",
+          "is_available": true,
+          "title": "UinRef 90% sequence identity genes",
+          "link": "https://www.uniprot.org/uniref/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "UniRef90 is built by clustering UniRef100 sequences such that each cluster is composed of sequences that have at least 90% sequence identity to, and 80% overlap with, the longest sequence (a.k.a. seed sequence).",
+          "do_import": false,
+          "type": "string",
+          "name2": "uniref90"
+        },
+        {
+          "name": "UniRef50",
+          "is_available": true,
+          "title": "UinRef 50% sequence identity genes",
+          "link": "https://www.uniprot.org/uniref/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "UniRef50 is built by clustering UniRef90 seed sequences that have at least 50% sequence identity to, and 80% overlap with, the longest sequence in the cluster.",
+          "do_import": false,
+          "type": "string",
+          "name2": "uniref50"
+        },
+        {
+          "name": "UniParc",
+          "is_available": true,
+          "title": "UniParc",
+          "link": "https://www.uniprot.org/uniparc/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "The UniProt Archive (UniParc) is a comprehensive and non-redundant database that contains most of the publicly available protein sequences in the world.",
+          "do_import": false,
+          "type": "string",
+          "name2": "uniparc"
+        },
+        {
+          "name": "EMBL",
+          "name2": "ncbinucleotide",
+          "is_available": true,
+          "title": "NCBI Nucleotide",
+          "link": "https://www.ncbi.nlm.nih.gov/nuccore/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "EMBL-CDS",
+          "name2": "ncbiprotein",
+          "is_available": true,
+          "title": "NCBI Protein",
+          "link": "https://www.ncbi.nlm.nih.gov/protein/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "NCBI_TaxID",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "ncbi_taxid"
+        },
+        {
+          "name": "CCDS",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "ccds"
+        },
+        {
+          "name": "RefSeq",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "refseq"
+        },
+        {
+          "name": "RefSeq_NT",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "refseq_nt"
+        },
+        {
+          "name": "PDB",
+          "title": "PDB",
+          "link": "https://www.rcsb.org/structure/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "function": "remove_pdb_subversion",
+          "param": "PDB",
+          "desc": "The Protein Data Bank (PDB) [1] is a database for the three-dimensional structural data of large biological molecules, such as proteins and nucleic acids.",
+          "do_import": true,
+          "type": "string",
+          "name2": "pdb"
+        },
+        {
+          "name": "BioGrid",
+          "title": "BioGrid",
+          "link": "https://thebiogrid.org/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "BioGRID is an interaction repository with data compiled through comprehensive curation efforts.",
+          "do_import": true,
+          "type": "string",
+          "name2": "biogrid"
+        },
+        {
+          "name": "DIP",
+          "is_available": true,
+          "title": "DIP",
+          "link": "https://dip.doe-mbi.ucla.edu/dip/DIPview.cgi?PK=<ID>",
+          "desc": "Database of Interacting Proteins",
+          "function": "trim_DIP_ID",
+          "param": "DIP",
+          "do_import": false,
+          "is_list": false,
+          "type": "string",
+          "name2": "dip"
+        },
+        {
+          "name": "MINT",
+          "is_available": true,
+          "title": "MINT",
+          "link": "https://mint.bio.uniroma2.it/index.php/results-interactions/?id=<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "The Molecular INTeraction Database",
+          "do_import": false,
+          "type": "string",
+          "name2": "mint"
+        },
+        {
+          "name": "STRING",
+          "title": "STRING",
+          "link": "https://string-db.org/network/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "STRING (Search Tool for the Retrieval of Interacting Genes/Proteins) is a biological database and web resource of known and predicted protein\u2013protein interactions.",
+          "do_import": true,
+          "type": "string",
+          "name2": "string"
+        },
+        {
+          "name": "ChEMBL",
+          "is_available": true,
+          "title": "ChEMBL",
+          "link": "https://www.ebi.ac.uk/chembl/target_report_card/<ID>/",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "Manually curated database of bioactive molecules with drug-like properties.",
+          "do_import": false,
+          "type": "string",
+          "name2": "chembl"
+        },
+        {
+          "name": "DrugBank",
+          "is_available": true,
+          "title": "DrugBank",
+          "link": "https://www.drugbank.ca/drugs/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "The DrugBank database is a bioinformatics and cheminformatics resource that combines detailed drug data with comprehensive drug target information.",
+          "do_import": false,
+          "type": "string",
+          "name2": "drugbank"
+        },
+        {
+          "name": "BioMuta",
+          "is_available": true,
+          "do_import": false,
+          "title": "BioMuta",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "A single-nucleotide variation (SNV) and disease association database where variations are mapped to genomes and RefSeq nucleotide entries, and unified through UniProtKB/Swiss-Prot positional coordinates.",
+          "type": "string",
+          "name2": "biomuta"
+        },
+        {
+          "name": "DMDM",
+          "is_available": true,
+          "do_import": false,
+          "title": "DMDM",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "dmdm"
+        },
+        {
+          "name": "CPTAC",
+          "is_available": true,
+          "do_import": false,
+          "title": "CPTAC",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "cptac"
+        },
+        {
+          "name": "ProteomicsDB",
+          "is_available": true,
+          "do_import": false,
+          "title": "ProteomicsDB",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "proteomicsdb"
+        },
+        {
+          "name": "DNASU",
+          "is_available": true,
+          "do_import": false,
+          "title": "DNASU",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "dnasu"
+        },
+        {
+          "name": "Ensembl",
+          "is_available": false,
+          "desc": "ENSEMBL gene",
+          "name2": "ensembl"
+        },
+        {
+          "name": "GeneID",
+          "do_import": false,
+          "title": "NCBI gene",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "geneid"
+        },
+        {
+          "name": "KEGG",
+          "is_available": true,
+          "title": "KEGG",
+          "link": "https://www.genome.jp/dbget-bin/www_bget?<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "do_import": false,
+          "type": "string",
+          "name2": "kegg"
+        },
+        {
+          "name": "EuPathDB",
+          "do_import": false,
+          "title": "EuPathDB",
+          "link": "https://www.eupathdb.org/gene/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "eupathdb"
+        },
+        {
+          "name": "GeneCards",
+          "title": "GeneCards",
+          "link": "https://www.genecards.org/cgi-bin/carddisp.pl?gene=<ID>",
+          "is_list": false,
+          "delimiter": "|",
+          "desc": "a database of human genes that provides genomic, proteomic, transcriptomic, genetic and functional information on all known and predicted human genes.",
+          "do_import": true,
+          "type": "string",
+          "name2": "genecards"
+        },
+        {
+          "name": "HGNC",
+          "is_available": false,
+          "title": "HGNC",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "name2": "hgnc"
+        },
+        {
+          "name": "HPA",
+          "is_available": true,
+          "title": "Human Protein Atlas",
+          "link": "https://www.proteinatlas.org/search/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "Human Protein Atlas",
+          "do_import": false,
+          "type": "string",
+          "name2": "hpa"
+        },
+        {
+          "name": "MIM",
+          "is_available": false,
+          "title": "MIM",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "name2": "mim"
+        },
+        {
+          "name": "neXtProt",
+          "is_available": true,
+          "title": "neXtProt",
+          "do_import": false,
+          "link": "https://www.nextprot.org/entry/<ID>/",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "nextprot"
+        },
+        {
+          "name": "PharmGKB",
+          "title": "PharmGKB",
+          "link": "https://www.pharmgkb.org/gene/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "a publicly available, online knowledgebase responsible for the aggregation, curation, integration and dissemination of knowledge regarding the impact of human genetic variation on drug response.",
+          "do_import": true,
+          "type": "string",
+          "name2": "pharmgkb"
+        },
+        {
+          "name": "eggNOG",
+          "is_available": true,
+          "title": "eggNOG",
+          "do_import": false,
+          "link": "http://eggnogdb.embl.de/#/app/results#<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "It is based on the original idea of COGs and expands that idea to non-supervised orthologous groups constructed from numerous organisms.",
+          "type": "string",
+          "name2": "eggnog"
+        },
+        {
+          "name": "GeneTree",
+          "is_available": true,
+          "do_import": false,
+          "title": "GeneTree",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "genetree"
+        },
+        {
+          "name": "HOGENOM",
+          "do_import": false,
+          "title": "HOGENOM",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "Database of Complete Genome Homologous Genes Families",
+          "type": "string",
+          "name2": "hogenom"
+        },
+        {
+          "name": "KO",
+          "is_available": true,
+          "title": "KEGG Ontology",
+          "link": "https://www.genome.jp/dbget-bin/www_bget?ko:<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "KEGG Ontology",
+          "do_import": false,
+          "type": "string",
+          "name2": "ko"
+        },
+        {
+          "name": "OMA",
+          "is_available": true,
+          "do_import": false,
+          "title": "OMA",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "oma"
+        },
+        {
+          "name": "OrthoDB",
+          "is_available": true,
+          "title": "OrthoDB",
+          "link": "https://www.orthodb.org/?query=<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "OrthoDB presents a catalog of orthologous protein-coding genes across vertebrates, arthropods, fungi, plants, and bacteria.",
+          "do_import": false,
+          "type": "string",
+          "name2": "orthodb"
+        },
+        {
+          "name": "TreeFam",
+          "is_available": true,
+          "do_import": false,
+          "title": "TreeFam",
+          "link": "http://www.treefam.org/family/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "Database of animal gene trees",
+          "type": "string",
+          "name2": "treefam"
+        },
+        {
+          "name": "Reactome",
+          "is_available": true,
+          "title": "Reactome",
+          "link": "https://reactome.org/content/detail/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "do_import": false,
+          "type": "string",
+          "name2": "reactome"
+        },
+        {
+          "name": "ChiTaRS",
+          "is_available": true,
+          "do_import": false,
+          "title": "ChiTaRS",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "Database of chimeric transcripts and RNA-seq data",
+          "type": "string",
+          "name2": "chitars"
+        },
+        {
+          "name": "GeneWiki",
+          "is_available": true,
+          "do_import": false,
+          "title": "GeneWiki",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "genewiki"
+        },
+        {
+          "name": "GenomeRNAi",
+          "is_available": true,
+          "do_import": false,
+          "title": "GenomeRNAi",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "genomernai"
+        },
+        {
+          "name": "CRC64",
+          "is_available": true,
+          "title": "CRC64",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "crc64"
+        },
+        {
+          "name": "UniProtID",
+          "is_available": true,
+          "name2": "uniprot",
+          "title": "UniProt",
+          "link": "https://www.uniprot.org/uniprot/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "UniProt is a freely accessible database of protein sequence and functional information, many entries being derived from genome sequencing projects.",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "GO",
+          "is_available": true,
+          "title": "Gene Ontology",
+          "link": "https://www.ebi.ac.uk/QuickGO/term/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "Gene Ontology",
+          "do_import": false,
+          "type": "string",
+          "name2": "go"
+        },
+        {
+          "name": "PIR",
+          "is_available": true,
+          "do_import": false,
+          "title": "PIR",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "pir"
+        },
+        {
+          "name": "PubMed1",
+          "is_available": false,
+          "desc": "",
+          "name2": "pubmed1"
+        },
+        {
+          "name": "PubMed2",
+          "is_available": false,
+          "desc": "",
+          "name2": "pubmed2"
+        },
+        {
+          "name": "UCSC",
+          "is_available": false,
+          "title": "UCSC",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "name2": "ucsc"
+        },
+        {
+          "name": "Orphanet",
+          "is_available": false,
+          "title": "Orphanet",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "name2": "orphanet"
+        },
+        {
+          "name": "Gene_Synonym",
+          "do_import": false,
+          "title": "Gene_Synonym",
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "gene_synonym"
+        },
+        {
+          "name": "ComplexPortal",
+          "is_available": true,
+          "title": "ComplexPortal",
+          "link": "https://www.ebi.ac.uk/complexportal/complex/<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "The Complex Portal is a manually curated, encyclopaedic resource of macromolecular complexes from a number of key model organisms.",
+          "do_import": false,
+          "type": "string",
+          "name2": "complexportal"
+        },
+        {
+          "name": "TCDB",
+          "is_available": true,
+          "do_import": false,
+          "title": "TCDB",
+          "link": "http://www.tcdb.org/search/result.php?tc=<ID>",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "Functional and Phylogenetic Classification of Membrane Transport Proteins",
+          "type": "string",
+          "name2": "tcdb"
+        },
+        {
+          "name": "BioCyc",
+          "is_available": true,
+          "title": "BioCyc",
+          "link": "https://biocyc.org/getid?id=<ID>",
+          "desc": "BioCyc is a collection of 17043 Pathway/Genome Databases (PGDBs), plus software tools for exploring them.",
+          "do_import": false,
+          "is_list": false,
+          "type": "string",
+          "name2": "biocyc"
+        },
+        {
+          "name": "GeneReviews",
+          "title": "GeneReviews",
+          "link": "https://www.ncbi.nlm.nih.gov/books/NBK1116/?term=<ID>%5BGeneSymbol%5D",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "GeneReviews",
+          "do_import": true,
+          "type": "string",
+          "name2": "genereviews"
+        },
+        {
+          "name": "SwissLipids",
+          "is_available": true,
+          "title": "SwissLipids",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "swisslipids"
+        },
+        {
+          "name": "UniPathway",
+          "is_available": true,
+          "title": "UniPathway",
+          "link": "https://www.nextprot.org/term/<ID>/",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "UniPathway",
+          "do_import": false,
+          "type": "string",
+          "name2": "unipathway"
+        },
+        {
+          "name": "Gene_ORFName",
+          "is_available": true,
+          "title": "Gene_ORFName",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "gene_orfname"
+        },
+        {
+          "name": "GlyConnect",
+          "is_available": true,
+          "title": "GlyConnect",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "glyconnect"
+        },
+        {
+          "name": "DisProt",
+          "is_available": true,
+          "title": "DisProt",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "disprot"
+        },
+        {
+          "name": "GuidetoPHARMACOLOGY",
+          "is_available": true,
+          "do_import": false,
+          "title": "GuidetoPHARMACOLOGY",
+          "link": "",
+          "desc": "",
+          "is_list": false,
+          "type": "string",
+          "name2": "guidetopharmacology"
+        },
+        {
+          "name": "MEROPS",
+          "is_available": true,
+          "title": "MEROPS",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "merops"
+        },
+        {
+          "name": "ESTHER",
+          "is_available": true,
+          "title": "ESTHER",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "esther"
+        },
+        {
+          "name": "Allergome",
+          "is_available": true,
+          "title": "Allergome",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "allergome"
+        },
+        {
+          "name": "PeroxiBase",
+          "is_available": true,
+          "title": "PeroxiBase",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "peroxibase"
+        },
+        {
+          "name": "REBASE",
+          "is_available": true,
+          "title": "REBASE",
+          "do_import": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "type": "string",
+          "name2": "rebase"
+        },
+        {
+          "name": "PATRIC",
+          "is_available": true,
+          "title": "PATRIC",
+          "do_import": false,
+          "link": "https://www.patricbrc.org/search/?keyword(\"<ID>\")",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "PATRIC, the Pathosystems Resource Integration Center, provides integrated data and analysis tools to support biomedical research on bacterial infectious diseases.",
+          "type": "string",
+          "name2": "patric"
+        },
+        {
+          "name": "GeneDB",
+          "title": "GeneDB",
+          "is_available": false,
+          "link": "",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "name2": "genedb"
+        }
+      ]
+    },
+    {
+      "name": "dbNSFP",
+      "desc": "dbNSFP",
+      "version": "4.0c",
+      "version_date": "06/05/2017",
+      "datafile": "VARIANTDB/dbNSFP/hg38/dbNSFP4.0c/dbNSFP4.0_gene.complete.mod.gz",
+      "chrompre": "",
+      "format": "tsv",
+      "is_available": true,
+      "fieldselection": "all",
+      "fields": [
+        {
+          "name": "Gene_name",
+          "is_available": false,
+          "desc": "",
+          "name2": "gene_name"
+        },
+        {
+          "name": "Ensembl_gene",
+          "name2": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "chr",
+          "name2": "chrom",
+          "is_available": false,
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "Gene_old_names",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "gene_old_names"
+        },
+        {
+          "name": "Gene_other_names",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "gene_other_names"
+        },
+        {
+          "name": "Uniprot_acc(HGNC/Uniprot)",
+          "name2": "uniprot_acc",
+          "is_available": false,
+          "title": "UniProt accession number",
+          "link": "https://www.uniprot.org/uniprot/<ID>",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "Uniprot accession number"
+        },
+        {
+          "name": "Uniprot_id(HGNC/Uniprot)",
+          "name2": "uniprot_id_hgnc_uniprot",
+          "is_available": false,
+          "title": "UniProt accession ID",
+          "desc": ""
+        },
+        {
+          "name": "Entrez_gene_id",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "entrez_gene_id"
+        },
+        {
+          "name": "CCDS_id",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "ccds_id"
+        },
+        {
+          "name": "Refseq_id",
+          "is_available": false,
+          "title": "RefSeq",
+          "desc": "",
+          "name2": "refseq_id"
+        },
+        {
+          "name": "ucsc_id",
+          "is_available": false,
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "MIM_id",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "mim_id"
+        },
+        {
+          "name": "OMIM_id",
+          "is_available": false,
+          "title": "",
+          "desc": "",
+          "name2": "omim_id"
+        },
+        {
+          "name": "Gene_full_name",
+          "is_available": false,
+          "desc": "",
+          "name2": "gene_full_name"
+        },
+        {
+          "name": "Pathway(Uniprot)",
+          "name2": "pathway_uniprot",
+          "is_available": false,
+          "title": "",
+          "desc": "Pathway description from Uniprot"
+        },
+        {
+          "name": "Pathway(BioCarta)_short",
+          "name2": "pathway_biocarta_short",
+          "title": "BioCarta",
+          "link": "http://amp.pharm.mssm.edu/Harmonizome/search?t=geneSet&q=<ID>",
+          "desc": "Short name of the Pathway(s) the gene belongs to (from BioCarta)",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Pathway(BioCarta)_full",
+          "name2": "pathway_biocarta_full",
+          "title": "BioCarta pathway",
+          "desc": "Full name(s) of the Pathway(s) the gene belongs to (from BioCarta)",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Pathway(ConsensusPathDB)",
+          "name2": "pathway_consensuspathdb",
+          "title": "Pathway(ConsensusPathDB)",
+          "desc": "Pathway(s) the gene belongs to (from ConsensusPathDB)",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Pathway(KEGG)_id",
+          "name2": "pathway_kegg_id",
+          "title": "KEGG",
+          "link": "https://www.genome.jp/dbget-bin/www_bget?<ID>",
+          "desc": "ID(s) of the Pathway(s) the gene belongs to (from KEGG)",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Pathway(KEGG)_full",
+          "name2": "pathway_kegg_full",
+          "title": "KEGG pathway",
+          "desc": "Full name(s) of the Pathway(s) the gene belongs to (from KEGG)",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Function_description",
+          "is_list": true,
+          "delimiter": "|",
+          "title": "Function description",
+          "desc": "Function description of the gene (from Uniprot)",
+          "do_import": false,
+          "type": "string",
+          "name2": "function_description"
+        },
+        {
+          "name": "Disease_description",
+          "is_list": true,
+          "delimiter": "|",
+          "title": "Disease description",
+          "desc": "Disease(s) the gene caused or associated with (from Uniprot)",
+          "do_import": false,
+          "type": "string",
+          "name2": "disease_description"
+        },
+        {
+          "name": "MIM_phenotype_id",
+          "link": "https://www.omim.org/entry/<ID>",
+          "is_list": true,
+          "delimiter": ";",
+          "title": "MIM Phenotype ID",
+          "desc": "MIM id(s) of the phenotype the gene caused or associated with (from Uniprot)",
+          "do_import": false,
+          "type": "string",
+          "name2": "mim_phenotype_id"
+        },
+        {
+          "name": "MIM_disease",
+          "title": "MIM Disease",
+          "desc": "MIM disease name(s) with MIM id(s) in '[]' (from Uniprot)",
+          "do_import": false,
+          "is_list": false,
+          "type": "string",
+          "name2": "mim_disease"
+        },
+        {
+          "name": "Orphanet_disorder_id",
+          "is_list": true,
+          "delimiter": ";",
+          "link": "https://www.orpha.net/consor/cgi-bin/OC_Exp.php?lng=EN&Expert=<ID>",
+          "title": "Orphanet Disorder ID",
+          "desc": "Orphanet Number of the disorder the gene caused or associated with",
+          "do_import": false,
+          "type": "string",
+          "name2": "orphanet_disorder_id"
+        },
+        {
+          "name": "Orphanet_disorder",
+          "is_list": true,
+          "delimiter": ";",
+          "title": "Orphanet Disorder",
+          "desc": "Disorder name from Orphanet",
+          "do_import": false,
+          "type": "string",
+          "name2": "orphanet_disorder"
+        },
+        {
+          "name": "Orphanet_association_type",
+          "is_list": true,
+          "delimiter": ";",
+          "title": "Orphanet association type",
+          "desc": "the type of association beteen the gene and the disorder",
+          "do_import": false,
+          "type": "string",
+          "name2": "orphanet_association_type"
+        },
+        {
+          "name": "Trait_association(GWAS)",
+          "name2": "trait_association_gwas",
+          "title": "GWAS catalog trait",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "Trait(s) the gene associated with (from GWAS catalog)",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "Trait_association(GWAS)_PMID",
+          "name2": "trait_association_gwas_pmid",
+          "title": "GWAS catalog trait PMID",
+          "link": "https://www.ebi.ac.uk/gwas/publications/<ID>",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "Trait(s) the gene associated with (from GWAS catalog)",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "GO_biological_process",
+          "title": "GO biological process",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "GO terms for biological process",
+          "do_import": false,
+          "type": "string",
+          "name2": "go_biological_process"
+        },
+        {
+          "name": "GO_cellular_component",
+          "title": "GO cellular component",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "GO terms for cellular component",
+          "do_import": false,
+          "type": "string",
+          "name2": "go_cellular_component"
+        },
+        {
+          "name": "GO_molecular_function",
+          "title": "GO molecular function",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "GO terms for molecular function",
+          "do_import": false,
+          "type": "string",
+          "name2": "go_molecular_function"
+        },
+        {
+          "name": "Tissue_specificity(Uniprot)",
+          "title": "Tissue specificity",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "Tissue specificity description from Uniprot",
+          "do_import": false,
+          "type": "string",
+          "name2": "tissue_specificity(uniprot)"
+        },
+        {
+          "name": "Expression(egenetics)",
+          "name2": "expression_egenetics",
+          "title": "Expression from egenetics data",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "Tissues/organs the gene expressed in (egenetics data from BioMart)",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "Expression(GNF/Atlas)",
+          "name2": "expression_gnf_atlas",
+          "title": "Expression from GNF/Atlas data",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "Tissues/organs the gene expressed in (GNF/Atlas data from BioMart)",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "Interactions(IntAct)",
+          "name2": "interactions_intact",
+          "do_import": false,
+          "title": "IntAct interaction",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "The number of other genes this gene interacting with (from IntAct).",
+          "type": "string"
+        },
+        {
+          "name": "Interactions(BioGRID)",
+          "name2": "interactions_biogrid",
+          "do_import": false,
+          "title": "BioGRID interaction",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "The number of other genes this gene interacting with (from BioGRID)",
+          "type": "string"
+        },
+        {
+          "name": "Interactions(ConsensusPathDB)",
+          "name2": "interactions_consensuspathdb",
+          "do_import": false,
+          "title": "ConsensusPathDB interaction",
+          "is_list": true,
+          "delimiter": ";",
+          "desc": "The number of other genes this gene interacting with (from ConsensusPathDB).",
+          "type": "string"
+        },
+        {
+          "name": "P(HI)",
+          "name2": "p_hi",
+          "do_import": false,
+          "title": "",
+          "desc": "Estimated probability of haploinsufficiency of the gene(from doi:10.1371/journal.pgen.1001154)",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "HIPred_score",
+          "do_import": false,
+          "title": "",
+          "desc": "Estimated probability of haploinsufficiency of the gene(from doi:10.1093/bioinformatics/btx028)",
+          "is_list": false,
+          "type": "number",
+          "name2": "hipred_score"
+        },
+        {
+          "name": "HIPred",
+          "do_import": false,
+          "title": "",
+          "desc": "HIPred prediction of haploinsufficiency of the gene. Y(es) or N(o).(from doi:10.1093/bioinformatics/btx028)",
+          "is_list": false,
+          "type": "string",
+          "name2": "hipred"
+        },
+        {
+          "name": "GHIS",
+          "do_import": false,
+          "title": "",
+          "desc": "A score predicting the gene haploinsufficiency. The higher the score the more likely the gene is haploinsufficient. (from doi: 10.1093/nar/gkv474)",
+          "is_list": false,
+          "type": "number",
+          "name2": "ghis"
+        },
+        {
+          "name": "P(rec)",
+          "name2": "p_rec",
+          "do_import": false,
+          "title": "",
+          "desc": "Estimated probability that gene is a recessive disease gene (from DOI:10.1126/science.1215040)",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "Known_rec_info",
+          "title": "Known recessive status",
+          "desc": "Known recessive status of the gene (f2rom DOI:10.1126/science.1215040);lof-tolerant = seen in homozygous state in at least one 1000G individual;recessive = known OMIM recessive disease",
+          "do_import": false,
+          "is_list": false,
+          "type": "string",
+          "name2": "known_rec_info"
+        },
+        {
+          "name": "RVIS_EVS",
+          "title": "RVIS(ESP6500)",
+          "desc": "Residual Variation Intolerance Score, a measure of intolerance of mutational burden, the higher the score the more tolerant to mutational burden the gene is. Based on EVS (ESP6500) data. from doi:10.1371/journal.pgen.1003709",
+          "do_import": false,
+          "is_list": false,
+          "type": "number",
+          "name2": "rvis_evs"
+        },
+        {
+          "name": "RVIS_percentile_EVS",
+          "title": "RVIS(ESP6500) percentile",
+          "desc": "The percentile rank of the gene based on RVIS, the higher the percentile the more tolerant to mutational burden the gene is. Based on EVS (ESP6500) data.",
+          "do_import": false,
+          "is_list": false,
+          "type": "number",
+          "name2": "rvis_percentile_evs"
+        },
+        {
+          "name": "LoF-FDR_ExAC",
+          "do_import": false,
+          "title": "LoF-FDR (ExAC)",
+          "desc": "A gene's corresponding FDR p-value for preferential LoF depletion among the ExAC population. Lower FDR corresponds with genes that are increasingly depleted of LoF variants.",
+          "is_list": false,
+          "type": "number",
+          "name2": "lof_fdr_exac"
+        },
+        {
+          "name": "RVIS_ExAC",
+          "title": "RVIS(ExAC)",
+          "desc": "ExAC-based RVIS; setting 'common' MAF filter at 0.05% in at least one of the six individual ethnic strata from ExAC.",
+          "do_import": true,
+          "is_list": false,
+          "type": "number",
+          "name2": "rvis_exac"
+        },
+        {
+          "name": "RVIS_percentile_ExAC",
+          "title": "RVIS(ExAC) percentile",
+          "desc": "Genome-Wide percentile for the new ExAC-based RVIS; setting 'common' MAF filter at 0.05% in at least one of the six individual ethnic strata from ExAC.",
+          "do_import": true,
+          "is_list": false,
+          "type": "number",
+          "name2": "rvis_percentile_exac"
+        },
+        {
+          "name": "ExAC_pLI",
+          "do_import": false,
+          "title": "pLI (ExAC)",
+          "desc": "the probability of being loss-of-function intolerant (intolerant of both heterozygous and homozygous lof variants) based on ExAC r0.3 data",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_pli_dbnsfp"
+        },
+        {
+          "name": "ExAC_pRec",
+          "do_import": false,
+          "title": "pRec (ExAC)",
+          "desc": "the probability of being intolerant of homozygous, but not heterozygous lof variants based on ExAC r0.3 data",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_prec"
+        },
+        {
+          "name": "ExAC_pNull",
+          "do_import": false,
+          "title": "pNull (ExAC)",
+          "desc": "the probability of being tolerant of both heterozygous and homozygous lof variants based on ExAC r0.3 data",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_pnull"
+        },
+        {
+          "name": "ExAC_nonTCGA_pLI",
+          "do_import": false,
+          "title": "pLI (ExAC nonTCGA)",
+          "desc": "the probability of being loss-of-function intolerant (intolerant of both heterozygous and homozygous lof variants) based on ExAC r0.3 nonTCGA subset",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_nontcga_pli"
+        },
+        {
+          "name": "ExAC_nonTCGA_pRec",
+          "do_import": false,
+          "title": "pRec (ExAC nonTCGA)",
+          "desc": "the probability of being intolerant of homozygous, but not heterozygous lof variants based on ExAC r0.3 nonTCGA subset",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_nontcga_prec"
+        },
+        {
+          "name": "ExAC_nonTCGA_pNull",
+          "do_import": false,
+          "title": "pNull (ExAC nonTCGA)",
+          "desc": "the probability of being tolerant of both heterozygous and homozygous lof variants based on ExAC r0.3 nonTCGA subset",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_nontcga_pnull"
+        },
+        {
+          "name": "ExAC_nonpsych_pLI",
+          "do_import": false,
+          "title": "pLI (ExAC nonpsych)",
+          "desc": "the probability of being loss-of-function intolerant (intolerant of both heterozygous and homozygous lof variants) based on ExAC r0.3 nonpsych subset",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_nonpsych_pli"
+        },
+        {
+          "name": "ExAC_nonpsych_pRec",
+          "do_import": false,
+          "title": "pRec (ExAC nonpsych)",
+          "desc": "the probability of being intolerant of homozygous, but not heterozygous lof variants based on ExAC r0.3 nonpsych subset",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_nonpsych_prec"
+        },
+        {
+          "name": "ExAC_nonpsych_pNull",
+          "do_import": false,
+          "title": "pNull (ExAC nonpsych)",
+          "desc": "the probability of being tolerant of both heterozygous and homozygous lof variants based on ExAC r0.3 nonpsych subset",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_nonpsych_pnull"
+        },
+        {
+          "name": "gnomAD_pLI",
+          "do_import": false,
+          "title": "pLI (gnomAD)",
+          "desc": "the probability of being loss-of-function intolerant (intolerant of both heterozygous and homozygous lof variants) based on gnomAD 2.1 data",
+          "is_list": false,
+          "type": "number",
+          "name2": "gnomad_pli"
+        },
+        {
+          "name": "gnomAD_pRec",
+          "do_import": false,
+          "title": "pRec (gnomAD)",
+          "desc": "the probability of being intolerant of homozygous, but not heterozygous lof variants based on gnomAD 2.1 data",
+          "is_list": false,
+          "type": "number",
+          "name2": "gnomad_prec"
+        },
+        {
+          "name": "gnomAD_pNull",
+          "do_import": false,
+          "title": "pNull (gnomAD)",
+          "desc": "the probability of being tolerant of both heterozygous and homozygous lof variants based on gnomAD 2.1 data",
+          "is_list": false,
+          "type": "number",
+          "name2": "gnomad_pnull"
+        },
+        {
+          "name": "ExAC_del.score",
+          "title": "Deletion intolerance z-core",
+          "desc": "Winsorised deletion intolerance z-score based on ExAC r0.3.1 CNV data",
+          "do_import": false,
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_del.score"
+        },
+        {
+          "name": "ExAC_dup.score",
+          "title": "Duplication intolerance z-score",
+          "desc": "Winsorised duplication intolerance z-score based on ExAC r0.3.1 CNV data",
+          "do_import": false,
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_dup.score"
+        },
+        {
+          "name": "ExAC_cnv.score",
+          "title": "CNV intolerance z-score",
+          "desc": "Winsorised cnv intolerance z-score based on ExAC r0.3.1 CNV data",
+          "do_import": false,
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_cnv.score"
+        },
+        {
+          "name": "ExAC_cnv_flag",
+          "title": "CNV flag",
+          "desc": "Gene is in a known region of recurrent CNVs mediated by tandem segmental duplications and intolerance scores are more likely to be biased or noisy from ExAC r0.3.1 CNV release",
+          "do_import": false,
+          "is_list": false,
+          "type": "string",
+          "name2": "exac_cnv_flag"
+        },
+        {
+          "name": "GDI",
+          "title": "Gene damage index (GDI)",
+          "desc": "gene damage index score, a genome-wide, gene-level metric of the mutational damage that has accumulated in the general population from doi: 10.1073/pnas.1518646112. The higher the score the less likely the gene is to be responsible for monogenic diseases.",
+          "do_import": false,
+          "is_list": false,
+          "type": "number",
+          "name2": "gdi"
+        },
+        {
+          "name": "GDI-Phred",
+          "title": "GDI phred score",
+          "desc": "Phred-scaled GDI scores",
+          "do_import": true,
+          "is_list": false,
+          "type": "number",
+          "name2": "gdi_phred"
+        },
+        {
+          "name": "Gene damage prediction (all disease-causing genes)",
+          "name2": "gdp",
+          "title": "Gene damage prediction (all disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for all diseases",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (all Mendelian disease-causing genes)",
+          "name2": "gdp_mendelian",
+          "title": "Gene damage prediction (all Mendelian disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for all Mendelian diseases",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (Mendelian AD disease-causing genes)",
+          "name2": "gdp_mendelian_ad",
+          "title": "Gene damage prediction (Mendelian AD disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for Mendelian autosomal dominant diseases",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (Mendelian AR disease-causing genes)",
+          "name2": "gdp_mendelian_ar",
+          "title": "Gene damage prediction (Mendelian AR disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for Mendelian autosomal recessive diseases",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (all PID disease-causing genes)",
+          "name2": "gdp_pid",
+          "title": "Gene damage prediction (all PID disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for all primary immunodeficiency diseases",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (PID AD disease-causing genes)",
+          "name2": "gdp_pid_ad",
+          "title": "Gene damage prediction (PID AD disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for primary immunodeficiency autosomal dominant diseases",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (PID AR disease-causing genes)",
+          "name2": "gdp_pid_ar",
+          "title": "Gene damage prediction (PID AR disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for primary immunodeficiency autosomal recessive diseases",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (all cancer disease-causing genes)",
+          "name2": "gdp_cancer",
+          "title": "Gene damage prediction (all cancer disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for all cancer disease",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (cancer recessive disease-causing genes)",
+          "name2": "gdp_cancer_rec",
+          "title": "Gene damage prediction (cancer recessive disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for cancer recessive disease",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "Gene damage prediction (cancer dominant disease-causing genes)",
+          "name2": "gdp_cancer_dom",
+          "title": "Gene damage prediction (cancer dominant disease-causing genes)",
+          "desc": "gene damage prediction (low/medium/high) by GDI for cancer dominant disease",
+          "do_import": false,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "LoFtool_score",
+          "title": "LoF",
+          "desc": "a percentile score for gene intolerance to functional change. The lower the score the higher gene intolerance to functional change. For details see doi: 10.1093/bioinformatics/btv602.",
+          "do_import": false,
+          "is_list": false,
+          "type": "number",
+          "name2": "loftool_score"
+        },
+        {
+          "name": "SORVA_LOF_MAF0.005_HetOrHom",
+          "do_import": false,
+          "title": "",
+          "desc": "the fraction of individuals in the 1000 Genomes Project data (N=2504) who are either Heterozygote or Homozygote of LOF SNVs whose MAF<0.005. This fraction is from a method for ranking genes based on mutational burden called SORVA (Significance Of Rare VAriants). Please see doi: 10.1101/103218 for details.",
+          "is_list": false,
+          "type": "number",
+          "name2": "sorva_lof_maf0.005_hetorhom"
+        },
+        {
+          "name": "SORVA_LOF_MAF0.005_HomOrCompoundHet",
+          "do_import": false,
+          "title": "",
+          "desc": "the fraction of individuals in the 1000 Genomes Project data (N=2504) who are either Compound Heterozygote or Homozygote of LOF SNVs whose MAF<0.005. This fraction is from a method for ranking genes based on mutational burden called SORVA (Significance Of Rare VAriants). Please see doi: 10.1101/103218 for details.",
+          "is_list": false,
+          "type": "number",
+          "name2": "sorva_lof_maf0.005_homorcompoundhet"
+        },
+        {
+          "name": "SORVA_LOF_MAF0.001_HetOrHom",
+          "do_import": false,
+          "title": "",
+          "desc": "the fraction of individuals in the 1000 Genomes Project data (N=2504) who are either Heterozygote or Homozygote of LOF SNVs whose MAF<0.001. This fraction is from a method for ranking genes based on mutational burden called SORVA (Significance Of Rare VAriants). Please see doi: 10.1101/103218 for details.",
+          "is_list": false,
+          "type": "number",
+          "name2": "sorva_lof_maf0.001_hetorhom"
+        },
+        {
+          "name": "SORVA_LOF_MAF0.001_HomOrCompoundHet",
+          "do_import": false,
+          "title": "",
+          "desc": "the fraction of individuals in the 1000 Genomes Project data (N=2504) who are either Compound Heterozygote or Homozygote of LOF SNVs whose MAF<0.001. This fraction is from a method for ranking genes based on mutational burden called SORVA (Significance Of Rare VAriants). Please see doi: 10.1101/103218 for details.",
+          "is_list": false,
+          "type": "number",
+          "name2": "sorva_lof_maf0.001_homorcompoundhet"
+        },
+        {
+          "name": "SORVA_LOForMissense_MAF0.005_HetOrHom",
+          "do_import": false,
+          "title": "",
+          "desc": "the fraction of individuals in the 1000 Genomes Project data (N=2504) who are either Heterozygote or Homozygote of LOF or missense SNVs whose MAF<0.005. This fraction is from a method for ranking genes based on mutational burden called SORVA (Significance Of Rare VAriants). Please see doi: 10.1101/103218 for details.",
+          "is_list": false,
+          "type": "number",
+          "name2": "sorva_loformissense_maf0.005_hetorhom"
+        },
+        {
+          "name": "SORVA_LOForMissense_MAF0.005_HomOrCompoundHet",
+          "do_import": false,
+          "title": "",
+          "desc": "the fraction of individuals in the 1000 Genomes Project data (N=2504) who are either Compound Heterozygote or Homozygote of LOF or missense SNVs whose MAF<0.005. This fraction is from a method for ranking genes based on mutational burden called SORVA (Significance Of Rare VAriants). Please see doi: 10.1101/103218 for details.",
+          "is_list": false,
+          "type": "number",
+          "name2": "sorva_loformissense_maf0.005_homorcompoundhet"
+        },
+        {
+          "name": "SORVA_LOForMissense_MAF0.001_HetOrHom",
+          "do_import": false,
+          "title": "",
+          "desc": "the fraction of individuals in the 1000 Genomes Project data (N=2504) who are either Heterozygote or Homozygote of LOF or missense SNVs whose MAF<0.001. This fraction is from a method for ranking genes based on mutational burden called SORVA (Significance Of Rare VAriants). Please see doi: 10.1101/103218 for details.",
+          "is_list": false,
+          "type": "number",
+          "name2": "sorva_loformissense_maf0.001_hetorhom"
+        },
+        {
+          "name": "SORVA_LOForMissense_MAF0.001_HomOrCompoundHet",
+          "do_import": false,
+          "title": "",
+          "desc": "the fraction of individuals in the 1000 Genomes Project data (N=2504) who are either Compound Heterozygote or Homozygote of LOF or missense SNVs whose MAF<0.001. This fraction is from a method for ranking genes based on mutational burden called SORVA (Significance Of Rare VAriants). Please see doi: 10.1101/103218 for details.",
+          "is_list": false,
+          "type": "number",
+          "name2": "sorva_loformissense_maf0.001_homorcompoundhet"
+        },
+        {
+          "name": "Essential_gene",
+          "do_import": false,
+          "title": "Essential gene (MGI)",
+          "desc": "Essential ('E') or Non-essential phenotype-changing ('N') based on Mouse Genome Informatics database. from doi:10.1371/journal.pgen.1003484",
+          "is_list": false,
+          "type": "string",
+          "name2": "essential_gene"
+        },
+        {
+          "name": "Essential_gene_CRISPR",
+          "do_import": false,
+          "title": "Essential gene (CRISPR)",
+          "desc": "Essential ('E') or Non-essential phenotype-changing ('N') based on large scale CRISPR experiments. from doi: 10.1126/science.aac7041",
+          "is_list": false,
+          "type": "string",
+          "name2": "essential_gene_crispr"
+        },
+        {
+          "name": "Essential_gene_CRISPR2",
+          "do_import": false,
+          "title": "Essential gene (CRISPR2)",
+          "desc": "Essential ('E'), context-Specific essential ('S'), or Non-essential phenotype-changing ('N') based on large scale CRISPR experiments. from http://dx.doi.org/10.1016/j.cell.2015.11.015",
+          "is_list": false,
+          "type": "string",
+          "name2": "essential_gene_crispr2"
+        },
+        {
+          "name": "Essential_gene_gene-trap",
+          "do_import": false,
+          "title": "Essential gene (gene-trap)",
+          "desc": "Essential ('E'), HAP1-Specific essential ('H'), KBM7-Specific essential ('K'), or Non-essential phenotype-changing ('N'), based on large scale mutagenesis experiments. from doi: 10.1126/science.aac7557",
+          "is_list": false,
+          "type": "string",
+          "name2": "essential_gene_gene_trap"
+        },
+        {
+          "name": "Gene_indispensability_score",
+          "do_import": false,
+          "title": "",
+          "desc": "A probability prediction of the gene being essential. From doi:10.1371/journal.pcbi.1002886",
+          "is_list": false,
+          "type": "number",
+          "name2": "gene_indispensability_score"
+        },
+        {
+          "name": "Gene_indispensability_pred",
+          "do_import": false,
+          "title": "",
+          "desc": "Essential ('E') or loss-of-function tolerant ('N') based on Gene_indispensability_score.",
+          "is_list": false,
+          "type": "string",
+          "name2": "gene_indispensability_pred"
+        },
+        {
+          "name": "MGI_mouse_gene",
+          "do_import": true,
+          "title": "Mouse gene (MGI)",
+          "desc": "Homolog mouse gene name from MGI",
+          "is_list": false,
+          "type": "string",
+          "name2": "mgi_mouse_gene"
+        },
+        {
+          "name": "MGI_mouse_phenotype",
+          "do_import": true,
+          "title": "Mouse phenotype (MGI)",
+          "desc": "Phenotype description for the homolog mouse gene from MGI",
+          "is_list": false,
+          "type": "string",
+          "name2": "mgi_mouse_phenotype"
+        },
+        {
+          "name": "ZFIN_zebrafish_gene",
+          "do_import": false,
+          "title": "Zebrafish gene (ZFIN)",
+          "desc": "Homolog zebrafish gene name from ZFIN",
+          "is_list": false,
+          "type": "string",
+          "name2": "zfin_zebrafish_gene"
+        },
+        {
+          "name": "ZFIN_zebrafish_structure",
+          "do_import": false,
+          "title": "Zebrafish structure (ZFIN)",
+          "desc": "Affected structure of the homolog zebrafish gene from ZFIN",
+          "is_list": false,
+          "type": "string",
+          "name2": "zfin_zebrafish_structure"
+        },
+        {
+          "name": "ZFIN_zebrafish_phenotype_quality",
+          "do_import": false,
+          "title": "Zebrafish phenotype quality (ZFIN)",
+          "desc": "Phenotype description for the homolog zebrafish gene from ZFIN",
+          "is_list": false,
+          "type": "string",
+          "name2": "zfin_zebrafish_phenotype_quality"
+        },
+        {
+          "name": "ZFIN_zebrafish_phenotype_tag",
+          "do_import": false,
+          "title": "Zebrafish phenotype tag (ZFIN)",
+          "desc": "Phenotype tag for the homolog zebrafish gene from ZFIN",
+          "is_list": false,
+          "type": "string",
+          "name2": "zfin_zebrafish_phenotype_tag"
+        }
+      ]
+    },
+    {
+      "name": "gnomADmetrics",
+      "version": "v2.1.1",
+      "version_date": "11/22/2017",
+      "datafile": "POPULATION_AF/gnomAD/metrics/gnomad.v2.1.1.lof_metrics.by_gene.txt.gz",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "gene_id",
+          "name2": "gnomad",
+          "link": "https://gnomad.broadinstitute.org/gene/<ID>",
+          "title": "gnomAD",
+          "desc": "gnomAD gene",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "gene",
+          "is_available": false,
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "transcript",
+          "is_available": false,
+          "title": "Transcript",
+          "desc": ""
+        },
+        {
+          "name": "obs_mis",
+          "title": "Observed missense",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "exp_mis",
+          "title": "Expected missense",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_mis",
+          "title": "o/e (missense)",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "mu_mis",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "possible_mis",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "obs_mis_pphen",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "exp_mis_pphen",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_mis_pphen",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "possible_mis_pphen",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "obs_syn",
+          "title": "Observed synonymous",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "exp_syn",
+          "title": "Expected synonymous",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_syn",
+          "title": "o/e (synonymous)",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "mu_syn",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "possible_syn",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "obs_lof",
+          "title": "Obsered LoF",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "exp_lof",
+          "title": "Expected LoF",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_lof",
+          "title": "o/e (LoF)",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "mu_lof",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "possible_lof",
+          "is_available": true,
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "pLI",
+          "is_available": true,
+          "do_import": false,
+          "title": "pLI",
+          "desc": "the probability of being loss-of-function intolerant (intolerant of both heterozygous and homozygous lof variants) based on gnomAD v2",
+          "is_list": false,
+          "type": "number",
+          "name2": "pli"
+        },
+        {
+          "name": "pNull",
+          "do_import": false,
+          "title": "pNull",
+          "desc": "",
+          "is_list": false,
+          "type": "number",
+          "name2": "pnull"
+        },
+        {
+          "name": "pRec",
+          "do_import": false,
+          "title": "pRec",
+          "desc": "",
+          "is_list": false,
+          "type": "number",
+          "name2": "prec"
+        },
+        {
+          "name": "oe_syn_lower",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_syn_upper",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_mis_lower",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_mis_upper",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_lof_lower",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_lof_upper",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "constraint_flag",
+          "is_available": true,
+          "title": "Constraint flag (gnomAD)",
+          "is_list": true,
+          "delimiter": "|",
+          "desc": "",
+          "do_import": false,
+          "type": "string"
+        },
+        {
+          "name": "syn_z",
+          "is_available": true,
+          "title": "Z score (synonymous)",
+          "desc": "",
+          "do_import": false,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "mis_z",
+          "is_available": true,
+          "title": "Z score (missense)",
+          "desc": "",
+          "do_import": false,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "lof_z",
+          "is_available": true,
+          "title": "Z score (LoF)",
+          "desc": "",
+          "do_import": false,
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "oe_lof_upper_rank",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "oe_lof_upper_bin",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "oe_lof_upper_bin_6",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "n_sites",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "classic_caf",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "max_af",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "no_lofs",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "obs_het_lof",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "obs_hom_lof",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "defined",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "p",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "exp_hom_lof",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "classic_caf_afr",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "classic_caf_amr",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "classic_caf_asj",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "classic_caf_eas",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "classic_caf_fin",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "classic_caf_nfe",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "classic_caf_oth",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "classic_caf_sas",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "p_afr",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "p_amr",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "p_asj",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "p_eas",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "p_fin",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "p_nfe",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "p_oth",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "p_sas",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "transcript_type",
+          "do_import": false,
+          "is_available": false,
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "gene_id",
+          "name2": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "transcript_level",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "cds_length",
+          "title": "CDS length",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "num_coding_exons",
+          "title": "Number of coding exons",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "gene_type",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "gene_length",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "exac_pLI",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number",
+          "name2": "exac_pli"
+        },
+        {
+          "name": "exac_obs_lof",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "exac_exp_lof",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "exac_oe_lof",
+          "do_import": false,
+          "title": "",
+          "desc": "",
+          "is_list": false,
+          "type": "number"
+        },
+        {
+          "name": "brain_expression",
+          "is_available": false,
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "chromosome",
+          "name2": "chrom",
+          "is_available": false,
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "start_position",
+          "name2": "spos",
+          "is_available": false,
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "end_position",
+          "name2": "epos",
+          "is_available": false,
+          "title": "",
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "name": "Marrvel",
+      "version": "v1.2",
+      "version_date": "06/01/2017",
+      "datafile": "GENE/MARRVEL/marrvel_genesymbol.v1.2_170601.tsv.gz",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "Marrvel",
+          "title": "marrvel",
+          "desc": "Integrated information from six human genetic databases and seven model organism databases",
+          "do_import": true,
+          "is_list": false,
+          "type": "string",
+          "name2": "marrvel"
+        }
+      ]
+    },
+    {
+      "name": "CassaNatGenet2017",
+      "version": "04/03/2017",
+      "version_date": "04/03/2017",
+      "datafile": "GENE/SHET/075523-1.tsv.gz",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "s_het",
+          "title": "s_het",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "GTEx",
+      "version": "v8",
+      "version_date": "06/05/2017",
+      "datafile": "EXPRESSION/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_link.tsv.gz",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "gtex_expression",
+          "title": "GTEx ID",
+          "desc": "",
+          "link": "https://gtexportal.org/home/gene/<ID>",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "BrainSpan",
+      "version": "v2",
+      "version_date": "06/05/2017",
+      "datafile": "EXPRESSION/BRAINSPAN/BRAINSPAN_link.tsv.gz",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "brainspan_microarray",
+          "title": "BrainSpan microarry gene ID",
+          "desc": "",
+          "link": "https://www.brainspan.org/rnaseq/searches?exact_match=false&search_term=<ID>",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "brainspan_rnaseq",
+          "title": "BrainSpan RNAseq gene ID",
+          "desc": "",
+          "link": "https://www.brainspan.org/lcm/search?exact_match=false&search_term=%<ID>%22&search_type=gene",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "BrainAtlas",
+      "version": "v2",
+      "version_date": "06/05/2017",
+      "datafile": "EXPRESSION/BRAINATLAS/BRAINATLAS_microarry_link.tsv.gz",
+      "format": "tsv",
+      "is_available": true,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "brainatlas_microarray",
+          "title": "BrainAtlas microarray gene ID",
+          "desc": "",
+          "link": "https://human.brain-map.org/microarray/search/show?exact_match=false&search_term=%22<ID>%22&search_type=gene",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "GenCode",
+      "version": "v33",
+      "version_date": "12/13/2019",
+      "datafile": "GENE/GENCODE/GenCodeTranscript.v33.12_13_2019.bed.gz",
+      "format": "tsv",
+      "subembedded": "transcript",
+      "is_available": false,
+      "fields": [
+        {
+          "name": "ensgid",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "name": "enstid",
+          "title": "ENSEMBL transcript ID",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "enspid",
+          "title": "ENSEMBL protein ID",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "refseq",
+          "title": "RefSeq ID",
+          "desc": "",
+          "is_list": true,
+          "delimiter": ";",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "refseq_protein",
+          "title": "RefSeq Protein ID",
+          "desc": "",
+          "is_list": true,
+          "delimiter": ";",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "pos",
+          "title": "",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "exon",
+          "title": "exon",
+          "desc": "",
+          "is_list": true,
+          "delimiter": ";",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "CDS",
+          "title": "CDS",
+          "desc": "",
+          "is_list": true,
+          "delimiter": ";",
+          "do_import": true,
+          "type": "string",
+          "name2": "cds"
+        },
+        {
+          "name": "start_codon",
+          "title": "start codon",
+          "desc": "",
+          "is_list": true,
+          "delimiter": ";",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "stop_codon",
+          "title": "stop codon",
+          "desc": "",
+          "is_list": true,
+          "delimiter": ";",
+          "do_import": true,
+          "type": "string"
+        },
+        {
+          "name": "five_prime_UTR",
+          "title": "5 prime UTR",
+          "desc": "",
+          "is_list": true,
+          "delimiter": ";",
+          "do_import": true,
+          "type": "string",
+          "name2": "five_prime_utr"
+        },
+        {
+          "name": "three_prime_UTR",
+          "title": "3 prime UTR",
+          "desc": "",
+          "is_list": true,
+          "delimiter": ";",
+          "do_import": true,
+          "type": "string",
+          "name2": "three_prime_utr"
+        },
+        {
+          "name": "transcript_length",
+          "title": "transcript sequence length",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "transcript_sequence",
+          "title": "transcript sequence",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        },
+        {
+          "name": "protein_length",
+          "title": "protein sequence length",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "integer"
+        },
+        {
+          "name": "protein_sequence",
+          "title": "protein sequence",
+          "desc": "",
+          "do_import": true,
+          "is_list": false,
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}

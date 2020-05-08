@@ -3,7 +3,10 @@ from setuptools import setup, find_packages
 
 install_requires = [
     'pyfaidx>=0.5.3.1',
-    'pysam>=0.11.2.2y7'
+    'pysam>=0.11.2.2y7',
+    'pytabix>=0.0.2',
+    'pyliftover>=0.4',
+    'xmltodict>0.12.0'
 ]
 
 tests_require = [
@@ -19,13 +22,13 @@ extras_require = {
 
 
 setup(name='mutanno',
-      version='0.3.15',
+      version='0.3.17',
       url='https://github.com/dbmi-bgm/mutanno',
       license='MIT',
       author='CGAP team at Harvard Medical School',
       author_email='daniel.minseok.kwon@gmail.com',
       description='Mutation Annotation Tool',
-      download_url='https://github.com/dbmi-bgm/mutanno/archive/0.3.15.tar.gz',
+      download_url='https://github.com/dbmi-bgm/mutanno/archive/0.3.17.tar.gz',
       keywords=['genomics', 'bioinformatics'],
       classifiers=[
           'Operating System :: OS Independent',

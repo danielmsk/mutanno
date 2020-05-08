@@ -38,6 +38,7 @@ class TSVBlockReader():
         self.header = []
         self.filter_start_with = {}
         self.filter_skip_equal_str = {}
+        self.filter_keep_equal_str = {}
         self.delimiter = {}
         self.defaultvalue = {}
         self.field_function = {}
@@ -80,6 +81,8 @@ class TSVBlockReader():
                         self.filter_start_with[self.header.index(f1['name'])] = f1['start_with']
                     if 'skip_equal_str' in f1.keys():
                         self.filter_skip_equal_str[self.header.index(f1['name'])] = f1['skip_equal_str']
+                    if 'keep_equal_str' in f1.keys():
+                        self.filter_keep_equal_str[self.header.index(f1['name'])] = f1['keep_equal_str']
                     if 'delimiter' in f1.keys():
                         self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
                     if 'default' in f1.keys():
@@ -129,7 +132,7 @@ class TSVBlockReader():
                             block[pos][refalt][sid] = cont
         return block
 
-    def get_selected_fields_in_block(self, arr, variantkey):
+    def get_selected_fields_in_block(self, section, variantkey, arrsection=[], section_idx=-9):
         cidx_no = 0
         flag_filter = True
         arr_selected_fields = []
@@ -138,7 +141,7 @@ class TSVBlockReader():
             if cidx == -999:
                 cidxvalue = ''
             else:
-                cidxvalue = arr[cidx]
+                cidxvalue = section[cidx]
 
             if cidx_no in self.field_function.keys():
                 # print(arr_selected_fields)
@@ -148,6 +151,12 @@ class TSVBlockReader():
                 for param in self.field_function_param[cidx_no].split(','):
                     if param == "mutanno_value_variantkey":
                         pstr = 'variantkey'
+                    elif param == "mutanno_value_sections":
+                        pstr = 'arrsection'
+                    elif param == "mutanno_value_columnheader":
+                        pstr = 'self.header'
+                    elif param == "mutanno_value_section_idx":
+                        pstr = 'section_idx'
                     elif cidx_no - 1 == self.field_names.index(param):
                         pstr = 'cidxvalue'
                     else:
@@ -171,11 +180,31 @@ class TSVBlockReader():
 
             if cidx in self.filter_start_with.keys():
                 flag_filter = cidxvalue.startswith(self.filter_start_with[cidx])
+
             if cidx in self.filter_skip_equal_str.keys():
                 flag_filter = not (cidxvalue == self.filter_skip_equal_str[cidx])
+                # print(flag_filter, cidxvalue, cidx, self.filter_skip_equal_str)
+
+            if cidx in self.filter_keep_equal_str.keys():
+                if type(self.filter_keep_equal_str[cidx]) == list:
+                    flag_filter = (cidxvalue in self.filter_keep_equal_str[cidx])
+                else:
+                    flag_filter = (cidxvalue == self.filter_keep_equal_str[cidx])
+                # print(flag_filter, cidxvalue, cidx, self.filter_keep_equal_str)
 
         cont = '|'.join(arr_selected_fields)
         return flag_filter, cont
+
+    def add_vep_fields(self, arrsection):
+        vep = {}
+        vep['consequences'] = {}
+        for sec in arrsection:
+
+            conseqeunce = sec[self.header.index('Conseqeuence')]
+        print(self.header)
+        print(arrsection)
+        return vep
+
 
     def add_block(self, block, regionstr, sid):
         region = pars_region_str(regionstr)
@@ -203,10 +232,10 @@ class TSVBlockReader():
                         else:
                             arrsection = [arr]
 
-                        for sec in arrsection:
+                        for section_idx, section in enumerate(arrsection):
                             variantkey = region['chrom'] + '_' + \
                                 str(pos) + '_' + arr[self.refidx] + '_' + arr[self.altidx]
-                            flag_filter, cont = self.get_selected_fields_in_block(sec, variantkey)
+                            flag_filter, cont = self.get_selected_fields_in_block(section, variantkey, arrsection, section_idx)
                             if flag_filter:
                                 try:
                                     block[pos]
@@ -281,7 +310,8 @@ class TSVBlockMerger():
                 infoarr = []
                 for sid in self.block_readers.keys():
                     if sid in self.block[pos][refalt].keys():
-                        infoarr.append(sid + '=' + self.block[pos][refalt][sid])
+                        if self.block[pos][refalt][sid] != "":
+                            infoarr.append(sid + '=' + self.block[pos][refalt][sid])
                     else:
                         defailtvalue = self.block_readers[sid].get_default_value()
                         if defailtvalue.replace('|','') != '':

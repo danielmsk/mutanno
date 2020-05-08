@@ -96,31 +96,31 @@
 #################################
 
 # python scripts/ensembl/convert_ensemblgene_gtf2bed.py
-mutanno makedata -ds ./tests/data/datastructure_v0.4.1ds_mvp.json \
-    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1 \
-    -vartype GENE \
-    -outtype json
-gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.json
+# mutanno makedata -ds ./tests/data/datastructure_v0.4.1ds_mvp.json \
+#     -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1 \
+#     -vartype GENE \
+#     -outtype json
+# gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.json
 
-mutanno makedata -ds ./tests/data/datastructure_v0.4.1ds_mvp.json \
-    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.coding_gene \
-    -vartype CODINGGENE \
-    -outtype json
-gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.coding_gene.json
+# mutanno makedata -ds ./tests/data/datastructure_v0.4.1ds_mvp.json \
+#     -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.coding_gene \
+#     -vartype CODINGGENE \
+#     -outtype json
+# gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.1.coding_gene.json
 
-python ./scripts/gene/make_genetable.py \
-    ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz \
-    ./tests/data/datastructure_v0.4.0ds_mvp.json
-python ./scripts/gene/cal_genetable_stat.py ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz
-gzhead ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz 200 > ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz.ex.txt
+# python ./scripts/gene/make_genetable.py \
+#     ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz \
+#     ./tests/data/datastructure_v0.4.0ds_mvp.json
+# python ./scripts/gene/cal_genetable_stat.py ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz
+# gzhead ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz 200 > ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz.ex.txt
 
-python ./scripts/gene/select_codinggene.py \
-    ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz \
-    ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed
-tabixgzbed ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed
-python ./scripts/gene/cal_genetable_stat.py ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz
-zcat ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz | cut -f 13 | sort | uniq -c
-zcat ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz | cut -f 8 | sort | uniq -c
+# python ./scripts/gene/select_codinggene.py \
+#     ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.bed.gz \
+#     ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed
+# tabixgzbed ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed
+# python ./scripts/gene/cal_genetable_stat.py ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz
+# zcat ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz | cut -f 13 | sort | uniq -c
+# zcat ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz | cut -f 8 | sort | uniq -c
 
 #################################
 # micro-annotation
@@ -169,24 +169,58 @@ zcat ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.0.coding_gene.bed.gz | c
 #################################
 
 
-# mutanno makedata -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
-#     -out /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3.chr1_00.tsi \
-#     -vartype SNP \
-#     -blocksize 10 \
-#   -region 1:567876-567876
+python /home/mk446/bio/mutanno/SRC/src/mutanno.py makedata \
+    -ds /home/mk446/bio/mutanno/SRC/tests/data/datastructure_v0.4.4ds.json \
+    -out /home/mk446/bio/mutanno/DATASOURCE/MAINANNOT/tmp/mc_1.tsi \
+    -vartype SNV \
+    -blocksize 100 \
+    -region 1:2229680-2229690
+    # -region 1:101830-101840
 
 # tabixgz /home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3.chr1.tsi
 
-# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.vcf.gz \
-#     -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.annot.vcf \
-#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.2_mvp.json \
-#     -blocksize 1000
+#mutanno annot \
+# python /home/mk446/bio/mutanno/SRC/src/mutanno.py annot \
+#     -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.vcf.gz \
+#     -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.annot_v0.4.4.vcf \
+#     -ds /home/mk446/bio/mutanno/SRC/tests/data/datastructure_v0.4.4ds.json \
+#     -blocksize 100
 
 
-# mutanno annot -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.vcf \
-#     -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.annot.vcf \
-#     -ds /home/mk446/bio/mutanno/SRC/tests/datastructure_v0.3.0_mvp.json \
-#     -blocksize 10
+# mutanno annot \
+python /home/mk446/bio/mutanno/SRC/src/mutanno.py annot \
+    -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.vcf \
+    -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.test.annot_v0.4.4.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/data/datastructure_v0.4.4ds.json \
+    -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
+    -genoinfo \
+    -hgvs \
+    -hg19 \
+    -genetable
+
+#### data check
+
+python /home/mk446/bio/mutanno/SRC/src/mutanno.py annot \
+    -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.vcf.gz \
+    -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.annot_v0.4.5.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/data/datastructure_v0.4.4ds.json \
+    -sourcefile /home/mk446/bio/mutanno/DATASOURCE/MAINANNOT/mc_3k.tsi_mod.tsi.gz \
+    -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
+    -genoinfo HG002 HG003 HG004 \
+    -hgvs \
+    -hg19 \
+    -genetable
+
+python /home/mk446/bio/mutanno/SRC/src/mutanno.py annot \
+    -vcf /home/mk446/bio/mutanno/TEST/GAPFI7HPIVFM.mod.vcf.gz \
+    -out /home/mk446/bio/mutanno/TEST/GAPFI7HPIVFM.mod.annot_v0.4.5.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/data/datastructure_v0.4.5ds.json \
+    -sourcefile /home/mk446/bio/mutanno/DATASOURCE/MAINANNOT/mc_3k.tsi_mod.tsi.gz \
+    -clean_tag MUTANNO VEP gnomADgenome CLINVAR SpliceAI \
+    -genoinfo NA12877_sample NA12878_sample NA12879_sample \
+    -hgvs \
+    -hg19 \
+    -genetable
 
 
 

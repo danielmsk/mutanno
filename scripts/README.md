@@ -1,20 +1,136 @@
-[TOC]
+<!-- ##TOC## -->
+1. [Variant Annotation](#variant-annotation)
+	1. [Make Annotation Source Files](#make-annotation-source-files)
+		1. [Make micro-annotation source files](#make-micro-annotation-source-files)
+		1. [Make main-annotation source files](#make-main-annotation-source-files)
+		1. [Compare json data structure file with googlesheet table](#compare-json-data-structure-file-with-googlesheet-table)
+	1. [CLINVAR](#clinvar)
+	1. [Conservation](#conservation)
+		1. [Merge Scores for](#merge-scores-for)
+		1. [SiPhy](#siphy)
+	1. [LIFTOVER](#liftover)
+1. [Gene Annotation](#gene-annotation)
+	1. [Make Datasource file](#make-datasource-file)
+	1. [EnsembleIDxref](#ensembleidxref)
+	1. [EnsembleIDxref_transcriptid](#ensembleidxref_transcriptid)
+	1. [hg19 coordinates](#hg19-coordinates)
+<!-- ##TOCEND## -->
 
 # Variant Annotation
 
-1. [Conservation](#conservation)
-2. [hg19 coordinates](#hg19_coordinates)
 
-## Make Micro-Annotation Source Files
+## Make Annotation Source Files
 
 ```
+python s01_mk_datasource_script.py [DS_FILE] [OUT_PATH] [chunksize(default:1000000)]
 python s04_merge_and_tabixgz.py > s04.sh
 ./s04.sh
 ```
+
+### Make micro-annotation source files
+```
+python s01_mk_datasource_script.py \
+	../tests/data/datastructure_microannot_v0.4.2ds.json \
+	../../DATASOURCE/MICROANNOT/tmp/ \
+	1000000
+```
+
+### Make main-annotation source files
+```
+python s01_mk_datasource_script.py \
+	../tests/data/datastructure_v0.4.4ds_mvp.json \
+	../../DATASOURCE/MAINANNOT/tmp/ \
+	500000
+```
+
+
+### Compare json data structure file with googlesheet table
+```
+python check_variant_json_vs_googlesheet.py \
+	../tests/data/datastructure_v0.4.4ds.json \
+	../tests/data/datastructure_v0.4.4ds.googlesheet.txt
+```
+## CLINVAR
+```
+python s02_preproc_clinvar.py 
+
+vcf-sort -c clinvar_20200329_submission.tsv > clinvar_20200329_submission.sorted.tsv
+tabixgz clinvar_20200329_submission.sorted.tsv.gz
+```
+
+*Input:*
+
+* `clinvarxml = path + "ClinVarFullRelease_2020-03.xml.gz"`
+* `clinvarvcf = path + "clinvar_20200329.vcf.gz"`
+* download from [ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar](ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar)
+
+*Output:*
+
+* tsv file : `clinvar_20200329.tsv`
+
+	```
+[0]	#CHROM :	1
+[1]	POS :	930248
+[2]	VARIATIONID :	789256
+[3]	REF :	G
+[4]	ALT :	A
+[5]	ALLELEID :	707587
+[6]	CLNDN :	not_provided
+[7]	CLNDNINCL :
+[8]	CLNDISDB :	MedGen:CN517202
+[9]	CLNDISDBINCL :
+[10]	CLNHGVS :	NC_000001.11:g.930248G>A
+[11]	CLNREVSTAT :	criteria_provided,_single_submitter
+[12]	CLNSIG :	Likely_benign
+[13]	CLNSIGCONF :
+[14]	CLNSIGINCL :
+[15]	CLNVC :	single_nucleotide_variant
+[16]	CLNVCSO :	SO:0001483
+[17]	CLNVI :
+[18]	GENEINFO :	SAMD11:148398
+[19]	MC :	SO:0001583|missense_variant
+[20]	ORIGIN :	1
+[21]	SSR :
+```
+
+* submission tsv file: `clinvar_20200329_submission.tsv`
+
+	```
+[0]	#CHROM :	1
+[1]	POS :	930248
+[2]	VARIATIONID :	789256
+[3]	REF :	G
+[4]	ALT :	A
+[5]	ClinVarAccession :	SCV001119512
+[6]	Interpretation :	Likely benign
+[7]	DateLastEvaluated :	2019-01-02
+[8]	ReviewStatus :	criteria provided, single submitter
+[9]	Method :	clinical testing
+[10]	Condition :	not provided
+[11]	AlleleOrigin :	germline
+[12]	Submitter :	Invitae
+[13]	SubmitterID :	500031
+[14]	Citation :
+```
+
+
+## Conservation
+
+### Merge Scores for 
+
+```
+python preproc_convert_and_merge_conservation_wigfix2bed.py
+```
+
 **Input:**
 
 1. Wigfile for PhastCons, PhyloP, Gerp
+ * `[DATASOURCE_PATH]/CONSERVATION/PHASTCONS/PHASTCONS100WAY/hg38/chr#CHROM#.phastCons100way.wigFix.gz`
+ * `[DATASOURCE_PATH]/CONSERVATION/PHASTCONS/PHASTCONS30WAY/hg38/chr#CHROM#.phastCons30way.wigFix.gz`
+ * `[DATASOURCE_PATH]/CONSERVATION/PHASTCONS/PHASTCONS20WAY/hg38/chr#CHROM#.phastCons20way.wigFix.gz`
+
 2. SiPhy bed file (tabix-indexed)
+ * 
 
 **Output:**
 
@@ -26,32 +142,6 @@ python s04_merge_and_tabixgz.py > s04.sh
 5	11015		|0.106|||0.158||||
 5	11016		|0.099|||0.177||||
 ```
-
-
-
-
-## Conservation
-
-### Merge Scores for 
-
-```
-python preproc_convert_and_merge_conservation_wigfix2tsi.py
-```
-
-**Input:**
-
-1. PhastCons
- * `[DATASOURCE_PATH]/CONSERVATION/PHASTCONS/PHASTCONS100WAY/hg38/chr#CHROM#.phastCons100way.wigFix.gz`
- * `[DATASOURCE_PATH]/CONSERVATION/PHASTCONS/PHASTCONS30WAY/hg38/chr#CHROM#.phastCons30way.wigFix.gz`
- * `[DATASOURCE_PATH]/CONSERVATION/PHASTCONS/PHASTCONS20WAY/hg38/chr#CHROM#.phastCons20way.wigFix.gz`
-1. PhyloP
-1. Gerp
-1. SiPhy
- * 
-
-**Output:**
-
-1. `[DATASOURCE_PATH]/CONSERVATION/conservation_scores.hg38.chr#CHROM#.tsi`
 
 
 ### SiPhy
@@ -80,6 +170,18 @@ vcf-sort -c [DATASOURCE_PATH]/CONSERVATION/SIPHY/29mammals/hg38liftover_29way_pi
 1. `[DATASOURCE_PATH]/CONSERVATION/SIPHY/29mammals/hg38liftover_29way_pi_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.tsv.sorted.bed.gz`
 
 
+## LIFTOVER
+
+```
+python ./liftover/liftover.py [b37 vcf file]
+```
+**Input**
+
+* b37 VCF file
+
+**Output**
+
+* hg38-liftover annotated VCF file
 
 
 
@@ -87,6 +189,18 @@ vcf-sort -c [DATASOURCE_PATH]/CONSERVATION/SIPHY/29mammals/hg38liftover_29way_pi
 # Gene Annotation
 
 ## Make Datasource file
+
+**For coding genes in main chromosomes (1-22,X,Y,MT)**
+
+```
+mutanno makedata -ds ./tests/data/datastructure_v0.4.4ds_mvp.json \
+    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.4.coding_gene_main_chrom \
+    -vartype CODING_GENE_MAIN_CHROM \
+    -outtype json
+gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.4.coding_gene_main_chrom.json
+pytest scripts/gene/test_googlesheet_gene_table.py
+```
+
 
 **For all genes**
 
@@ -96,6 +210,7 @@ mutanno makedata -ds ./tests/data/datastructure_v0.4.3ds_mvp.json \
     -vartype GENE \
     -outtype json
 gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.3.json
+python ./gene/check_googlesheet_gene_table.py 
 ```
 
 **For coding genes**
@@ -103,7 +218,7 @@ gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.3.json
 ```
 mutanno makedata -ds ./tests/data/datastructure_v0.4.3ds_mvp.json \
     -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.3.coding_gene \
-    -vartype CODINGGENE \
+    -vartype CODING_GENE \
     -outtype json
 gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.3.coding_gene.json
 ```

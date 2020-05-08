@@ -2,6 +2,7 @@ import os
 import json
 from .util import file_util
 from .util import struct_util
+from .util import seq_util
 from . import external_functions
 
 
@@ -479,14 +480,19 @@ class GeneDataSourceFile():
             fp.write(']')
 
     def save_file_record(self, fp, data, prev_flag):
-        if prev_flag:
-            fp.write(',')
+        
         if self.outtype == "json":
             flag = True
-            if self.vartype == "CODINGGENE":
+            if "CODING_GENE" in self.vartype:
                 if data['gene_biotype'] != "protein_coding":
                     flag = False
+            if "MAIN_CHROM" in self.vartype:
+                if data['chrom'] not in seq_util.MAIN_CHROM_LIST:
+                    flag = False
+
             if flag:
+                if prev_flag:
+                    fp.write(',')
                 # fp.write(json.dumps(data))
                 fp.write(json.dumps(data, indent=2))
         else:
@@ -522,7 +528,9 @@ class GeneDataSourceFile():
             # line = '\t'.join(data)
             data = gsm.get_data_dict(ensgid)
             if len(data.keys()) > 0:
-                flag_write = self.save_file_record(fp, data, flag_write)
+                flag2 = self.save_file_record(fp, data, flag_write)
+                if flag2:
+                    flag_write = True
                 i += 1
 
             if i > 1000:

@@ -1,7 +1,40 @@
 from .util import file_util
+from .util import vep_util
 
 entrezmap = {}
 refseqmap = {}
+
+
+def is_most_severe_transcript(sections, section_idx, colheader):
+    rst = '0'
+    most_severe = {}
+    target_gene = ""
+    for sidx, section in enumerate(sections):
+        d = {}
+        d['gene'] = section[colheader.index('Gene')]
+        d['canonical'] = section[colheader.index('CANONICAL')]
+        d['sidx'] = sidx
+        d['corder'] = 9999  ## consequence_order
+        for consequence in section[colheader.index('Consequence')].split('&'):
+            if d['corder'] < vep_util.VEP_CONSEQUENCE_ORDER[consequence]:
+                d['corder'] = vep_util.VEP_CONSEQUENCE_ORDER[consequence]
+        try:
+            if most_severe[d['gene']]['corder'] > d['corder']:
+                most_severe[d['gene']] = d
+            elif most_severe[d['gene']]['corder'] == d['corder']:
+                if most_severe[d['gene']]['canonical'] != "YES" and d['canonical'] == "YES":
+                    most_severe[d['gene']] = d
+        except KeyError:
+            most_severe[d['gene']] = d
+
+        if sidx == section_idx:
+            target_gene = d['gene']
+
+    if most_severe[target_gene]['sidx'] == section_idx:
+        rst = '1'
+
+    return rst
+
 
 
 def trim_DIP_ID(v1):

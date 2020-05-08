@@ -16,12 +16,12 @@ else:
 sys.path.append(sys_path)
 
 
-def split_run_datasource_4_microannot(ds_json_file, path):
+def split_run_datasource_4_microannot(ds_json_file, path, chunksize=1000000):
     # seq_util.load_refseq_info('b38d')
     
     file_util.check_dir(path + 'aa')
 
-    regionlist = seq_util.get_split_region()
+    regionlist = seq_util.get_split_region(chunksize)
     # print(regionlist[:20])
     # print(regionlist)
     print(len(regionlist))
@@ -39,7 +39,7 @@ def split_run_datasource_4_microannot(ds_json_file, path):
         cmd += 'mutanno makedata '
         # cmd += "-ds /home/mk446/mutanno/SRC/tests/datastructure_microannot_v0.2.json "
         cmd += " -ds " + ds_json_file
-        out = path + "mc_" + str(r1[3]) + ".tsv"
+        out = path + "mc_" + str(r1[3]) + ".tsi"
         cmd += " -out " + out
         cmd += " -vartype SNV "
         cmd += " -region " + chrom + ":" + str(r1[1]) + "-" + str(r1[2]) + " "
@@ -70,8 +70,9 @@ def split_run_datasource_4_microannot(ds_json_file, path):
         except KeyError:
             rmchrom_cmd[chrom] = "rm " + out + ".tsi;\n"
 
-    # file_save(path[:-1] + '_splitrun.sh', cmd)
-    # file_save(path[:-1] + '_merge.sh', mcmd)
+    file_save(path[:-1] + '_splitrun.sh', cmd)
+    file_save(path[:-1] + '_merge.sh', mcmd)
+
 
     for chrom in mchrom_cmd.keys():
         out_chrom = "allchrom_" + chrom + ".tsi"
@@ -86,6 +87,7 @@ def split_run_datasource_4_microannot(ds_json_file, path):
 def file_save(out, cont):
     file_util.fileSave(out , cont, 'w')    
     proc_util.run_cmd('chmod 755 ' + out)
+    print('Saved', out)
 
 # This function needs lots of computing time. 
 def split_run_datasource_4_microannot_chrom(ds_json_file, out):
@@ -122,12 +124,19 @@ if __name__ == "__main__":
     import proc_util
     import file_util
     import seq_util
+    print('#USAGE:python s01_mk_datasource_script.py [DS_FILE] [OUT_PATH] [chunksize(default:1000000)]')
     path = "/home/mk446/mutanno/DATASOURCE/MICROANNOT/tmp/"
-    ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.4.1ds.json"
-    out = "/home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.4.1_200421.tsi"
-    split_run_datasource_4_microannot(ds_json_file, path)
+    ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.4.2ds.json"
+    out = "/home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.4.2_200504.tsi"
+
+    ds_json_file = sys.argv[1]
+    path = sys.argv[2]
+    chunksize = 1000000
+    if len(sys.argv) == 4:
+        chunksize = int(sys.argv[3].replace(',',''))
+    split_run_datasource_4_microannot(ds_json_file, path, chunksize)
     
-    ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.4.1ds.json"
+    ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.4.2ds.json"
     out = "/home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.4.1_200421.tsi"
     # split_run_datasource_4_microannot_chrom(ds_json_file, out)
     

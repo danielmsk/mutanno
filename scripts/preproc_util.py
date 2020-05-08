@@ -11,8 +11,10 @@ else:
 sys.path.append(sys_path)
 
 
+
 CURRENTPATH = os.path.abspath(os.path.dirname(__file__))
 DATASOURCEPATH = os.path.abspath(os.path.join(CURRENTPATH, "../../DATASOURCE/"))
+TESTPATH = os.path.abspath(os.path.join(CURRENTPATH, "../tests/"))
 ENSEMBLgene = DATASOURCEPATH + "/ENSEMBL/hg38/Homo_sapiens.GRCh38.99.bed.gz"
 HGNC = DATASOURCEPATH + "/GENE/HGNC/hgnc_complete_set.mod.txt.gz"
 NCBIgene = DATASOURCEPATH + "/NCBI/GENE/Homo_sapiens.gene_info.gz"

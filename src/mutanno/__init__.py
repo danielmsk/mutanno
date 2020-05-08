@@ -26,7 +26,8 @@ def dispatch_job(opt):
         else:
             annotvcf.run()
     if opt['subcommand'] == 'makedata' and 'out' in opt.keys() and opt['out'] != "":
-        if opt['vartype'].upper() == 'GENE' or opt['vartype'].upper() == 'CODINGGENE':
+        opt['vartype'] = opt['vartype'].upper()
+        if 'GENE' in opt['vartype']:
             md = makegenedata.GeneDataSourceFile(opt)
             md.make_single_source_file()
         else:

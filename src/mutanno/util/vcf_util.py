@@ -1,18 +1,47 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# vcf_util.py
-# made by Daniel Minseok Kwon
-# 2019-11-06 03:43:19
-#########################
+
+VCF_COL = ['CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO','FORMAT']
+
+# https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.39
+CHROM_HGVS = {}
+CHROM_HGVS["1"] = "NC_000001.11"
+CHROM_HGVS["2"] = "NC_000002.12"
+CHROM_HGVS["3"] = "NC_000003.12"
+CHROM_HGVS["4"] = "NC_000004.12"
+CHROM_HGVS["5"] = "NC_000005.10"
+CHROM_HGVS["6"] = "NC_000006.12"
+CHROM_HGVS["7"] = "NC_000007.14"
+CHROM_HGVS["8"] = "NC_000008.11"
+CHROM_HGVS["9"] = "NC_000009.12"
+CHROM_HGVS["10"] = "NC_000010.11"
+CHROM_HGVS["11"] = "NC_000011.10"
+CHROM_HGVS["12"] = "NC_000012.12"
+CHROM_HGVS["13"] = "NC_000013.11"
+CHROM_HGVS["14"] = "NC_000014.9"
+CHROM_HGVS["15"] = "NC_000015.10"
+CHROM_HGVS["16"] = "NC_000016.10"
+CHROM_HGVS["17"] = "NC_000017.11"
+CHROM_HGVS["18"] = "NC_000018.10"
+CHROM_HGVS["19"] = "NC_000019.10"
+CHROM_HGVS["20"] = "NC_000020.11"
+CHROM_HGVS["21"] = "NC_000021.9"
+CHROM_HGVS["22"] = "NC_000022.11"
+CHROM_HGVS["X"] = "NC_000023.11"
+CHROM_HGVS["Y"] = "NC_000024.10"
 
 
-def get_info_header(infoid, infodesc, subfields, sourcesubembed=""):
+def get_info_header(headertype, infoid, version, vdate,  infodesc, subfields, sourcesubembed=""):
     header = ""
-    header += "##INFO=<ID=" + infoid + ",Number=.,Type=String"
-    header += ",Description=\"" + infodesc + ". "
-    if sourcesubembed != '':
-        header += "Subembedded:'" + sourcesubembed + "':"
-    header += "Format:'" + '|'.join(subfields) + "'\">\n"
+
+    if headertype == "MUTANNO":
+        header += "##MUTANNO=<ID="+infoid+",Version=\""+version+"\",Date=\""+vdate+"\">\n"
+    elif headertype == "INFO":
+        header += "##INFO=<ID=" + infoid + ",Number=.,Type=String"
+        header += ",Description=\"" + infodesc + ". "
+        if sourcesubembed != '':
+            header += "Subembedded:'" + sourcesubembed + "':"
+        header += "Format:'" + '|'.join(subfields) + "'\">\n"
     return header
 
 
@@ -68,7 +97,7 @@ def split_multiallelic_variants(vcfrecord):
                     arr2 = arr[1].split(',')
                     f1 = arr[0] + "=" + arr2[k]
             info.append(f1)
-        info.append('multiallele=' + vcfrecord[0] + ':' + vcfrecord[1] + ' ' + vcfrecord[3] + '/' + vcfrecord[4])
+        info.append('multiallele=' + vcfrecord[0] + ':' + vcfrecord[1] + '%20' + vcfrecord[3] + '/' + vcfrecord[4])
         r1[7] = ';'.join(info)
         rst.append(r1)
     return rst

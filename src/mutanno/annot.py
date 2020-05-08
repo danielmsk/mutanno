@@ -6,6 +6,7 @@ import tabix
 import time
 from .util import file_util
 from .util import vcf_util
+from .util import seq_util
 from . import _version
 
 VCFCOLIDX = {'CHROM': 0, 'POS': 1, 'ID': 2, 'REF': 3, 'ALT': 4, 'QUAL': 5, 'FILTER': 6, 'INFO': 7, 'FORMAT': 8}
@@ -13,7 +14,7 @@ TSVCOLIDX = {'CHROM': 0, 'POS': 1, 'REF': 2, 'ALT': 3}
 DATAHEADER = {}
 
 MAXBUFF = 1000000
-INFOCOLIDX = 7
+INFOCOLIDX = vcf_util.VCF_COL.index('INFO')
 
 
 def load_entrez_refseq():
@@ -584,7 +585,11 @@ class AnnotMap():
                 self.load_tabixpointer()
 
             flag_add = False
-            recs = self.tabixpointer.query(chrom, pos - 1, pos + 1)
+            # print(chrom, b1)
+            try:
+                recs = self.tabixpointer.query(chrom, pos - 1, pos + 1)
+            except tabix.TabixError:
+                recs = []
             for r1 in recs:
                 if int(r1[1]) == pos and r1[3] == ref and r1[4] == alt:
                     if b1[INFOCOLIDX] == '.':
@@ -607,16 +612,19 @@ class AnnotMap():
 
 
 class VCFBlockReader():
-    def __init__(self, vcf, blocksize=10000, add_genoinfo=False, clean_tag_list=[]):
+    def __init__(self, vcf, blocksize=10000, add_genoinfo=False, add_hgvs=False, add_hg19=False, add_genetable=False, clean_tag_list=[]):
         self.vcf = vcf
         self.blocksize = blocksize
         self.fp = file_util.gzopen(self.vcf)
-        self.is_gz = self.vcf.endswith('.gz')
         self.eof = False
         self.total_variant = 0
         self.i_variant = 0
         self.add_genoinfo = add_genoinfo
+        self.add_hgvs = add_hgvs
+        self.add_hg19 = add_hg19
+        self.add_genetable = add_genetable
         self.clean_tag_list = clean_tag_list
+        self.sampleid_list = []
 
     def is_clean_tag(self, line):
         flag = False
@@ -627,14 +635,14 @@ class VCFBlockReader():
                         flag = True
         return flag
 
-    def get_header(self, add_header):
+    def get_header(self, inserted_header):
         headercont = ""
         for line in file_util.gzopen(self.vcf):
-            if self.is_gz:
-                line = line.decode('UTF-8')
+            line = file_util.decodeb(line)
             if line[0] == "#":
                 if line[:len('#CHROM')] == "#CHROM":
-                    headercont += add_header
+                    headercont += inserted_header
+                    self.sampleid_list = line.strip().split('\t')[9:]
                 if line[:len('##contig=')] != '##contig=':
                     if not self.is_clean_tag(line):
                         headercont += line
@@ -642,22 +650,108 @@ class VCFBlockReader():
                 self.total_variant += 1
         return headercont
 
-    def add_genotypeinfo_in_infofield(self, vcfrecord):
+    def add_genotypeinfo_in_infofield(self, vcfrecord, target_sampleid):
+
+        if len(target_sampleid) == 0:
+            target_sampleidx = range(9, len(vcfrecord))
+        else:
+            target_sampleidx = [self.sampleid_list.index(sid)+9 for sid in target_sampleid]
+
         samplegeno = []
-        for k in range(9, len(vcfrecord)):
+        for k in target_sampleidx:
             gtinfo = vcfrecord[k].split(':')
             converted_gtinfo = []
             converted_gtinfo.append(gtinfo[0].replace('|', '/'))
             converted_gtinfo.append(vcf_util.get_genotype(gtinfo[0], vcfrecord[3], vcfrecord[4]))
             converted_gtinfo.append(gtinfo[1].replace(',', '/'))
+            converted_gtinfo.append(self.sampleid_list[k-9])
             samplegeno.append('|'.join(converted_gtinfo))
-        if len(samplegeno) > 0:
-            if vcfrecord[7] == ".":
-                vcfrecord[7] = ""
-            if vcfrecord[7] != "":
-                vcfrecord[7] += ";"
-            vcfrecord[7] += "SAMPLEGENO=" + ",".join(samplegeno)
+        return self.add_infofield(vcfrecord, "SAMPLEGENO", ",".join(samplegeno))
+
+    def get_hgvsg(self, chrom, pos, ref, alt):
+        try:
+            hgvsg = vcf_util.CHROM_HGVS[chrom.replace('chr','')] + ':g.'
+            if len(ref) > len(alt):
+                if len(ref) == 2:
+                    hgvsg += str(pos + 1) + 'del'
+                else:
+                    hgvsg += str(pos + 1) + '_' + str(pos + len(ref) - 1) + 'del'
+            elif len(ref) < len(alt):
+                hgvsg += str(pos) + '_' + str(pos + 1) + 'ins' + alt[1:]
+            else:
+                hgvsg += str(pos) + ref + '>' + alt
+        except KeyError:
+            hgvsg = ""
+        return hgvsg
+
+    def add_hgvs_in_infofield(self, vcfrecord):
+        chrom = vcfrecord[0]
+        pos = int(vcfrecord[1])
+        ref = vcfrecord[3]
+        alt = vcfrecord[4]
+
+        hgvsg = self.get_hgvsg(chrom, pos, ref, alt)
+
+        
+        return self.add_infofield(vcfrecord, "HGVS", hgvsg)
+
+    def add_hg19_in_infofield(self, vcfrecord):
+        chrom = vcfrecord[0]
+        pos = int(vcfrecord[1])
+        ref = vcfrecord[3]
+        alt = vcfrecord[4]
+        hg19 = ""
+        for hg19coord in seq_util.convert_coordinate(chrom, pos):
+            hg19_chrom = hg19coord[0]
+            hg19_pos = hg19coord[1]
+
+            if hg19 != "":
+                hg19 += ","
+
+            hg19 += hg19_chrom + '|' + str(hg19_pos)
+            if self.add_hgvs:
+                hg19 += '|' + self.get_hgvsg(hg19_chrom, hg19_pos, ref, alt)
+        
+        return self.add_infofield(vcfrecord, "HG19", hg19)
+
+    def add_infofield(self, vcfrecord, fieldname, fieldcont):
+        infofield = vcfrecord[INFOCOLIDX]
+        if infofield == ".":
+            infofield = ""
+        if infofield != "" and infofield[-1] != ";":
+            infofield += ";"
+        
+        if fieldcont != "":
+            infofield += fieldname + "=" + fieldcont
+        vcfrecord[INFOCOLIDX] = infofield
         return vcfrecord
+
+    def add_genetable_in_infofield(self, vcfrecord):
+        # chrom = vcfrecord[0]
+        # pos = int(vcfrecord[1])
+        # ref = vcfrecord[3]
+        # alt = vcfrecord[4]
+        # hg19 = ""
+        # for hg19coord in seq_util.convert_coordinate(chrom, pos):
+        #     hg19_chrom = hg19coord[0]
+        #     hg19_pos = hg19coord[1]
+
+        #     if hg19 != "":
+        #         hg19 += ","
+
+        #     hg19 += hg19_chrom + '|' + str(hg19_pos)
+        #     if self.add_hgvs:
+        #         hg19 += '|' + self.get_hgvsg(hg19_chrom, hg19_pos, ref, alt)
+        
+        # if vcfrecord[7] == ".":
+        #     vcfrecord[7] = ""
+        # if vcfrecord[7] != "" and vcfrecord[7][-1] != ";":
+        #     vcfrecord[7] += ";"
+        
+        # if hg19 != "":
+        #     vcfrecord[7] += "HG19=" + hg19
+        return vcfrecord
+
 
     def clean_tag_infofield(self, vcfrecord):
         rstinfo = ""
@@ -674,15 +768,20 @@ class VCFBlockReader():
         block = []
         while True:
             line = self.fp.readline()
-            if self.is_gz:
-                line = line.decode('UTF-8')
+            line = file_util.decodeb(line)
 
             if line.strip() != '':
                 if line[0] != '#':
                     vcfrecord = line.split('\t')
                     vcfrecord[-1] = vcfrecord[-1].strip()
-                    if self.add_genoinfo:
-                        vcfrecord = self.add_genotypeinfo_in_infofield(vcfrecord)
+                    if type(self.add_genoinfo) == list:
+                        vcfrecord = self.add_genotypeinfo_in_infofield(vcfrecord, self.add_genoinfo)
+                    if self.add_hgvs:
+                        vcfrecord = self.add_hgvs_in_infofield(vcfrecord)
+                    if self.add_hg19:
+                        vcfrecord = self.add_hg19_in_infofield(vcfrecord)
+                    if self.add_genetable:
+                        vcfrecord = self.add_genetable_in_infofield(vcfrecord)
                     if len(self.clean_tag_list) > 0:
                         vcfrecord = self.clean_tag_infofield(vcfrecord)
                     if "," in vcfrecord[4]:
@@ -720,6 +819,9 @@ class AnnotVCF():
             self.datastruct['sourcefile'] = self.opt['sourcefile']
         self.blocksize = opt['blocksize']
         self.add_genoinfo = opt['add_genoinfo']
+        self.add_hgvs = opt['add_hgvs']
+        self.add_hg19 = opt['add_hg19']
+        self.add_genetable = opt['add_genetable']
         self.split_multi_allelic_variant = opt['split_multi_allelic_variant']
 
         self.set_datafile()
@@ -786,11 +888,23 @@ class AnnotVCF():
 
     def get_annot_header(self):
         cont = ""
-        if self.add_genoinfo:
-            cont += vcf_util.get_info_header("SAMPLEGENO", "Sample genotype information", ["NUMGT", "GT", "AD"])
-        if self.split_multi_allelic_variant:
-            cont += vcf_util.get_info_header("multiallele",
-                                             "sample-variant key for multi-allelic variants", ["SAMPLEVARIANTKEY"])
+
+        for headertype in ["MUTANNO", "INFO"]:
+            if self.add_genoinfo:
+                cont += vcf_util.get_info_header(headertype, "SAMPLEGENO", "v0.4", "05/07/2020" ,"Sample genotype information", ["NUMGT", "GT", "AD","SAMPLEID"], "samplegeno")
+            if self.add_hgvs:
+                cont += vcf_util.get_info_header(headertype, "HGVS", "v0.4", "05/07/2020", "HGVSG", ["hgvsg"])
+            if self.add_hg19:
+                if self.add_hgvs:
+                    cont += vcf_util.get_info_header(headertype, "HG19", "v0.4", "05/07/2020","hg19 coordinates", ["chrom", "pos", "hgvsg"], "hg19")
+                else:
+                    cont += vcf_util.get_info_header(headertype, "HG19", "v0.4", "05/07/2020", "hg19 coordinates", ["chrom", "pos"], "hg19")
+            if self.add_genetable:
+                cont += vcf_util.get_info_header(headertype, "GENES","v99","05/07/2020" ,"Gene table", ["ENSG","MOST_SEVERE_TRANSCRIPT","MOST_SEVERE_CONSEQUENCE"], "genes")
+
+            if self.split_multi_allelic_variant:
+                cont += vcf_util.get_info_header(headertype, "multiallele", "v0.4","05/07/2020",
+                                                 "sample-variant key for multi-allelic variants", ["SAMPLEVARIANTKEY"])
 
         if 'merged_one_field' in self.datastruct.keys() and self.datastruct['merged_one_field'] != '':
             fields = []
@@ -820,7 +934,7 @@ class AnnotVCF():
                                     fields.append(s1['name'] + "_" + f1['name'])
             sourcename = self.datastruct['merged_one_field']
             sourcedesc = get_dict_value(self.datastruct, 'merged_one_field_desc', '')
-            cont += vcf_util.get_info_header(sourcename, sourcedesc, fields)
+            cont += vcf_util.get_info_header("INFO", sourcename, "","", sourcedesc, fields)
         else:
             for s1 in self.datastruct['source']:
                 if get_dict_value(s1, 'is_available', True):
@@ -842,7 +956,7 @@ class AnnotVCF():
                     sourcename = get_sourcename(s1)
                     sourcedesc = get_dict_value(s1, 'desc', '')
                     sourcesubembed = get_dict_value(s1, 'subembedded', '')
-                    cont += vcf_util.get_info_header(sourcename, sourcedesc, fields, sourcesubembed)
+                    cont += vcf_util.get_info_header("INFO",sourcename,"","", sourcedesc, fields, sourcesubembed)
         return cont
 
     def get_version_info(self):
@@ -913,7 +1027,8 @@ class AnnotVCF():
         total_varno = 0
         am = AnnotMap(self.datastruct, self.datafileinfo)
         vblock = VCFBlockReader(self.opt['vcf'], self.opt['blocksize'],
-                                self.opt['add_genoinfo'], self.opt['clean_tag_list'])
+                                self.opt['add_genoinfo'],self.opt['add_hgvs'], 
+                                self.opt['add_hg19'], self.opt['add_genetable'], self.opt['clean_tag_list'])
         f.write(vblock.get_header(self.get_version_info() + self.get_annot_header()))
         while(not vblock.eof):
             stime1 = time.time()

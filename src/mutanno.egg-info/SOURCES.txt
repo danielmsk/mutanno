@@ -26,6 +26,7 @@ src/mutanno/util/proc_util.py
 src/mutanno/util/seq_util.py
 src/mutanno/util/struct_util.py
 src/mutanno/util/vcf_util.py
+src/mutanno/util/vep_util.py
 src/mutanno/web/__init__.py
 src/mutanno/web/admin.py
 src/mutanno/web/apps.py

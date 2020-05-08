@@ -14,7 +14,7 @@ elif SVRNAME == "T7":
 else:
     sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
-sys.path.append('..')
+sys.path.append('/home/mk446/mutanno/SRC/scripts')
 import tabix
 
 class WIG:
@@ -108,7 +108,7 @@ def convert_phastcon_wigfix2tsi(chrom):
     print(out)
     fout = open(out, 'w')
     kslist = list(wigfile.keys())
-    fout.write('#CHROM\tPOS\tID\t' + '|'.join(kslist) + '\n')
+    fout.write('#CHROM\tSPOS\tEPOS\t' + '\t'.join(kslist) + '\n')
     f = {}
     for k1 in wigfile.keys():
         if k1 == "GERP":
@@ -142,9 +142,9 @@ def convert_phastcon_wigfix2tsi(chrom):
 
             if flagwrite:
                 cont = [chrom]
+                cont.append(str(posi-1))
                 cont.append(str(posi))
-                cont.append('')
-                cont.append('|'.join(sclist))
+                cont.append('\t'.join(sclist))
                 fout.write('\t'.join(cont) + '\n')
         if epos == chromlen:
             break
@@ -156,7 +156,7 @@ def run():
     for chrom in seq_util.MAIN_CHROM_LIST:
         if chrom == 'MT':
             chrom = "M"
-        cmd = "python /home/mk446/mutanno/SRC/scripts/conservation/preproc_convert_and_merge_conservation_wigfix2tsi.py "
+        cmd = "python /home/mk446/mutanno/SRC/scripts/conservation/preproc_convert_and_merge_conservation_wigfix2bed.py "
         cmd += chrom
         # cmd += " | bgzip -c "
         # cmd += " > " + tsifile + ";"
@@ -188,7 +188,7 @@ if __name__ == "__main__":
     wigfile['SIPHY_OMEGA'] = path + "SIPHY/29mammals/hg38liftover_29way_omega_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.txt.sorted.bed.gz"
     wigfile['SIPHY_P'] = path + "SIPHY/29mammals/hg38liftover_29way_pi_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.tsv.sorted.bed.gz"
 
-    tsifile = path + "conservation_scores.hg38.chr#CHROM#.tsi"
+    tsifile = path + "conservation_scores.hg38.chr#CHROM#.bed"
     if len(sys.argv) > 1:
         chrom = sys.argv[1]
         convert_phastcon_wigfix2tsi(chrom)

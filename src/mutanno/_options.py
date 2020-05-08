@@ -25,8 +25,14 @@ def get_options():
                     action="store_true", help='remove unannotated variants in out vcf')
     # p1.add_argument('-buff', dest='buff', type=int, default=100, help='loading size in memory')
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=1000, help='loading size in memory')
-    p1.add_argument('-add_genoinfo', dest='add_genoinfo',
-                    action="store_true", default=False, help='add genotype info. in INFO field')
+    p1.add_argument('-genoinfo', dest='add_genoinfo',
+                    default=False, help='add genotype info. in INFO field', nargs="*")
+    p1.add_argument('-hgvs', dest='add_hgvs',
+                    action="store_true", default=False, help='add hgvs')
+    p1.add_argument('-hg19', dest='add_hg19',
+                    action="store_true", default=False, help='add hg19 coordinates')
+    p1.add_argument('-genetable', dest='add_genetable',
+                    action="store_true", default=False, help='add gene table')
     p1.add_argument('-split_multi_allelic_variant', dest='split_multi_allelic_variant',
                     action="store_true", default=False, help='split multi-allelic variants')
     p1.add_argument('-clean_tag', dest='clean_tag_list',
@@ -48,7 +54,8 @@ def get_options():
     p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
     p1.add_argument('-region', dest='region', default='',
                     help='target region: (ex -region chr1:12345678-22345678 )')
-    p1.add_argument('-vartype', dest='vartype', default='all', choices=['SNV','GENE','CODINGGENE'], help='variant type')
+    p1.add_argument('-vartype', dest='vartype', default='all', choices=['SNV','GENE','GENE_MAIN_CHROM','CODING_GENE','CODING_GENE_MAIN_CHROM'], help='variant type')
+    # p1.add_argument('-select_biotype', dest='select_biotype', default=[], help='select feature_type of vep', nargs='*')
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=10000, help='blocksize')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=False, help='turn on the debugging mode')

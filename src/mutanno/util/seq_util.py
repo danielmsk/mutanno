@@ -1,3 +1,5 @@
+from pyliftover import LiftOver
+
 CHROM_LIST = {}
 CHROM_LEN = {}
 CHROM_TYPE = {}
@@ -94,6 +96,17 @@ REF_FASTA['b37d5'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/b37/human_g1k_v37_
 REF_FASTA['hg38'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/hg38/Homo_sapiens_assembly38.fasta"
 REF_FASTA['hg19'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/hg19/ucsc.hg19.fasta"
 REF_FASTA['b38d'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/b38/GRCh38_full_analysis_set_plus_decoy_hla.fa"
+
+lo_hg38_hg19 = LiftOver('hg38', 'hg19')
+
+def convert_coordinate(chrom, pos):
+    global lo_hg38_hg19
+    if 'chr' not in chrom:
+        chrom = 'chr' + chrom
+    if type(pos) != int:
+        pos = int(pos)
+    return lo_hg38_hg19.convert_coordinate(chrom, pos)
+
 
 
 def load_refseq_info(seq_ver=''):

@@ -1,5 +1,5 @@
-VERSION = "0.3.15"
-VERSION_DATE = "2020.03.26"
+VERSION = "0.3.17"
+VERSION_DATE = "2020.05.06"
 
 # MUTANNO version
 # 0.3.3 : encode 'space' to '%20' (remove blank space)
@@ -27,3 +27,10 @@ VERSION_DATE = "2020.03.26"
 #    - apply pytest
 # 0.3.15 (2020.03.26) :
 #    - add 'web' option
+# 0.3.16 (2020.04.27) :
+#    - add GENE_MAIN_CHROM, CODING_GENE_MAIN_CHROM in -vartype option
+# 0.3.17 (2020.05.06) :
+#    - add is_most_severe_transcript in external function.py
+#    - add keep_equal_str filter in data structure file
+#    - update -geno_info option to get sample ID list (ex. -geno_info HG002 HG003 HG004 )
+#    - update hgvs chromosome.

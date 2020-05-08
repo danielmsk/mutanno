@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: mutanno
-Version: 0.3.15
+Version: 0.3.17
 Summary: Mutation Annotation Tool
 Home-page: https://github.com/dbmi-bgm/mutanno
 Author: CGAP team at Harvard Medical School
 Author-email: daniel.minseok.kwon@gmail.com
 License: MIT
-Download-URL: https://github.com/dbmi-bgm/mutanno/archive/0.3.15.tar.gz
+Download-URL: https://github.com/dbmi-bgm/mutanno/archive/0.3.17.tar.gz
 Description: # MutAnno
         [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
         [![Build Status](https://travis-ci.org/dbmi-bgm/mutanno.svg?branch=master)](https://travis-ci.org/dbmi-bgm/mutanno)
