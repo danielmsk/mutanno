@@ -15,6 +15,7 @@ else:
     sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
 import tabix
+import mutanno
 
 class ENSEMBL_GENEANNOTATION_GTF:
     # type_list = ['gene', 'transcript', 'exon', 'CDS', 'start_codon', 'stop_codon', 'five_prime_utr', 'three_prime_utr', 'Selenocysteine']
@@ -158,67 +159,6 @@ class ENSEMBL_MOTIF_GFF:
         return datlist
 
 
-class MUTANNO_DATA_PARSER:
-    def __init__(self):
-        pass
-
-    def line2arr(self, line):
-        arr = line.split('\t')
-        arr[-1] = arr[-1].strip()
-        return arr
-
-    def set_header(self, line):
-        self.header = self.line2arr(line)
-        self.header[0] = self.header[0].replace('#','')
-        self.annotheader = {}
-        for f1 in self.header[-1].split(';'):
-            arrf1 = f1.split('=')
-            self.annotheader[arrf1[0]] = arrf1[1].split('|')
-
-    def parse(self, line):
-        arr = self.line2arr(line)
-        dat = {}
-        for i in range(len(arr)-1):
-            dat[self.header[i]] = arr[i]
-        dat['POS'] = int(dat['POS'])
-        for f1 in arr[-1].split(';'):
-            arrf1 = f1.split('=')
-            d = []
-
-            for f11 in arrf1[1].split(','):
-                arrf2 = f11.split('|')
-                d2 = {}
-                for i in range(len(self.annotheader[arrf1[0]])):
-                    d2[self.annotheader[arrf1[0]][i]] = arrf2[i]
-                d.append(d2)
-            dat[arrf1[0]] = d
-        return dat
-
-
-class MUTANNO_DATA_SEQUENTIAL_READER:
-    def __init__(self, source_file):
-        self.source_file = source_file
-        self.fp = file_util.gzopen(source_file)
-        self.mtparser = MUTANNO_DATA_PARSER()
-        self.load_header()
-
-    def __iter__(self):
-        return self
-
-    def load_header(self):
-        line = file_util.decodeb(self.fp.readline())
-        if line[0] == '#':
-            self.mtparser.set_header(line)
-
-    def __next__(self):
-        line = file_util.decodeb(self.fp.readline())
-        if line.strip() == '':
-            raise StopIteration
-        elif line[0] == '#':
-            self.mtparser.set_header(line)
-        else:
-            mtdata = self.mtparser.parse(line)
-            return (mtdata)
 
 
 class MUTANNO_VARIANT_CONSEQUENCE:
@@ -511,7 +451,7 @@ def test_consequence(ensgene_gtf, ens_regulatory_gff, ens_motif_gff, vcf):
     # mt_consequence = MUTANNO_VARIANT_CONSEQUENCE(ensgene_gtf, ens_regulatory_gff, ens_motif_gff)
     mt_consequence = MUTANNO_VARIANT_CONSEQUENCE(ensgene_gtf)
 
-    mt_seq_reader = MUTANNO_DATA_SEQUENTIAL_READER(vcf)
+    mt_seq_reader = mutanno.datasource.MUTANNO_DATA_SEQUENTIAL_READER(vcf)
     i = 0
     prev_pos = 0
     k = 0

@@ -59,8 +59,10 @@ def get_options():
     p1.add_argument('-blocksize', dest='blocksize', type=int, default=10000, help='blocksize')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=False, help='turn on the debugging mode')
+    p1.add_argument('-check', action="store_true", dest='check', default=False, help='check output file')
     p1.add_argument('-log', dest='logfile', default='', help='log file')
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
+
 
     p1 = subparsers.add_parser('convert', help='convert', description='convert')
     p1.add_argument('-vcf2tsv', dest='vcf2tsv', action="store_true", default=False, help='convert vcf to tsv format')

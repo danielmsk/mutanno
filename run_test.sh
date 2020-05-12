@@ -212,6 +212,14 @@ python /home/mk446/bio/mutanno/SRC/src/mutanno.py annot \
     -genetable
 
 python /home/mk446/bio/mutanno/SRC/src/mutanno.py annot \
+    -vcf /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.vcf.gz \
+    -out /home/mk446/bio/mutanno/TEST/NOVO2_all_variants_jc50_wgenome.sorted.microannot_v0.4.5.vcf \
+    -ds /home/mk446/bio/mutanno/SRC/tests/data/datastructure_microannot_v0.4.2.json.simple.json \
+    -sourcefile /home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.4.2_200512/microannot_datasource.v0.4.2_20200512.tsi.gz
+
+
+
+python /home/mk446/bio/mutanno/SRC/src/mutanno.py annot \
     -vcf /home/mk446/bio/mutanno/TEST/GAPFI7HPIVFM.mod.vcf.gz \
     -out /home/mk446/bio/mutanno/TEST/GAPFI7HPIVFM.mod.annot_v0.4.5.vcf \
     -ds /home/mk446/bio/mutanno/SRC/tests/data/datastructure_v0.4.5ds.json \

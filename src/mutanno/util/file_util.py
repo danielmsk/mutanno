@@ -9,6 +9,12 @@ import tabix
 import json
 
 
+def line2arr(line, delimiter = '\t'):
+    arr = line.split('\t')
+    arr[-1] = arr[-1].strip()
+    return arr
+
+
 def zero_format(i, size):
     # 00001000 format
     s1 = "{:0>" + str(size) + "d}"

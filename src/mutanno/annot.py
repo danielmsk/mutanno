@@ -313,10 +313,12 @@ class AnnotMapBlock():
         return '\t'.join(vcfrecord)
 
     def cleanup_infofield(self, vcfrecord):
-        if vcfrecord[VCFCOLIDX['INFO']] != '' and vcfrecord[VCFCOLIDX['INFO']] != '.':
-            vcfrecord[VCFCOLIDX['INFO']] += ';'
-        if vcfrecord[VCFCOLIDX['INFO']] == '.':
-            vcfrecord[VCFCOLIDX['INFO']] = ''
+        inforec = vcfrecord[VCFCOLIDX['INFO']]
+        if inforec != '' and inforec != '.' and inforec[-1] != ';':
+            inforec += ';'
+        if inforec == '.':
+            inforec = ''
+        vcfrecord[VCFCOLIDX['INFO']] = inforec
         return vcfrecord
 
     def update_info_with_annotmap_in_one_field(self, vcfrecord, annotmap):
@@ -518,7 +520,7 @@ class AnnotMap():
                 if defaultvalue != "":
                     flag_add = True
             if flag_add:
-                if self.defaultvalue != "":
+                if self.defaultvalue != "" and self.defaultvalue[-1] != ';':
                     self.defaultvalue += ";"
                 self.defaultvalue += source['name'] + '=' + "|".join(defaultvaluelist)
 
@@ -594,7 +596,7 @@ class AnnotMap():
                 if int(r1[1]) == pos and r1[3] == ref and r1[4] == alt:
                     if b1[INFOCOLIDX] == '.':
                         b1[INFOCOLIDX] = ""
-                    if b1[INFOCOLIDX].strip() != '':
+                    if b1[INFOCOLIDX].strip() != '' and b1[INFOCOLIDX][-1] != ';':
                         b1[INFOCOLIDX] += ';'
                     b1[INFOCOLIDX] += r1[5]
                     flag_add = True
@@ -603,7 +605,7 @@ class AnnotMap():
             if flag_add:
                 fp.write('\t'.join(b1) + '\n')
             elif not is_rm_unannotated:
-                if b1[INFOCOLIDX] != '':
+                if b1[INFOCOLIDX] != ''and b1[INFOCOLIDX][-1] != ';':
                     b1[INFOCOLIDX] += ';'
                 b1[INFOCOLIDX] += self.defaultvalue
                 fp.write('\t'.join(b1) + '\n')

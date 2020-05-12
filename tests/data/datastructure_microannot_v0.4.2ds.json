@@ -18,7 +18,7 @@
                 {
                     "name":"Consequence","desc":"Consequence type","delimiter":","
                 },
-              {"name":"SYMBOL","desc":"Gene symbol (e.g. HGNC)"},
+                {"name":"SYMBOL","desc":"Gene symbol (e.g. HGNC)"},
                 {
                     "name": "IMPACT",
                     "type": "string",

@@ -32,7 +32,10 @@ def dispatch_job(opt):
             md.make_single_source_file()
         else:
             md = makedata.DataSourceFile(opt)
-            md.make_single_source_file()
+            if opt['check']:
+                md.check_datasourcefile()
+            else:
+                md.make_single_source_file()
     if opt['subcommand'] == 'convert' and 'in' in opt.keys() and opt['in'] != "":
         if 'ds' in opt.keys() and opt['ds'] != "":
             cv = convert.CONVFILE(opt)

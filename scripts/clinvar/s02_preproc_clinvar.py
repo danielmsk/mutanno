@@ -43,9 +43,6 @@ def get_dict_data(dict1, keylist):
             break
     return rst
 
-
-
-
 def load_clinvarvcf(clinvarvcf):
     global VCFCOL
 

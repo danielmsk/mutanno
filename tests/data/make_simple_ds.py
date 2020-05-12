@@ -18,7 +18,7 @@ import json
 
 
 def make_simple_ds(dsfile):
-    out = dsfile.replace('ds.json', '.json') + '.simple'
+    out = dsfile.replace('ds.json', '.json') + '.simple.json'
 
     ds = file_util.jsonOpen(dsfile)
 
@@ -43,12 +43,20 @@ def make_simple_ds(dsfile):
                         del_fieldname_list.append(fn)
 
             print(del_fieldname_list)
-            for fn in del_fieldname_list:
+            
+            flag = True 
+            while flag:
+                flag = False
                 fieldlen = len(ds['source'][i]['fields'])
                 for j in range(fieldlen):
-                    if fn == ds['source'][i]['fields'][j]['name']:
-                        del(ds['source'][i]['fields'][j])
-
+                    for fn in del_fieldname_list:
+                        if fn == ds['source'][i]['fields'][j]['name']:
+                            print('delete..',ds['source'][i]['fields'][j])
+                            del(ds['source'][i]['fields'][j])
+                            flag = True
+                            break
+                    if flag:
+                        break
 
     file_util.jsonSave(out, ds, 2)
     print('Saved', out)

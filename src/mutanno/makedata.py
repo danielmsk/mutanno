@@ -4,24 +4,15 @@ import time
 from .util import file_util
 from .util import vcf_util
 from .util import struct_util
+from .util import region_util
+from .model import datasource
+from .model import datastructure
 from . import external_functions
 
 REFIDX = 3
 ALTIDX = 4
 entrezmap = {}
 refseqmap = {}
-
-
-def pars_region_str(region):
-    r = None
-    if region != "":
-        arr = region.split(':')
-        arr2 = arr[1].split('-')
-        r = {}
-        r['chrom'] = arr[0].replace('chr', '')
-        r['spos'] = int(arr2[0])
-        r['epos'] = int(arr2[1])
-    return r
 
 
 def is_available(field):
@@ -97,16 +88,15 @@ class TSVBlockReader():
                     if 'param' in f1.keys() and f1['param'] != '':
                         self.field_function_param[cidx_no] = f1['param']
 
-    def add_block_bed(self, block, regionstr, sid):
-        region = pars_region_str(regionstr)
+    def add_block_bed(self, block, region, sid):
         # print(sid, self.fname, region)
         if self.tp is None:
-            sourcefile = self.fname.replace('#CHROM#', region['chrom'])
+            sourcefile = self.fname.replace('#CHROM#', region.chrom)
             if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
-                self.tp = tabix.open(self.fname.replace('#CHROM#', region['chrom']))
+                self.tp = tabix.open(self.fname.replace('#CHROM#', region.chrom))
         if self.tp is not None:
             bedblock = []
-            for arr in self.tp.querys(regionstr):
+            for arr in self.tp.querys(region.region_str):
                 d = {}
                 d['spos'] = int(arr[1])
                 d['epos'] = int(arr[2])
@@ -124,7 +114,7 @@ class TSVBlockReader():
                         if pos > d['spos'] and pos <= d['epos']:
                             if cont != '':
                                 cont += ','
-                            variantkey = region['chrom'] + '_' + str(pos)
+                            variantkey = region.chrom + '_' + str(pos)
                             flag_filter, cont2 = self.get_selected_fields_in_block(d, variantkey)
                             cont += cont2
                     if cont != '':
@@ -206,12 +196,11 @@ class TSVBlockReader():
         return vep
 
 
-    def add_block(self, block, regionstr, sid):
-        region = pars_region_str(regionstr)
+    def add_block(self, block, region, sid):
         if self.tp is None:
-            sourcefile = self.fname.replace('#CHROM#', region['chrom'])
+            sourcefile = self.fname.replace('#CHROM#', region.chrom)
             if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
-                self.tp = tabix.open(self.fname.replace('#CHROM#', region['chrom']))
+                self.tp = tabix.open(self.fname.replace('#CHROM#', region.chrom))
         if self.tp is not None:
             # print(self.chrompre + regionstr)
             try:
@@ -219,7 +208,7 @@ class TSVBlockReader():
                 # if True:
                 for arr in self.tp.querys(self.chrompre + regionstr):
                     pos = int(arr[1])
-                    if pos >= region['spos'] and pos <= region['epos']:
+                    if pos >= region.spos and pos <= region.epos:
                         refalt = arr[self.refidx] + '_' + arr[self.altidx]
 
                         if self.fileformat == 'tsi':
@@ -233,7 +222,7 @@ class TSVBlockReader():
                             arrsection = [arr]
 
                         for section_idx, section in enumerate(arrsection):
-                            variantkey = region['chrom'] + '_' + \
+                            variantkey = region.chrom + '_' + \
                                 str(pos) + '_' + arr[self.refidx] + '_' + arr[self.altidx]
                             flag_filter, cont = self.get_selected_fields_in_block(section, variantkey, arrsection, section_idx)
                             if flag_filter:
@@ -270,8 +259,7 @@ class TSVBlockMerger():
     def __init__(self, block_readers, region, block_size):
         self.block_readers = block_readers
         self.block_size = block_size
-        self.region = pars_region_str(region)
-        self.ori_region = region
+        self.region = region  ## region object
         self.block_spos = 0
         self.block_epos = 0
         self.block_lpos = 0
@@ -280,27 +268,27 @@ class TSVBlockMerger():
 
     def read_block(self):
         if self.block_spos == 0:
-            self.block_spos = self.region['spos']
+            self.block_spos = self.region.spos
         else:
             self.block_spos = self.block_epos + 1
 
-        if (self.block_spos + self.block_size) <= self.region['epos']:
+        if (self.block_spos + self.block_size) <= self.region.epos:
             self.block_epos = self.block_spos + self.block_size - 1
         else:
-            self.block_epos = self.region['epos']
-        range = self.region['chrom'] + ':' + str(self.block_spos) + '-' + str(self.block_epos)
+            self.block_epos = self.region.epos
+        this_range = region_util.Region(self.region.chrom + ':' + str(self.block_spos) + '-' + str(self.block_epos))
 
         self.block = {}
         for sid in self.block_readers.keys():
             if self.block_readers[sid].fileformat != "bed":
-                self.block = self.block_readers[sid].add_block(self.block, range, sid)
+                self.block = self.block_readers[sid].add_block(self.block, this_range, sid)
         for sid in self.block_readers.keys():
             if self.block_readers[sid].fileformat == "bed":
-                self.block = self.block_readers[sid].add_block_bed(self.block, range, sid)
+                self.block = self.block_readers[sid].add_block_bed(self.block, this_range, sid)
 
     def get_block_tsi(self):
         self.read_block()
-        if self.block_epos >= self.region['epos']:
+        if self.block_epos >= self.region.epos:
             self.eof = True
 
         cont = ''
@@ -316,7 +304,7 @@ class TSVBlockMerger():
                         defailtvalue = self.block_readers[sid].get_default_value()
                         if defailtvalue.replace('|','') != '':
                             infoarr.append(sid + '=' + defailtvalue)
-                cont += self.region['chrom'] + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t' + ';'.join(infoarr) + '\n'
+                cont += self.region.chrom + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t' + ';'.join(infoarr) + '\n'
             self.block_lpos = pos
         return cont
 
@@ -324,9 +312,10 @@ class TSVBlockMerger():
 class DataSourceFile():
     def __init__(self, opt):
         self.set_outfile_extension(opt['out'])
-        self.datastruct = file_util.load_json(opt['ds'])
-        self.region = opt['region']
+        self.datastruct = datastructure.DataSourceListStructure(opt['ds'])
+        self.region = region_util.Region(opt['region'])
         self.blocksize = opt['blocksize']
+        self.opt = opt
 
     def set_outfile_extension(self, out):
         out2 = out.replace('.tsi.gz', '.tsi')
@@ -336,7 +325,7 @@ class DataSourceFile():
 
     def get_tsv_header(self):
         header = ["#CHROM", "POS", "ID", "REF", "ALT"]
-        for s1 in self.datastruct['source']:
+        for s1 in self.datastruct.ds['source']:
             for f1 in s1['fields']:
                 if is_available(f1):
                     if 'name2' in f1.keys() and f1['name2'] != '':
@@ -348,7 +337,7 @@ class DataSourceFile():
     def get_tsi_header(self):
         header = ["#CHROM", "POS", "ID", "REF", "ALT"]
         info_arr = []
-        for s1 in self.datastruct['source']:
+        for s1 in self.datastruct.ds['source']:
             info_header = []
             for f1 in s1['fields']:
                 if is_available(f1):
@@ -367,12 +356,12 @@ class DataSourceFile():
 
         sidlist = []
         blockreaders = {}
-        for s1 in self.datastruct['source']:
+        for s1 in self.datastruct.ds['source']:
             sid = s1['name']
             sidlist.append(sid)
             datafile_path = ''
-            if 'datafile_path' in self.datastruct.keys():
-                datafile_path = self.datastruct['datafile_path']
+            if 'datafile_path' in self.datastruct.ds.keys():
+                datafile_path = self.datastruct.ds['datafile_path']
             blockreaders[sid] = TSVBlockReader(s1, datafile_path)
 
         tbm = TSVBlockMerger(blockreaders, self.region, self.blocksize)
@@ -403,3 +392,32 @@ class DataSourceFile():
         #     cmd = "rm -rf " + self.out + ";"
         #     cmd += "rm -rf " + self.out + ".gz.tbi;"
         #     proc_util.run_cmd(cmd)
+
+
+    def check_datasourcefile(self):
+        print('check data')
+        # print(self.opt)
+        # print(self.region)
+        # print(self.datastruct)
+        # print(self.datastruct.ds['source'])
+        mt_seq_reader = datasource.MutannoDataSequentialReader(self.out)
+
+        dslist = datasource.DataSourceList()
+        dslist.set_datastructure(self.datastruct)
+
+        for mtdata in mt_seq_reader:
+            annot = dslist.get_sourcedata_variant(mtdata['CHROM'], mtdata['POS'], mtdata['REF'], mtdata['ALT'])
+            print(annot)
+            print(mtdata)
+            break
+
+        # for line in file_util.gzopen(self.out):
+        #     line = file_util.decodeb(line)
+        #     if line[0] != '#':
+        #         arr = line.split('\t')
+        #         print(arr)
+        #         break
+
+
+
+        pass

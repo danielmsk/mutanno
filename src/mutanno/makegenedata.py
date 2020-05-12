@@ -484,7 +484,7 @@ class GeneDataSourceFile():
         if self.outtype == "json":
             flag = True
             if "CODING_GENE" in self.vartype:
-                if data['gene_biotype'] != "protein_coding":
+                if data['gene_biotype'] not in ["protein_coding", "miRNA", "polymorphic_pseudogene"]:
                     flag = False
             if "MAIN_CHROM" in self.vartype:
                 if data['chrom'] not in seq_util.MAIN_CHROM_LIST:
