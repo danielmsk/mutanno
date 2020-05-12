@@ -23,6 +23,7 @@ src/mutanno.egg-info/top_level.txt
 src/mutanno/util/__init__.py
 src/mutanno/util/file_util.py
 src/mutanno/util/proc_util.py
+src/mutanno/util/region_util.py
 src/mutanno/util/seq_util.py
 src/mutanno/util/struct_util.py
 src/mutanno/util/vcf_util.py

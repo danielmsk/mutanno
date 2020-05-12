@@ -6,7 +6,7 @@ install_requires = [
     'pysam>=0.11.2.2y7',
     'pytabix>=0.0.2',
     'pyliftover>=0.4',
-    'xmltodict>0.12.0'
+    'xmltodict>=0.12.0'
 ]
 
 tests_require = [
