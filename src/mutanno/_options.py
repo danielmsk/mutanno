@@ -31,6 +31,8 @@ def get_options():
                     action="store_true", default=False, help='add hgvs')
     p1.add_argument('-hg19', dest='add_hg19',
                     action="store_true", default=False, help='add hg19 coordinates')
+    p1.add_argument('-chain', dest='chain',
+                    default="", help='chain file for liftover of hg19 coordinates')
     p1.add_argument('-genetable', dest='add_genetable',
                     action="store_true", default=False, help='add gene table')
     p1.add_argument('-split_multi_allelic_variant', dest='split_multi_allelic_variant',

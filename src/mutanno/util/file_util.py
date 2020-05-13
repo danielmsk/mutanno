@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # file_util.py
-# made by Min-Seok Kwon
-#########################
 import os
 import sys
 import tabix

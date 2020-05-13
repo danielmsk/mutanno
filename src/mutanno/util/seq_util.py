@@ -97,10 +97,15 @@ REF_FASTA['hg38'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/hg38/Homo_sapiens_a
 REF_FASTA['hg19'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/hg19/ucsc.hg19.fasta"
 REF_FASTA['b38d'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/b38/GRCh38_full_analysis_set_plus_decoy_hla.fa"
 
-lo_hg38_hg19 = LiftOver('hg38', 'hg19')
 
-def convert_coordinate(chrom, pos):
-    global lo_hg38_hg19
+def load_liftover(chainfile = ""):
+    if chainfile == "":
+        lo = LiftOver('hg38', 'hg19')
+    else:
+        lo = LiftOver(chainfile)
+    return lo
+
+def convert_coordinate(lo_hg38_hg19, chrom, pos):
     if 'chr' not in chrom:
         chrom = 'chr' + chrom
     if type(pos) != int:

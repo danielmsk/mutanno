@@ -1,3 +1,4 @@
+._README.md
 MANIFEST.in
 README.md
 setup.py
@@ -20,6 +21,9 @@ src/mutanno.egg-info/entry_points.txt
 src/mutanno.egg-info/not-zip-safe
 src/mutanno.egg-info/requires.txt
 src/mutanno.egg-info/top_level.txt
+src/mutanno/model/__init__.py
+src/mutanno/model/datasource.py
+src/mutanno/model/datastructure.py
 src/mutanno/util/__init__.py
 src/mutanno/util/file_util.py
 src/mutanno/util/proc_util.py

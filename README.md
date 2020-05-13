@@ -10,9 +10,8 @@
 mutanno annot -vcf trio_test2.vcf \
     -out trio_test2.annot.vcf \
     -ds tests/datastructure_microannot_v1.0.json \
+    -sourcefile sourcefile.tsv.gz \
+    -split_multi_allelic_variant \
     -blocksize 10000
 ```
 
-
-
-## Convert data set

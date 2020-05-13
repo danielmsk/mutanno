@@ -7,6 +7,7 @@ import time
 from .util import file_util
 from .util import vcf_util
 from .util import seq_util
+from .util import struct_util
 from . import _version
 
 VCFCOLIDX = {'CHROM': 0, 'POS': 1, 'ID': 2, 'REF': 3, 'ALT': 4, 'QUAL': 5, 'FILTER': 6, 'INFO': 7, 'FORMAT': 8}
@@ -582,7 +583,7 @@ class AnnotMap():
             pos = int(b1[1])
             ref = b1[3]
             alt = b1[4]
-            if chrom != self.tchrom:
+            if chrom != self.tchrom and ('#CHROM#' in self.datastruct['sourcefile'] or self.tabixpointer == None):
                 self.tchrom = chrom
                 self.load_tabixpointer()
 
@@ -614,18 +615,19 @@ class AnnotMap():
 
 
 class VCFBlockReader():
-    def __init__(self, vcf, blocksize=10000, add_genoinfo=False, add_hgvs=False, add_hg19=False, add_genetable=False, clean_tag_list=[]):
-        self.vcf = vcf
-        self.blocksize = blocksize
+    def __init__(self, opt={}):
+        self.vcf = struct_util.get_dict_value(opt, 'vcf', '') 
+        self.blocksize = struct_util.get_dict_value(opt, 'blocksize', 1000)
+        self.add_genoinfo = struct_util.get_dict_value(opt, 'add_genoinfo', False)
+        self.add_hgvs = struct_util.get_dict_value(opt, 'add_hgvs', False)
+        self.liftover_hg38_hg19 = seq_util.load_liftover(struct_util.get_dict_value(opt, 'chain', ''))
+        self.add_hg19 = struct_util.get_dict_value(opt, 'add_hg19', False)
+        self.add_genetable = struct_util.get_dict_value(opt, 'add_genetable', False)
+        self.clean_tag_list = struct_util.get_dict_value(opt, 'clean_tag_list', [])
         self.fp = file_util.gzopen(self.vcf)
         self.eof = False
         self.total_variant = 0
         self.i_variant = 0
-        self.add_genoinfo = add_genoinfo
-        self.add_hgvs = add_hgvs
-        self.add_hg19 = add_hg19
-        self.add_genetable = add_genetable
-        self.clean_tag_list = clean_tag_list
         self.sampleid_list = []
 
     def is_clean_tag(self, line):
@@ -703,7 +705,7 @@ class VCFBlockReader():
         ref = vcfrecord[3]
         alt = vcfrecord[4]
         hg19 = ""
-        for hg19coord in seq_util.convert_coordinate(chrom, pos):
+        for hg19coord in seq_util.convert_coordinate(self.liftover_hg38_hg19, chrom, pos):
             hg19_chrom = hg19coord[0]
             hg19_pos = hg19coord[1]
 
@@ -1028,9 +1030,7 @@ class AnnotVCF():
         stime0 = time.time()
         total_varno = 0
         am = AnnotMap(self.datastruct, self.datafileinfo)
-        vblock = VCFBlockReader(self.opt['vcf'], self.opt['blocksize'],
-                                self.opt['add_genoinfo'],self.opt['add_hgvs'], 
-                                self.opt['add_hg19'], self.opt['add_genetable'], self.opt['clean_tag_list'])
+        vblock = VCFBlockReader(self.opt)
         f.write(vblock.get_header(self.get_version_info() + self.get_annot_header()))
         while(not vblock.eof):
             stime1 = time.time()

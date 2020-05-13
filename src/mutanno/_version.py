@@ -1,5 +1,5 @@
 VERSION = "0.3.17"
-VERSION_DATE = "2020.05.06"
+VERSION_DATE = "2020.05.12"
 
 # MUTANNO version
 # 0.3.3 : encode 'space' to '%20' (remove blank space)
