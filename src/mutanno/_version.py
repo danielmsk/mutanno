@@ -1,5 +1,5 @@
-VERSION = "0.3.17"
-VERSION_DATE = "2020.05.12"
+VERSION = "0.3.18"
+VERSION_DATE = "2020.05.13"
 
 # MUTANNO version
 # 0.3.3 : encode 'space' to '%20' (remove blank space)
@@ -34,3 +34,5 @@ VERSION_DATE = "2020.05.12"
 #    - add keep_equal_str filter in data structure file
 #    - update -geno_info option to get sample ID list (ex. -geno_info HG002 HG003 HG004 )
 #    - update hgvs chromosome.
+# 0.3.18 (2020.05.13) :
+#    - add chain file option for pyliftover

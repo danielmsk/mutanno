@@ -620,10 +620,11 @@ class VCFBlockReader():
         self.blocksize = struct_util.get_dict_value(opt, 'blocksize', 1000)
         self.add_genoinfo = struct_util.get_dict_value(opt, 'add_genoinfo', False)
         self.add_hgvs = struct_util.get_dict_value(opt, 'add_hgvs', False)
-        self.liftover_hg38_hg19 = seq_util.load_liftover(struct_util.get_dict_value(opt, 'chain', ''))
-        self.add_hg19 = struct_util.get_dict_value(opt, 'add_hg19', False)
         self.add_genetable = struct_util.get_dict_value(opt, 'add_genetable', False)
         self.clean_tag_list = struct_util.get_dict_value(opt, 'clean_tag_list', [])
+        self.add_hg19 = struct_util.get_dict_value(opt, 'add_hg19', False)
+        if self.add_hg19:
+            self.liftover_hg38_hg19 = seq_util.load_liftover(struct_util.get_dict_value(opt, 'chain', ''))
         self.fp = file_util.gzopen(self.vcf)
         self.eof = False
         self.total_variant = 0
