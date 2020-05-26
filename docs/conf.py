@@ -18,7 +18,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'MutAnno'
-copyright = '2019, Daniel Minseok Kwon'
+copyright = '2020, CGAP'
 author = 'Daniel Minseok Kwon'
 
 # The full version, including alpha/beta/rc tags
