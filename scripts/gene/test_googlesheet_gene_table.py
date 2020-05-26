@@ -170,7 +170,7 @@ def check_pattern(logkey, gsdata, rec_value):
     ])
 
 def test_googlesheet_gene_table(version):
-    googlesheet_ds = preproc_util.TESTPATH + "/data/datastructure_v"+version+"ds_mvp.googlesheet.txt"
+    googlesheet_ds = preproc_util.TESTPATH + "/data/datastructure_gene_v"+version+"ds.googlesheet.txt"
     genetable_data = datapath + "mvp_gene_datasource_v"+version+".coding_gene_main_chrom.json.gz"
 
     gs, subembed = load_googlesheet_ds(googlesheet_ds)

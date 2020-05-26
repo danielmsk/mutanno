@@ -6,8 +6,26 @@ from . import _version
 
 PROG = "mutanno"
 
+DEFAULT_OPT = {'annot':{}, 'makedata':{}, 'convert':{}}
+DEFAULT_OPT['annot']['vcf'] = ""
+DEFAULT_OPT['annot']['out'] = ""
+DEFAULT_OPT['annot']['ds'] = ""
+DEFAULT_OPT['annot']['sourcefile'] = ""
+DEFAULT_OPT['annot']['remove_unannotated_variant'] = False
+DEFAULT_OPT['annot']['blocksize'] = 1000
+DEFAULT_OPT['annot']['add_genoinfo'] = False
+DEFAULT_OPT['annot']['hgvs'] = False
+DEFAULT_OPT['annot']['hg19'] = False
+DEFAULT_OPT['annot']['genetable'] = False
+DEFAULT_OPT['annot']['split_multi_allelic_variant'] = False
+DEFAULT_OPT['annot']['load_source_in_memory'] = False
+DEFAULT_OPT['annot']['sparse'] = False
+DEFAULT_OPT['annot']['silence'] = False
+DEFAULT_OPT['annot']['debug'] = False
 
 def get_options():
+    global DEFAULT_OPT
+    
     parser = argparse.ArgumentParser(
         usage='%(prog)s <sub-command> [options]', description='%(prog)s ver' + _version.VERSION + " (" +
         _version.VERSION_DATE + ")" + ': python tool for variant annotation')
@@ -16,39 +34,41 @@ def get_options():
     subparsers = parser.add_subparsers(
         title="sub-commands", dest="subcommand", metavar='', prog=PROG)
 
+    do = DEFAULT_OPT['annot']
     p1 = subparsers.add_parser('annot', help='annotation', description='annotation')
-    p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
-    p1.add_argument('-out', dest='out', default='', help='title of output file')
-    p1.add_argument('-ds', dest='ds', default='datastructure.json', help='data structure json file')
-    p1.add_argument('-sourcefile', dest='sourcefile', default='', help='data source file')
-    p1.add_argument('-remove_unannotated_variant', dest='remove_unannotated_variant', default=False,
+    p1.add_argument('-vcf', dest='vcf', default=do['vcf'], help='VCF file')
+    p1.add_argument('-out', dest='out', default=do['out'], help='title of output file')
+    p1.add_argument('-ds', dest='ds', default=do['ds'], help='data structure json file')
+    p1.add_argument('-sourcefile', dest='sourcefile', default=do['sourcefile'], help='data source file')
+    p1.add_argument('-remove_unannotated_variant', dest='remove_unannotated_variant', default=do['remove_unannotated_variant'],
                     action="store_true", help='remove unannotated variants in out vcf')
     # p1.add_argument('-buff', dest='buff', type=int, default=100, help='loading size in memory')
-    p1.add_argument('-blocksize', dest='blocksize', type=int, default=1000, help='loading size in memory')
+    p1.add_argument('-blocksize', dest='blocksize', type=int, default=do['blocksize'], help='loading size in memory')
     p1.add_argument('-genoinfo', dest='add_genoinfo',
-                    default=False, help='add genotype info. in INFO field', nargs="*")
+                    default=do['add_genoinfo'], help='add genotype info. in INFO field', nargs="*")
     p1.add_argument('-hgvs', dest='add_hgvs',
-                    action="store_true", default=False, help='add hgvs')
+                    action="store_true", default=do['hgvs'], help='add hgvs')
     p1.add_argument('-hg19', dest='add_hg19',
-                    action="store_true", default=False, help='add hg19 coordinates')
+                    action="store_true", default=do['hg19'], help='add hg19 coordinates')
     p1.add_argument('-chain', dest='chain',
                     default="", help='chain file for liftover of hg19 coordinates')
     p1.add_argument('-genetable', dest='add_genetable',
-                    action="store_true", default=False, help='add gene table')
+                    action="store_true", default=do['genetable'], help='add gene table')
     p1.add_argument('-split_multi_allelic_variant', dest='split_multi_allelic_variant',
-                    action="store_true", default=False, help='split multi-allelic variants')
+                    action="store_true", default=do['split_multi_allelic_variant'], help='split multi-allelic variants')
     p1.add_argument('-clean_tag', dest='clean_tag_list',
                     default=[], help='remove previous annotation information', nargs='*')
     p1.add_argument('-load_source_in_memory', dest='load_source_in_memory',
-                    action="store_true", default=False, help='loading data source in memory')
+                    action="store_true", default=do['load_source_in_memory'], help='loading data source in memory')
     p1.add_argument('-sparse', dest='sparse',
-                    action="store_true", default=False, help='for sparse variant position')
+                    action="store_true", default=do['sparse'], help='for sparse variant position')
     p1.add_argument('-log', dest='logfile', default='', help='log file')
     p1.add_argument('-silence', dest='silence', action="store_true",
-                    default=False, help='do not print any log.')
+                    default=do['silence'], help='do not print any log.')
     p1.add_argument('-debug', dest='debug', action="store_true",
-                    default=False, help='turn on the debugging mode')
+                    default=do['debug'], help='turn on the debugging mode')
 
+    do = DEFAULT_OPT['makedata']
     p1 = subparsers.add_parser('makedata', help='make a single data source file',
                                description='make a single data source file')
     p1.add_argument('-out', dest='out', default='', help='title of output file')
@@ -65,7 +85,7 @@ def get_options():
     p1.add_argument('-log', dest='logfile', default='', help='log file')
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
 
-
+    do = DEFAULT_OPT['convert']
     p1 = subparsers.add_parser('convert', help='convert', description='convert')
     p1.add_argument('-vcf2tsv', dest='vcf2tsv', action="store_true", default=False, help='convert vcf to tsv format')
     p1.add_argument('-vep2tab', dest='vep2tab', action="store_true", default=False, help='convert vep to tsv format')

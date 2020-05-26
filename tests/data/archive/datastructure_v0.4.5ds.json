@@ -1,6 +1,6 @@
 {
   "name": "MUTANNO",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "version_date": "05/04/2020",
   "sourcefile": "/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/v0.3.2_200309/mvp_datasource_v0.3.2_200309.chr#CHROM#.tsi.gz",
   "sourcefile2": "/home/mk446/bio/mutanno/DATASOURCE/MUTANOANNOT/mvp_datasource_v0.3_test.tsi.gz",
@@ -1481,8 +1481,7 @@
           "desc": ""
         }
       ]
-    },
-    {
+    },{
       "name": "COSMIC",
       "desc": "COSMIC variants",
       "version": "v90",

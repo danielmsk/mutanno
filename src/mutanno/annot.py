@@ -9,6 +9,7 @@ from .util import vcf_util
 from .util import seq_util
 from .util import struct_util
 from . import _version
+from . import _options
 
 VCFCOLIDX = {'CHROM': 0, 'POS': 1, 'ID': 2, 'REF': 3, 'ALT': 4, 'QUAL': 5, 'FILTER': 6, 'INFO': 7, 'FORMAT': 8}
 TSVCOLIDX = {'CHROM': 0, 'POS': 1, 'REF': 2, 'ALT': 3}
