@@ -93,6 +93,7 @@ tabixgz clinvar_20200329_submission.sorted.tsv.gz
 [21]	SSR :
 ```
 
+
 * submission tsv file: `clinvar_20200329_submission.tsv`
 
 	```
@@ -193,8 +194,8 @@ python ./liftover/liftover.py [b37 vcf file]
 **For coding genes in main chromosomes (1-22,X,Y,MT)**
 
 ```
-mutanno makedata -ds ./tests/data/datastructure_v0.4.4ds_mvp.json \
-    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.4.coding_gene_main_chrom \
+mutanno makedata -ds ./tests/data/datastructure_gene_v0.4.4ds.json \
+    -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.5.coding_gene_main_chrom \
     -vartype CODING_GENE_MAIN_CHROM \
     -outtype json
 gz ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.4.coding_gene_main_chrom.json
@@ -205,7 +206,7 @@ pytest scripts/gene/test_googlesheet_gene_table.py
 **For all genes**
 
 ```
-mutanno makedata -ds ./tests/data/datastructure_v0.4.3ds_mvp.json \
+mutanno makedata -ds ./tests/data/datastructure_gene_v0.4.4ds.json \
     -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.3 \
     -vartype GENE \
     -outtype json
@@ -216,7 +217,7 @@ python ./gene/check_googlesheet_gene_table.py
 **For coding genes**
 
 ```
-mutanno makedata -ds ./tests/data/datastructure_v0.4.3ds_mvp.json \
+mutanno makedata -ds ./tests/data/datastructure_gene_v0.4.4ds.json \
     -out ../DATASOURCE/MUTANOANNOT/mvp_gene_datasource_v0.4.3.coding_gene \
     -vartype CODING_GENE \
     -outtype json

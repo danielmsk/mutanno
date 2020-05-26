@@ -26,12 +26,12 @@ A python toolkit providing variant annotations.
 
    annotate_variants
 
-
 .. toctree::
    :maxdepth: 2
    :caption: Data sources
 
    datasource_list
+   datastructure_version
 
 Indices and tables
 ==================
