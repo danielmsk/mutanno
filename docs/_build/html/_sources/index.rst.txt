@@ -33,6 +33,12 @@ A python toolkit providing variant annotations.
    datasource_list
    datastructure_version
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Version information
+
+   version_list
+
 Indices and tables
 ==================
 
