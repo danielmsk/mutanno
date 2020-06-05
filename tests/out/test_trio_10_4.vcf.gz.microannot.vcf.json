@@ -1,0 +1,532 @@
+[{
+  "VEP": [
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000315285",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000345662",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000615843",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000621856",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000642281",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000642455",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000642751",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000642999",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000644408",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000644954",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000645671",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000645730",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000646571",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000021574",
+      "Feature": "ENST00000647133",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "SPAST",
+      "BIOTYPE": "protein_coding"
+    }
+  ],
+  "gnomADgenome": [
+    {
+      "AF": "4.33959e-01"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [],
+  "CHROM": "chr2",
+  "POS": 32134463,
+  "REF": "C",
+  "ALT": "CA"
+},{
+  "VEP": [],
+  "gnomADgenome": [
+    {
+      "AF": "7.02186e-01"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [],
+  "CHROM": "chr3",
+  "POS": 65137589,
+  "REF": "A",
+  "ALT": "G"
+},{
+  "VEP": [
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000326639",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000394288",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000432347",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000507377",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "upstream_gene_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000508819",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000512292",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000648358",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000649983",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000138709",
+      "Feature": "ENST00000650359",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LARP1B",
+      "BIOTYPE": "protein_coding"
+    }
+  ],
+  "gnomADgenome": [
+    {
+      "AF": "5.68727e-01"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [
+    {
+      "MAXDS": "0.00"
+    }
+  ],
+  "CHROM": "chr4",
+  "POS": 128074596,
+  "REF": "G",
+  "ALT": "A"
+},{
+  "VEP": [
+    {
+      "Gene": "ENSG00000124788",
+      "Feature": "ENST00000244769",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "ATXN1",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000124788",
+      "Feature": "ENST00000436367",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "ATXN1",
+      "BIOTYPE": "protein_coding"
+    }
+  ],
+  "gnomADgenome": [
+    {
+      "AF": "2.24042e-02"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [
+    {
+      "MAXDS": "0.00"
+    }
+  ],
+  "CHROM": "chr6",
+  "POS": 16428225,
+  "REF": "T",
+  "ALT": "A"
+},{
+  "VEP": [
+    {
+      "Gene": "ENSG00000164597",
+      "Feature": "ENST00000297135",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "COG5",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000164597",
+      "Feature": "ENST00000347053",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "COG5",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000164597",
+      "Feature": "ENST00000393603",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "COG5",
+      "BIOTYPE": "protein_coding"
+    }
+  ],
+  "gnomADgenome": [
+    {
+      "AF": "2.82237e-01"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [
+    {
+      "MAXDS": "0.00"
+    }
+  ],
+  "CHROM": "chr7",
+  "POS": 107460349,
+  "REF": "C",
+  "ALT": "G"
+},{
+  "VEP": [
+    {
+      "Gene": "ENSG00000198963",
+      "Feature": "ENST00000376896",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "RORB",
+      "BIOTYPE": "protein_coding"
+    }
+  ],
+  "gnomADgenome": [
+    {
+      "AF": "2.00389e-02"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [
+    {
+      "MAXDS": "0.00"
+    }
+  ],
+  "CHROM": "chr9",
+  "POS": 74524782,
+  "REF": "A",
+  "ALT": "T"
+},{
+  "VEP": [],
+  "gnomADgenome": [
+    {
+      "AF": "2.83400e-01"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [],
+  "CHROM": "chr11",
+  "POS": 45712837,
+  "REF": "T",
+  "ALT": "C"
+},{
+  "VEP": [
+    {
+      "Gene": "ENSG00000120658",
+      "Feature": "ENST00000261488",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "ENOX1",
+      "BIOTYPE": "protein_coding"
+    }
+  ],
+  "gnomADgenome": [
+    {
+      "AF": "2.35866e-03"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [
+    {
+      "MAXDS": "0.00"
+    }
+  ],
+  "CHROM": "chr13",
+  "POS": 43363693,
+  "REF": "T",
+  "ALT": "C"
+},{
+  "VEP": [],
+  "gnomADgenome": [
+    {
+      "AF": "3.41679e-01"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [],
+  "CHROM": "chr16",
+  "POS": 15244391,
+  "REF": "G",
+  "ALT": "A"
+},{
+  "VEP": [
+    {
+      "Gene": "ENSG00000166359",
+      "Feature": "ENST00000355868",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "downstream_gene_variant"
+      ],
+      "SYMBOL": "WDR88",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000166359",
+      "Feature": "ENST00000361680",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "downstream_gene_variant"
+      ],
+      "SYMBOL": "WDR88",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000130881",
+      "Feature": "ENST00000592484",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LRP3",
+      "BIOTYPE": "protein_coding"
+    }
+  ],
+  "gnomADgenome": [
+    {
+      "AF": "5.16286e-01"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [],
+  "CHROM": "chr19",
+  "POS": 33178443,
+  "REF": "C",
+  "ALT": "CTATT"
+},{
+  "VEP": [
+    {
+      "Gene": "ENSG00000166359",
+      "Feature": "ENST00000355868",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "downstream_gene_variant"
+      ],
+      "SYMBOL": "WDR88",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000166359",
+      "Feature": "ENST00000361680",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "downstream_gene_variant"
+      ],
+      "SYMBOL": "WDR88",
+      "BIOTYPE": "protein_coding"
+    },
+    {
+      "Gene": "ENSG00000130881",
+      "Feature": "ENST00000592484",
+      "Feature_type": "Transcript",
+      "Consequence": [
+        "intron_variant"
+      ],
+      "SYMBOL": "LRP3",
+      "BIOTYPE": "protein_coding"
+    }
+  ],
+  "gnomADgenome": [
+    {
+      "AF": "2.12769e-01"
+    }
+  ],
+  "CLINVAR": [],
+  "SpliceAI": [],
+  "CHROM": "chr19",
+  "POS": 33178443,
+  "REF": "C",
+  "ALT": "CTATTTATTTATT"
+}]

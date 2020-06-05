@@ -1,0 +1,7 @@
+#CHROM	POS	ID	REF	ALT	VEP=Gene|Feature|Feature_type|Consequence|SYMBOL|BIOTYPE;gnomADgenome=gnomAD_AF;CLINVAR=CLINVAR_ALLELEID|CLINVAR_CLNSIG;SpliceAI=SpliceAI_MaxScore
+1	15034		T	A	VEP=ENSG00000278267|ENST00000619216|Transcript|downstream_gene_variant|MIR6859-1|miRNA;gnomADgenome=NA
+1	15034		T	G	VEP=ENSG00000278267|ENST00000619216|Transcript|downstream_gene_variant|MIR6859-1|miRNA;gnomADgenome=NA
+1	15034		T	C	VEP=ENSG00000278267|ENST00000619216|Transcript|downstream_gene_variant|MIR6859-1|miRNA;gnomADgenome=NA
+1	15035		C	A	VEP=ENSG00000278267|ENST00000619216|Transcript|downstream_gene_variant|MIR6859-1|miRNA;gnomADgenome=NA
+1	15035		C	T	VEP=ENSG00000278267|ENST00000619216|Transcript|downstream_gene_variant|MIR6859-1|miRNA;gnomADgenome=NA
+1	15035		C	G	VEP=ENSG00000278267|ENST00000619216|Transcript|downstream_gene_variant|MIR6859-1|miRNA;gnomADgenome=NA

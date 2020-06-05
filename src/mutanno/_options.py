@@ -6,26 +6,28 @@ from . import _version
 
 PROG = "mutanno"
 
-DEFAULT_OPT = {'annot':{}, 'makedata':{}, 'convert':{}}
+DEFAULT_OPT = {'annot': {}, 'makedata': {}, 'convert': {}}
 DEFAULT_OPT['annot']['vcf'] = ""
-DEFAULT_OPT['annot']['out'] = ""
+DEFAULT_OPT['annot']['out'] = "mutanno"
+DEFAULT_OPT['annot']['outtype'] = ['vcf']
 DEFAULT_OPT['annot']['ds'] = ""
 DEFAULT_OPT['annot']['sourcefile'] = ""
-DEFAULT_OPT['annot']['remove_unannotated_variant'] = False
-DEFAULT_OPT['annot']['blocksize'] = 1000
 DEFAULT_OPT['annot']['add_genoinfo'] = False
 DEFAULT_OPT['annot']['hgvs'] = False
+DEFAULT_OPT['annot']['variant_class'] = False
 DEFAULT_OPT['annot']['hg19'] = False
 DEFAULT_OPT['annot']['genetable'] = False
 DEFAULT_OPT['annot']['split_multi_allelic_variant'] = False
+DEFAULT_OPT['annot']['single_source_mode'] = False
 DEFAULT_OPT['annot']['load_source_in_memory'] = False
 DEFAULT_OPT['annot']['sparse'] = False
 DEFAULT_OPT['annot']['silence'] = False
 DEFAULT_OPT['annot']['debug'] = False
 
+
 def get_options():
     global DEFAULT_OPT
-    
+
     parser = argparse.ArgumentParser(
         usage='%(prog)s <sub-command> [options]', description='%(prog)s ver' + _version.VERSION + " (" +
         _version.VERSION_DATE + ")" + ': python tool for variant annotation')
@@ -38,16 +40,16 @@ def get_options():
     p1 = subparsers.add_parser('annot', help='annotation', description='annotation')
     p1.add_argument('-vcf', dest='vcf', default=do['vcf'], help='VCF file')
     p1.add_argument('-out', dest='out', default=do['out'], help='title of output file')
+    p1.add_argument('-outtype', dest='outtype', default=do['outtype'],
+                    choices=['vcf', 'json'], help='output file type', nargs='*')
     p1.add_argument('-ds', dest='ds', default=do['ds'], help='data structure json file')
     p1.add_argument('-sourcefile', dest='sourcefile', default=do['sourcefile'], help='data source file')
-    p1.add_argument('-remove_unannotated_variant', dest='remove_unannotated_variant', default=do['remove_unannotated_variant'],
-                    action="store_true", help='remove unannotated variants in out vcf')
-    # p1.add_argument('-buff', dest='buff', type=int, default=100, help='loading size in memory')
-    p1.add_argument('-blocksize', dest='blocksize', type=int, default=do['blocksize'], help='loading size in memory')
     p1.add_argument('-genoinfo', dest='add_genoinfo',
                     default=do['add_genoinfo'], help='add genotype info. in INFO field', nargs="*")
     p1.add_argument('-hgvs', dest='add_hgvs',
                     action="store_true", default=do['hgvs'], help='add hgvs')
+    p1.add_argument('-variant_class', dest='add_variant_class',
+                    action="store_true", default=do['variant_class'], help='add variant class')
     p1.add_argument('-hg19', dest='add_hg19',
                     action="store_true", default=do['hg19'], help='add hg19 coordinates')
     p1.add_argument('-chain', dest='chain',
@@ -58,6 +60,8 @@ def get_options():
                     action="store_true", default=do['split_multi_allelic_variant'], help='split multi-allelic variants')
     p1.add_argument('-clean_tag', dest='clean_tag_list',
                     default=[], help='remove previous annotation information', nargs='*')
+    p1.add_argument('-single_source_mode', dest='single_source_mode',
+                    action="store_true", default=do['single_source_mode'], help='single source mode')
     p1.add_argument('-load_source_in_memory', dest='load_source_in_memory',
                     action="store_true", default=do['load_source_in_memory'], help='loading data source in memory')
     p1.add_argument('-sparse', dest='sparse',
@@ -72,13 +76,17 @@ def get_options():
     p1 = subparsers.add_parser('makedata', help='make a single data source file',
                                description='make a single data source file')
     p1.add_argument('-out', dest='out', default='', help='title of output file')
-    p1.add_argument('-outtype', dest='outtype', default='json', choices=['tsv','json'], help='output file type (default: tsv)')
+    p1.add_argument('-outtype', dest='outtype', default='json',
+                    choices=['tsv', 'json'], help='output file type (default: tsv)')
     p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
     p1.add_argument('-region', dest='region', default='',
                     help='target region: (ex -region chr1:12345678-22345678 )')
-    p1.add_argument('-vartype', dest='vartype', default='all', choices=['SNV','GENE','GENE_MAIN_CHROM','CODING_GENE','CODING_GENE_MAIN_CHROM'], help='variant type')
-    # p1.add_argument('-select_biotype', dest='select_biotype', default=[], help='select feature_type of vep', nargs='*')
-    p1.add_argument('-blocksize', dest='blocksize', type=int, default=10000, help='blocksize')
+    p1.add_argument('-region_vcf', dest='region_vcf', default='',
+                    help='target regions using vcf file')
+    p1.add_argument('-blocksize', dest='blocksize', default='', help='block size')
+    p1.add_argument('-vartype', dest='vartype', default='all',
+                    choices=['SNV', 'GENE', 'GENE_MAIN_CHROM', 'CODING_GENE', 'CODING_GENE_MAIN_CHROM'],
+                    help='variant type')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=False, help='turn on the debugging mode')
     p1.add_argument('-check', action="store_true", dest='check', default=False, help='check output file')
@@ -88,9 +96,12 @@ def get_options():
     do = DEFAULT_OPT['convert']
     p1 = subparsers.add_parser('convert', help='convert', description='convert')
     p1.add_argument('-vcf2tsv', dest='vcf2tsv', action="store_true", default=False, help='convert vcf to tsv format')
-    p1.add_argument('-vep2tab', dest='vep2tab', action="store_true", default=False, help='convert vep to tsv format')
-    p1.add_argument('-in', dest='in', default='', help='input file')
-    p1.add_argument('-out', dest='out', default='', help='title of output file')
+    p1.add_argument('-vcf2html', dest='vcf2html', action="store_true", default=False, help='convert vcf to html format')
+    p1.add_argument('-vcf2json', dest='vcf2json', action="store_true", default=False, help='convert vcf to json format')
+    p1.add_argument('-tsi2json', dest='tsi2json', action="store_true", default=False, help='convert vcf to json format')
+    # p1.add_argument('-vep2tab', dest='vep2tab', action="store_true", default=False, help='convert vep to tsv format')
+    p1.add_argument('-in', dest='infile', default='', help='input file')
+    p1.add_argument('-out', dest='outfile', default='', help='title of output file')
     p1.add_argument('-ds', dest='ds', default='', help='datastructure json file')
     p1.add_argument('-region', dest='region', default='',
                     help='target region: (ex -region chr1:12345678-22345678 )')
@@ -120,9 +131,9 @@ def get_options():
     p1.add_argument('-vcf', dest='vcf', default="", help='VCF file')
     p1.add_argument('-vep_result', dest='vep_result', default='', help='vep result file')
 
-    p1 = subparsers.add_parser('datacheck', help='check data format',
-                               description='check data format')
-    # p1.add_argument('-bam', dest='bam', default='', help='BAM file')
+    p1 = subparsers.add_parser('validate', help='validate data format',
+                               description='validate data format')
+    p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
     # p1.add_argument('-out', dest='out', default='', help='title of output file')
     # p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='don\'t print any log.')
     # p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
@@ -145,5 +156,6 @@ def get_options():
 
     if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1][0] != '-'):
         sys.argv.append('-h')
-    opt = vars(parser.parse_args())
+    opt = parser.parse_args()
+    # opt = vars(parser.parse_args())
     return opt

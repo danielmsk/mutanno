@@ -3,6 +3,8 @@
 
 VCF_COL = ['CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO','FORMAT']
 
+INFOIDX = VCF_COL.index('INFO')
+
 # https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.39
 CHROM_HGVS = {}
 CHROM_HGVS["1"] = "NC_000001.11"
@@ -30,6 +32,70 @@ CHROM_HGVS["22"] = "NC_000022.11"
 CHROM_HGVS["X"] = "NC_000023.11"
 CHROM_HGVS["Y"] = "NC_000024.10"
 
+
+def get_hgvsg(chrom, pos, ref, alt):
+    try:
+        hgvsg = CHROM_HGVS[chrom.replace('chr','')] + ':g.'
+        if len(ref) > len(alt):
+            if len(ref) == 2:
+                hgvsg += str(pos + 1) + 'del'
+            else:
+                hgvsg += str(pos + 1) + '_' + str(pos + len(ref) - 1) + 'del'
+        elif len(ref) < len(alt):
+            hgvsg += str(pos) + '_' + str(pos + 1) + 'ins' + alt[1:]
+        else:
+            hgvsg += str(pos) + ref + '>' + alt
+    except KeyError:
+        hgvsg = ""
+    return hgvsg
+
+
+def get_variant_class(ref, alt):
+    # TODO: need to upgrade for ',' in alt.
+    vcls = ""
+    if len(ref) == len(alt) and len(alt) == 1:
+        vcls = "SNV"
+    elif len(ref) < len(alt):
+        vcls = "INS"
+    elif len(ref) > len(alt):
+        vcls = "DEL"
+    return vcls
+
+def add_info(info1, info2):
+    info1 = strip_info(info1)
+    info2 = strip_info(info2)
+    if info1 == "":
+        info = info2
+    if info2 == "":
+        info = info1
+    if info1 != "" and info2 != "":
+        info = info1 + ';' + info2
+    return info
+
+def strip_info(info):
+    if info == ".":
+        info = ""
+    if info != "" and info[-1] == ";":
+        info = info[:-1]
+    return info
+
+def convert_to_metadata(d):
+    cont = []
+    for field in d.keys():
+        if type(d[field]) == type({}):
+            for key in d[field].keys():
+                valuearr = ["ID=" + key]
+                for k2 in d[field][key].keys():
+                    if k2 in ['Number','Type']:
+                        valuearr.append(k2 + '=' + d[field][key][k2])
+                    else:
+                        valuearr.append(k2 + '="' + d[field][key][k2] + '"')
+                value = '<' + ','.join(valuearr) + '>'
+                cont.append('##'+field + '=' + value)
+        else:
+            value = d[field]
+            cont.append('##'+field + '=' + value)
+    return '\n'.join(cont)
 
 def get_info_header(headertype, infoid, version, vdate,  infodesc, subfields, sourcesubembed=""):
     header = ""
@@ -97,7 +163,7 @@ def split_multiallelic_variants(vcfrecord):
                     arr2 = arr[1].split(',')
                     f1 = arr[0] + "=" + arr2[k]
             info.append(f1)
-        info.append('multiallele=' + vcfrecord[0] + ':' + vcfrecord[1] + '%20' + vcfrecord[3] + '/' + vcfrecord[4])
+        # info.append('multiallele=' + vcfrecord[0] + ':' + vcfrecord[1] + '%20' + vcfrecord[3] + '/' + vcfrecord[4])
         r1[7] = ';'.join(info)
         rst.append(r1)
     return rst
@@ -110,13 +176,22 @@ def encode_value(v1):
 
 
 def encode_infovalue(v1, delimiter=""):
-    if v1 == '.' or v1 == '-':
-        v1 = ''
-    v1 = encode_value(v1)
-    if delimiter != "":
-        v1 = v1.replace(encode_value(delimiter), '~')
-    # v1 = urllib.parse.quote(v1)
-    return v1
+    if v1 is None:
+        rst = ""
+    elif isinstance(v1, bool):
+        if v1:
+            rst = "1"
+        else:
+            rst = "0"
+    else:
+        rst = str(v1)
+        if rst == '.' or rst == '-':
+            rst = ''
+        rst = encode_value(rst)
+        if delimiter != "":
+            rst = rst.replace(encode_value(delimiter), '~')
+            
+    return rst
 
 
 def remove_nonvariant_base(ref, alt, pos=0, miss_char=''):
@@ -224,3 +299,7 @@ def pars_vcfline(vcfline, collist=['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAT', '
         else:
             v1[colname] = arr[i]
     return v1
+
+
+
+

@@ -8,7 +8,6 @@ DATAFILE['ANNOVAR'] = "ANNOT/b38_chrom/b38_WGSNV.annovar.chr#CHROM#.vcf.gz"
 DATAFILE['SNPEFF'] = "ANNOT/b38_chrom/b38_WGSNV.snpeff.chr#CHROM#.vcf.gz"
 DATAFILE['VEP'] = "ANNOT/b38_chrom/b38_WGSNV.vep.chr#CHROM#.vcf.gz"
 
-
 ANNOVAR = ""
 SNPEFF = ""
 VEP = ""

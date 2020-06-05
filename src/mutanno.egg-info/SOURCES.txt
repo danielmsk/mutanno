@@ -1,4 +1,3 @@
-._README.md
 MANIFEST.in
 README.md
 setup.py
@@ -6,7 +5,7 @@ src/mutanno/__init__.py
 src/mutanno/_logging.py
 src/mutanno/_options.py
 src/mutanno/_version.py
-src/mutanno/annot.py
+src/mutanno/annot__.py
 src/mutanno/conf.py
 src/mutanno/convert.py
 src/mutanno/external_functions.py
@@ -14,6 +13,8 @@ src/mutanno/makedata.py
 src/mutanno/makegenedata.py
 src/mutanno/precal.py
 src/mutanno/preprocess.py
+src/mutanno/renderer.py
+src/mutanno/validate.py
 src/mutanno.egg-info/PKG-INFO
 src/mutanno.egg-info/SOURCES.txt
 src/mutanno.egg-info/dependency_links.txt
@@ -21,6 +22,9 @@ src/mutanno.egg-info/entry_points.txt
 src/mutanno.egg-info/not-zip-safe
 src/mutanno.egg-info/requires.txt
 src/mutanno.egg-info/top_level.txt
+src/mutanno/annot2/__init__.py
+src/mutanno/annot2/annotvcf.py
+src/mutanno/annot2/datasource.py
 src/mutanno/model/__init__.py
 src/mutanno/model/datasource.py
 src/mutanno/model/datastructure.py

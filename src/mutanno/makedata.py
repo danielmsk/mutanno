@@ -3,11 +3,15 @@ import tabix
 import time
 from .util import file_util
 from .util import vcf_util
+from .util import proc_util
 from .util import struct_util
 from .util import region_util
 from .model import datasource
-from .model import datastructure
+from .annot2.annotvcf import VCFAnnotator, VCFVariant
+from .model.datastructure import DataSourceListStructure
+from .model.datasource import DataSourceList
 from . import external_functions
+from .renderer import TSIRenderer
 
 REFIDX = 3
 ALTIDX = 4
@@ -15,16 +19,148 @@ entrezmap = {}
 refseqmap = {}
 
 
-def is_available(field):
-    return struct_util.is_available(field)
+class BlankVCFReader():
+    def __init__(self, opt, dslist):
+        self.dslist = dslist
+        self.opt = opt
+        self.region = region_util.Region(opt.region)
+        self.tpos = self.region.spos
+        self.variantkeylist = []
+        self.eof = False
+        self.colnames = vcf_util.VCF_COL
+
+    def get_variant(self):
+        if len(self.variantkeylist) == 0 and self.tpos < self.region.epos:
+            self.load_variantkeys()
+
+        if len(self.variantkeylist) > 0:
+            vkey = self.variantkeylist.pop(0)
+            vcfline = vkey.replace('_', '\t') + '\t\t\t\t'
+            variant = VCFVariant(vcfline, self.colnames, self.opt)
+            self.tpos = int(vkey.split('_')[1])
+        else:
+            variant = None
+            self.eof = True
+        return variant
+
+    def load_variantkeys(self):
+        for r1 in self.region.get_split_region(1000):
+            variantkeys = self.dslist.get_variantkeys(r1.chrom, r1.spos, r1.epos)
+            poslist = list(variantkeys.keys())
+            for pos in sorted(poslist):
+                for vkey in variantkeys[pos]:
+                    self.variantkeylist.append(vkey)
+
+
+class DataSourceGenerator(VCFAnnotator):
+    def __init__(self, opt):
+        self.opt = opt
+        self.dslist = DataSourceList(self.opt.ds)
+        self.region = region_util.Region(opt.region)
+        self.out = None
+        self.set_outfile_extension()
+        self.vcfreader = BlankVCFReader(self.opt, self.dslist)
+        self.tsirenderer = TSIRenderer()
+
+    def set_outfile_extension(self):
+        out2 = self.opt.out.replace('.tsi.gz', '.tsi')
+        if out2[-4:] != ".tsi":
+            out2 += ".tsi"
+        self.out = out2
+
+    def get_tsi_header(self):
+        header = ["#CHROM", "POS", "ID", "REF", "ALT"]
+        info_arr = []
+        for s1 in self.dslist.available_source_list:
+            info_header = []
+            for f1 in s1.available_field_list:
+                info_header.append(f1.name2)
+            info_arr.append(s1.name + '=' + '|'.join(info_header))
+        header.append(';'.join(info_arr))
+        return '\t'.join(header)
+
+    def print_i(self, ivar, variant, stime1, stime0):
+        if ivar % 500 == 0:
+            etime1 = time.time()
+            elapsed1 = etime1 - stime1
+            elapsed0 = etime1 - stime0
+            log = 'processed... ' + str(ivar) 
+            log += " elapsed:" + str(round(elapsed1, 2)) + "s " + str(round(elapsed0, 2)) + "s , time for 9G variants:" + str(round(elapsed0 / ivar * 9000000000 / 3600, 3)) + "hr"
+            # print(log, ivar, variant)
+
+    def make_single_source_file(self):
+        stime0 = time.time()
+        self.open_outpointer()
+        self.fp.write(self.get_tsi_header() + '\n')
+
+        ivar = 0
+        stime1 = time.time()
+        while(not self.vcfreader.eof):
+            ivar += 1
+            variant = self.vcfreader.get_variant()
+            if self.vcfreader.eof or variant == None:
+                break
+            variant.set_annot(self.dslist)
+            self.fp.write(self.tsirenderer.render_vcfvariant(variant, False, True))
+            self.print_i(ivar, variant, stime1, stime0)
+            stime1 = time.time()
+        
+        self.close_outpointer()
+        etime0 = time.time()
+        elapsed0 = etime0 - stime0
+        print("total:", elapsed0, ", time per variant:", elapsed0 / ivar, ", time for 9G variants:", str(round(elapsed0 / ivar * 9000000000 / 3600, 3)) + "hr")
+
+        
+        # time.sleep(10)
+        # proc_util.run_cmd('gz ' + self.out)
+        
+
+
+    def make_single_source_file_with_block(self):
+        fp = open(self.opt.out, 'w')
+        blockreaders = {}
+        for s1 in self.dslist.available_source_list:
+            blockreaders[s1.name] = TSVBlockReader(s1)
+
+        tbm = TSVBlockMerger(blockreaders, self.region, 1000)
+        print_header = True
+        while not tbm.eof:
+            start = time.time()
+            block = tbm.get_block_tsi()
+            if print_header:
+                fp.write(tbm.get_header())
+                print_header = False
+            fp.write(block)
+            
+            end = time.time()
+            elapsed = end - start
+            log = 'processing.. ' + str(round(elapsed, 3)) + ' sec elapsed. '
+            log += str(len(tbm.block.keys())) + ' variants added. '
+            log += str(tbm.block_spos) + '~' + str(tbm.block_epos)
+            print(log)
+        print('Saved', self.out)
+        fp.close()
+
+
+    def check_datasourcefile(self):
+        mt_seq_reader = datasource.MutannoDataSequentialReader(self.out)
+
+        dslist = datasource.DataSourceList()
+        dslist.set_datastructure(self.datastruct)
+
+        for mtdata in mt_seq_reader:
+            annot = dslist.get_sourcedata_variant(mtdata['CHROM'], mtdata['POS'], mtdata['REF'], mtdata['ALT'])
+            
+            break
+        pass
+
 
 
 class TSVBlockReader():
 
-    def __init__(self, datastruct, datafile_path):
-        self.datastruct = datastruct
-        self.fname = os.path.join(datafile_path, self.datastruct['datafile'])
-        self.fileformat = self.datastruct['format']
+    def __init__(self, datasource):
+        self.source = datasource
+        self.fileformat = self.source.format
         self.target_colidx = []
         self.header = []
         self.filter_start_with = {}
@@ -37,221 +173,91 @@ class TSVBlockReader():
         self.field_names = []
         self.tp = None
         self.chrom = ''
-        self.chrompre = ''
-        self.altidx = ALTIDX
-        self.refidx = REFIDX
-
-        if 'ref_column_index' in self.datastruct.keys():
-            self.refidx = self.datastruct['ref_column_index']
-        if 'ref_column_index' in self.datastruct.keys():
-            self.altidx = self.datastruct['alt_column_index']
-        if 'chrompre' in self.datastruct.keys():
-            self.chrompre = self.datastruct['chrompre']
-
-        self.read_header()
-        self.set_target_column(self.datastruct['fields'])
-
-    def read_header(self):
-        for line in file_util.gzopen(self.fname.replace('#CHROM#', "1")):
-            line = line.decode('UTF-8')
-            if line[0] == '#' and line[1] != '#':
-                if self.fileformat == "tsv" or self.fileformat == "bed" or self.fileformat == "vcf":
-                    self.header = line[1:].strip().split('\t')
-                if self.fileformat == "tsi":
-                    self.header = line[1:].strip().split('\t')[-1].split('|')
-                break
-
-    def set_target_column(self, fields_structure):
-        cidx_no = 0
-        for f1 in fields_structure:
-            if is_available(f1):
-                self.field_names.append(f1['name'])
-                if f1['name'] in self.header:
-                    self.target_colidx.append(self.header.index(f1['name']))
-                    if 'start_with' in f1.keys():
-                        self.filter_start_with[self.header.index(f1['name'])] = f1['start_with']
-                    if 'skip_equal_str' in f1.keys():
-                        self.filter_skip_equal_str[self.header.index(f1['name'])] = f1['skip_equal_str']
-                    if 'keep_equal_str' in f1.keys():
-                        self.filter_keep_equal_str[self.header.index(f1['name'])] = f1['keep_equal_str']
-                    if 'delimiter' in f1.keys():
-                        self.delimiter[self.header.index(f1['name'])] = f1['delimiter']
-                    if 'default' in f1.keys():
-                        self.defaultvalue[self.header.index(f1['name'])] = f1['default']
-                else:
-                    self.target_colidx.append(-999)
-
-                cidx_no += 1
-                if 'function' in f1.keys() and f1['function'] != '':
-                    self.field_function[cidx_no] = f1['function']
-                    self.field_function_param[cidx_no] = ''
-                    if 'param' in f1.keys() and f1['param'] != '':
-                        self.field_function_param[cidx_no] = f1['param']
-
+        self.refidx = self.source.ref_column_index
+        self.altidx = self.source.alt_column_index
+ 
     def add_block_bed(self, block, region, sid):
-        # print(sid, self.fname, region)
         if self.tp is None:
-            sourcefile = self.fname.replace('#CHROM#', region.chrom)
+            sourcefile = self.source.sourcefile2.replace('#CHROM#', region.chrom)
             if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
-                self.tp = tabix.open(self.fname.replace('#CHROM#', region.chrom))
+                self.tp = tabix.open(sourcefile)
+                self.source.set_header(sourcefile)
+
         if self.tp is not None:
-            bedblock = []
+            self.set_target_column()
             for arr in self.tp.querys(region.region_str):
                 d = {}
-                d['spos'] = int(arr[1])
-                d['epos'] = int(arr[2])
-                for cidx in self.target_colidx:
-                    if cidx == -999:
-                        d[cidx] = ''
-                    else:
-                        d[cidx] = arr[cidx]
-                bedblock.append(d)
-
-            if len(bedblock) > 0:
-                for pos in block.keys():
-                    cont = ''
-                    for d in bedblock:
-                        if pos > d['spos'] and pos <= d['epos']:
-                            if cont != '':
-                                cont += ','
-                            variantkey = region.chrom + '_' + str(pos)
-                            flag_filter, cont2 = self.get_selected_fields_in_block(d, variantkey)
-                            cont += cont2
-                    if cont != '':
-                        for refalt in block[pos].keys():
-                            block[pos][refalt][sid] = cont
+                spos = int(arr[1])
+                epos = int(arr[2])
+                ref = arr[self.refidx]
+                if (spos+1) >= region.spos and (spos+1) <= region.epos:
+                    cont = (spos,epos,ref, self.source.name + "=" + "|".join(self.select_field(arr, self.source.header)))
+                    try:
+                        block[spos].append(cont)
+                    except KeyError:
+                        block[spos] = [cont]
         return block
 
-    def get_selected_fields_in_block(self, section, variantkey, arrsection=[], section_idx=-9):
-        cidx_no = 0
-        flag_filter = True
-        arr_selected_fields = []
-        for cidx in self.target_colidx:
-            cidx_no += 1
-            if cidx == -999:
-                cidxvalue = ''
+    def set_target_column(self):
+        for idx, h1 in enumerate(self.source.header):
+            if self.source.format == "bed":
+                self.target_colidx = list(range(3, len(self.source.header)))
+            elif self.fileformat == "tsi":
+                self.target_colidx = [len(self.source.header)-1]
             else:
-                cidxvalue = section[cidx]
+                for idx, h1 in enumerate(self.source.header):
+                    if h1.upper() not in ['CHROM','POS','REF','ALT']:
+                        if idx not in self.target_colidx:
+                            self.target_colidx.append(idx)
 
-            if cidx_no in self.field_function.keys():
-                # print(arr_selected_fields)
-                exec_str = "external_functions." + self.field_function[cidx_no]
-                exec_str += '('
-                paramstr_list = []
-                for param in self.field_function_param[cidx_no].split(','):
-                    if param == "mutanno_value_variantkey":
-                        pstr = 'variantkey'
-                    elif param == "mutanno_value_sections":
-                        pstr = 'arrsection'
-                    elif param == "mutanno_value_columnheader":
-                        pstr = 'self.header'
-                    elif param == "mutanno_value_section_idx":
-                        pstr = 'section_idx'
-                    elif cidx_no - 1 == self.field_names.index(param):
-                        pstr = 'cidxvalue'
-                    else:
-                        pstr = 'arr_selected_fields['
-                        pstr += str(self.field_names.index(param))
-                        pstr += ']'
-                    paramstr_list.append(pstr)
-                exec_str += ','.join(paramstr_list)
-                exec_str += ')'
-                # print(exec_str)
-                cidxvalue = eval(exec_str)
-
-            delimiter = ''
-            if cidx in self.delimiter.keys():
-                delimiter = self.delimiter[cidx]
-
-            if cidx in self.defaultvalue.keys() and cidxvalue == '':
-                cidxvalue = self.defaultvalue[cidx]
-
-            arr_selected_fields.append(vcf_util.encode_infovalue(cidxvalue, delimiter))
-
-            if cidx in self.filter_start_with.keys():
-                flag_filter = cidxvalue.startswith(self.filter_start_with[cidx])
-
-            if cidx in self.filter_skip_equal_str.keys():
-                flag_filter = not (cidxvalue == self.filter_skip_equal_str[cidx])
-                # print(flag_filter, cidxvalue, cidx, self.filter_skip_equal_str)
-
-            if cidx in self.filter_keep_equal_str.keys():
-                if type(self.filter_keep_equal_str[cidx]) == list:
-                    flag_filter = (cidxvalue in self.filter_keep_equal_str[cidx])
-                else:
-                    flag_filter = (cidxvalue == self.filter_keep_equal_str[cidx])
-                # print(flag_filter, cidxvalue, cidx, self.filter_keep_equal_str)
-
-        cont = '|'.join(arr_selected_fields)
-        return flag_filter, cont
-
-    def add_vep_fields(self, arrsection):
-        vep = {}
-        vep['consequences'] = {}
-        for sec in arrsection:
-
-            conseqeunce = sec[self.header.index('Conseqeuence')]
-        print(self.header)
-        print(arrsection)
-        return vep
+    def select_field(self, arr, header):
+        rst = []
+        for idx in self.target_colidx:
+            rst.append(arr[idx])
+        return rst
 
 
     def add_block(self, block, region, sid):
         if self.tp is None:
-            sourcefile = self.fname.replace('#CHROM#', region.chrom)
+            sourcefile = self.source.sourcefile2.replace('#CHROM#', region.chrom)
             if file_util.is_exist(sourcefile) and file_util.is_exist(sourcefile + ".tbi"):
-                self.tp = tabix.open(self.fname.replace('#CHROM#', region.chrom))
+                self.tp = tabix.open(sourcefile)
+                self.source.set_header(sourcefile)
         if self.tp is not None:
-            # print(self.chrompre + regionstr)
+            self.set_target_column()
             try:
-                # print(attributes(self.tp))
-                # if True:
-                for arr in self.tp.querys(self.chrompre + regionstr):
+                for arr in self.tp.querys(self.source.chrompre + region.region_str):
                     pos = int(arr[1])
                     if pos >= region.spos and pos <= region.epos:
                         refalt = arr[self.refidx] + '_' + arr[self.altidx]
+                        try:
+                            block[pos]
+                        except KeyError:
+                            block[pos] = {}
+                        try:
+                            block[pos][refalt]
+                        except KeyError:
+                            block[pos][refalt] = {}
 
-                        if self.fileformat == 'tsi':
-                            if "," in arr[-1]:
-                                arrsection = []
-                                for f1 in arr[-1].split(','):
-                                    arrsection.append(f1.split('|'))
-                            else:
-                                arrsection = [arr[-1].split('|')]
+                        if self.fileformat == "tsi":
+                            cont = arr[-1]
                         else:
-                            arrsection = [arr]
+                            cont = '|'.join(self.select_field(arr, self.source.header))
 
-                        for section_idx, section in enumerate(arrsection):
-                            variantkey = region.chrom + '_' + \
-                                str(pos) + '_' + arr[self.refidx] + '_' + arr[self.altidx]
-                            flag_filter, cont = self.get_selected_fields_in_block(section, variantkey, arrsection, section_idx)
-                            if flag_filter:
-                                try:
-                                    block[pos]
-                                except KeyError:
-                                    block[pos] = {}
-                                try:
-                                    block[pos][refalt]
-                                except KeyError:
-                                    block[pos][refalt] = {}
-                                try:
-                                    block[pos][refalt][sid] += ',' + cont
-                                except KeyError:
-                                    block[pos][refalt][sid] = cont
+                        try:
+                            block[pos][refalt][sid].append(cont) 
+                        except KeyError:
+                            block[pos][refalt][sid] = [cont]
             except tabix.TabixError:
-                # there is no annotation in the chrom. (ex. Y, M)
                 pass
+        
         return block
 
-    def get_default_value(self):
-        arr_selected_fields = []
-        for cidx in self.target_colidx:
-            cidxvalue = ''
-            if cidx in self.defaultvalue.keys():
-                cidxvalue = self.defaultvalue[cidx]
-            arr_selected_fields.append(cidxvalue)
-        cont = '|'.join(arr_selected_fields)
-        return cont
+    def get_header(self):
+        rst = []
+        for idx in self.target_colidx:
+            rst.append(self.source.header[idx])
+        return rst
 
 
 
@@ -259,7 +265,7 @@ class TSVBlockMerger():
     def __init__(self, block_readers, region, block_size):
         self.block_readers = block_readers
         self.block_size = block_size
-        self.region = region  ## region object
+        self.region = region  # region object
         self.block_spos = 0
         self.block_epos = 0
         self.block_lpos = 0
@@ -278,10 +284,12 @@ class TSVBlockMerger():
             self.block_epos = self.region.epos
         this_range = region_util.Region(self.region.chrom + ':' + str(self.block_spos) + '-' + str(self.block_epos))
 
+
         self.block = {}
         for sid in self.block_readers.keys():
             if self.block_readers[sid].fileformat != "bed":
                 self.block = self.block_readers[sid].add_block(self.block, this_range, sid)
+
         for sid in self.block_readers.keys():
             if self.block_readers[sid].fileformat == "bed":
                 self.block = self.block_readers[sid].add_block_bed(self.block, this_range, sid)
@@ -294,130 +302,34 @@ class TSVBlockMerger():
         cont = ''
         poslist = list(self.block.keys())
         for pos in sorted(poslist):
-            for refalt in self.block[pos].keys():
-                infoarr = []
-                for sid in self.block_readers.keys():
-                    if sid in self.block[pos][refalt].keys():
-                        if self.block[pos][refalt][sid] != "":
-                            infoarr.append(sid + '=' + self.block[pos][refalt][sid])
-                    else:
-                        defailtvalue = self.block_readers[sid].get_default_value()
-                        if defailtvalue.replace('|','') != '':
-                            infoarr.append(sid + '=' + defailtvalue)
-                cont += self.region.chrom + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t' + ';'.join(infoarr) + '\n'
+            if isinstance(self.block[pos], dict):
+                for refalt in self.block[pos].keys():
+                    infoarr = []
+                    for sid in self.block_readers.keys():
+                        if sid in self.block[pos][refalt].keys():
+                            if self.block[pos][refalt][sid] != "":
+                                infoarr.append(sid + '=' + ",".join(self.block[pos][refalt][sid]))
+                            
+                    cont += self.region.chrom + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t\t\t\t' + ';'.join(infoarr) + '\n'
+            elif isinstance(self.block[pos], list): # bed file foramt
+                for bedline in self.block[pos]:
+                    spos = bedline[0]
+                    epos = bedline[1]
+                    ref = bedline[2]
+                    infoarr = bedline[3]
+                    cont += self.region.chrom + '\t' + str(spos+1) + '\t\t' + ref + '\t\t\t\t' + 'END=' + str(epos) +  '\t' + infoarr + '\n'
             self.block_lpos = pos
         return cont
 
-
-class DataSourceFile():
-    def __init__(self, opt):
-        self.set_outfile_extension(opt['out'])
-        self.datastruct = datastructure.DataSourceListStructure(opt['ds'])
-        self.region = region_util.Region(opt['region'])
-        self.blocksize = opt['blocksize']
-        self.opt = opt
-
-    def set_outfile_extension(self, out):
-        out2 = out.replace('.tsi.gz', '.tsi')
-        if out2[-4:] != ".tsi":
-            out2 += ".tsi"
-        self.out = out2
-
-    def get_tsv_header(self):
-        header = ["#CHROM", "POS", "ID", "REF", "ALT"]
-        for s1 in self.datastruct.ds['source']:
-            for f1 in s1['fields']:
-                if is_available(f1):
-                    if 'name2' in f1.keys() and f1['name2'] != '':
-                        header.append(f1['name2'])
-                    else:
-                        header.append(f1['name'])
-        return '\t'.join(header)
-
-    def get_tsi_header(self):
-        header = ["#CHROM", "POS", "ID", "REF", "ALT"]
-        info_arr = []
-        for s1 in self.datastruct.ds['source']:
-            info_header = []
-            for f1 in s1['fields']:
-                if is_available(f1):
-                    if 'name2' in f1.keys() and f1['name2'] != '':
-                        info_header.append(f1['name2'])
-                    else:
-                        info_header.append(f1['name'])
-            info_arr.append(s1['name'] + '=' + '|'.join(info_header))
-        header.append(';'.join(info_arr))
-        return '\t'.join(header)
-
-    def make_single_source_file(self):
-        file_util.check_dir(self.out)
-        fp = open(self.out, 'w')
-        fp.write(self.get_tsi_header() + '\n')
-
-        sidlist = []
-        blockreaders = {}
-        for s1 in self.datastruct.ds['source']:
-            sid = s1['name']
-            sidlist.append(sid)
-            datafile_path = ''
-            if 'datafile_path' in self.datastruct.ds.keys():
-                datafile_path = self.datastruct.ds['datafile_path']
-            blockreaders[sid] = TSVBlockReader(s1, datafile_path)
-
-        tbm = TSVBlockMerger(blockreaders, self.region, self.blocksize)
-
-        while not tbm.eof:
-            start = time.time()
-            block = tbm.get_block_tsi()
-            fp.write(block)
-            # lastpos = str(tbm.block_lpos)
-            end = time.time()
-            elapsed = end - start
-            log = 'processing.. ' + str(round(elapsed, 3)) + ' sec elapsed. '
-            log += str(len(tbm.block.keys())) + ' variants added. '
-            log += str(tbm.block_spos) + '~' + str(tbm.block_epos)
-            print(log)
-        print('Saved', self.out)
-        fp.close()
-
-        # FIXME: convert using bgzip lib
-        # time.sleep(3)
-        # proc_util.run_cmd('tabixgz ' + self.out)
-        # time.sleep(3)
-        # for line in file_util.gzopen(self.out + '.gz'):
-        #     line = line.decode('UTF-8')
-        #     lastposgz = line.split('\t')[1]
-        #
-        # if (lastpos == lastposgz and file_util.is_exist(self.out + '.gz.tbi')) or lastposgz == "POS":
-        #     cmd = "rm -rf " + self.out + ";"
-        #     cmd += "rm -rf " + self.out + ".gz.tbi;"
-        #     proc_util.run_cmd(cmd)
-
-
-    def check_datasourcefile(self):
-        print('check data')
-        # print(self.opt)
-        # print(self.region)
-        # print(self.datastruct)
-        # print(self.datastruct.ds['source'])
-        mt_seq_reader = datasource.MutannoDataSequentialReader(self.out)
-
-        dslist = datasource.DataSourceList()
-        dslist.set_datastructure(self.datastruct)
-
-        for mtdata in mt_seq_reader:
-            annot = dslist.get_sourcedata_variant(mtdata['CHROM'], mtdata['POS'], mtdata['REF'], mtdata['ALT'])
-            print(annot)
-            print(mtdata)
-            break
-
-        # for line in file_util.gzopen(self.out):
-        #     line = file_util.decodeb(line)
-        #     if line[0] != '#':
-        #         arr = line.split('\t')
-        #         print(arr)
-        #         break
+    def get_header(self):
+        cont = ""
+        for sid in self.block_readers.keys():
+            header = self.block_readers[sid].get_header()
+            if cont != "":
+                cont += ";"
+            cont += sid + '=' + '|'.join(header)
+        cont = "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\t" + cont+ "\n"
+        return cont
 
 
 
-        pass

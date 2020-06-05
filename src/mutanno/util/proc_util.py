@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 import os
+import sys
+import subprocess
+from io import StringIO
 
 
 def cpu_num():
@@ -33,10 +36,15 @@ def back_run(scmd):
 
 
 def run_cmd(scmd, flag=False):
+    
     if flag:
         print(scmd)
     rst = os.popen(scmd)
     rst_cont = rst.read()
+    # rst = subprocess.Popen([scmd], stdout=subprocess.PIPE, shell=True)
+    # (rst_cont, error) = rst.communicate()
+    # sys.stdout = old_stdout
+
     return rst_cont
 
 

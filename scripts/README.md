@@ -46,9 +46,9 @@ python s01_mk_datasource_script.py \
 
 ### Compare json data structure file with googlesheet table
 ```
-python maptable/check_variant_json_vs_googlesheet.py \
-	../tests/data/datastructure_v0.4.4ds.json \
-	../tests/data/datastructure_v0.4.4ds.googlesheet.txt
+python maptable/check_variant_json_vs_googlesheet2.py \
+	../tests/data/datastructure_v0.4.6ds.json \
+	../tests/data/datastructure_v0.4.6ds.googlesheet.txt
 ```
 ## CLINVAR
 ```

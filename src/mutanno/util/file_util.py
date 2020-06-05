@@ -5,7 +5,22 @@ import os
 import sys
 import tabix
 import json
+from . import proc_util
+import pprint
 
+def print(str):
+    pp = pprint.PrettyPrinter(indent=2)
+    pp.pprint(str)
+
+def save_gzip(out):
+    cmd = "bgzip -c " + out + " > " + out + ".gz"
+    proc_util.run_cmd(cmd)
+
+def strip_gzext(fname):
+    rst = fname
+    if rst.endswith('.gz'):
+        rst = rst[:-3]
+    return rst
 
 def line2arr(line, delimiter = '\t'):
     arr = line.split('\t')
@@ -85,8 +100,14 @@ def fileOpen2(path, opt):
 
 
 def fileOpen(path):
-    f = open(path, "r")
-    return f.read()
+    cont = ""
+    if path.endswith('.gz'):
+        for line in gzopen(path):
+            cont += decodeb(line)
+    else:
+        f = open(path, "r")
+        cont = f.read()
+    return cont
 
 
 def fileSave(path, cont, opt, gzip_flag="n"):

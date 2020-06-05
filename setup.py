@@ -6,7 +6,8 @@ install_requires = [
     'pysam>=0.11.2.2y7',
     'pytabix>=0.0.2',
     'pyliftover>=0.4',
-    'xmltodict>=0.12.0'
+    'xmltodict>=0.12.0',
+    'pyvcf>=0.6.8'
 ]
 
 tests_require = [
@@ -22,13 +23,13 @@ extras_require = {
 
 
 setup(name='mutanno',
-      version='0.3.17',
+      version='0.4.0',
       url='https://github.com/dbmi-bgm/mutanno',
       license='MIT',
       author='CGAP team at Harvard Medical School',
       author_email='daniel.minseok.kwon@gmail.com',
       description='Mutation Annotation Tool',
-      download_url='https://github.com/dbmi-bgm/mutanno/archive/0.3.17.tar.gz',
+      download_url='https://github.com/dbmi-bgm/mutanno/archive/0.4.0.tar.gz',
       keywords=['genomics', 'bioinformatics'],
       classifiers=[
           'Operating System :: OS Independent',
