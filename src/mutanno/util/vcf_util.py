@@ -301,5 +301,11 @@ def pars_vcfline(vcfline, collist=['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAT', '
     return v1
 
 
-
+def pars_info_header(infoheader):
+    d = {}
+    for s1 in infoheader.strip().split(";"):
+        if "=" in s1:
+            arr = s1.split('=')
+            d[arr[0]] = arr[1].strip().split('|')
+    return(d)
 

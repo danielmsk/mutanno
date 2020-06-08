@@ -1,6 +1,5 @@
 {
   "name": "MUTANNO",
-  "sourcefile2": "/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.4.3_200604_chrom/microannot_datasource.#CHROM#.v0.4.3_200604.tsi.gz",
   "format": "tsi",
   "source": [
     {

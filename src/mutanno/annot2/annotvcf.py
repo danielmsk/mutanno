@@ -89,8 +89,10 @@ class VCFAnnotator():
     def get_annot_header(self):
         cont = ""
 
+
         for headertype in ["MUTANNO", "INFO"]:
-            if self.opt.add_genoinfo:
+
+            if self.opt.add_genoinfo != False:
                 cont += vcf_util.get_info_header(headertype, "SAMPLEGENO", "v0.4", "05/07/2020" ,"Sample genotype information", ["NUMGT", "GT", "AD","SAMPLEID"], "samplegeno")
             
             mutanno_fields = []
@@ -321,7 +323,7 @@ class VCFVariant:
 
     def set_option(self):
         try:
-            if self.opt.add_genoinfo and not self.is_subvariant:
+            if self.opt.add_genoinfo != False and not self.is_subvariant:
                 self.add_genotypeinfo_in_infofield(self.opt.add_genoinfo)
 
             if len(self.opt.clean_tag_list) > 0:

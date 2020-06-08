@@ -1859,6 +1859,111 @@
           "param": "Tumour origin"
         }
       ]
+    },{
+      "name": "ENSEMBLANNOT",
+      "desc": "",
+      "version": "99",
+      "version_date": "08/23/2019",
+      "sourcefile": "ENSEMBL/hg38/Homo_sapiens.GRCh38.99.alltype.sorted.bed.gz",
+      "format": "bed",
+      "datatype": "region",
+      "fields": [
+        {
+          "name": "strand",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "ensgid",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "gene_version",
+          "type": "integer",
+          "desc": ""
+        },
+        {
+          "name": "gene_symbol",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "gene_source",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "gene_biotype",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_id",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_version",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_source",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_biotype",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "tag",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_support_level",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "exon_number",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "exon_id",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "exon_version",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "protein_id",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "protein_version",
+          "type": "string",
+          "desc": ""
+        }
+      ]
     }
   ]
 }

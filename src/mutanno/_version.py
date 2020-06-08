@@ -1,8 +1,11 @@
-VERSION = "0.4.0"
-VERSION_DATE = "2020.05.29"
+VERSION = "0.4.1"
+VERSION_DATE = "2020.06.08"
 
 # MUTANNO version
-# 0.4.0 (2020.05.29) :
+# 0.4.1 (2020.06.08) :
+#   - turn to be 'single_source_mode = True' when data structure file has only single source file. 
+#   - allocate all sample names when users use -genoinfo without indicating sample names. 
+# 0.4.0 (2020.06.05) :
 #   - add variant type
 #   - support multiple datasources for vcf annotation
 #   - remove block-size option
@@ -10,6 +13,7 @@ VERSION_DATE = "2020.05.29"
 #   - add '-variant_class' option
 #   - refactoring
 #	- add multi-source mode
+#	- refactoring makedata mode
 # 0.3.19 (2020.05.25) :
 #   - split pred and score in pathogenicity score from VEP (SIFT and Polyphen)
 # 0.3.18 (2020.05.13) :

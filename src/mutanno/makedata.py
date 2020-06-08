@@ -19,6 +19,7 @@ entrezmap = {}
 refseqmap = {}
 
 
+
 class BlankVCFReader():
     def __init__(self, opt, dslist):
         self.dslist = dslist
@@ -109,12 +110,9 @@ class DataSourceGenerator(VCFAnnotator):
         etime0 = time.time()
         elapsed0 = etime0 - stime0
         print("total:", elapsed0, ", time per variant:", elapsed0 / ivar, ", time for 9G variants:", str(round(elapsed0 / ivar * 9000000000 / 3600, 3)) + "hr")
-
-        
         # time.sleep(10)
         # proc_util.run_cmd('gz ' + self.out)
         
-
 
     def make_single_source_file_with_block(self):
         fp = open(self.opt.out, 'w')
@@ -122,7 +120,7 @@ class DataSourceGenerator(VCFAnnotator):
         for s1 in self.dslist.available_source_list:
             blockreaders[s1.name] = TSVBlockReader(s1)
 
-        tbm = TSVBlockMerger(blockreaders, self.region, 1000)
+        tbm = TSVBlockMerger(blockreaders, self.region, int(self.opt.blocksize))
         print_header = True
         while not tbm.eof:
             start = time.time()
@@ -137,10 +135,13 @@ class DataSourceGenerator(VCFAnnotator):
             log = 'processing.. ' + str(round(elapsed, 3)) + ' sec elapsed. '
             log += str(len(tbm.block.keys())) + ' variants added. '
             log += str(tbm.block_spos) + '~' + str(tbm.block_epos)
-            print(log)
-        print('Saved', self.out)
+            self.log(log)
         fp.close()
+        self.log('Saved.. ' + self.out)
 
+    def log(self, msg):
+        file_util.fileSave(self.out + '.log', msg + '\n', 'a')
+        print(msg)
 
     def check_datasourcefile(self):
         mt_seq_reader = datasource.MutannoDataSequentialReader(self.out)
@@ -193,9 +194,13 @@ class TSVBlockReader():
                 if (spos+1) >= region.spos and (spos+1) <= region.epos:
                     cont = (spos,epos,ref, self.source.name + "=" + "|".join(self.select_field(arr, self.source.header)))
                     try:
-                        block[spos].append(cont)
+                        block[spos]
                     except KeyError:
-                        block[spos] = [cont]
+                        block[spos] = {}
+                    try:
+                        block[spos]['BED'].append(cont)
+                    except KeyError:
+                        block[spos]['BED'] = [cont]
         return block
 
     def set_target_column(self):
@@ -206,14 +211,14 @@ class TSVBlockReader():
                 self.target_colidx = [len(self.source.header)-1]
             else:
                 for idx, h1 in enumerate(self.source.header):
-                    if h1.upper() not in ['CHROM','POS','REF','ALT']:
+                    if h1.upper() not in ['CHROM','POS','REF','ALT','VEP']:
                         if idx not in self.target_colidx:
                             self.target_colidx.append(idx)
 
     def select_field(self, arr, header):
         rst = []
         for idx in self.target_colidx:
-            rst.append(arr[idx])
+            rst.append(vcf_util.encode_value(arr[idx]))
         return rst
 
 
@@ -240,7 +245,7 @@ class TSVBlockReader():
                             block[pos][refalt] = {}
 
                         if self.fileformat == "tsi":
-                            cont = arr[-1]
+                            cont = arr[-1].replace('&', '~').replace(' ', '%20')
                         else:
                             cont = '|'.join(self.select_field(arr, self.source.header))
 
@@ -302,22 +307,25 @@ class TSVBlockMerger():
         cont = ''
         poslist = list(self.block.keys())
         for pos in sorted(poslist):
-            if isinstance(self.block[pos], dict):
-                for refalt in self.block[pos].keys():
+            for refalt in self.block[pos].keys():
+                if refalt == "BED":
+                    for bedline in self.block[pos]['BED']:
+                        spos = bedline[0]
+                        epos = bedline[1]
+                        ref = bedline[2]
+                        infoarr = bedline[3]
+                        cont += self.region.chrom + '\t' + str(spos+1) + '\t\t' + ref + '\t\t\t\t' + 'END=' + str(epos) +  '\t' + infoarr + '\n'
+                else:
                     infoarr = []
                     for sid in self.block_readers.keys():
                         if sid in self.block[pos][refalt].keys():
                             if self.block[pos][refalt][sid] != "":
                                 infoarr.append(sid + '=' + ",".join(self.block[pos][refalt][sid]))
-                            
-                    cont += self.region.chrom + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t\t\t\t' + ';'.join(infoarr) + '\n'
-            elif isinstance(self.block[pos], list): # bed file foramt
-                for bedline in self.block[pos]:
-                    spos = bedline[0]
-                    epos = bedline[1]
-                    ref = bedline[2]
-                    infoarr = bedline[3]
-                    cont += self.region.chrom + '\t' + str(spos+1) + '\t\t' + ref + '\t\t\t\t' + 'END=' + str(epos) +  '\t' + infoarr + '\n'
+                                
+                        cont += self.region.chrom + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t\t\t\t' + ';'.join(infoarr) + '\n'
+            
+
+                
             self.block_lpos = pos
         return cont
 

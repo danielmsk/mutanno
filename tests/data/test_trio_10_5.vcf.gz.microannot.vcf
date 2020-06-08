@@ -67,7 +67,7 @@
 ##MUTANNO=<ID=CLINVAR,Version="20200106",Date="01/06/2020">
 ##MUTANNO=<ID=SpliceAI,Version="20191004",Date="10/04/2019">
 ##MUTANNO=<ID=SAMPLEGENO,Version="v0.4",Date="05/07/2020">
-##MUTANNO=<ID=MULTIALLELE,Version="0.4.0",Date="2020.05.29">
+##MUTANNO=<ID=MULTIALLELE,Version="0.4.0",Date="2020.06.05">
 ##INFO=<ID=SAMPLEGENO,Number=.,Type=String,Description="Sample genotype information. Subembedded:'samplegeno':Format:'NUMGT|GT|AD|SAMPLEID'">
 ##INFO=<ID=MULTIALLELE,Number=.,Type=String,Description="sample variant key for multiallelic variant. Format:'SAMPLEVARIANTKEY'">
 ##INFO=<ID=VEP,Number=.,Type=String,Description="Predicted nonsense mediated decay effects for this variant by VEP. Format:'Gene|Feature|Feature_type|Consequence|SYMBOL|BIOTYPE'">

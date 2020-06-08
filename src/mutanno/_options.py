@@ -56,6 +56,7 @@ def get_options():
                     default="", help='chain file for liftover of hg19 coordinates')
     p1.add_argument('-genetable', dest='add_genetable',
                     action="store_true", default=do['genetable'], help='add gene table')
+    p1.add_argument('-blocksize', dest='blocksize', default='', help='block size')
     p1.add_argument('-split_multi_allelic_variant', dest='split_multi_allelic_variant',
                     action="store_true", default=do['split_multi_allelic_variant'], help='split multi-allelic variants')
     p1.add_argument('-clean_tag', dest='clean_tag_list',
@@ -159,3 +160,17 @@ def get_options():
     opt = parser.parse_args()
     # opt = vars(parser.parse_args())
     return opt
+
+
+def get_opt_object_from_dict(optdict={}):
+    opt = Option()
+    opt.convert_from_dict(optdict)
+    return opt
+
+class Option:
+    def __init__(self):
+        pass
+
+    def convert_from_dict(self, optdict={}):
+        for k1, v1 in optdict.items():
+            self.__dict__[k1] = v1

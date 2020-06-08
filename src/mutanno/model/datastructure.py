@@ -61,8 +61,12 @@ class DataSourceListStructure:
             self.available_source_list = []
             self.sources = {}
             self.dsjsonfile = dsjsonfile
+            self.sourcefile2_list = []
             self.load_dsfile()
             self.update_sourcefile2()
+            if len(self.sourcefile2_list) == 0:
+                self.single_source_mode = True
+
 
     def load_dsfile(self):
         ds = file_util.load_json(self.dsjsonfile)
@@ -71,6 +75,9 @@ class DataSourceListStructure:
                 for source_ds in ds["source"]:
                     dss = datasource.DataSource(source_ds)
                     dss.update_sourcefile2(self.sourcefile_path)
+                    if dss.sourcefile2 != '':
+                        self.sourcefile2_list.append(dss.sourcefile2)
+
                     if dss.is_available:
                         self.source_list.append(dss)
                         if dss.is_available:
@@ -110,12 +117,12 @@ class DataSourceStructure:
         return self.name
     
     def update_sourcefile2(self, sourcefile_path):
-        print(">DataSourceStructure.update_sourcefile2()", self.name)
+        # print(">DataSourceStructure.update_sourcefile2()", self.name)
         if sourcefile_path != "":
             self.sourcefile2 = os.path.join(sourcefile_path, self.sourcefile)
         else:
             self.sourcefile2 = self.sourcefile
-        print(self.sourcefile2)
+        # print(self.sourcefile2)
 
 
 class DataSourceFieldStructure:

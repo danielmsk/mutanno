@@ -24,10 +24,11 @@ src/mutanno.egg-info/requires.txt
 src/mutanno.egg-info/top_level.txt
 src/mutanno/annot2/__init__.py
 src/mutanno/annot2/annotvcf.py
-src/mutanno/annot2/datasource.py
 src/mutanno/model/__init__.py
 src/mutanno/model/datasource.py
 src/mutanno/model/datastructure.py
+src/mutanno/reader/__init__.py
+src/mutanno/reader/tsireader.py
 src/mutanno/util/__init__.py
 src/mutanno/util/file_util.py
 src/mutanno/util/proc_util.py

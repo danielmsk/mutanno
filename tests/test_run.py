@@ -109,9 +109,10 @@ def test_sync_googlesheet_dsjson():
     m1 = load_dsjson(dsjson_micro)
 
     i = 0
-    print("DSJSON -> Google")
+    print("DSJSON(full) -> Google")
+    skiplist = ["ENSEMBLANNOT"]
     for k1 in d1.keys():
-        if dv (d1[k1], 'is_available', True):
+        if dv (d1[k1], 'is_available', True) and k1.split('_')[0].upper() not in skiplist:
             i += 1
             # print('\t',i, k1, '..')
             try:
@@ -123,7 +124,7 @@ def test_sync_googlesheet_dsjson():
     print("\t", i, " dsjson(fullannot) fields checked...")
 
     i = 0
-    print("Google -> DSJSON")
+    print("Google -> DSJSON(full)")
     skiplist = ["VCF","SAMPLEGENO","MULTIALLELE","MUTANNO","HG19","VEP", "COMHET"]
     for k1 in g1.keys():
         if (g1[k1]['do_import'] == "Y") and (g1[k1]['source_name'] not in skiplist) and ( g1[k1]['embedded_field'] != "Y"):
@@ -167,8 +168,8 @@ def test_sync_googlesheet_dsjson():
 
 def test_microannot_run():
     ds = test_conf.get_ds()
-    # for n1 in [10, 100, 1000, 10000]:
-    for n1 in [10, 100]:
+    for n1 in [10, 100, 1000]:
+    # for n1 in [10, 100]:
     # for n1 in [10]:
         for r1 in range(1,6):
             vcf = "data/test_trio_"+str(n1)+"_"+str(r1)+".vcf.gz"
@@ -185,8 +186,9 @@ def test_microannot_run():
             arg.extend(['-out',out])
             arg.extend(['-sourcefile',test_conf.SOURCEFILE['microannot']])
             arg.append('-split_multi_allelic_variant')
-            arg.append('-single_source_mode')
-            arg.extend(['-genoinfo', 'NA12877_sample', 'NA12878_sample', 'NA12879_sample'])
+            # arg.append('-single_source_mode')
+            # arg.extend(['-genoinfo', 'NA12877_sample', 'NA12878_sample', 'NA12879_sample'])
+            arg.extend(['-genoinfo'])
 
             sys.argv = arg
             print('>>command:',' '.join(sys.argv))
@@ -195,7 +197,7 @@ def test_microannot_run():
             check_vcf_validator(out)
             # comp_previous_out(out, prevout)
             validate_annotvcf(out, dsjson, arg)
-            # break
+            break
             
 
 def test_novocaller_vcf_format():
@@ -244,7 +246,7 @@ def test_fullannot_run():
 
 def test_allannot_run():
     ds = test_conf.get_ds()
-    for n1 in [10, 100]:
+    for n1 in [10]:
         for r1 in range(1,6):
             vcf = "data/test_trio_"+str(n1)+"_"+str(r1)+".vcf"
             out = "out/" + vcf.split('/')[-1] + '.allannot.vcf'
@@ -293,14 +295,15 @@ def test_make_microannot_sourcefile():
     # arg.extend(['-region','1:952029-952609']) # clinvar variant
     # arg.extend(['-region','1:952029-952030']) # clinvar variant
     # arg.extend(['-region','1:10163-10174']) # clinvar variant
-    arg.extend(['-region','1:15034-15035']) # clinvar variant
+    # arg.extend(['-region','1:15034-15035']) # clinvar varian
+    arg.extend(['-region','1:10001-11000']) # clinvar variant
     # arg.extend(['-region','5:109000001-109000002']) 
     
-    sys.argv = arg
-    print_command()
-    mutanno.cli()
+    # sys.argv = arg
+    # print_command()
+    # mutanno.cli()
 
-    validate_annottsi(out, dsjson, arg)
+    # validate_annottsi(out, dsjson, arg)
 
 def test_make_fullannot_sourcefile():
     ds = test_conf.get_ds()
@@ -314,32 +317,33 @@ def test_make_fullannot_sourcefile():
     arg.extend(['-ds',dsjson])
     arg.extend(['-out',out])
     arg.extend(['-vartype','SNV'])
-    arg.extend(['-blocksize','10000'])
-    arg.extend(['-region','1:10001-10002']) # clinvar variant
+    arg.extend(['-blocksize','5000'])
+    # arg.extend(['-region','1:10001-10002']) # clinvar variant
     # arg.extend(['-region','1:22500-22501']) # gnomAD only variant
-    # arg.extend(['-region','1:952029-952609']) # clinvar variant
+    # arg.extend(['-region','1:952029-952659']) # clinvar variant
     # arg.extend(['-region','1:952029-952030']) # clinvar variant
-    # arg.extend(['-region','1:10163-10174']) # clinvar variant
+    arg.extend(['-region','1:10163-20174']) # clinvar variant
     # arg.extend(['-region','1:15034-15035']) # clinvar variant
     # arg.extend(['-region','1:39984-40000']) # clinvar variant
     
     # arg.extend(['-region','1:59900001-59900010']) 
     
-    sys.argv = arg
-    print_command()
-    mutanno.cli()
+    # sys.argv = arg
+    # print_command()
+    # mutanno.cli()
 
-    validate_annottsi(out, dsjson, arg)
-    
+    # validate_annottsi(out, dsjson, arg)
+
 
 if __name__ == "__main__":
-    # test_microannot_run()
+    test_microannot_run()
     # test_novocaller_vcf_format()
     # test_sync_googlesheet_dsjson()
     # test_fullannot_run()
     # test_allannot_run()
     # test_make_microannot_sourcefile()
-    test_make_fullannot_sourcefile()
+    # test_make_fullannot_sourcefile()
+    
 
 
 

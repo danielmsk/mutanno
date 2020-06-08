@@ -1,0 +1,3 @@
+{
+  "tests/test_tsireader.py::test_tsiloader": true
+}

@@ -198,7 +198,7 @@ class AnnotVCFValidator:
 
     def check_samplegeno(self, info):
         try:
-            print(info["SAMPLEGENO"])
+            # print(info["SAMPLEGENO"])
             if len(info["SAMPLEGENO"]) != len(self.opt.add_genoinfo):
                 self.raise_exception("SAMPLEGENO is unmatched.")
             else:
@@ -214,7 +214,7 @@ class AnnotVCFValidator:
             # varkey = r1.CHROM +":"+ str(r1.POS) + "_" + r1.REF + ">" + ",".join(r1.ALT)
             self.varkey = r1.CHROM +":"+ str(r1.POS) 
 
-            print("checking..", self.varkey)
+            # print("checking..", self.varkey)
             for infokey in self.mutanno_sources.keys():
                 if infokey in r1.INFO.keys():
                     flag = True
@@ -245,7 +245,7 @@ class AnnotVCFValidator:
     def validate(self):
         self.metadata = read_metadata_and_check_duplicate(self.header)
         self.validate_variant_fields_in_only_vcf()
-        print(self.opt)
+        # print(self.opt)
         # print(self.mutanno_sources)
 
 def parse_tsi_annot_header(tsi_info_header):
@@ -289,7 +289,7 @@ class AnnotTSIValidator(AnnotVCFValidator):
             else:
                 self.colnames = line.strip().split('\t')
                 self.annot_header = parse_tsi_annot_header(self.colnames[-1])
-                print(self.annot_header)
+                # print(self.annot_header)
 
 
     def validate_variant_fields_in_only_tsi(self):
@@ -299,7 +299,7 @@ class AnnotTSIValidator(AnnotVCFValidator):
                 arr = line.split('\t')
                 infofield = parse_info(arr[-1].strip())
                 for k1 in infofield.keys():
-                    print(infofield[k1])
+                    # print(infofield[k1])
                     for d2 in infofield[k1]:
                         if len(self.annot_header[k1]) != len(d2):
                             msg = k1 + ": the field number not matched."

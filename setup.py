@@ -23,7 +23,7 @@ extras_require = {
 
 
 setup(name='mutanno',
-      version='0.4.0',
+      version='0.4.1',
       url='https://github.com/dbmi-bgm/mutanno',
       license='MIT',
       author='CGAP team at Harvard Medical School',
