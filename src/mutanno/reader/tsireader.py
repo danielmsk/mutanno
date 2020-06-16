@@ -84,9 +84,14 @@ class TSIVariant:
                 for attr in arr[1].split(','):
                     d2 = {}
                     arr2 = attr.split('|')
-                    for idx in range(len(self.annotheader[sname])):
-                        fieldname = self.annotheader[sname][idx]
-                        d2[fieldname] = arr2[idx].strip()
+                    # print(sname, len(arr2), len(self.annotheader[sname]), arr2, self.annotheader[sname])
+                    try:
+                        for idx, fieldname in enumerate(self.annotheader[sname]):
+                            d2[fieldname] = arr2[idx].strip()
+                    except IndexError:
+                        print("Error: Field number is not matching." + str(self) + " " + sname + " source. " + str(len(self.annotheader[sname])) + " " + str(len(arr2)) )
+                        print(self.annotheader[sname])
+                        print(arr2)
                     d[sname].append(d2)
         self.annot = d
         

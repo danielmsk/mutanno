@@ -1,0 +1,1 @@
+mutanno makedata  -ds /home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.4.3dso2.json -out /home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.22.v0.4.4_200614.tsi  -vartype SNV  -region 22:1-50818468 -blocksize 5000 ; tabixgz /home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.22.v0.4.4_200614.tsi;

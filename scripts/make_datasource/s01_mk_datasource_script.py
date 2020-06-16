@@ -115,7 +115,8 @@ def split_run_datasource_4_microannot_chrom(ds_json_file, out):
             cmd += " -out " + out2 + " "
             cmd += " -vartype SNV "
             cmd += " -region " + chrom + ":1-" + str(regionlist[chrom]) 
-            cmd += "tabixgz " + out2 + ";"
+            cmd += " -blocksize 5000 "
+            cmd += "; tabixgz " + out2 + ";"
             print(cmd)
             # cmd += "sleep 5;"
             # tsifile = path + "mc_" + str(r1[3]) + ".tsv.tsi"
@@ -141,13 +142,13 @@ if __name__ == "__main__":
         chunksize = int(sys.argv[3].replace(',',''))
     # split_run_datasource(ds_json_file, path, chunksize)
     
-    ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.4.2ds.json"
-    out = "/home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.4.1_200421.tsi"
-    # split_run_datasource_4_microannot_chrom(ds_json_file, out)
+    ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.4.3dso2.json"
+    out = "/home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.4.4_200614.tsi"
+    split_run_datasource_4_microannot_chrom(ds_json_file, out)
     
 
     chunksize = 3000
     ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_fullannot_v0.4.6ds.json"
     path = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/tmp/"
     out = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/fullannot_datasource.#CHROM#.v0.4.6_200604.tsi"
-    split_run_datasource(ds_json_file, path, chunksize)
+    # split_run_datasource(ds_json_file, path, chunksize)

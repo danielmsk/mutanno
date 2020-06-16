@@ -12,7 +12,7 @@
       "sourcefile":"vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz",
       "subembedded": "transcript",
       "function": "vep_select_biotype",
-      "param": "mutanno_value_sections,['protein_coding','miRNA']",
+      "param": "mutanno_value_sections,['protein_coding','miRNA','polymorphic_pseudogene']",
       "format": "tsi",
       "is_available": true,
       "fields":[

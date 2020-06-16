@@ -14,8 +14,13 @@ BGZIP = "/home/mk446/anaconda3/bin/bgzip"
 SOURCEFILE = {}
 # SOURCEFILE['microannot'] = os.path.join(DATA_DIR, 'mvp_datasource_v0.3.2_200309.chr#CHROM#.test.tsi.gz')
 # SOURCEFILE['microannot'] = "/home/mk446/mutanno/DATASOURCE/MICROANNOT/v0.4.2_200512/microannot_datasource.v0.4.2_20200512.tsi.gz"
-SOURCEFILE['microannot'] = "/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.4.3_200604_chrom/microannot_datasource.#CHROM#.v0.4.3_200604.tsi.gz"
-SOURCEFILE['fullannot'] = os.path.join(DATA_DIR, 'mvp_datasource_v0.3.2_200309.chr#CHROM#.test.tsi.gz')
+# SOURCEFILE['microannot'] = "/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.4.3_200604_chrom/microannot_datasource.#CHROM#.v0.4.3_200604.tsi.gz"
+# SOURCEFILE['microannot'] = "/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/v0.4.3_200604/GAPFI455U3JI.tsi.gz"
+SOURCEFILE['microannot'] = "/home/mk446/bio/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.v0.4.4_200614.tsi.gz"
+
+# SOURCEFILE['fullannot'] = os.path.join(DATA_DIR, 'mvp_datasource_v0.3.2_200309.chr#CHROM#.test.tsi.gz')
+# SOURCEFILE['fullannot'] = os.path.join(DATA_DIR, 'mvp_datasource_v0.3.2_200309.chr#CHROM#.test.tsi.gz')
+SOURCEFILE['fullannot'] = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.0_200608_chrom/mvp_datasource_v0.4.0_200608.chr#CHROM#.tsi.gz'
 # SOURCEFILE['GENE'] 
 
 TEST_OUT1 = os.path.join(DATA_DIR, 'test_normal_snv.annot.vcf')
@@ -35,11 +40,14 @@ def get_ds():
                 ds[arr[1]]
             except KeyError:
                 ds[arr[1]] = {}
-
-            if 'ds' in arr[2]:
+            
+            if 'dso2' in arr[2]:
+                ds[arr[1]]['dso2'] = os.path.join(DATA_DIR, fname)
+            elif 'ds' in arr[2]:
                 ds[arr[1]]['ds'] = os.path.join(DATA_DIR, fname)
             else:
                 ds[arr[1]]['clean'] = os.path.join(DATA_DIR, fname)
+    
     return ds
 
 def run_vcf_validator(out):

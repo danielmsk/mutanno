@@ -19,6 +19,7 @@ class VCFAnnotator():
 
     def __init__(self, opt):
         self.vcfheader = None
+        self.fast_mapping_mode = True
 
         self.opt = opt
         self.out = self.opt.out
@@ -29,15 +30,11 @@ class VCFAnnotator():
         if self.opt.single_source_mode:
             self.dslist.single_source_mode = self.opt.single_source_mode
 
-        # self.add_hgvs = opt.add_hgvs
-        # self.add_variant_class = opt['add_variant_class']
-        # self.add_hg19 = opt['add_hg19']
-        # self.add_genetable = opt['add_genetable']
-        # self.split_multi_allelic_variant = opt['split_multi_allelic_variant']
-
         self.vcfreader = VCFReader(self.opt)
-        self.vcfrenderer = VCFRenderer()
-        self.jsonrenderer = JSONRenderer(self.dslist, self.opt.out)
+        if 'vcf' in self.opt.outtype:
+            self.vcfrenderer = VCFRenderer()
+        if 'json' in self.opt.outtype:
+            self.jsonrenderer = JSONRenderer(self.dslist, self.opt.out)
 
 
     def get_datafile_header(self, datafile, sourcename, dataformat):
@@ -88,8 +85,6 @@ class VCFAnnotator():
 
     def get_annot_header(self):
         cont = ""
-
-
         for headertype in ["MUTANNO", "INFO"]:
 
             if self.opt.add_genoinfo != False:
@@ -102,7 +97,7 @@ class VCFAnnotator():
                 mutanno_fields.append("hgvsg")
             if self.opt.split_multi_allelic_variant:
                 # mutanno_fields.append("samplevariantkey")
-                cont += vcf_util.get_info_header(headertype, "MULTIALLELE", _version.VERSION, _version.VERSION_DATE, "sample variant key for multiallelic variant", ["SAMPLEVARIANTKEY"])
+                cont += vcf_util.get_info_header(headertype, "MULTIALLELE", "0.4.0", "2020.06.05", "sample variant key for multiallelic variant", ["SAMPLEVARIANTKEY"])
 
             if len(mutanno_fields) > 0:
                 cont += vcf_util.get_info_header(headertype, "MUTANNO", _version.VERSION, _version.VERSION_DATE, "mutanno", mutanno_fields)
@@ -201,13 +196,24 @@ class VCFAnnotator():
         ivar = 0
         stime1 = time.time()
         while(not self.vcfreader.eof):
+
             variant = self.vcfreader.get_variant()
             if self.vcfreader.eof or variant == None:
                 break
-            variant.set_annot(self.dslist)
-            self.fp.write(self.vcfrenderer.render_vcfvariant(variant) + '\n')
-            self.jsonrenderer.save_jsonvariant(variant)
-            
+
+            # if self.dslist.fast_mapping_mode:
+            self.fast_mapping_mode = True
+            if self.fast_mapping_mode:
+                if 'vcf' in self.opt.outtype:
+                    self.fp.write(self.vcfrenderer.render_vcfvariant_fast(variant, self.dslist) + '\n')
+            else:
+                variant.set_annot(self.dslist)
+
+                if 'vcf' in self.opt.outtype:
+                    self.fp.write(self.vcfrenderer.render_vcfvariant(variant) + '\n')
+                if 'json' in self.opt.outtype:
+                    self.jsonrenderer.save_jsonvariant(variant)
+                
             ivar += 1
             if ivar % 1000 == 0:
                 etime1 = time.time()
@@ -228,7 +234,6 @@ class VCFAnnotator():
         if self.opt.out.endswith('.gz'):
             file_util.save_gzip(file_util.strip_gzext(self.opt.out))
 
-
 class VCFReader():
     def __init__(self, opt={}):
         self.vcf = opt.vcf
@@ -242,6 +247,7 @@ class VCFReader():
         self.total_variant = 0
         self.i_variant = 0
         self.sampleid_list = []
+        self.infoheader = {}
         self.liftover_hg38_hg19 = None
         if self.opt.add_hg19:
             self.liftover_hg38_hg19 = seq_util.load_liftover(self.opt.chain)
@@ -255,6 +261,12 @@ class VCFReader():
                         flag = True
         return flag
 
+
+    def add_info_header_from_vcf_header_line(self, line):
+        if line[:len('##INFO=<ID=')] == '##INFO=<ID=':
+            self.infoheader = vcf_util.parse_info_header_line(line, self.infoheader)
+
+
     def get_header(self, keep_only_main_chrom=True):
         headercont = ""
         colheader = ""
@@ -266,6 +278,7 @@ class VCFReader():
                     if len(contigchrom) < 3:
                         headercont += line
                 else:
+                    self.add_info_header_from_vcf_header_line(line)
                     if not self.is_clean_tag(line):
                         headercont += line
             elif line[0] == "#":
@@ -279,32 +292,49 @@ class VCFReader():
     def get_variant(self):
         variant = None
         while True:
-            line = self.fp.readline()
-            line = file_util.decodeb(line)
+            line = file_util.decodeb(self.fp.readline())
 
             if line.strip() != '':
                 if line[0] != '#':
-                    variant = VCFVariant(line, self.colnames, self.opt, self.liftover_hg38_hg19)
+                    variant = VCFVariant(line, self.colnames, self.opt, self.liftover_hg38_hg19, infoheader=self.infoheader)
                     break
             else:
                 self.eof = True
                 break
-
         return variant
 
+    def fast_mapping(self):
+        mapped_line = ""
+        while True:
+            line = file_util.decodeb(self.fp.readline())
+            if line.strip() != '':
+                if line[0] != '#':
+                    mapped_line 
+                    break
+            else:
+                self.eof = True
+                break
+        return mapped_line
+
+
 class VCFVariant:
-    def __init__(self, vcfline="", colnames=[], opt={}, liftover_hg38_hg19=None, is_subvariant=False):
+    def __init__(self, vcfline="", colnames=[], opt={}, liftover_hg38_hg19=None, is_subvariant=False,  infoheader={}):
         self.opt = opt
         self.vcfline = vcfline
         self.record = vcfline.split('\t')
         self.record[-1] = self.record[-1].strip()
         self.record[INFOIDX] = vcf_util.strip_info(self.record[INFOIDX])
-        self.vcfinfo = VCFVariantINFO(self.record[INFOIDX])
+        self.infoheader=infoheader
+        self.vcfinfo = VCFVariantINFO(self.record[INFOIDX], self.infoheader)
+
         self.chrom = self.record[0]
         self.nchrom = self.record[0].replace('chr','')
         self.pos = int(self.record[1])
         self.ref = self.record[3]
         self.alt = self.record[4]
+        self.spos = self.pos
+        self.epos = -9
+        self.set_epos()
         self.annotlines = []
         self.colnames = colnames
         self.sampleid_list = colnames[9:]
@@ -316,7 +346,20 @@ class VCFVariant:
         self.annotdata = {}
         self.liftover_hg38_hg19 = liftover_hg38_hg19
         self.set_option()
+        # print("==self.record:",self.record)
         # print('processing...',self)
+
+    def set_epos(self):
+        if ',' in self.alt:
+            pass
+        else:
+            if len(self.ref) == 1 and len(self.alt) == 1:
+                self.epos = self.pos
+                pass
+            elif len(self.ref) > 1:
+                self.epos = self.pos + len(self.ref) - 1
+            else:
+                self.epos = self.pos
 
     def __str__(self):
         return self.chrom + ':' + str(self.pos)  + '_'  + self.ref + '>' + self.alt
@@ -396,7 +439,7 @@ class VCFVariant:
             for record in vcf_util.split_multiallelic_variants(self.record):
                 record[INFOIDX] = vcf_util.add_info(record[INFOIDX], "MULTIALLELE=" + vcf_util.encode_infovalue(self.samplevariantkey))
                 vcfline = '\t'.join(record)
-                subvariant = VCFVariant(vcfline, self.colnames, self.opt, self.liftover_hg38_hg19, is_subvariant=True)
+                subvariant = VCFVariant(vcfline, self.colnames, self.opt, self.liftover_hg38_hg19, is_subvariant=True, infoheader=self.infoheader)
 
                 self.split_variants.append(subvariant)
             self.is_multiallelic = True
@@ -407,7 +450,7 @@ class VCFVariant:
             for variant in self.split_variants:
                 variant.set_annot(dslist)
         else:
-            self.annotmerger = dslist.get_variant_annot(self.nchrom, self.pos, ref=self.ref, alt=self.alt, variant=self)
+            self.annotmerger = dslist.get_variant_annot(self.nchrom, self.pos, ref=self.ref, alt=self.alt, epos=self.epos, variant=self)
         
     def get_vcf_info(self):
         self.vcfinfo.set_datasourcelist(self.dslist)
@@ -416,11 +459,11 @@ class VCFVariant:
 
 
 class VCFVariantINFO:
-    def __init__(self, recordstring=""):
+    def __init__(self, recordstring="", infoheader={}):
         self.recordstring = recordstring
         self.data = None
-        self.vcfheader = None
         self.dslist = None
+        self.infoheader = infoheader
 
     def set_datasourcelist(self, dslist):
         self.dslist = dslist
@@ -429,14 +472,32 @@ class VCFVariantINFO:
         if self.data is None:
             if self.dslist is None:
                 self.parse_with_only_line()
-            elif self.vcfheader is not None:
-                self.parse_with_vcfheader()
+            elif len(self.infoheader.keys()) > 0:
+                self.parse_with_infoheader()
             elif self.dslist is not None:
                 self.parse_with_datasourcelist()
         return self.data
 
-    def parse_with_vcfheader(self):
-        pass
+    def parse_with_infoheader(self):
+        d = {}
+        for field in self.recordstring.split(';'):
+            if "=" in field:
+                arr = field.split('=')
+                sid = arr[0]
+                attr = []
+                for sec in arr[1].split(','):
+                    arr2 = sec.split('|')
+                    if sid in self.infoheader.keys() and 'Format' in self.infoheader[sid].keys():
+                        d2 = {}
+                        for idx, fieldname in enumerate(self.infoheader[sid]['Format']):
+                            d2[fieldname] = arr2[idx]
+                    else:
+                        d2 = sec
+                    attr.append(d2)
+                d[sid] = attr
+            else:
+                d[field] = True
+        self.data = d
 
     def parse_with_datasourcelist(self):
         pass

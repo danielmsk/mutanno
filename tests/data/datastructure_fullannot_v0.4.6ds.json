@@ -2,8 +2,8 @@
   "name": "MUTANNO",
   "version": "0.4.6",
   "version_date": "05/25/2020",
-  "sourcefile3": "MUTANOANNOT/v0.3.2_200309/mvp_datasource_v0.3.2_200309.chr#CHROM#.tsi.gz",
-  "sourcefile2": "MUTANOANNOT/mvp_datasource_v0.3_test.tsi.gz",
+  "sourcefile_3": "MUTANOANNOT/v0.3.2_200309/mvp_datasource_v0.3.2_200309.chr#CHROM#.tsi.gz",
+  "sourcefile_2": "MUTANOANNOT/mvp_datasource_v0.3_test.tsi.gz",
   "sourcefile_path": "/home/mk446/bio/mutanno/DATASOURCE",
   "level": "variant",
   "source": [
@@ -12,10 +12,11 @@
       "desc": "Predicted nonsense mediated decay effects for this variant by VEP",
       "version":"v99",
       "version_date":"11/04/2019",
-      "sourcefile":"ANNOT/VEP/hg38/v99/vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz",
+      "sourcefile":"ANNOT/VEP/hg38/v99/vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz_coding_mirna_polymorphic.tsi.gz.mod.gz",
+      "sourcefile2":"ANNOT/VEP/hg38/v99/vep.99.hg38.#CHROM#.sorted.rmcsq.tsi.gz",
       "subembedded": "transcript",
       "function": "vep_select_biotype_add_most_severe",
-      "param": "mutanno_value_sections,['protein_coding','miRNA']",
+      "param": "mutanno_value_sections,['protein_coding','miRNA','polymorphic_pseudogene']",
       "format": "tsi",
       "is_available": true,
       "fields":[
@@ -1287,7 +1288,7 @@
       "desc": "population AF by UK10K",
       "version": "20160215",
       "version_date": "02/15/2016",
-      "sourcefile": "POPULATION_AF/UK10K/hg38/UK10K_COHORT.20160215.sites.listover.sorted.tsi.gz",
+      "sourcefile": "POPULATION_AF/UK10K/hg38/UK10K_COHORT.20160215.sites.listover.sorted.tsi.woCSQ.gz",
       "format": "tsv",
       "fieldselection": "",
       "fields": [
@@ -1436,12 +1437,12 @@
           "desc": "Family of repeat"
         },
         {
-          "name": "chromStart",
+          "name": "genoStart",
           "type": "integer",
           "desc": "Start in genomic sequence"
         },
         {
-          "name": "chromEnd",
+          "name": "genoEnd",
           "type": "integer",
           "desc": "End in genomic sequence"
         },
@@ -1475,12 +1476,12 @@
           "desc": "Chromosome"
         },
         {
-          "name": "chromStart",
+          "name": "thickStart",
           "type": "integer",
           "desc": "Start position in chromosome"
         },
         {
-          "name": "chromEnd",
+          "name": "thickEnd",
           "type": "integer",
           "desc": "End position in chromosome"
         },
@@ -1625,7 +1626,8 @@
         {
           "name": "MC",
           "type": "string",
-          "desc": "comma separated list of molecular consequence in the form of Sequence Ontology ID|molecular_consequence"
+          "is_list": true,
+          "desc": "Sequence Ontology ID list"
         },
         {
           "name": "ORIGIN",
@@ -1860,110 +1862,110 @@
         }
       ]
     },{
-      "name": "ENSEMBLANNOT",
-      "desc": "",
-      "version": "99",
-      "version_date": "08/23/2019",
-      "sourcefile": "ENSEMBL/hg38/Homo_sapiens.GRCh38.99.alltype.sorted.bed.gz",
-      "format": "bed",
-      "datatype": "region",
-      "fields": [
-        {
-          "name": "strand",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "ensgid",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "gene_version",
-          "type": "integer",
-          "desc": ""
-        },
-        {
-          "name": "gene_symbol",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "gene_source",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "gene_biotype",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "type",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_id",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_version",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_name",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_source",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_biotype",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "tag",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_support_level",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "exon_number",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "exon_id",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "exon_version",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "protein_id",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "protein_version",
-          "type": "string",
-          "desc": ""
+          "name": "ENSEMBLANNOT",
+          "desc": "",
+          "version": "99",
+          "version_date": "08/23/2019",
+          "sourcefile": "ENSEMBL/hg38/Homo_sapiens.GRCh38.99.coding_mirna_polymorphic.sorted.bed.gz",
+          "format": "bed",
+          "datatype": "region",
+          "fields": [
+            {
+              "name": "strand",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "ensgid",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "gene_version",
+              "type": "integer",
+              "desc": ""
+            },
+            {
+              "name": "gene_symbol",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "gene_source",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "gene_biotype",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "type",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_id",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_version",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_name",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_source",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_biotype",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "tag",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_support_level",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "exon_number",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "exon_id",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "exon_version",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "protein_id",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "protein_version",
+              "type": "string",
+              "desc": ""
+            }
+          ]
         }
-      ]
-    }
   ]
 }

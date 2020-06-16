@@ -55,16 +55,16 @@ def make_simple_ds(dsfile):
                     fn = ds['source'][i]['fields'][j]['name']
                     for fn in del_fieldname_list:
                         if fn == ds['source'][i]['fields'][j]['name']:
-                            print('delete..',ds['source'][i]['fields'][j])
+                            # print('delete..',ds['source'][i]['fields'][j])
                             del(ds['source'][i]['fields'][j])
                             flag = True
                             break
 
-                    kslist = list(ds['source'][i]['fields'][j].keys())
-                    for k1 in kslist:
-                        if k1 in EXCLUDE_FIELD:
-                            print(k1)
-                            del(ds['source'][i]['fields'][j][k1])
+                    # kslist = list(ds['source'][i]['fields'][j].keys())
+                    # for k1 in kslist:
+                    #     if k1 in EXCLUDE_FIELD:
+                    #         print(k1, ds['source'][i]['fields'][j])
+                    #         del(ds['source'][i]['fields'][j][k1])
                     if flag:
                         break
 

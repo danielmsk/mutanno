@@ -84,6 +84,7 @@ def get_options():
                     help='target region: (ex -region chr1:12345678-22345678 )')
     p1.add_argument('-region_vcf', dest='region_vcf', default='',
                     help='target regions using vcf file')
+    p1.add_argument('-target_source', dest='target_source', default='', help='target source')
     p1.add_argument('-blocksize', dest='blocksize', default='', help='block size')
     p1.add_argument('-vartype', dest='vartype', default='all',
                     choices=['SNV', 'GENE', 'GENE_MAIN_CHROM', 'CODING_GENE', 'CODING_GENE_MAIN_CHROM'],

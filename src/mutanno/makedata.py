@@ -57,11 +57,20 @@ class DataSourceGenerator(VCFAnnotator):
     def __init__(self, opt):
         self.opt = opt
         self.dslist = DataSourceList(self.opt.ds)
+        self.set_target_source()
         self.region = region_util.Region(opt.region)
         self.out = None
         self.set_outfile_extension()
         self.vcfreader = BlankVCFReader(self.opt, self.dslist)
         self.tsirenderer = TSIRenderer()
+
+    def set_target_source(self):
+        targeted_source = []
+        if self.opt.target_source != "":
+            for s1 in self.dslist.available_source_list:
+                if self.opt.target_source == s1.name:
+                    targeted_source.append(s1)
+            self.dslist.available_source_list = targeted_source
 
     def set_outfile_extension(self):
         out2 = self.opt.out.replace('.tsi.gz', '.tsi')
@@ -72,7 +81,7 @@ class DataSourceGenerator(VCFAnnotator):
     def get_tsi_header(self):
         header = ["#CHROM", "POS", "ID", "REF", "ALT"]
         info_arr = []
-        for s1 in self.dslist.available_source_list:
+        for s1 in self.dslist.available_source_list:    
             info_header = []
             for f1 in s1.available_field_list:
                 info_header.append(f1.name2)
@@ -118,10 +127,12 @@ class DataSourceGenerator(VCFAnnotator):
         fp = open(self.opt.out, 'w')
         blockreaders = {}
         for s1 in self.dslist.available_source_list:
-            blockreaders[s1.name] = TSVBlockReader(s1)
+            if (self.opt.target_source == "") or (self.opt.target_source != "" and self.opt.target_source == s1.name):
+                blockreaders[s1.name] = TSVBlockReader(s1)
 
         tbm = TSVBlockMerger(blockreaders, self.region, int(self.opt.blocksize))
         print_header = True
+        init_t = time.time()
         while not tbm.eof:
             start = time.time()
             block = tbm.get_block_tsi()
@@ -138,6 +149,10 @@ class DataSourceGenerator(VCFAnnotator):
             self.log(log)
         fp.close()
         self.log('Saved.. ' + self.out)
+
+        end_t = time.time()
+        self.log('Total running time: ' + str(round(end_t-init_t, 3)) + ' sec')
+        file_util.fileSave(self.opt.out + '.done', '','w')
 
     def log(self, msg):
         file_util.fileSave(self.out + '.log', msg + '\n', 'a')
@@ -186,21 +201,24 @@ class TSVBlockReader():
 
         if self.tp is not None:
             self.set_target_column()
-            for arr in self.tp.querys(region.region_str):
-                d = {}
-                spos = int(arr[1])
-                epos = int(arr[2])
-                ref = arr[self.refidx]
-                if (spos+1) >= region.spos and (spos+1) <= region.epos:
-                    cont = (spos,epos,ref, self.source.name + "=" + "|".join(self.select_field(arr, self.source.header)))
-                    try:
-                        block[spos]
-                    except KeyError:
-                        block[spos] = {}
-                    try:
-                        block[spos]['BED'].append(cont)
-                    except KeyError:
-                        block[spos]['BED'] = [cont]
+            try:
+                for arr in self.tp.querys(region.region_str):
+                    d = {}
+                    spos = int(arr[1])
+                    epos = int(arr[2])
+                    ref = arr[self.refidx]
+                    if (spos+1) >= region.spos and (spos+1) <= region.epos:
+                        cont = (spos,epos,ref, self.source.name + "=" + "|".join(self.select_field(arr, self.source.header)))
+                        try:
+                            block[spos]
+                        except KeyError:
+                            block[spos] = {}
+                        try:
+                            block[spos]['BED'].append(cont)
+                        except KeyError:
+                            block[spos]['BED'] = [cont]
+            except tabix.TabixError:
+                pass
         return block
 
     def set_target_column(self):
@@ -313,19 +331,21 @@ class TSVBlockMerger():
                         spos = bedline[0]
                         epos = bedline[1]
                         ref = bedline[2]
+
+                        if len(ref) > 0:
+                            for k in range(len(ref)):
+                                if ref[k].upper() not in ['A','T','G','C']:
+                                    ref = ''
+                                    break
                         infoarr = bedline[3]
-                        cont += self.region.chrom + '\t' + str(spos+1) + '\t\t' + ref + '\t\t\t\t' + 'END=' + str(epos) +  '\t' + infoarr + '\n'
+                        cont += self.region.chrom + '\t' + str(spos+1) + '\t\t' + ref + '\t\t\t\t' + 'END=' + str(epos) +  ';' + infoarr + '\n'
                 else:
                     infoarr = []
                     for sid in self.block_readers.keys():
                         if sid in self.block[pos][refalt].keys():
                             if self.block[pos][refalt][sid] != "":
                                 infoarr.append(sid + '=' + ",".join(self.block[pos][refalt][sid]))
-                                
-                        cont += self.region.chrom + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t\t\t\t' + ';'.join(infoarr) + '\n'
-            
-
-                
+                    cont += self.region.chrom + '\t' + str(pos) + '\t\t' + refalt.replace('_', '\t') + '\t\t\t' + ';'.join(infoarr) + '\n'
             self.block_lpos = pos
         return cont
 
@@ -336,7 +356,7 @@ class TSVBlockMerger():
             if cont != "":
                 cont += ";"
             cont += sid + '=' + '|'.join(header)
-        cont = "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\t" + cont+ "\n"
+        cont = "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\t" + cont+ "\n"
         return cont
 
 

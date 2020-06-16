@@ -207,6 +207,13 @@ class AnnotVCFValidator:
         except KeyError:
             self.raise_exception("No SAMPLEGENO.")
 
+    def check_cytoband(self, info):
+        try:
+            info["CYTOBAND"]
+        except KeyError:
+            self.raise_exception("\tNo CYTOBAND.")
+
+
     def validate_variant_fields_in_only_vcf(self):
         self.load_mutanno_structure()
 
@@ -237,6 +244,10 @@ class AnnotVCFValidator:
 
             self.check_feature_ncbi(r1.INFO)
             self.check_genes(r1.INFO)
+
+            if self.dslist is not None and 'CYTOBAND' in self.dslist.sources.keys():
+                self.check_cytoband(r1.INFO)
+
             if self.opt is not None and self.opt.add_genoinfo:
                 self.check_samplegeno(r1.INFO)
             if self.opt is not None and self.opt.add_hg19:
@@ -293,20 +304,43 @@ class AnnotTSIValidator(AnnotVCFValidator):
 
 
     def validate_variant_fields_in_only_tsi(self):
+        SKIPINFOFIELD = ['END']
+        prev_varkey = ""
         for line in file_util.gzopen(self.vcf_file):
             line = file_util.decodeb(line)
             if line[0] != '#':
                 arr = line.split('\t')
                 infofield = parse_info(arr[-1].strip())
+                chrom = arr[0]
+                pos = int(arr[1])
+                ref = arr[3]
+                alt = arr[4]
+                varkey = chrom + ':' + str(pos) + '_' + ref + '/' + alt
+
+                for k in range(len(ref)):
+                    if ref[k] not in ['A','T','G','C']:
+                        msg = 'Error REF(' + ref + ') in ' + varkey
+                        self.raise_exception(msg)
+                for k in range(len(alt)):
+                    if alt[k] not in ['A','T','G','C', ',']:
+                        msg = 'Error ALT(' + alt + ') in ' + varkey
+                        self.raise_exception(msg)
+
                 for k1 in infofield.keys():
-                    # print(infofield[k1])
-                    for d2 in infofield[k1]:
-                        if len(self.annot_header[k1]) != len(d2):
-                            msg = k1 + ": the field number not matched."
-                            self.raise_exception(msg)
+                    if k1 not in SKIPINFOFIELD:
+                        for d2 in infofield[k1]:
+                            if len(self.annot_header[k1]) != len(d2):
+                                msg = k1 + ": the field number not matched."
+                                self.raise_exception(msg)
 
                 # print('infofield:', infofield)
                 self.check_vep_consequence_and_most_severe(infofield, self.annot_header['VEP'])
+
+                if varkey == prev_varkey:
+                    msg = "Multiple lines for the variant " + varkey
+                    self.raise_exception(msg)
+
+                prev_varkey = varkey
         
 
     def validate(self):

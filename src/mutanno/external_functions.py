@@ -71,11 +71,34 @@ def add_vep_most_severe(sections):
     # return ms
     return sections
 
-def vep_select_biotype_add_most_severe(sections, select_biotype):
-    sections = vep_select_biotype(sections, select_biotype)
+def vep_select_microannot_add_most_severe(sections, vcf_info_value, select_biotype):
+    # print(">>>>vcf_info_value:", vcf_info_value)
+    sections = vep_select_from_microannot(sections, vcf_info_value)
     sections = add_vep_most_severe(sections)
     return sections
-    
+
+
+def vep_select_biotype_add_most_severe(sections, select_biotype):
+    print(">>>>sections1:", len(sections))
+    # sections = vep_select_biotype(sections, select_biotype)
+    sections = add_vep_most_severe(sections)
+    print(">>>>sections2:", len(sections))
+    return sections
+
+def vep_select_from_microannot(sections, vcf_info_value):
+    # print (">external_functions.vep_select_from_microannot():", vcf_info_value)
+    # print(">>>>>>>>sections:",sections)
+    selected_feature = {}
+    if 'VEP' in vcf_info_value.keys():
+        for section in vcf_info_value['VEP']:
+            selected_feature[section['Feature']] = section
+
+    selected = []
+    for sidx, section in enumerate(sections):
+        if section['Feature'] in selected_feature.keys():
+            section['Consequence'] = selected_feature[section['Feature']]['Consequence'].split('~')
+            selected.append(section)
+    return selected    
 
 def vep_select_biotype(sections, select_biotype):
     # print (">external_functions.vep_select_biotype():", select_biotype)

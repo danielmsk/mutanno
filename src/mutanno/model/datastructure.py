@@ -62,11 +62,13 @@ class DataSourceListStructure:
             self.sources = {}
             self.dsjsonfile = dsjsonfile
             self.sourcefile2_list = []
+            self.sourcelist_with_default = []
             self.load_dsfile()
             self.update_sourcefile2()
+            self.fast_mapping_mode = False
             if len(self.sourcefile2_list) == 0:
                 self.single_source_mode = True
-
+                self.fast_mapping_mode = True
 
     def load_dsfile(self):
         ds = file_util.load_json(self.dsjsonfile)
@@ -80,9 +82,11 @@ class DataSourceListStructure:
 
                     if dss.is_available:
                         self.source_list.append(dss)
-                        if dss.is_available:
-                            self.available_source_list.append(dss)
+                        self.available_source_list.append(dss)
                         self.sources[dss.name] = dss
+                        if dss.has_default_value:
+                            self.sourcelist_with_default.append(dss)
+
             else:
                 self.__dict__[attr[0]] = dv(ds, attr[0], attr[1])
 
@@ -96,6 +100,8 @@ class DataSourceStructure:
     def __init__(self, dsjson=None):
         self.field_list = []
         self.available_field_list = []
+        self.default_value_list = []
+        self.has_default_value = False
         self.fields = {}
         self.fields2 = {}
         self.field_name2name1 = {}
@@ -110,6 +116,11 @@ class DataSourceStructure:
 
                         if dsfs.is_available:
                             self.available_field_list.append(dsfs)
+                            if dsfs.default is not None:
+                                self.default_value_list.append(dsfs.default)
+                                self.has_default_value = True
+                            else:
+                                self.default_value_list.append('')
                 else:
                     self.__dict__[attr[0]] = dv(dsjson, attr[0], attr[1])
 

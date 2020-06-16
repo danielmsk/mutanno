@@ -71,6 +71,12 @@ def load_clinvarvcf(clinvarvcf):
             
             cont = []
             for f1 in VCFCOL:
+                if f1 == "MC":
+                    arr2 = m[f1].split(',')
+                    arr3 = []
+                    for a2 in arr2:
+                        arr3.append(a2.split('|')[0])
+                    m[f1] = '~'.join(arr3)
                 cont.append(m[f1])
             f.write('\t'.join(cont) + '\n')
             cvar[m['VARIATIONID']] = [m['CHROM'],m['POS'],m['VARIATIONID'],m['REF'],m['ALT']]
@@ -153,4 +159,5 @@ if __name__ == "__main__":
     clinvarvcf = path + "clinvar_20200329.vcf.gz"
     tmpxml = "/home/mk446/bio/mutanno/SRC/scripts/clinvar/789256.xml"
     tmpxml = "/home/mk446/bio/mutanno/SRC/scripts/clinvar/568195.xml"
-    s02_preproc_clinvarxml(clinvarxml, clinvarvcf)
+    # s02_preproc_clinvarxml(clinvarxml, clinvarvcf)
+    cvar = load_clinvarvcf(clinvarvcf)

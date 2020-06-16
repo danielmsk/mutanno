@@ -59,7 +59,22 @@ class VCFRenderer:
     def render_vcfvariant_info(self, vcfvariant):
         annotdata = vcfvariant.annotmerger.get_data()
         available_field_list = vcfvariant.annotmerger.available_field_list
-        return self.convert_annotdata_to_infofield(annotdata, available_field_list)            
+        return self.convert_annotdata_to_infofield(annotdata, available_field_list)   
+
+    def render_vcfvariant_fast(self, vcfvariant, dslist):
+        if vcfvariant.is_multiallelic:
+            lines = []
+            for variant in vcfvariant.split_variants:
+                record = variant.record
+                info_record = dslist.get_singlesource_annot(variant)
+                record[INFOIDX] = self.merge_twoinfofields(record[INFOIDX], info_record)
+                lines.append('\t'.join(record))
+            return '\n'.join(lines)
+        else:
+            record = vcfvariant.record
+            info_record = dslist.get_singlesource_annot(vcfvariant)
+            record[INFOIDX] = self.merge_twoinfofields(record[INFOIDX], info_record)
+        return '\t'.join(record)  
             
 
 class JSONRenderer:

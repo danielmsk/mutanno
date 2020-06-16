@@ -8,13 +8,13 @@ import tabix
 
 
 def run_external_function(function, params, paramvalues):
-    # print("paramvalues", paramvalues['mutanno_value_sections'])
-
+    # print(">>>>>paramvalues", paramvalues['mutanno_value_sections'])
     exec_str = "external_functions." + function
     exec_str += '('
     paramstr_list = []
     for param in params:
-        # print('param:', param)
+        # print('>>>>param:', param)
+        # print('>>>>paramvalues.keys():', paramvalues.keys())
         if param in paramvalues.keys():
             paramstr_list.append('paramvalues["' + param + '"]')
             # print('paramstr_list:', paramstr_list)
@@ -140,7 +140,7 @@ class VariantAnnot:
     def apply_external_function(self, sections):
         # print(">>>sections",sections)
         for section_idx, section in enumerate(sections):
-            # print(">>>>section", section)
+            # print(">>>>section:", section)
 
             if self.source.function is not None:
                 function = self.source.function
@@ -224,9 +224,10 @@ class VariantAnnot:
         d = {}
         d['CHROM'] = rec[0]
         d['POS'] = int(rec[1])
-        d['REF'] = rec[self.source.ref_column_index]
-        d['ALT'] = rec[self.source.alt_column_index]
-        d['VARKEY'] = d['CHROM'] + ':' + str(d['POS']) + '_' + d['REF'] + '>' + d['ALT']
+        # TODO:
+        # d['REF'] = rec[self.source.ref_column_index]
+        # d['ALT'] = rec[self.source.alt_column_index]
+        # d['VARKEY'] = d['CHROM'] + ':' + str(d['POS']) + '_' + d['REF'] + '>' + d['ALT']
         return d
 
     def check_field_availability(self, fieldname):
@@ -259,7 +260,6 @@ class VariantAnnot:
         return rst
 
     def set_rawdata_from_bed(self):
-        # print("???1", self.source.name, self.records)
         self.header = []
         for rec in self.records:
             d = self.set_init_annot_section_key(rec)
@@ -280,7 +280,6 @@ class VariantAnnot:
             self.rawdata.append(d)
 
     def set_rawdata_from_function(self):
-        # print(">VariantAnnot.set_rawdata_from_function() : " + self.source.name)
         d = {}
         for field in self.source.field_list:
             d[field.name] = "tmpOOOOOOOOOO"
@@ -295,7 +294,6 @@ class DataSource(DataSourceStructure):
     tabixpointer = None
     
     def set_header(self, sourcefile):
-        # print(">DataSource.set_header():", self.name)
         if self.header == "":
             for line in file_util.gzopen(sourcefile):
                 line = file_util.decodeb(line)
@@ -326,7 +324,8 @@ class DataSource(DataSourceStructure):
             self.set_header(sourcefile)
         else:
             if self.sourcefile != "":
-                raise Exception("Source file is not exist. : " + sourcefile )
+                # raise Exception("Source file is not exist. : " + sourcefile )
+                print ("Source file is not exist. : " + sourcefile)
 
     def get_variant_annot(self, chrom, pos, ref="", alt="", epos=-9, return_raw=True, records = [], header_record = [], variant=None):
         # print(self.sourcefile2)
@@ -342,10 +341,13 @@ class DataSource(DataSourceStructure):
             else:
                 chrompos = chrom + ':' + str(pos) + '-' + str(pos)
             recs = []
+
             try:
                 for rec in self.tabixpointer.querys(chrompos):
-                    if (epos < 0 and rec[self.ref_column_index] == ref and rec[self.alt_column_index] == alt
-                        or (epos > pos)
+                    # print(">>>>>>rec:", rec)
+                    if ((epos < 0 and rec[self.ref_column_index] == ref and rec[self.alt_column_index] == alt)
+                        or (epos > pos) or (self.format == "bed") 
+                        or (rec[self.ref_column_index] == "" and rec[self.alt_column_index] == "")
                     ):
                         recs.append(rec)
             except AttributeError:
@@ -354,6 +356,7 @@ class DataSource(DataSourceStructure):
                 pass
             header = self.header
 
+        # print("\t>>>recs:",recs)
         return VariantAnnot(recs, header, datasource=self, variant=variant)
 
     def get_variantkeys(self, chrom, spos, epos):
@@ -362,21 +365,28 @@ class DataSource(DataSourceStructure):
         chrompos = chrom + ':' + str(spos) + '-' + str(epos)
         vkeys = {}
         if self.tabixpointer is not None:
-            for rec in self.tabixpointer.querys(chrompos):
-                vkey = rec[0] + "_" + rec[1] + "_" + "_" + rec[self.ref_column_index] + "_" + rec[self.alt_column_index]
-                pos = int(rec[1])
-                try:
-                    vkeys[pos]
-                except KeyError:
-                    vkeys[pos] = []
-                if vkey not in vkeys[pos]:
-                    vkeys[pos].append(vkey)
+            try:
+                for rec in self.tabixpointer.querys(chrompos):
+                    vkey = rec[0] + "_" + rec[1] + "_" + "_" + rec[self.ref_column_index] + "_" + rec[self.alt_column_index]
+                    pos = int(rec[1])
+                    try:
+                        vkeys[pos]
+                    except KeyError:
+                        vkeys[pos] = []
+                    if vkey not in vkeys[pos]:
+                        vkeys[pos].append(vkey)
+            except tabix.TabixError:
+                pass
             
         return vkeys
 
 
 
 class DataSourceList(DataSourceListStructure):
+    tabixpointer = None
+    tabixchrom = ""
+    ref_column_index = 3
+    alt_column_index = 4
 
     def get_variant_annot(self, chrom, pos, ref="", alt="", epos=-9, variant=None):
         chrompos = chrom + ':' + str(pos) + '-' + str(pos)
@@ -395,7 +405,7 @@ class DataSourceList(DataSourceListStructure):
             single_source_annot = self.single_source.get_variant_annot(chrom, pos, ref, alt, return_raw=True)
             # annotmerger.add_variant_annot(single_source_annot)
 
-        for s1 in self.source_list:
+        for s1 in self.available_source_list:
             if self.single_source_mode:
                 annot = s1.get_variant_annot(chrom, pos, ref=ref, alt=alt, epos=epos, records=single_source_annot.records, header_record=single_source_annot.header_record, variant=variant )
             else:
@@ -403,6 +413,36 @@ class DataSourceList(DataSourceListStructure):
             annotmerger.add_variant_annot(annot)
 
         return annotmerger
+
+    def get_singlesource_annot(self, vcfvariant):
+        infos = []
+        chrompos = vcfvariant.nchrom + ':' + str(vcfvariant.spos) + '-' + str(vcfvariant.epos)
+        ref = vcfvariant.ref
+        alt = vcfvariant.alt
+
+        if self.tabixpointer is None or ("#CHROM#" in self.sourcefile and self.tabixchrom !=  vcfvariant.nchrom):
+            self.tabixpointer = tabix.open(self.sourcefile.replace("#CHROM#", vcfvariant.nchrom))
+            self.tabixchrom = vcfvariant.nchrom
+
+        try:
+            for rec in self.tabixpointer.querys(chrompos):
+                if (((rec[self.ref_column_index] == ref and rec[self.alt_column_index] == alt)
+                    or (rec[self.ref_column_index] == "" and rec[self.alt_column_index] == ""))
+                    and vcfvariant.pos == int(rec[1])):
+                    infos.append(rec[-1])
+        except AttributeError:
+            pass
+        except tabix.TabixError:
+            # print("ERROR: tabix.TabixError")
+            pass
+
+        rst = ";".join(infos)
+        for ds in self.sourcelist_with_default:
+            if ds.name + '=' not in rst:
+                infos.append(ds.name + '=' + '|'.join(ds.default_value_list))
+                rst = ";".join(infos)
+
+        return rst
 
     def get_variantkeys(self, chrom, spos, epos):
         merged_vkeys = {}
@@ -421,59 +461,4 @@ class DataSourceList(DataSourceListStructure):
         return merged_vkeys
 
 
-# class MutannoDataParser:
-#     def __init__(self):
-#         pass
-
-#     def set_header(self, line):
-#         self.header = file_util.line2arr(line)
-#         self.header[0] = self.header[0].replace('#','')
-#         self.annotheader = {}
-#         for f1 in self.header[-1].split(';'):
-#             arrf1 = f1.split('=')
-#             self.annotheader[arrf1[0]] = arrf1[1].split('|')
-
-#     def parse(self, line):
-#         arr = file_util.line2arr(line)
-#         dat = {}
-#         for i in range(len(arr)-1):
-#             dat[self.header[i]] = arr[i]
-#         dat['POS'] = int(dat['POS'])
-#         for f1 in arr[-1].split(';'):
-#             arrf1 = f1.split('=')
-#             d = []
-
-#             for f11 in arrf1[1].split(','):
-#                 arrf2 = f11.split('|')
-#                 d2 = {}
-#                 for i in range(len(self.annotheader[arrf1[0]])):
-#                     d2[self.annotheader[arrf1[0]][i]] = arrf2[i]
-#                 d.append(d2)
-#             dat[arrf1[0]] = d
-#         return dat
-
-# class MutannoDataSequentialReader:
-#     def __init__(self, source_file):
-#         self.source_file = source_file
-#         self.fp = file_util.gzopen(source_file)
-#         self.mtparser = MutannoDataParser()
-#         self.load_header()
-
-#     def __iter__(self):
-#         return self
-
-#     def load_header(self):
-#         line = file_util.decodeb(self.fp.readline())
-#         if line[0] == '#':
-#             self.mtparser.set_header(line)
-
-#     def __next__(self):
-#         line = file_util.decodeb(self.fp.readline())
-#         if line.strip() == '':
-#             raise StopIteration
-#         elif line[0] == '#':
-#             self.mtparser.set_header(line)
-#         else:
-#             mtdata = self.mtparser.parse(line)
-#             return (mtdata)
 
