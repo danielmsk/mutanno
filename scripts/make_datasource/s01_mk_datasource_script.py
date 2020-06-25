@@ -125,6 +125,34 @@ def split_run_datasource_4_microannot_chrom(ds_json_file, out):
             # cmd += " " + str(r1[2])
             # cmd += ";"
 
+def split_run_datasource_4_fullannot_chrom(ds_json_file, out):
+    # seq_util.load_refseq_info('b38d')
+    
+    regionlist = seq_util.CHROM_LEN['b38d']
+    
+    # print(regionlist)
+    # print(len(regionlist))
+    for chrom in regionlist.keys():
+        if len(chrom) < 3:
+            out2 =out.replace('#CHROM#',chrom)
+            cmd = ""
+            cmd = 'mutanno makedata '
+            cmd += " -ds " + ds_json_file
+            cmd += " -out " + out2 + " "
+            cmd += " -vartype SNV "
+            cmd += " -region " + chrom + ":1-" + str(regionlist[chrom]) 
+            cmd += " -blocksize 50000 "
+            cmd += "; tabixgz " + out2 + ";"
+            print(cmd)
+            # cmd += "sleep 5;"
+            # tsifile = path + "mc_" + str(r1[3]) + ".tsv.tsi"
+            # cmd += "python /home/mk446/mutanno/SRC/scripts/microannotation/s02_mk_check_tsi.py " + tsifile
+            # cmd += " " + str(r1[1])
+            # cmd += " " + str(r1[2])
+            # cmd += ";"
+
+
+# -vartype SNV -blocksize 10000 -region 1:1-1000000
 
 if __name__ == "__main__":
     import proc_util
@@ -144,11 +172,12 @@ if __name__ == "__main__":
     
     ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_microannot_v0.4.3dso2.json"
     out = "/home/mk446/mutanno/DATASOURCE/MICROANNOT/microannot_datasource.#CHROM#.v0.4.4_200614.tsi"
-    split_run_datasource_4_microannot_chrom(ds_json_file, out)
+    # split_run_datasource_4_microannot_chrom(ds_json_file, out)
     
 
     chunksize = 3000
     ds_json_file = "/home/mk446/mutanno/SRC/tests/data/datastructure_fullannot_v0.4.6ds.json"
     path = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/tmp/"
-    out = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/fullannot_datasource.#CHROM#.v0.4.6_200604.tsi"
+    out = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/fullannot_datasource.#CHROM#.v0.4.6_200617.tsi"
     # split_run_datasource(ds_json_file, path, chunksize)
+    split_run_datasource_4_fullannot_chrom(ds_json_file, out)

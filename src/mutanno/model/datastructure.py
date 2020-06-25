@@ -1,6 +1,4 @@
-
 from ..util import file_util
-from ..util import struct_util
 from ..util.struct_util import get_dict_value as dv
 from .. import _version
 from . import datasource
@@ -16,7 +14,11 @@ DSLIST_ATTR = [
     ("sourcefile_path", "", False),
     ("single_source_mode", False, False),
     ("level", "", True),
-    ("source", [], True)
+    ("source", [], True),
+    ("hgvs", False, False),
+    ("variant_class", False, False),
+    ("hg19", False, False),
+    ("clean_tag_list", [], False),
 ]
 
 DS_ATTR = [
@@ -80,13 +82,13 @@ class DataSourceListStructure:
                     if dss.sourcefile2 != '':
                         self.sourcefile2_list.append(dss.sourcefile2)
 
+                    # print(">>>>>>DSS:", dss, dss.is_available)
                     if dss.is_available:
                         self.source_list.append(dss)
                         self.available_source_list.append(dss)
                         self.sources[dss.name] = dss
                         if dss.has_default_value:
                             self.sourcelist_with_default.append(dss)
-
             else:
                 self.__dict__[attr[0]] = dv(ds, attr[0], attr[1])
 
@@ -95,6 +97,7 @@ class DataSourceListStructure:
             self.sourcefile2 = os.path.join(self.sourcefile_path, self.sourcefile)
         else:
             self.sourcefile2 = self.sourcefile
+
 
 class DataSourceStructure:
     def __init__(self, dsjson=None):
@@ -126,7 +129,7 @@ class DataSourceStructure:
 
     def __str__(self):
         return self.name
-    
+
     def update_sourcefile2(self, sourcefile_path):
         # print(">DataSourceStructure.update_sourcefile2()", self.name)
         if sourcefile_path != "":
@@ -145,17 +148,17 @@ class DataSourceFieldStructure:
 
     def __str__(self):
         return self.name
-    
+
     def set_name2(self):
         if self.name2 == "":
             self.name2 = self.name
-
 
     def convert_type_from_string(self, strvalue):
         if self.type == "number":
             if strvalue == "":
                 rst = self.default
             else:
+                # print(">>>f:", self.name)
                 rst = float(strvalue)
         elif self.type == "integer":
             if strvalue == "":
@@ -175,4 +178,3 @@ class DataSourceFieldStructure:
             else:
                 rst = strvalue
         return rst
-        

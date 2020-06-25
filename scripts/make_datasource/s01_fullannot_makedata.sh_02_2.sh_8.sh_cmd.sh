@@ -1,0 +1,12 @@
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_01.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_02.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_03.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_04.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_05.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_06.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_07.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_08.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_09.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_10.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_11.sh 
+sbpark ./s01_fullannot_makedata.sh_02_2.sh_8.sh_12.sh 

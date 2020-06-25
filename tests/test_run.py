@@ -73,8 +73,8 @@ def test_microannot_run():
     ds = test_conf.get_ds()
     # for n1 in [10, 100, 1000]:
     # for n1 in [10, 100]:
-    for n1 in [100]:
-    # for n1 in [10]:
+    # for n1 in [100]:
+    for n1 in [10]:
         for r1 in range(1,6):
             vcf = "data/test_trio_"+str(n1)+"_"+str(r1)+".vcf.gz"
             # vcf = "data/test_novocaller_"+str(n1)+"_"+str(r1)+".vcf"
@@ -97,11 +97,10 @@ def test_microannot_run():
             sys.argv = arg
             print('>>command:',' '.join(sys.argv))
             mutanno.cli()
-
             check_vcf_validator(out)
-            # comp_previous_out(out, prevout)
+            comp_previous_out(out, prevout)
             validate_annotvcf(out, dsjson, arg)
-            # break
+            
             
 
 def test_novocaller_vcf_format():
@@ -134,34 +133,60 @@ def test_fullannot_run():
         for r1 in range(1,6):
             # vcf = "data/test_novocaller_"+str(n1)+"_"+str(r1)+".vcf"
             # vcf = "data/test_novocaller_"+str(n1)+"_"+str(r1)+".vcf" + '.microannot.vcf'
-            vcf = "out/test_trio_"+str(n1)+"_"+str(r1)+".vcf.gz" + '.microannot.vcf'
-            print(vcf)
-            out = "out/" + vcf.split('/')[-1] + '.fullannot.vcf'
+            # vcf = "out/test_trio_"+str(n1)+"_"+str(r1)+".vcf.gz" + '.microannot.vcf'
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFIP83PL7E_test1.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFIP83PL7E_test2.vcf.gz"
+            vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_chr9.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test1.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test2.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test3.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test4.vcf.gz"
+            # out = vcf + '.fullannot.vcf'
+            out = vcf + '.fullannot.wbfilter.vcf'
+            # out = "out/" + vcf.split('/')[-1] + '.fullannot.vcf'
             prevout = "data/" + out.split('/')[-1]
             dsjson = ds['fullannot']['clean']
+            print("DS:",dsjson)
+            # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/BGZIP/fullannot_datasource.09_06.v0.4.6_200617.tsi.gz"
+            # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/BGZIP/22_00.tsi.gz"
+            # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/BGZIPLINK/#CHROM#_00.tsi.gz"
+            sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/merged.mti.gz"
+            # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/GAPFI3JX5D2J_fullannot_source.sorted.rmdup.tsi.gz"
+            # sourcefile = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter/fullannot_datasource.#CHROM#.v0.4.6_200617.tsi.gz'
+            # sourcefile = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_all/BGZIP/fullannot_datasource.#CHROM#.v0.4.6_200617.tsi.gz'
+            # sourcefile = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter/GAPFIR6C5TC7.mti.gz'
+            # sourcefile = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_all/x.chrom.tsi.gz'
 
             arg = ['mutanno']
             arg.append('annot')
             arg.extend(['-vcf',vcf])
             arg.extend(['-ds',dsjson])
             arg.extend(['-out',out])
-            arg.extend(['-outtype', 'vcf', 'json'])
-            arg.append('-hgvs')
-            arg.append('-variant_class')
+            # arg.extend(['-outtype', 'vcf', 'json'])
+            arg.extend(['-outtype', 'vcf'])
+            arg.extend(['-sourcefile',sourcefile])
             arg.append('-hg19')
             arg.extend(['-chain',test_conf.CHAINFILE])
-            arg.extend(['-clean_tag','VEP','SpliceAI','CLINVAR','gnomADgenome'])
-            arg.append('-single_source_mode')
-            arg.extend(['-sourcefile', test_conf.SOURCEFILE['fullannot']])
+
+            # arg.append('-hgvs')
+            # arg.append('-variant_class')
+            # arg.extend(['-clean_tag','VEP','SpliceAI','CLINVAR','gnomADgenome'])
+
+            arg.extend(['-clean_tag','MUTANNO','SpliceAI','CLINVAR','gnomADgenome'])
+
+            # arg.append('-single_source_mode')
+            # arg.extend(['-sourcefile', test_conf.SOURCEFILE['fullannot']])
 
             sys.argv = arg
             
-            # print('>>command:',' '.join(sys.argv))
-            # mutanno.cli()
-            # check_vcf_validator(out)
-            # validate_annotvcf(out, dsjson,arg)
+            print('>>command:',' '.join(sys.argv))
+            mutanno.cli()
+            check_vcf_validator(out)
+            validate_annotvcf(out, dsjson,arg)
             # comp_previous_out(out, prevout)
-            break
+            # break
+        # break
 
 
 '''
@@ -204,8 +229,8 @@ def print_command():
 if __name__ == "__main__":
     
     # test_novocaller_vcf_format()
-    test_microannot_run()
-    # test_fullannot_run()
+    # test_microannot_run()
+    test_fullannot_run()
     # test_allannot_run()
     
 

@@ -1,10 +1,12 @@
-VERSION = "0.4.1"
-VERSION_DATE = "2020.06.08"
+VERSION = "0.4.2"
+VERSION_DATE = "2020.06.25"
 
 # MUTANNO version
+# 0.4.2 (2020.06.25) :
+#   - add parameter set in data structure json file.
 # 0.4.1 (2020.06.08) :
-#   - turn to be 'single_source_mode = True' when data structure file has only single source file. 
-#   - allocate all sample names when users use -genoinfo without indicating sample names. 
+#   - turn to be 'single_source_mode = True' when data structure file has only single source file.
+#   - allocate all sample names when users use -genoinfo without indicating sample names.
 # 0.4.0 (2020.06.05) :
 #   - add variant type
 #   - support multiple datasources for vcf annotation
@@ -12,8 +14,8 @@ VERSION_DATE = "2020.06.08"
 #   - make `MUTANNO` source name for 'samplevariantkey', 'hgvsg', and 'variant_class'
 #   - add '-variant_class' option
 #   - refactoring
-#	- add multi-source mode
-#	- refactoring makedata mode
+#   - add multi-source mode
+#   - refactoring makedata mode
 # 0.3.19 (2020.05.25) :
 #   - split pred and score in pathogenicity score from VEP (SIFT and Polyphen)
 # 0.3.18 (2020.05.13) :
@@ -49,7 +51,7 @@ VERSION_DATE = "2020.06.08"
 # 0.3.7
 #   - update annot module
 # 0.3.6
-#   - add makedata  
+#   - add makedata
 # 0.3.5
 #   - merge some dbNSFP fields into transcript table (dbNSFPTranscript)
 # 0.3.4

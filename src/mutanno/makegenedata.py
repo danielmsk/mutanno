@@ -3,7 +3,6 @@ import json
 from .util import file_util
 from .util import struct_util
 from .util import seq_util
-from . import external_functions
 
 
 RESERVED_COL = ["chrom", "spos", "epos", "ensgid"]
@@ -11,9 +10,9 @@ RESERVED_COL = ["chrom", "spos", "epos", "ensgid"]
 
 def is_available(field):
     flag = True
-    if struct_util.get_dict_value(field, "is_available", True) == False:
+    if struct_util.get_dict_value(field, "is_available", True) is False:
         flag = False
-    if struct_util.get_dict_value(field, "do_import", True) == False:
+    if struct_util.get_dict_value(field, "do_import", True) is False:
         flag = False
     return flag
 
@@ -135,7 +134,6 @@ class GeneSourceReader():
 
                 name2_map[colidx] = struct_util.get_dict_value(f1, 'name2', '')
 
-
         if 'ensgid' in self.reserved_colidx.keys():
             self.key_colidx = self.reserved_colidx['ensgid']
 
@@ -148,10 +146,8 @@ class GeneSourceReader():
             else:
                 self.target_colnames2.append(name2_map[tidx])
 
-
     def rm_version_in_ensgid(self, ensg):
         return ensg.strip().split('.')[0]
-
 
     def get_value_using_eval_field_function(self, colidx, cidx_no, cidxvalue):
         exec_str = "external_functions." + self.field_function[colidx]
@@ -180,16 +176,16 @@ class GeneSourceReader():
                 try:
                     rst_value = int(value)
                 except ValueError:
-                    print('ValueError:',value)
+                    print('ValueError:', value)
                 rst_value = int(value)
             elif value_type == 'number':
                 try:
                     rst_value = float(value)
                 except ValueError:
-                    print('ValueError:',value)
+                    print('ValueError:', value)
                 rst_value = float(value)
             elif value_type == 'boolean':
-                rst_value = boolean(value)
+                rst_value = bool(value)
             else:
                 rst_value = value
         return rst_value
@@ -219,7 +215,7 @@ class GeneSourceReader():
 
                     if colidx in self.field_function.keys():
                         cidxvalue = self.get_value_using_eval_field_function(colidx, cidx_no, cidxvalue)
-                        
+
                     delimiter = ''
                     if colidx in self.delimiter.keys():
                         delimiter = self.delimiter[colidx]
@@ -230,7 +226,6 @@ class GeneSourceReader():
                         target_data.append(cidxvaluelist)
                     else:
                         target_data.append(self.typecast(cidxvalue, self.field_type[colidx]))
-
 
                 self.data[ensgid].append(target_data)
 
@@ -247,8 +242,8 @@ class GeneSourceReader():
                         if resv == 'ensgid':
                             self.reserved_data[resv][ensgid] = self.rm_version_in_ensgid(arr[colidx])
                         else:
-                            self.reserved_data[resv][ensgid] = self.typecast(strip_value(arr[colidx])
-                                , self.field_type[colidx])
+                            self.reserved_data[resv][ensgid] = self.typecast(
+                                strip_value(arr[colidx]), self.field_type[colidx])
 
     def load_range_data(self):
         for line in file_util.gzopen(self.fname):
@@ -304,14 +299,14 @@ class GeneSourceReader():
                 datalist = self.data[ensgid]
             except KeyError:
                 datalist = []
-    
+
         if self.is_range_data and len(self.target_colnames) == 1:
             # for special case (CYTOBAND)
             d = []
             for datarow in datalist:
                 d.append(datarow[0])
             if not self.is_empty_value(d):
-                rstdata.append({self.target_colnames[0]:d})
+                rstdata.append({self.target_colnames[0]: d})
         else:
             for datarow in datalist:
                 d = {}
@@ -320,7 +315,7 @@ class GeneSourceReader():
                         k1 = self.target_colnames2[k]
                     else:
                         k1 = self.target_colnames[k]
-                    if not self.is_empty_value(datarow[k]) and datarow[k] != None:
+                    if not self.is_empty_value(datarow[k]) and datarow[k] is not None:
                         d[k1] = datarow[k]
                 rstdata.append(d)
 
@@ -346,8 +341,6 @@ class GeneSourceMerger():
                     ensgid_map[ensgid] = 1
         self.ensgid_list = list(ensgid_map.keys())
 
-    
-
     def set_colnames(self):
         self.colnames = {}
         self.colnames2 = {}
@@ -369,7 +362,6 @@ class GeneSourceMerger():
                     v1 = ''
                 data[r1] = v1
 
-
             for sid in self.source_readers.keys():
                 s1 = self.source_readers[sid]
 
@@ -381,7 +373,7 @@ class GeneSourceMerger():
                         data.update(d1[0])
                 else:
                     if len(d1) > 0:
-                        data.update({s1.subembedded:d1})
+                        data.update({s1.subembedded: d1})
         return data
 
     def get_reserved_data(self, ensgid):
@@ -423,7 +415,7 @@ class GeneSourceMerger():
                     except KeyError:
                         for cidx in s1.target_colidx:
                             data.append('')
-        print('get_data_list',data)
+        print('get_data_list', data)
         return data
 
 
@@ -435,7 +427,6 @@ class GeneDataSourceFile():
         self.datastruct = file_util.load_json(opt['ds'])
         self.region = opt['region']
         self.blocksize = opt['blocksize']
-        
 
     def set_outfile_extension(self, out, outtype):
         out2 = out.replace('.'+outtype+'.gz', '.' + outtype)
@@ -465,11 +456,10 @@ class GeneDataSourceFile():
         header.append('\t'.join(info_arr))
         return '#' + '\t'.join(header)
 
-    def save_json_out(self):
+    def save_json_out(self, data):
         # with open(self.out, 'w') as fp:
         fp = open(self.out, 'w')
         json.dump(data, fp)
-
 
     def save_file_header(self, fp):
         if self.outtype == "json":
@@ -480,7 +470,7 @@ class GeneDataSourceFile():
             fp.write(']')
 
     def save_file_record(self, fp, data, prev_flag):
-        
+
         if self.outtype == "json":
             flag = True
             if "CODING_GENE" in self.vartype:
@@ -499,10 +489,10 @@ class GeneDataSourceFile():
             fp.write(data)
         return flag
 
-
     # init function
+
     def make_single_source_file(self):
-        file_util.check_dir(self.out)        
+        file_util.check_dir(self.out)
         fp = open(self.out, 'w')
         # fp.write(self.get_bed_header() + '\n')
 
@@ -540,10 +530,7 @@ class GeneDataSourceFile():
         print('Saved', self.out)
         fp.close()
 
-        ### file check
+        # file check
         print('Json checking...', self.out)
         fp = open(self.out)
         data = json.load(fp)
-
-
-

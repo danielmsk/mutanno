@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-VCF_COL = ['CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO','FORMAT']
+VCF_COL = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT']
 
 INFOIDX = VCF_COL.index('INFO')
 
@@ -32,8 +32,9 @@ CHROM_HGVS["22"] = "NC_000022.11"
 CHROM_HGVS["X"] = "NC_000023.11"
 CHROM_HGVS["Y"] = "NC_000024.10"
 
+
 def parse_info_header_line(line, d={}):
-    fields = line.replace('##INFO=<','').split(',')
+    fields = line.replace('##INFO=<', '').split(',')
     d2 = {}
     for idx, f1 in enumerate(fields):
         arr = f1.split('=')
@@ -41,12 +42,12 @@ def parse_info_header_line(line, d={}):
             if idx+1 == len(fields):
                 desc = arr[1]
             else:
-                desc = arr[1] +',' + ",".join(fields[(idx+1):])
-            desc = desc.strip()[:-1].replace('"','')
+                desc = arr[1] + ',' + ",".join(fields[(idx+1):])
+            desc = desc.strip()[:-1].replace('"', '')
             d2[arr[0]] = desc
             if 'Format:' in desc:
                 arr2 = desc.split('Format:')
-                d2['Format'] = arr2[-1].replace("'","").split('|')
+                d2['Format'] = arr2[-1].replace("'", "").split('|')
                 if 'Subembedded:' in desc:
                     arr3 = arr2[0].split('Subembedded:')
                     d2['Subembedded'] = arr3[-1].strip()
@@ -56,9 +57,10 @@ def parse_info_header_line(line, d={}):
     d[d2['ID']] = d2
     return d
 
+
 def get_hgvsg(chrom, pos, ref, alt):
     try:
-        hgvsg = CHROM_HGVS[chrom.replace('chr','')] + ':g.'
+        hgvsg = CHROM_HGVS[chrom.replace('chr', '')] + ':g.'
         if len(ref) > len(alt):
             if len(ref) == 2:
                 hgvsg += str(pos + 1) + 'del'
@@ -84,6 +86,7 @@ def get_variant_class(ref, alt):
         vcls = "DEL"
     return vcls
 
+
 def add_info(info1, info2):
     info1 = strip_info(info1)
     info2 = strip_info(info2)
@@ -95,6 +98,7 @@ def add_info(info1, info2):
         info = info1 + ';' + info2
     return info
 
+
 def strip_info(info):
     if info == ".":
         info = ""
@@ -102,14 +106,15 @@ def strip_info(info):
         info = info[:-1]
     return info
 
+
 def convert_to_metadata(d):
     cont = []
     for field in d.keys():
-        if type(d[field]) == type({}):
+        if isinstance(d[field], dict):
             for key in d[field].keys():
                 valuearr = ["ID=" + key]
                 for k2 in d[field][key].keys():
-                    if k2 in ['Number','Type']:
+                    if k2 in ['Number', 'Type']:
                         valuearr.append(k2 + '=' + d[field][key][k2])
                     else:
                         valuearr.append(k2 + '="' + d[field][key][k2] + '"')
@@ -119,6 +124,7 @@ def convert_to_metadata(d):
             value = d[field]
             cont.append('##'+field + '=' + value)
     return '\n'.join(cont)
+
 
 def get_info_header(headertype, infoid, version, vdate,  infodesc, subfields, sourcesubembed=""):
     header = ""
@@ -182,7 +188,7 @@ def split_multiallelic_variants(vcfrecord):
         for f1 in r1[7].split(';'):
             if "=" in f1:
                 arr = f1.split('=')
-                if arr[0] in ['AC','AF','MLEAC','MLEAF']:
+                if arr[0] in ['AC', 'AF', 'MLEAC', 'MLEAF']:
                     arr2 = arr[1].split(',')
                     f1 = arr[0] + "=" + arr2[k]
             info.append(f1)
@@ -213,7 +219,7 @@ def encode_infovalue(v1, delimiter=""):
         rst = encode_value(rst)
         if delimiter != "":
             rst = rst.replace(encode_value(delimiter), '~')
-            
+
     return rst
 
 
@@ -332,6 +338,7 @@ def pars_info_header(infoheader):
             d[arr[0]] = arr[1].strip().split('|')
     return(d)
 
+
 def pars_info_field(infofield):
     d = {}
     for s1 in infofield.strip().split(";"):
@@ -345,6 +352,7 @@ def pars_info_field(infofield):
             d[s1] = True
     return(d)
 
+
 def pars_info_field_with_infoheader(infofield, infoheaderdict):
     d = {}
     for s1 in infofield.strip().split(";"):
@@ -355,9 +363,9 @@ def pars_info_field_with_infoheader(infofield, infoheaderdict):
             for sec in arr[1].split(','):
                 d2 = {}
                 fields = sec.strip().split('|')
-                
+
                 for idx, f1 in enumerate(infoheaderdict[fname]):
-                    d2[f1] =  fields[idx]
+                    d2[f1] = fields[idx]
 
                 attr.append(d2)
             d[fname] = attr

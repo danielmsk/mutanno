@@ -125,7 +125,7 @@ def test_sync_googlesheet_dsjson():
 
     i = 0
     print("Google -> DSJSON(full)")
-    skiplist = ["VCF","SAMPLEGENO","MULTIALLELE","MUTANNO","HG19","VEP", "COMHET"]
+    skiplist = ["VCF","SAMPLEGENO","MULTIALLELE","MUTANNO","HG19","VEP", "COMHET","HGVS"]
     for k1 in g1.keys():
         if (g1[k1]['do_import'] == "Y") and (g1[k1]['source_name'] not in skiplist) and ( g1[k1]['embedded_field'] != "Y"):
             i += 1

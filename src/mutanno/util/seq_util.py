@@ -7,6 +7,33 @@ CHROM_TYPE_LIST = ['autosome', 'sex', 'mt', 'unlocalized', 'unplaced', 'haplotyp
 REF_SEQ_VERSION_LIST = ['b37', 'hg19', 'b37d5', 'b38', 'hg38', 'b38d']
 MAIN_CHROM_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "X", "Y", "M"]
 
+CHROM_LEN['hg38'] = {}
+CHROM_LEN['hg38']['1'] = 248956422
+CHROM_LEN['hg38']['2'] = 242193529
+CHROM_LEN['hg38']['3'] = 198295559
+CHROM_LEN['hg38']['4'] = 190214555
+CHROM_LEN['hg38']['5'] = 181538259
+CHROM_LEN['hg38']['6'] = 170805979
+CHROM_LEN['hg38']['7'] = 159345973
+CHROM_LEN['hg38']['8'] = 145138636
+CHROM_LEN['hg38']['9'] = 138394717
+CHROM_LEN['hg38']['10'] = 133797422
+CHROM_LEN['hg38']['11'] = 135086622
+CHROM_LEN['hg38']['12'] = 133275309
+CHROM_LEN['hg38']['13'] = 114364328
+CHROM_LEN['hg38']['14'] = 107043718
+CHROM_LEN['hg38']['15'] = 101991189
+CHROM_LEN['hg38']['16'] = 90338345
+CHROM_LEN['hg38']['17'] = 83257441
+CHROM_LEN['hg38']['18'] = 80373285
+CHROM_LEN['hg38']['19'] = 58617616
+CHROM_LEN['hg38']['20'] = 64444167
+CHROM_LEN['hg38']['21'] = 46709983
+CHROM_LEN['hg38']['22'] = 50818468
+CHROM_LEN['hg38']['X'] = 156040895
+CHROM_LEN['hg38']['Y'] = 57227415
+
+
 codon = {}
 codon['UUU'] = "F"
 codon['UUC'] = "F"
@@ -91,11 +118,11 @@ SINGLEBASE_COMPLEMENTARY = {'G>T': 'C>A', 'C>A': 'C>A', 'C>G': 'C>G', 'G>C': 'C>
 EXOM_SEQ_COVERED_REGION_NimbleGen_SeqCap = 64190747
 EXOM_SEQ_COVERED_REGION = EXOM_SEQ_COVERED_REGION_NimbleGen_SeqCap
 
-REF_FASTA = {}
-REF_FASTA['b37d5'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/b37/human_g1k_v37_decoy.fasta"
-REF_FASTA['hg38'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/hg38/Homo_sapiens_assembly38.fasta"
-REF_FASTA['hg19'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/hg19/ucsc.hg19.fasta"
-REF_FASTA['b38d'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/b38/GRCh38_full_analysis_set_plus_decoy_hla.fa"
+# REF_FASTA = {}
+# REF_FASTA['b37d5'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/b37/human_g1k_v37_decoy.fasta"
+# REF_FASTA['hg38'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/hg38/Homo_sapiens_assembly38.fasta"
+# REF_FASTA['hg19'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/hg19/ucsc.hg19.fasta"
+# REF_FASTA['b38d'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/b38/GRCh38_full_analysis_set_plus_decoy_hla.fa"
 
 
 def load_liftover(chainfile = ""):
@@ -131,25 +158,42 @@ def load_refseq_info(seq_ver=''):
                 CHROM_LEN[seq_ver][arr[0]] = int(arr[1])
                 CHROM_TYPE[seq_ver][arr[0]] = arr[2]
 
-
 # load_refseq_info('b37d5')
 # load_refseq_info('b38d')
 
 
-def get_split_region(chunksize=1000000, seqver='b38d'):
-    load_refseq_info(seqver)
+def get_split_region(chunksize=1000000, seqver='b38d', tchrom= '', tspos=-9, tepos=-9):
     rst = []
-    k2 = 1
-    for chrom in CHROM_LIST[seqver]:
-        if len(chrom) < 3:
-            no_split = int(1.0 * CHROM_LEN[seqver][chrom] / chunksize)
-            for k in range(1, no_split + 2):
-                spos = chunksize * (k - 1) + 1
-                epos = chunksize * (k)
-                if epos > CHROM_LEN[seqver][chrom]:
-                    epos = CHROM_LEN[seqver][chrom]
-                rst.append((chrom, spos, epos, k2))
-                k2 += 1
+    if tchrom != '' and tspos > 0:
+        if tepos == -9:
+            load_refseq_info(seqver)
+            tepos = CHROM_LEN[seqver][tchrom]
+        
+        flag = True
+        spos = tspos
+        k2 = 0
+        while flag:
+            epos = spos + chunksize - 1
+            if epos > tepos:
+                epos = tepos
+                flag = False
+            k2 += 1
+            rst.append((tchrom, spos, epos, k2))
+            spos = epos + 1
+
+    else:
+        load_refseq_info(seqver)
+        k2 = 1
+        for chrom in CHROM_LIST[seqver]:
+            if len(chrom) < 3:
+                no_split = int(1.0 * CHROM_LEN[seqver][chrom] / chunksize)
+                for k in range(1, no_split + 2):
+                    spos = chunksize * (k - 1) + 1
+                    epos = chunksize * (k)
+                    if epos > CHROM_LEN[seqver][chrom]:
+                        epos = CHROM_LEN[seqver][chrom]
+                    rst.append((chrom, spos, epos, k2))
+                    k2 += 1
     return rst
 
 
@@ -472,24 +516,24 @@ def load_reads(samf, chrom, pos_plus_1):
     return m
 
 
-def get_refseq(chrom, spos, epos, seqver="b38d"):
-    from pyfasta import Fasta
-    #refseq = seq_path + "/human_g1k_v37_decoy.fasta"
-    spos = spos - 1
-    refseq = REF_FASTA[seqver]
-    f = Fasta(refseq)
-    #print (sorted(f.keys()))
-    chromlist = list(f.keys())
-    #print (chromlist[:30])
-    fasta_chrom = ""
-    for c1 in chromlist:
-        if c1.split(' ')[0] == chrom:
-            fasta_chrom = c1
-            break
-    #print (fasta_chrom)
-    #fasta_chrom = chrom + ' dna:chromosome chromosome:GRCh37:'+chrom+':1:'+str(CHROM_LEN['b37d5'][chrom])+':1'
-    refseq = f[fasta_chrom][spos:epos+1]
-    return refseq
+# def get_refseq(chrom, spos, epos, seqver="b38d"):
+#     from pyfasta import Fasta
+#     #refseq = seq_path + "/human_g1k_v37_decoy.fasta"
+#     spos = spos - 1
+#     refseq = REF_FASTA[seqver]
+#     f = Fasta(refseq)
+#     #print (sorted(f.keys()))
+#     chromlist = list(f.keys())
+#     #print (chromlist[:30])
+#     fasta_chrom = ""
+#     for c1 in chromlist:
+#         if c1.split(' ')[0] == chrom:
+#             fasta_chrom = c1
+#             break
+#     #print (fasta_chrom)
+#     #fasta_chrom = chrom + ' dna:chromosome chromosome:GRCh37:'+chrom+':1:'+str(CHROM_LEN['b37d5'][chrom])+':1'
+#     refseq = f[fasta_chrom][spos:epos+1]
+#     return refseq
 
 
 ############################################

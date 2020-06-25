@@ -1,6 +1,4 @@
-from .util import file_util
 from .util import vep_util
-from .util import struct_util
 
 
 def conv_consequence_delimiter(consequence):
@@ -31,74 +29,54 @@ def get_pred_from_vep_pathogenicity(predscore):
 
 
 def add_vep_most_severe(sections):
-    rst = '0'
-    # print (">external_functions.is_most_severe_transcript():", rst)
     most_severe = {}
     most_severe['corder'] = 9999
-    target_gene = ""
     for sidx, section in enumerate(sections):
-        d = {}
-        # print("\tsection:",section)
-
         for consequence in section['Consequence']:
             if (
                 (most_severe['corder'] > vep_util.VEP_CONSEQUENCE_ORDER[consequence])
                 or (
                     most_severe['corder'] == vep_util.VEP_CONSEQUENCE_ORDER[consequence]
                     and section['CANONICAL'] is not None and section['CANONICAL'] == "1"
-                    )
-                ):
+                )
+            ):
                 most_severe['sidx'] = section['Gene']
                 most_severe['sidx'] = sidx
                 most_severe['canonical'] = section['CANONICAL']
                 most_severe['corder'] = vep_util.VEP_CONSEQUENCE_ORDER[consequence]
-            # elif most_severe['corder'] == vep_util.VEP_CONSEQUENCE_ORDER[consequence]:
-            #     if section['CANONICAL'] is not None and section['CANONICAL'] == "1":
-            # print("\t\tconsequence:",consequence)
-        # print("\tmost_severe:",most_severe)
-
-    rst = []
-    ms = ''
     for sidx, section in enumerate(sections):
         if sidx == most_severe['sidx']:
-            # print('====>', sections[sidx])
             sections[sidx]['MOST_SEVERE'] = '1'
-            # ms = '1'
         else:
             sections[sidx]['MOST_SEVERE'] = '0'
-            # ms = '0'
-    # print(sections)
-    # return ms
     return sections
 
+
 def vep_select_microannot_add_most_severe(sections, vcf_info_value, select_biotype):
-    # print(">>>>vcf_info_value:", vcf_info_value)
     sections = vep_select_from_microannot(sections, vcf_info_value)
     sections = add_vep_most_severe(sections)
     return sections
 
 
 def vep_select_biotype_add_most_severe(sections, select_biotype):
-    print(">>>>sections1:", len(sections))
     # sections = vep_select_biotype(sections, select_biotype)
     sections = add_vep_most_severe(sections)
-    print(">>>>sections2:", len(sections))
     return sections
 
+
 def vep_select_from_microannot(sections, vcf_info_value):
-    # print (">external_functions.vep_select_from_microannot():", vcf_info_value)
-    # print(">>>>>>>>sections:",sections)
     selected_feature = {}
     if 'VEP' in vcf_info_value.keys():
-        for section in vcf_info_value['VEP']:
-            selected_feature[section['Feature']] = section
+        for vcf_info_section in vcf_info_value['VEP']:
+            selected_feature[vcf_info_section['Feature']] = vcf_info_section
 
     selected = []
     for sidx, section in enumerate(sections):
         if section['Feature'] in selected_feature.keys():
             section['Consequence'] = selected_feature[section['Feature']]['Consequence'].split('~')
             selected.append(section)
-    return selected    
+    return selected
+
 
 def vep_select_biotype(sections, select_biotype):
     # print (">external_functions.vep_select_biotype():", select_biotype)
@@ -109,6 +87,7 @@ def vep_select_biotype(sections, select_biotype):
         if section['BIOTYPE'] in select_biotype:
             selected.append(section)
     return selected
+
 
 def trim_DIP_ID(v1):
     # ex) DIP-39616N;
@@ -125,8 +104,8 @@ def remove_pdb_subversion(id_list):
         for pid in id_list.split('|'):
             pidmap[pid.split(':')[0]] = 1
         pidlist = list(pidmap.keys())
-        rst='|'.join(pidlist)
-    return 
+        rst = '|'.join(pidlist)
+    return rst
 
 
 def convert_rmsk_strand(v1):
@@ -178,9 +157,6 @@ def convert_uniprot_transmem(desc_value):
 
 
 def add_genes_severe_consequence(annotdata, vcfinfo):
-    # print(">external_function.add_severe_consequence()")
-    # print('\t',annotdata['VEP'])
-
     vep_sections = []
     if annotdata is not None and 'VEP' in annotdata.keys():
         vep_sections = annotdata['VEP']
@@ -191,52 +167,21 @@ def add_genes_severe_consequence(annotdata, vcfinfo):
         if attr['MOST_SEVERE'] == '1':
             ensg = attr['Gene']
             most_severe_transcript = attr['Feature']
-            most_severe_consequence = attr['Consequence']
+            most_severe_consequence = get_most_severe_consequence(attr['Consequence'])
             break
     if len(vep_sections) == 0:
         rst_sections = []
     else:
-        rst_sections =[{'ensg':ensg, 'most_severe_transcript':most_severe_transcript, 'most_severe_consequence':most_severe_consequence}]
+        rst_sections = [{'ensg': ensg, 'most_severe_transcript': most_severe_transcript,
+                         'most_severe_consequence': most_severe_consequence}]
     return rst_sections
 
 
-# entrezmap = {}
-# refseqmap = {}
-# def load_entrez_refseq_id():
-#     path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
-#     entrezmap = {}
-#     for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.entrez.tsv.gz'):
-#         line = line.decode('UTF-8')
-#         arr = line.split('\t')
-#         arr[-1] = arr[-1].strip()
-#         entrezmap[arr[0].strip()] = arr[3].strip()
-#     refseqmap = {}
-#     for line in file_util.gzopen(path + 'Homo_sapiens.GRCh38.98.refseq.sorted.tsv.gz'):
-#         line = line.decode('UTF-8')
-#         arr = line.split('\t')
-#         arr[-1] = arr[-1].strip()
-#         enst_id = arr[1].strip()
-#         refseqmap[enst_id] = arr[3].strip()
-#     return entrezmap, refseqmap
-
-
-# def get_entrez_id(gene):
-#     global entrezmap, refseqmap
-#     if len(entrezmap.keys()) == 0:
-#         entrezmap, refseqmap = load_entrez_refseq_id()
-#     try:
-#         eid = entrezmap[gene]
-#     except KeyError:
-#         eid = ''
-#     return eid
-
-
-# def get_refseq_id(transcriptid):
-#     global entrezmap, refseqmap
-#     if len(refseqmap.keys()) == 0:
-#         entrezmap, refseqmap = load_entrez_refseq_id()
-#     try:
-#         tid = refseqmap[transcriptid]
-#     except KeyError:
-#         tid = ''
-#     return tid
+def get_most_severe_consequence(consequence_list):
+    most_severe_order = 100
+    most_severe_consequence = ""
+    for c1 in consequence_list:
+        if most_severe_order > vep_util.VEP_CONSEQUENCE_ORDER[c1]:
+            most_severe_order = vep_util.VEP_CONSEQUENCE_ORDER[c1]
+            most_severe_consequence = c1
+    return most_severe_consequence

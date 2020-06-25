@@ -1,9 +1,13 @@
 {
   "name": "MUTANNO",
   "version": "0.4.6",
-  "version_date": "05/25/2020",
+  "version_date": "06/25/2020",
   "level": "variant",
   "format": "tsi",
+  "hgvs": true,
+  "variant_class": true,
+  "hg19": true,
+  "clean_tag_list": ["VEP","SpliceAI","CLINVAR","gnomADgenome"],
   "source": [
     {
       "name": "VEP",
@@ -231,6 +235,7 @@
                   "type": "string",
                   "desc": "SIFT prediction",
                   "function": "get_pred_from_vep_pathogenicity",
+                  "is_available": false,
                   "param": "SIFT"
                 },
                 {
@@ -253,7 +258,7 @@
                     "type": "string",
                     "desc": "The source and identifer of any overlapping protein domains",
                     "is_list": true,
-                    "delimiter": "&"
+                    "delimiter": "~"
                 },
                 {
                     "name": "miRNA",
@@ -357,7 +362,6 @@
       "function": "add_genes_severe_consequence",
       "param": "mutanno_value_data,vcf_info_value",
       "subembedded": "genes",
-      "is_available": true,
       "fields": [
         {
           "name": "ensg",
@@ -381,7 +385,6 @@
       "desc": "cytoband",
       "version": "2017-07-17",
       "version_date": "07/17/2017",
-      "is_available": true,
       "fields": [
         {
           "name": "cytoband",
@@ -395,7 +398,6 @@
       "desc": "transmembrane",
       "version": "2019-12-18",
       "version_date": "12/18/2019",
-      "is_available": true,
       "fields": [
         {
           "name": "UNIPROTKB_AC",
@@ -418,7 +420,6 @@
       "desc": "dbSNP",
       "version": "20190722",
       "version_date": "07/22/2019",
-      "fieldselection": "",
       "fields": [
         {
           "name": "ID",
@@ -501,7 +502,6 @@
       "desc": "Pathgenicity score by CADD",
       "version": "v1.5",
       "version_date": "02/26/2019",
-      "fieldselection": "",
       "hidden": true,
       "fields": [
         {
@@ -1292,6 +1292,13 @@
           "name": "AF_MAX",
           "type": "number",
           "desc": "1000 Genomes Phase 1 Maximum Allele Frequency"
+        },
+        {
+          "name": "ESP_MAF",
+          "type": "number",
+          "is_list": true,
+          "delimiter": "%2C",
+          "desc": "Minor allele frequecy in percent for European American, African American and All populations in the NHLBI Exome Sequencing Project (ESP)"
         }
       ]
     },
@@ -1393,11 +1400,13 @@
         },
         {
           "name": "genoStart",
+          "name2": "chromStart",
           "type": "integer",
           "desc": "Start in genomic sequence"
         },
         {
           "name": "genoEnd",
+          "name2": "chromEnd",
           "type": "integer",
           "desc": "End in genomic sequence"
         },
@@ -1430,11 +1439,13 @@
         },
         {
           "name": "thickStart",
+          "name2": "chromStart",
           "type": "integer",
           "desc": "Start position in chromosome"
         },
         {
           "name": "thickEnd",
+          "name2": "chromEnd",
           "type": "integer",
           "desc": "End position in chromosome"
         },
@@ -1516,11 +1527,13 @@
         {
           "name": "CLNDISDB",
           "type": "string",
+          "is_list2": true,
           "desc": "Tag-value pairs of disease database name and identifier, e.g. OMIM:NNNNNN"
         },
         {
           "name": "CLNDISDBINCL",
           "type": "string",
+          "is_list2": true,
           "desc": "For included Variant: Tag-value pairs of disease database name and identifier, e.g. OMIM:NNNNNN"
         },
         {
@@ -1550,6 +1563,7 @@
         {
           "name": "CLNSIGINCL",
           "type": "string",
+          "is_list2": true,
           "desc": "Clinical significance for a haplotype or genotype that includes this variant. Reported as pairs of VariationID:clinical significance."
         },
         {
@@ -1565,17 +1579,20 @@
         {
           "name": "CLNVI",
           "type": "string",
+          "is_list2": true,
           "desc": "the variant's clinical sources reported as tag-value pairs of database and variant identifier"
         },
         {
           "name": "GENEINFO",
           "type": "string",
+          "is_list2":true,
           "desc": "Gene(s) for the variant reported as gene symbol:gene id. The gene symbol and id are delimited by a colon (:) and each pair is delimited by a vertical bar (|)"
         },
         {
           "name": "MC",
           "type": "string",
-          "desc": "comma separated list of molecular consequence in the form of Sequence Ontology ID|molecular_consequence"
+          "is_list2": true,
+          "desc": "Sequence Ontology ID list"
         },
         {
           "name": "ORIGIN",
@@ -1670,94 +1687,81 @@
           "desc": "An internal mutation identifier to uniquely represent each mutation on a specific transcript on a given assembly build."
         },
         {
-          "name": "Accession Number",
+          "name": "Accession_Number",
           "name2": "Transcript_ID",
           "type": "string",
           "desc": "The transcript identifier of the gene."
         },
         {
-          "name": "Primary site",
-          "name2": "Primary_site",
+          "name": "Primary_site",
           "type": "string",
           "desc": "The primary tissue/cancer from which the sample originated. More details on the tissue classification are avaliable from here. In COSMIC we have standard classification system for tissue types and sub types because they vary a lot between different papers."
         },
         {
-          "name": "Site subtype 1",
-          "name2": "Site_subtype_1",
+          "name": "Site_subtype_1",
           "type": "string",
           "desc": "Further sub classification (level 1) of the samples tissue of origin.",
           "function": "convert_NS2blank",
-          "param": "Site subtype 1"
+          "param": "Site_subtype_1"
         },
         {
-          "name": "Site subtype 2",
-          "name2": "Site_subtype_2",
+          "name": "Site_subtype_2",
           "type": "string",
           "desc": "Further sub classification (level 2) of the samples tissue of origin.",
           "function": "convert_NS2blank",
-          "param": "Site subtype 2"
+          "param": "Site_subtype_2"
         },
         {
-          "name": "Site subtype 3",
-          "name2": "Site_subtype_3",
+          "name": "Site_subtype_3",
           "type": "string",
           "desc": "Further sub classification (level 3) of the samples tissue of origin.",
           "function": "convert_NS2blank",
-          "param": "Site subtype 3"
+          "param": "Site_subtype_3"
         },
         {
-          "name": "Primary histology",
-          "name2": "Primary_histology",
+          "name": "Primary_histology",
           "type": "string",
           "desc": "The histological classification of the sample."
         },
         {
-          "name": "Histology subtype 1",
-          "name2": "Histology_subtype_1",
+          "name": "Histology_subtype_1",
           "type": "string",
           "desc": "Further histological classification (level 1) of the sample.",
           "function": "convert_NS2blank",
-          "param": "Histology subtype 1"
+          "param": "Histology_subtype_1"
         },
         {
-          "name": "Histology subtype 2",
-          "name2": "Histology_subtype_2",
+          "name": "Histology_subtype_2",
           "type": "string",
           "desc": "Further histological classification (level 2) of the sample.",
           "function": "convert_NS2blank",
-          "param": "Histology subtype 2"
+          "param": "Histology_subtype_2"
         },
         {
-          "name": "Histology subtype 3",
-          "name2": "Histology_subtype_3",
+          "name": "Histology_subtype_3",
           "type": "string",
           "desc": "Further histological classification (level 3) of the sample.",
           "function": "convert_NS2blank",
-          "param": "Histology subtype 3"
+          "param": "Histology_subtype_3"
         },
         {
-          "name": "Mutation CDS",
-          "name2": "Mutation_CDS",
+          "name": "Mutation_CDS",
           "type": "string",
           "desc": "The change that has occurred in the nucleotide sequence. Formatting is identical to the method used for the peptide sequence."
         },
         {
-          "name": "Mutation AA",
-          "name2": "Mutation_AA",
+          "name": "Mutation_AA",
           "type": "string",
           "desc": "The change that has occurred in the peptide sequence. Formatting is based on the recommendations made by the Human Genome Variation Society. The description of each type can be found by following the link to Mutation Overview page."
         },
         {
-          "name": "Mutation Description",
-          "name2": "Mutation_Description",
+          "name": "Mutation_Description",
           "type": "string",
-          "desc": "Type of mutation at the amino acid level (substitution, deletion, insertion, complex, fusion, unknown etc.)",
           "is_list": true,
-          "delimiter": " - "
+          "desc": "Type of mutation at the amino acid level (substitution, deletion, insertion, complex, fusion, unknown etc.)"
         },
         {
-          "name": "Mutation zygosity",
-          "name2": "Mutation_zygosity",
+          "name": "Mutation_zygosity",
           "type": "string",
           "desc": "Information on whether the mutation was reported to be homozygous , heterozygous or unknown within the sample."
         },
@@ -1767,20 +1771,17 @@
           "desc": "LOH Information on whether the gene was reported to have loss of heterozygosity in the sample: yes, no or unknown."
         },
         {
-          "name": "Mutation genome position",
-          "name2": "Mutation_genome_position",
+          "name": "Mutation_genome_position",
           "type": "string",
           "desc": "The genomic coordinates of the mutation."
         },
         {
-          "name": "Resistance Mutation",
-          "name2": "Resistance_Mutation",
+          "name": "Resistance_Mutation",
           "type": "string",
           "desc": "mutation confers drug resistance (see CosmicResistanceMutations.tsv.gz for gene/drug details)."
         },
         {
-          "name": "Mutation somatic status",
-          "name2": "Mutation_somatic_status",
+          "name": "Mutation_somatic_status",
           "type": "string",
           "desc": "Information on whether the sample was reported to be Confirmed Somatic, Previously Reported or Variant of unknown origin"
         },
@@ -1795,117 +1796,117 @@
           "desc": "Lists the unique Ids of studies that have involved this sample."
         },
         {
-          "name": "Tumour origin",
-          "name2": "Tumour_origin",
+          "name": "Tumour_origin",
           "type": "string",
           "desc": "Describes where the sample has originated from including the tumour type.",
           "function": "convert_NS2blank",
-          "param": "Tumour origin"
+          "param": "Tumour_origin"
         }
       ]
     },{
-      "name": "ENSEMBLANNOT",
-      "desc": "",
-      "version": "99",
-      "version_date": "08/23/2019",
-      "datatype": "region",
-      "fields": [
-        {
-          "name": "strand",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "ensgid",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "gene_version",
-          "type": "integer",
-          "desc": ""
-        },
-        {
-          "name": "gene_symbol",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "gene_source",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "gene_biotype",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "type",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_id",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_version",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_name",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_source",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_biotype",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "tag",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "transcript_support_level",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "exon_number",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "exon_id",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "exon_version",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "protein_id",
-          "type": "string",
-          "desc": ""
-        },
-        {
-          "name": "protein_version",
-          "type": "string",
-          "desc": ""
+          "name": "ENSEMBLANNOT",
+          "desc": "",
+          "version": "99",
+          "version_date": "08/23/2019",
+          "is_available": false,
+          "datatype": "region",
+          "fields": [
+            {
+              "name": "strand",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "ensgid",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "gene_version",
+              "type": "integer",
+              "desc": ""
+            },
+            {
+              "name": "gene_symbol",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "gene_source",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "gene_biotype",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "type",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_id",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_version",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_name",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_source",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_biotype",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "tag",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "transcript_support_level",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "exon_number",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "exon_id",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "exon_version",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "protein_id",
+              "type": "string",
+              "desc": ""
+            },
+            {
+              "name": "protein_version",
+              "type": "string",
+              "desc": ""
+            }
+          ]
         }
-      ]
-    }
   ]
 }

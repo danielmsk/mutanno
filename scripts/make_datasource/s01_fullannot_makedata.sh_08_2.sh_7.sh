@@ -1,0 +1,1 @@
+mutanno makedata  -ds /home/mk446/mutanno/SRC/tests/data/datastructure_fullannot_v0.4.6ds.json -out /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/fullannot_datasource.7_7.v0.4.6_200617.tsi  -vartype SNV  -region 7:154600001-159345973 -blocksize 20000 ; tabixgz /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/fullannot_datasource.7_7.v0.4.6_200617.tsi;
