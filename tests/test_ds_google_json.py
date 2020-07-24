@@ -35,6 +35,8 @@ def validate_annottsi(tsi, dsjson, opt):
     va.validate()
 
 def check_fields_property_googlesheet_dsjson(g1, d1, k1, is_exception=True):
+
+
     if (g1[k1]['do_import'] == "Y") != dv (d1[k1], 'is_available', True):
         msg = k1 + " field's do_import/is_available is not matched."
         if is_exception:
@@ -101,14 +103,19 @@ def load_dsjson(dsjson):
 
 def test_sync_googlesheet_dsjson():
     ds = test_conf.get_ds()
-    dsjson = ds['fullannot']['ds']
+    print(ds['fullannot'].keys())
+    # dsjson = ds['fullannot']['ds']
+    dsjson = ds['fullannot']['clean']
     dsjson_micro = ds['microannot']['ds']
-    googlesheet = dsjson.replace(".json","") + ".googlesheet.txt"
+    googlesheet = ds['fullannot']['ds'].replace(".json","") + ".googlesheet.txt"
     g1 = load_googlesheet(googlesheet)
     d1 = load_dsjson(dsjson)
     m1 = load_dsjson(dsjson_micro)
 
     i = 0
+    print("googlesheet:", googlesheet)
+    print("dsjson:", dsjson)
+    print("dsjson_micro:", dsjson_micro)
     print("DSJSON(full) -> Google")
     skiplist = ["ENSEMBLANNOT"]
     for k1 in d1.keys():

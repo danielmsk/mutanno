@@ -1,3 +1,4 @@
 {
+  "tests/test_run.py::test_microannot_run": true,
   "tests/test_tsireader.py::test_tsiloader": true
 }

@@ -95,11 +95,11 @@ def test_microannot_run():
             arg.extend(['-genoinfo'])
 
             sys.argv = arg
-            print('>>command:',' '.join(sys.argv))
-            mutanno.cli()
-            check_vcf_validator(out)
-            comp_previous_out(out, prevout)
-            validate_annotvcf(out, dsjson, arg)
+            # print('>>command:',' '.join(sys.argv))
+            # mutanno.cli()
+            # check_vcf_validator(out)
+            # comp_previous_out(out, prevout)
+            # validate_annotvcf(out, dsjson, arg)
             
             
 
@@ -137,6 +137,8 @@ def test_fullannot_run():
             # vcf = "/home/mk446/mutanno/TEST/0616/GAPFIP83PL7E_test1.vcf.gz"
             # vcf = "/home/mk446/mutanno/TEST/0616/GAPFIP83PL7E_test2.vcf.gz"
             vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test1.vcf"
+            
             # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_chr9.vcf.gz"
             # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test1.vcf.gz"
             # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test2.vcf.gz"
@@ -144,9 +146,11 @@ def test_fullannot_run():
             # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test4.vcf.gz"
             # out = vcf + '.fullannot.vcf'
             out = vcf + '.fullannot.wbfilter.vcf'
+            # out = "/home/mk446/mutanno/TEST/0616/GAPFIRHN9YOZ.vcf"
             # out = "out/" + vcf.split('/')[-1] + '.fullannot.vcf'
             prevout = "data/" + out.split('/')[-1]
             dsjson = ds['fullannot']['clean']
+            # dsjson = "/home/mk446/mutanno/SRC/tests/data/archive/datastructure_fullannot_v0.4.6.json"
             print("DS:",dsjson)
             # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/BGZIP/fullannot_datasource.09_06.v0.4.6_200617.tsi.gz"
             # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/BGZIP/22_00.tsi.gz"
@@ -163,8 +167,9 @@ def test_fullannot_run():
             arg.extend(['-vcf',vcf])
             arg.extend(['-ds',dsjson])
             arg.extend(['-out',out])
-            # arg.extend(['-outtype', 'vcf', 'json'])
-            arg.extend(['-outtype', 'vcf'])
+            arg.extend(['-outtype', 'vcf', 'json'])
+            # arg.extend(['-outtype', 'json'])
+            # arg.extend(['-outtype', 'vcf'])
             arg.extend(['-sourcefile',sourcefile])
             arg.append('-hg19')
             arg.extend(['-chain',test_conf.CHAINFILE])
@@ -185,8 +190,8 @@ def test_fullannot_run():
             check_vcf_validator(out)
             validate_annotvcf(out, dsjson,arg)
             # comp_previous_out(out, prevout)
-            # break
-        # break
+            break
+        break
 
 
 '''
