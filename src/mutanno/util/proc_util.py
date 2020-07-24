@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 import os
-import sys
-import subprocess
-from io import StringIO
 
 
 def cpu_num():
@@ -29,14 +26,13 @@ def back_run(scmd):
     import file_util
     svrname = os.uname()[1]
     fname = "./tmp_" + svrname + ".sh"
-    #file_util.fileSave (fname, scmd.strip() + " & \n", "w")
+    # file_util.fileSave (fname, scmd.strip() + " & \n", "w")
     file_util.fileSave(fname, scmd.strip() + " > /dev/null 2>&1", "w")
     run_cmd("chmod 755 " + fname)
     run_cmd(fname + " & ")
 
 
 def run_cmd(scmd, flag=False):
-    
     if flag:
         print(scmd)
     rst = os.popen(scmd)
@@ -44,7 +40,6 @@ def run_cmd(scmd, flag=False):
     # rst = subprocess.Popen([scmd], stdout=subprocess.PIPE, shell=True)
     # (rst_cont, error) = rst.communicate()
     # sys.stdout = old_stdout
-
     return rst_cont
 
 
@@ -72,52 +67,6 @@ def proc_list(v=""):
     return plist
 
 
-def top_list():
-    cmd = "top -b -n 1"
-    cont = run_cmd(cmd)
-    arr_line = cont.strip().split("\n")
-    flag = False
-    rst = {}
-    rst['joblist'] = []
-    for line in arr_line:
-        if "Cpu(s):" in line:
-            line = line.strip().replace("  ", " ").replace("  ", " ").replace("  ", " ")
-            line = line.replace("  ", " ").replace("  ", " ").replace("  ", " ")
-            arr = line.split(" ")
-            rst['cpu_usage'] = arr[1].replace("%us,", "")
-        if "Mem:" in line:
-            line = line.strip().replace("  ", " ").replace("  ", " ").replace("  ", " ")
-            line = line.replace("  ", " ").replace("  ", " ").replace("  ", " ")
-            arr = line.split(" ")
-            rst['mem_total'] = arr[1]
-            rst['mem_used'] = arr[2]
-            rst['mem_free'] = arr[3]
-        if flag:
-            line = line.strip().replace("  ", " ").replace("  ", " ").replace("  ", " ")
-            line = line.replace("  ", " ").replace("  ", " ").replace("  ", " ")
-            arr = line.split(" ")
-            if arr[8] == "0":
-                break
-            m = {}
-            m['PID'] = arr[0]
-            m['USER'] = arr[1]
-            m['CPU'] = arr[8]
-            m['MEM'] = arr[9]
-            m['TIME'] = arr[10]
-            m['COMMAND'] = arr[11]
-            rst['joblist'].append(m)
-
-        if "USER" in line:
-            line = line.replace("  ", " ").replace("  ", " ").replace("  ", " ")
-            line = line.replace("  ", " ").replace("  ", " ").replace("  ", " ")
-            header = line.split(" ")
-            flag = True
-        # print line
-
-    rst['no_working_job'] = len(rst['joblist'])
-    return rst
-
-
 def in_proc_list(proc_name):
     plist = proc_list()
     flag = False
@@ -130,15 +79,12 @@ def in_proc_list(proc_name):
 
 def cnt_proc(proc_name):
     plist = proc_list()
-    flag = False
     cnt = 0
     for p in plist:
         if proc_name in p['proc']:
             cnt += 1
             break
     return cnt
-
-# For job scheduling system in orchestra
 
 
 def get_bjob_list():
@@ -160,8 +106,6 @@ def get_bjob_list():
         i += 1
     return bsubjoblist
 
-# For job scheduling system in orchestra
-
 
 def get_bjob(tag, bjob_list=[]):
     if len(bjob_list) == 0:
@@ -177,15 +121,10 @@ def get_bjob(tag, bjob_list=[]):
 '''
 # alternative approach
 def run_cmd (u_cmd):
-	p = Popen([u_cmd], shell=True, stdout=PIPE)
-	#p.wait()
-	return p.stdout.read()
+    p = Popen([u_cmd], shell=True, stdout=PIPE)
+    p.wait()
+    return p.stdout.read()
 '''
-
-
-def send_googletalk(msg, to="intellims@gmail.com"):
-    scmd = "echo 'msg:"+msg+"' | sendxmpp -f /home/pcaso/.sendxmpprc -t -u minseok.d.kwon -o gmail.com -p qkdehdk100 " + to
-    run_cmd(scmd)
 
 
 class RemoteSvr():

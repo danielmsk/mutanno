@@ -12,7 +12,7 @@ DEFAULT_OPT['annot']['out'] = "mutanno"
 DEFAULT_OPT['annot']['outtype'] = ['vcf']
 DEFAULT_OPT['annot']['ds'] = ""
 DEFAULT_OPT['annot']['sourcefile'] = ""
-DEFAULT_OPT['annot']['add_genoinfo'] = False
+DEFAULT_OPT['annot']['genoinfo'] = False
 DEFAULT_OPT['annot']['hgvs'] = False
 DEFAULT_OPT['annot']['variant_class'] = False
 DEFAULT_OPT['annot']['hg19'] = False
@@ -44,13 +44,13 @@ def get_options():
                     choices=['vcf', 'json'], help='output file type', nargs='*')
     p1.add_argument('-ds', dest='ds', default=do['ds'], help='data structure json file')
     p1.add_argument('-sourcefile', dest='sourcefile', default=do['sourcefile'], help='data source file')
-    p1.add_argument('-genoinfo', dest='add_genoinfo',
-                    default=do['add_genoinfo'], help='add genotype info. in INFO field', nargs="*")
-    p1.add_argument('-hgvs', dest='add_hgvs',
+    p1.add_argument('-genoinfo', dest='genoinfo',
+                    default=do['genoinfo'], help='add genotype info. in INFO field', nargs="*")
+    p1.add_argument('-hgvs', dest='hgvs',
                     action="store_true", default=do['hgvs'], help='add hgvs')
-    p1.add_argument('-variant_class', dest='add_variant_class',
+    p1.add_argument('-variant_class', dest='variant_class',
                     action="store_true", default=do['variant_class'], help='add variant class')
-    p1.add_argument('-hg19', dest='add_hg19',
+    p1.add_argument('-hg19', dest='hg19',
                     action="store_true", default=do['hg19'], help='add hg19 coordinates')
     p1.add_argument('-chain', dest='chain',
                     default="", help='chain file for liftover of hg19 coordinates')
@@ -84,12 +84,16 @@ def get_options():
                     help='target region: (ex -region chr1:12345678-22345678 )')
     p1.add_argument('-region_vcf', dest='region_vcf', default='',
                     help='target regions using vcf file')
+    p1.add_argument('-target_source', dest='target_source', default='', help='target source')
     p1.add_argument('-blocksize', dest='blocksize', default='', help='block size')
     p1.add_argument('-vartype', dest='vartype', default='all',
                     choices=['SNV', 'GENE', 'GENE_MAIN_CHROM', 'CODING_GENE', 'CODING_GENE_MAIN_CHROM'],
                     help='variant type')
+    p1.add_argument('-apply_datastructure', dest='apply_datastructure', action="store_true",
+                    default=False, help='turn on apply_datastructure mode')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=False, help='turn on the debugging mode')
+
     p1.add_argument('-check', action="store_true", dest='check', default=False, help='check output file')
     p1.add_argument('-log', dest='logfile', default='', help='log file')
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
@@ -135,9 +139,10 @@ def get_options():
     p1 = subparsers.add_parser('validate', help='validate data format',
                                description='validate data format')
     p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
+    p1.add_argument('-ds', dest='ds', default="", help='data structure json file')
     # p1.add_argument('-out', dest='out', default='', help='title of output file')
-    # p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='don\'t print any log.')
-    # p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
+    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='don\'t print any log.')
+    p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
 
     p1 = subparsers.add_parser('preprocess', help='quality metrics for VCF',
                                description='quality metrics for VCF')
@@ -155,6 +160,15 @@ def get_options():
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
     p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
 
+    p1 = subparsers.add_parser('view', help='view', description='view for annotated VCF and tsi file')
+    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
+    p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
+    p1.add_argument('-region', dest='region', default='',
+                    help='target region: (ex -region chr1:12345678-22345678 )')
+    p1.add_argument('-log', dest='logfile', default='', help='log file')
+    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
+    p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
+
     if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1][0] != '-'):
         sys.argv.append('-h')
     opt = parser.parse_args()
@@ -166,6 +180,7 @@ def get_opt_object_from_dict(optdict={}):
     opt = Option()
     opt.convert_from_dict(optdict)
     return opt
+
 
 class Option:
     def __init__(self):

@@ -1,0 +1,9 @@
+- The field type of vep_sift_score is changed from 'string' to 'number'.
+- The field type of vep_polyphen_score is changed from 'string' to 'number'.
+- The is_list of clinvar_clndisdb is changed from 'N' to 'Y'.
+- The is_list of clinvar_clndisdbincl is changed from 'N' to 'Y'.
+- The is_list of clinvar_clnsigincl is changed from 'N' to 'Y'.
+- The is_list of clinvar_geneinfo is changed from 'N' to 'Y'.
+- The is_list of clinvar_mc is changed from 'N' to 'Y'.
+- clinvar_ssr is removed.
+- The is_list of cosmic_mutation_description is changed from 'Y' to 'N'.

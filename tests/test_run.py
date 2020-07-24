@@ -34,36 +34,6 @@ def validate_annottsi(tsi, dsjson, opt):
     va.set_option(opt)
     va.validate()
 
-def check_fields_property_googlesheet_dsjson(g1, d1, k1, is_exception=True):
-    if (g1[k1]['do_import'] == "Y") != dv (d1[k1], 'is_available', True):
-        msg = k1 + " field's do_import/is_available is not matched."
-        if is_exception:
-            raise Exception(msg)
-        else:
-            print("WARN:"+msg)
-
-    if g1[k1]['field_type'] != d1[k1]['type']:
-        msg = k1 + " field's type is not matched."
-        if is_exception:
-            raise Exception(msg)
-        else:
-            print("WARN:"+msg)           
-
-    if (g1[k1]['is_list'] == "Y") != dv(d1[k1], 'is_list', False):
-        msg = k1 + " field's is_list is not matched."
-        if is_exception:
-            raise Exception(msg)
-        else:
-            print("WARN:"+msg)
-
-    if (g1[k1]['sub_embedding_group'].strip() != ""):
-        e1 = json.loads(g1[k1]['sub_embedding_group'].strip())
-        if e1['key'] != dv(d1[k1], 'subembedded', ''):
-            msg = k1 + " field's subembedded is not matched."
-            if is_exception:
-                raise Exception(msg)
-            else:
-                print("WARN:"+msg)
 
 def load_googlesheet(googlesheet):
     rst = {}
@@ -99,78 +69,12 @@ def load_dsjson(dsjson):
     return rst
 
 
-def test_sync_googlesheet_dsjson():
-    ds = test_conf.get_ds()
-    dsjson = ds['fullannot']['ds']
-    dsjson_micro = ds['microannot']['ds']
-    googlesheet = dsjson.replace(".json","") + ".googlesheet.txt"
-    g1 = load_googlesheet(googlesheet)
-    d1 = load_dsjson(dsjson)
-    m1 = load_dsjson(dsjson_micro)
-
-    i = 0
-    print("DSJSON(full) -> Google")
-    skiplist = ["ENSEMBLANNOT"]
-    for k1 in d1.keys():
-        if dv (d1[k1], 'is_available', True) and k1.split('_')[0].upper() not in skiplist:
-            i += 1
-            # print('\t',i, k1, '..')
-            try:
-                g1[k1]
-            except KeyError:
-                raise Exception(k1 + " field is not in googlesheet.")
-            check_fields_property_googlesheet_dsjson(g1, d1, k1)
-
-    print("\t", i, " dsjson(fullannot) fields checked...")
-
-    i = 0
-    print("Google -> DSJSON(full)")
-    skiplist = ["VCF","SAMPLEGENO","MULTIALLELE","MUTANNO","HG19","VEP", "COMHET"]
-    for k1 in g1.keys():
-        if (g1[k1]['do_import'] == "Y") and (g1[k1]['source_name'] not in skiplist) and ( g1[k1]['embedded_field'] != "Y"):
-            i += 1
-            # print('\t',i, k1)
-            try:
-                d1[k1]
-            except KeyError:
-                raise Exception(k1 + " field is not in DS json.")
-
-            check_fields_property_googlesheet_dsjson(g1, d1, k1)
-    print("\t", i, " google(fullannot) fields checked...")
-
-    i = 0
-    print("DSJSON(micro) -> Google")
-    for k1 in m1.keys():
-        if dv (m1[k1], 'is_available', True) and k1.startswith('vep_') :
-            i += 1
-            # print('\t',i, k1, "..")
-            try:
-                g1[k1]
-            except KeyError:
-                raise Exception(k1 + " field is not in googlesheet.")
-
-
-            check_fields_property_googlesheet_dsjson(g1, m1, k1, False)
-    print("\t", i, " dsjson(microannot) fields checked...")
-
-    # i = 0
-    # print("Google -> DSJSON(micro)")
-    # for k1 in g1.keys():
-    #     if (g1[k1]['do_import'] == "Y") and (g1[k1]['source_name'] == "VEP") and ( g1[k1]['embedded_field'] != "Y"):
-    #         i += 1
-    #         try:
-    #             m1[k1]
-    #         except KeyError:
-    #             raise Exception(k1 + " field is not in DS json.")
-    #         check_fields_property_googlesheet_dsjson(g1, m1, k1)
-    # print("\t", i, " google(microannot, VEP) fields checked...")
-    
-
 def test_microannot_run():
     ds = test_conf.get_ds()
-    for n1 in [10, 100, 1000]:
+    # for n1 in [10, 100, 1000]:
     # for n1 in [10, 100]:
-    # for n1 in [10]:
+    # for n1 in [100]:
+    for n1 in [10]:
         for r1 in range(1,6):
             vcf = "data/test_trio_"+str(n1)+"_"+str(r1)+".vcf.gz"
             # vcf = "data/test_novocaller_"+str(n1)+"_"+str(r1)+".vcf"
@@ -186,18 +90,17 @@ def test_microannot_run():
             arg.extend(['-out',out])
             arg.extend(['-sourcefile',test_conf.SOURCEFILE['microannot']])
             arg.append('-split_multi_allelic_variant')
-            # arg.append('-single_source_mode')
+            arg.append('-single_source_mode')
             # arg.extend(['-genoinfo', 'NA12877_sample', 'NA12878_sample', 'NA12879_sample'])
             arg.extend(['-genoinfo'])
 
             sys.argv = arg
-            print('>>command:',' '.join(sys.argv))
-            mutanno.cli()
-
-            check_vcf_validator(out)
+            # print('>>command:',' '.join(sys.argv))
+            # mutanno.cli()
+            # check_vcf_validator(out)
             # comp_previous_out(out, prevout)
-            validate_annotvcf(out, dsjson, arg)
-            break
+            # validate_annotvcf(out, dsjson, arg)
+            
             
 
 def test_novocaller_vcf_format():
@@ -210,17 +113,54 @@ def test_novocaller_vcf_format():
             break
 
 
+'''
+mutanno annot \
+    -vcf test.vcf
+    -out test.annot.vcf
+    -hgvs
+    -variant_class
+    -hg19
+    -clean_tag VEP SpliceAI CLINVAR gnomADgenome
+    -signle_source_mode
+    -chain hg38tohg19.chain
+    -ds datastructure_fullannot_v0.4.6.json
+    -sourcefile fullannot.source.tsi.gz
+'''
+
 def test_fullannot_run():
     ds = test_conf.get_ds()
     for n1 in [10]:
         for r1 in range(1,6):
             # vcf = "data/test_novocaller_"+str(n1)+"_"+str(r1)+".vcf"
             # vcf = "data/test_novocaller_"+str(n1)+"_"+str(r1)+".vcf" + '.microannot.vcf'
-            vcf = "out/test_trio_"+str(n1)+"_"+str(r1)+".vcf.gz" + '.microannot.vcf'
-            print(vcf)
-            out = "out/" + vcf.split('/')[-1] + '.fullannot.vcf'
+            # vcf = "out/test_trio_"+str(n1)+"_"+str(r1)+".vcf.gz" + '.microannot.vcf'
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFIP83PL7E_test1.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFIP83PL7E_test2.vcf.gz"
+            vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test1.vcf"
+            
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_chr9.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test1.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test2.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test3.vcf.gz"
+            # vcf = "/home/mk446/mutanno/TEST/0616/GAPFI3JX5D2J_test4.vcf.gz"
+            # out = vcf + '.fullannot.vcf'
+            out = vcf + '.fullannot.wbfilter.vcf'
+            # out = "/home/mk446/mutanno/TEST/0616/GAPFIRHN9YOZ.vcf"
+            # out = "out/" + vcf.split('/')[-1] + '.fullannot.vcf'
             prevout = "data/" + out.split('/')[-1]
-            dsjson = ds['fullannot']['ds']
+            dsjson = ds['fullannot']['clean']
+            # dsjson = "/home/mk446/mutanno/SRC/tests/data/archive/datastructure_fullannot_v0.4.6.json"
+            print("DS:",dsjson)
+            # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/BGZIP/fullannot_datasource.09_06.v0.4.6_200617.tsi.gz"
+            # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/BGZIP/22_00.tsi.gz"
+            # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/BGZIPLINK/#CHROM#_00.tsi.gz"
+            sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter_split/merged.mti.gz"
+            # sourcefile = "/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/GAPFI3JX5D2J_fullannot_source.sorted.rmdup.tsi.gz"
+            # sourcefile = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter/fullannot_datasource.#CHROM#.v0.4.6_200617.tsi.gz'
+            # sourcefile = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_all/BGZIP/fullannot_datasource.#CHROM#.v0.4.6_200617.tsi.gz'
+            # sourcefile = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_wbfilter/GAPFIR6C5TC7.mti.gz'
+            # sourcefile = '/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/v0.4.6_all/x.chrom.tsi.gz'
 
             arg = ['mutanno']
             arg.append('annot')
@@ -228,22 +168,33 @@ def test_fullannot_run():
             arg.extend(['-ds',dsjson])
             arg.extend(['-out',out])
             arg.extend(['-outtype', 'vcf', 'json'])
-            arg.append('-hgvs')
-            arg.append('-variant_class')
+            # arg.extend(['-outtype', 'json'])
+            # arg.extend(['-outtype', 'vcf'])
+            arg.extend(['-sourcefile',sourcefile])
             arg.append('-hg19')
             arg.extend(['-chain',test_conf.CHAINFILE])
-            arg.extend(['-clean_tag','SpliceAI','CLINVAR','gnomADgenome'])
+
+            # arg.append('-hgvs')
+            # arg.append('-variant_class')
+            # arg.extend(['-clean_tag','VEP','SpliceAI','CLINVAR','gnomADgenome'])
+
+            arg.extend(['-clean_tag','MUTANNO','SpliceAI','CLINVAR','gnomADgenome'])
+
+            # arg.append('-single_source_mode')
+            # arg.extend(['-sourcefile', test_conf.SOURCEFILE['fullannot']])
+
             sys.argv = arg
-
-            # sys.argv.extend(['-sourcefile',test_conf.SOURCEFILE['fullannot']])
-            # print('>>command:',' '.join(sys.argv))
-            # mutanno.cli()
-            # check_vcf_validator(out)
+            
+            print('>>command:',' '.join(sys.argv))
+            mutanno.cli()
+            check_vcf_validator(out)
+            validate_annotvcf(out, dsjson,arg)
             # comp_previous_out(out, prevout)
-            # validate_annotvcf(out, dsjson,arg)
             break
+        break
 
 
+'''
 def test_allannot_run():
     ds = test_conf.get_ds()
     for n1 in [10]:
@@ -274,76 +225,20 @@ def test_allannot_run():
             # comp_previous_out(out, prevout)
             # validate_annotvcf(out, dsjson, arg)
             # break
-
+'''
 
 def print_command():
     print('>>command: ' + ' '.join(sys.argv))
 
-def test_make_microannot_sourcefile():
-    ds = test_conf.get_ds()
-    # dsjson = ds['fullannot']['ds']
-    key = "microannot"
-    dsjson = ds[key]['ds']
-    out = "out/"+key+".datasource_test1.tsi"
-
-    arg = ['mutanno']
-    arg.append('makedata')
-    arg.extend(['-ds',dsjson])
-    arg.extend(['-out',out])
-    arg.extend(['-vartype','SNV'])
-    # arg.extend(['-region','1:22500-22501']) # gnomAD only variant
-    # arg.extend(['-region','1:952029-952609']) # clinvar variant
-    # arg.extend(['-region','1:952029-952030']) # clinvar variant
-    # arg.extend(['-region','1:10163-10174']) # clinvar variant
-    # arg.extend(['-region','1:15034-15035']) # clinvar varian
-    arg.extend(['-region','1:10001-11000']) # clinvar variant
-    # arg.extend(['-region','5:109000001-109000002']) 
-    
-    # sys.argv = arg
-    # print_command()
-    # mutanno.cli()
-
-    # validate_annottsi(out, dsjson, arg)
-
-def test_make_fullannot_sourcefile():
-    ds = test_conf.get_ds()
-    # dsjson = ds['fullannot']['ds']
-    key = "fullannot"
-    dsjson = ds[key]['ds']
-    out = "out/"+key+".datasource_test1.tsi"
-
-    arg = ['mutanno']
-    arg.append('makedata')
-    arg.extend(['-ds',dsjson])
-    arg.extend(['-out',out])
-    arg.extend(['-vartype','SNV'])
-    arg.extend(['-blocksize','5000'])
-    # arg.extend(['-region','1:10001-10002']) # clinvar variant
-    # arg.extend(['-region','1:22500-22501']) # gnomAD only variant
-    # arg.extend(['-region','1:952029-952659']) # clinvar variant
-    # arg.extend(['-region','1:952029-952030']) # clinvar variant
-    arg.extend(['-region','1:10163-20174']) # clinvar variant
-    # arg.extend(['-region','1:15034-15035']) # clinvar variant
-    # arg.extend(['-region','1:39984-40000']) # clinvar variant
-    
-    # arg.extend(['-region','1:59900001-59900010']) 
-    
-    # sys.argv = arg
-    # print_command()
-    # mutanno.cli()
-
-    # validate_annottsi(out, dsjson, arg)
-
 
 if __name__ == "__main__":
-    test_microannot_run()
+    
     # test_novocaller_vcf_format()
-    # test_sync_googlesheet_dsjson()
-    # test_fullannot_run()
+    # test_microannot_run()
+    test_fullannot_run()
     # test_allannot_run()
-    # test_make_microannot_sourcefile()
-    # test_make_fullannot_sourcefile()
     
 
 
 
+# 

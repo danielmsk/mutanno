@@ -1,9 +1,5 @@
 [
-  "tests/test_run.py::test_sync_googlesheet_dsjson",
   "tests/test_run.py::test_microannot_run",
   "tests/test_run.py::test_novocaller_vcf_format",
-  "tests/test_run.py::test_fullannot_run",
-  "tests/test_run.py::test_allannot_run",
-  "tests/test_run.py::test_make_microannot_sourcefile",
-  "tests/test_run.py::test_make_fullannot_sourcefile"
+  "tests/test_run.py::test_fullannot_run"
 ]

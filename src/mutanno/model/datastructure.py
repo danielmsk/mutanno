@@ -1,6 +1,4 @@
-
 from ..util import file_util
-from ..util import struct_util
 from ..util.struct_util import get_dict_value as dv
 from .. import _version
 from . import datasource
@@ -16,7 +14,11 @@ DSLIST_ATTR = [
     ("sourcefile_path", "", False),
     ("single_source_mode", False, False),
     ("level", "", True),
-    ("source", [], True)
+    ("source", [], True),
+    ("hgvs", False, False),
+    ("variant_class", False, False),
+    ("hg19", False, False),
+    ("clean_tag_list", [], False),
 ]
 
 DS_ATTR = [
@@ -62,11 +64,13 @@ class DataSourceListStructure:
             self.sources = {}
             self.dsjsonfile = dsjsonfile
             self.sourcefile2_list = []
+            self.sourcelist_with_default = []
             self.load_dsfile()
             self.update_sourcefile2()
+            self.fast_mapping_mode = False
             if len(self.sourcefile2_list) == 0:
                 self.single_source_mode = True
-
+                self.fast_mapping_mode = True
 
     def load_dsfile(self):
         ds = file_util.load_json(self.dsjsonfile)
@@ -78,11 +82,13 @@ class DataSourceListStructure:
                     if dss.sourcefile2 != '':
                         self.sourcefile2_list.append(dss.sourcefile2)
 
+                    # print(">>>>>>DSS:", dss, dss.is_available)
                     if dss.is_available:
                         self.source_list.append(dss)
-                        if dss.is_available:
-                            self.available_source_list.append(dss)
+                        self.available_source_list.append(dss)
                         self.sources[dss.name] = dss
+                        if dss.has_default_value:
+                            self.sourcelist_with_default.append(dss)
             else:
                 self.__dict__[attr[0]] = dv(ds, attr[0], attr[1])
 
@@ -92,10 +98,13 @@ class DataSourceListStructure:
         else:
             self.sourcefile2 = self.sourcefile
 
+
 class DataSourceStructure:
     def __init__(self, dsjson=None):
         self.field_list = []
         self.available_field_list = []
+        self.default_value_list = []
+        self.has_default_value = False
         self.fields = {}
         self.fields2 = {}
         self.field_name2name1 = {}
@@ -110,12 +119,17 @@ class DataSourceStructure:
 
                         if dsfs.is_available:
                             self.available_field_list.append(dsfs)
+                            if dsfs.default is not None:
+                                self.default_value_list.append(dsfs.default)
+                                self.has_default_value = True
+                            else:
+                                self.default_value_list.append('')
                 else:
                     self.__dict__[attr[0]] = dv(dsjson, attr[0], attr[1])
 
     def __str__(self):
         return self.name
-    
+
     def update_sourcefile2(self, sourcefile_path):
         # print(">DataSourceStructure.update_sourcefile2()", self.name)
         if sourcefile_path != "":
@@ -134,17 +148,17 @@ class DataSourceFieldStructure:
 
     def __str__(self):
         return self.name
-    
+
     def set_name2(self):
         if self.name2 == "":
             self.name2 = self.name
-
 
     def convert_type_from_string(self, strvalue):
         if self.type == "number":
             if strvalue == "":
                 rst = self.default
             else:
+                # print(">>>f:", self.name)
                 rst = float(strvalue)
         elif self.type == "integer":
             if strvalue == "":
@@ -164,4 +178,3 @@ class DataSourceFieldStructure:
             else:
                 rst = strvalue
         return rst
-        

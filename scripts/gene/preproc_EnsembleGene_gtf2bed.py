@@ -15,7 +15,7 @@ else:
     sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
 
-def get_value_from_dict(d1, k1):
+def gv(d1, k1):
     v1 = ''
     try:
         v1 = d1[k1]
@@ -35,44 +35,103 @@ def count_no_fields(cnt, fieldname, value):
         cnt[fieldname][value] = 1
     return cnt
 
-def convert_ensemblgene_gtf2bed(gtf, bed):
+
+fieldlist = []
+fieldlist.append('ensgid')
+fieldlist.append('gene_version')
+fieldlist.append('gene_name')
+fieldlist.append('gene_source')
+fieldlist.append('gene_biotype')
+fieldlist.append('transcript_id')
+fieldlist.append('transcript_version')
+fieldlist.append('transcript_name')
+fieldlist.append('transcript_source')
+fieldlist.append('transcript_biotype')
+fieldlist.append('transcript_support_level')
+fieldlist.append('tag')
+fieldlist.append('exon_id')
+fieldlist.append('exon_number')
+fieldlist.append('exon_version')
+fieldlist.append('protein_id')
+fieldlist.append('protein_version')
+fieldlist.append('ccds_id')
+
+
+def convert_ensemblgene_gtf2bed(gtf, bed, gtftypes, filetype="bed", biotypes=[]):
+    global fieldlist
+
+    print(gtf)
+
     f = open(bed, 'w')
-    cont = ["#chrom", "spos", "epos", "strand", "ensgid", "gene_version", "gene_symbol"]
-    cont.extend(["gene_source", "gene_biotype"])
+
+    if filetype == "bed":
+        cont = ["#CHROM", "SPOS", "EPOS", "type" ,"strand"]
+        cont.extend(fieldlist)
+    elif filetype == "tsi":
+        cont = ["#CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER"]
+        info = "ENSEMBLANNOT=type|strand|" + '|'.join(fieldlist)
+        cont.append(info)
     f.write('\t'.join(cont) + '\n')
     i = 0
     cnt = {}
+
+    # print(len(fieldlist))
     for line in file_util.gzopen(gtf):
         line = line.decode('UTF-8')
         if line[0] != '#':
             arr = line.split('\t')
             arr[-1] = arr[-1].strip()
-            if arr[2] == "gene":
+
+            gtftype = arr[2]
+
+            if (gtftypes[0] == "alltype") or (gtftype in gtftypes):
                 i += 1
                 if arr[0] == "MT":
                     arr[0] = "M"
-                cont = [arr[0], arr[3], arr[4], arr[6]]
+                
                 cnt = count_no_fields(cnt, 'chrom', arr[0])
                 m = {}
                 for f1 in arr[-1].strip().split(';'):
                     arr2 = f1.strip().split(' ')
                     fieldname = arr2[0].strip()
                     value = ' '.join(arr2[1:]).replace('"','')
+                    if fieldname == "gene_id":
+                        fieldname = "ensgid"
                     m[fieldname] = value
 
                     if fieldname not in ['gene_id','gene_name']:
                         cnt = count_no_fields(cnt, fieldname, value)
-                cont.append(get_value_from_dict(m,'gene_id'))
-                cont.append(get_value_from_dict(m,'gene_version'))
-                cont.append(get_value_from_dict(m,'gene_name'))
-                cont.append(get_value_from_dict(m,'gene_source'))
-                cont.append(get_value_from_dict(m,'gene_biotype'))
-                # cont = arr
-                f.write('\t'.join(cont) + '\n')
-                if i > 100:
-                    # break
-                    pass
+
+                if filetype == "bed":
+                    if (len(biotypes) == 0) or (m['gene_biotype'] in biotypes):
+                        cont = [arr[0], str(int(arr[3])-1), arr[4], arr[2] , arr[6]]
+                        for f1 in fieldlist:
+                            cont.append(gv(m,f1))
+                        f.write('\t'.join(cont) + '\n')
+                elif filetype == "tsi":
+                    cont = [arr[0], arr[3], "", "", "", "", ""]
+                    
+                    info2 = ""
+                    for f1 in fieldlist:
+                        info2 += "|" + gv(m,f1)
+
+                    # if info2.replace("|","").strip() != "":
+                    if (len(biotypes) == 0) or (m['gene_biotype'] in biotypes):
+                        info = "END=" + arr[4]
+                        info += ";ENSEMBLANNOT=" + gtftype + "|"
+                        if arr[6] == "+":
+                            info += "1"
+                        else:
+                            info += "0"
+                        info += info2
+                        cont.append(info)
+                        # print(len(info.split('|')))
+                        f.write('\t'.join(cont) + '\n')
+                        # break
+                if i % 10000 == 0:
+                    print(i, arr[:4])
     f.close()
+    
 
     cont = ''
     for k1 in cnt.keys():
@@ -89,5 +148,7 @@ if __name__ == "__main__":
     import file_util
     path = "/home/mk446/bio/mutanno/DATASOURCE/ENSEMBL/hg38/"
     gtf = path + "Homo_sapiens.GRCh38.99.gtf.gz"
-    bed = path + "Homo_sapiens.GRCh38.99.bed"
-    convert_ensemblgene_gtf2bed(gtf, bed)
+    # convert_ensemblgene_gtf2bed(gtf, path + "Homo_sapiens.GRCh38.99.bed", ["gene"], "bed")
+    # convert_ensemblgene_gtf2bed(gtf, path + "Homo_sapiens.GRCh38.99.alltype.bed", ["alltype"], "bed")
+    convert_ensemblgene_gtf2bed(gtf, path + "Homo_sapiens.GRCh38.99.codeing_mirna_polymorphic.bed", ["alltype"], "bed", ['protein_coding','miRNA','polymorphic_pseudogene'])
+    # convert_ensemblgene_gtf2bed(gtf, path + "Homo_sapiens.GRCh38.99.codeing_mirna_polymorphic.tsi", ["alltype"], "tsi", ['protein_coding','miRNA','polymorphic_pseudogene'])

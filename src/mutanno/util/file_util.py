@@ -8,13 +8,16 @@ import json
 from . import proc_util
 import pprint
 
+
 def print(str):
     pp = pprint.PrettyPrinter(indent=2)
     pp.pprint(str)
 
+
 def save_gzip(out):
     cmd = "bgzip -c " + out + " > " + out + ".gz"
     proc_util.run_cmd(cmd)
+
 
 def strip_gzext(fname):
     rst = fname
@@ -22,7 +25,8 @@ def strip_gzext(fname):
         rst = rst[:-3]
     return rst
 
-def line2arr(line, delimiter = '\t'):
+
+def line2arr(line, delimiter='\t'):
     arr = line.split('\t')
     arr[-1] = arr[-1].strip()
     return arr

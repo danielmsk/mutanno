@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from ._logging import get_logger
 from ._options import get_options
-from .annot2 import annotvcf
+from . import annotvcf
 from . import makegenedata
 from . import makedata
 from . import convert
@@ -9,6 +9,8 @@ from . import precal
 from . import preprocess
 from . import web
 from . import validate
+from . import viewer
+from .model.datastructure import DataSourceListStructure
 
 
 def cli():
@@ -19,12 +21,23 @@ def cli():
     dispatch_job(opt)
 
 
+def update_option(opt):
+    dslist = DataSourceListStructure(opt.ds)
+    ds_field_list = list(dslist.__dict__.keys())
+    for k1 in opt.__dict__.keys():
+        if k1 in ds_field_list:
+            if dslist.__dict__[k1] != "":
+                opt.__dict__[k1] = dslist.__dict__[k1]
+    return opt
+
+
 def dispatch_job(opt):
     if opt.subcommand == 'annot' and opt.vcf != "":
+        opt = update_option(opt)
         an = annotvcf.VCFAnnotator(opt)
         an.run()
-        
-    if opt.subcommand == 'makedata' and  opt.out != "":
+
+    if opt.subcommand == 'makedata' and opt.out != "":
         opt.vartype = opt.vartype.upper()
         if 'GENE' in opt.vartype:
             md = makegenedata.GeneDataSourceFile(opt)
@@ -62,3 +75,8 @@ def dispatch_job(opt):
             obj.run()
     if opt.subcommand == 'web' and opt.ds != "":
         web.runserver(opt)
+
+    if opt.subcommand == 'view':
+        if opt.vcf != "":
+            v1 = viewer.ANNOTVCFViewer(opt)
+            v1.run()

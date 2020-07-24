@@ -1,0 +1,1646 @@
+{
+  "name": "MUTANNO",
+  "version": "0.4.7",
+  "version_date": "07/16/2020",
+  "level": "variant",
+  "hgvs": true,
+  "variant_class": true,
+  "hg19": true,
+  "clean_tag_list": [
+    "VEP",
+    "SpliceAI",
+    "CLINVAR",
+    "gnomADgenome"
+  ],
+  "source": [
+    {
+      "name": "VEP",
+      "desc": "Predicted nonsense mediated decay effects for this variant by VEP",
+      "version": "v99",
+      "version_date": "11/04/2019",
+      "subembedded": "transcript",
+      "function": "vep_select_microannot_add_most_severe",
+      "param": "mutanno_value_sections,vcf_info_value,['protein_coding','miRNA','polymorphic_pseudogene']",
+      "fields": [
+        {
+          "name": "Gene",
+          "type": "string",
+          "desc": "Stable ID of affected gene"
+        },
+        {
+          "name": "Feature",
+          "type": "string",
+          "desc": "Stable ID of feature"
+        },
+        {
+          "name": "Consequence",
+          "type": "string",
+          "function": "conv_consequence_delimiter",
+          "param": "Consequence",
+          "is_list": true,
+          "desc": "Consequence type",
+          "delimiter": "&"
+        },
+        {
+          "name": "Feature_ncbi",
+          "type": "string",
+          "desc": "Stable ID of feature"
+        },
+        {
+          "name": "BIOTYPE",
+          "type": "string",
+          "desc": "Biotype of transcript or regulatory feature",
+          "keep_equal_str": [
+            "protein_coding",
+            "miRNA"
+          ]
+        },
+        {
+          "name": "EXON",
+          "type": "string",
+          "desc": "Exon number(s) / total"
+        },
+        {
+          "name": "INTRON",
+          "type": "string",
+          "desc": "Intron number(s) / total"
+        },
+        {
+          "name": "HGVSc",
+          "type": "string",
+          "desc": "HGVS coding sequence name"
+        },
+        {
+          "name": "HGVSp",
+          "type": "string",
+          "desc": "HGVS protein sequence name"
+        },
+        {
+          "name": "cDNA_position",
+          "type": "string",
+          "desc": "Relative position of base pair in cDNA sequence"
+        },
+        {
+          "name": "CDS_position",
+          "type": "string",
+          "desc": "Relative position of base pair in coding sequence"
+        },
+        {
+          "name": "Protein_position",
+          "type": "string",
+          "desc": "Relative position of amino acid in protein"
+        },
+        {
+          "name": "Amino_acids",
+          "type": "string",
+          "desc": "Reference and variant amino acids"
+        },
+        {
+          "name": "Codons",
+          "type": "string",
+          "desc": "Reference and variant codon sequence"
+        },
+        {
+          "name": "DISTANCE",
+          "type": "string",
+          "desc": "Shortest distance from variant to transcript"
+        },
+        {
+          "name": "STRAND",
+          "type": "boolean",
+          "desc": "Strand of the feature",
+          "function": "convert_vep_strand",
+          "param": "STRAND"
+        },
+        {
+          "name": "CANONICAL",
+          "type": "boolean",
+          "desc": "Indicates if transcript is canonical for this gene",
+          "function": "convert_canonical2boolean",
+          "param": "CANONICAL"
+        },
+        {
+          "name": "MOST_SEVERE",
+          "type": "boolean",
+          "desc": "Indicates if transcript is most severe for this gene"
+        },
+        {
+          "name": "TSL",
+          "type": "integer",
+          "desc": "Transcript support level"
+        },
+        {
+          "name": "CCDS",
+          "type": "string",
+          "desc": "Indicates if transcript is a CCDS transcript"
+        },
+        {
+          "name": "ENSP",
+          "type": "string",
+          "desc": "Protein identifer"
+        },
+        {
+          "name": "SWISSPROT",
+          "type": "string",
+          "desc": "UniProtKB/Swiss-Prot accession"
+        },
+        {
+          "name": "TREMBL",
+          "type": "string",
+          "desc": "UniProtKB/TrEMBL accession"
+        },
+        {
+          "name": "UNIPARC",
+          "type": "string",
+          "desc": "UniParc accession"
+        },
+        {
+          "name": "SIFT_SCORE",
+          "type": "number",
+          "desc": "SIFT score",
+          "function": "get_score_from_vep_pathogenicity",
+          "param": "SIFT"
+        },
+        {
+          "name": "PolyPhen_SCORE",
+          "type": "number",
+          "desc": "PolyPhen score",
+          "function": "get_score_from_vep_pathogenicity",
+          "param": "PolyPhen"
+        },
+        {
+          "name": "DOMAINS",
+          "type": "string",
+          "desc": "The source and identifer of any overlapping protein domains",
+          "is_list": true,
+          "delimiter": "~"
+        },
+        {
+          "name": "miRNA",
+          "type": "string",
+          "desc": "SO terms of overlapped miRNA secondary structure feature(s)"
+        },
+        {
+          "name": "HGVS_OFFSET",
+          "type": "string",
+          "desc": "Indicates by how many bases the HGVS notations for this variant have been shifted"
+        },
+        {
+          "name": "PUBMED",
+          "type": "string",
+          "desc": "Pubmed ID(s) of publications that cite existing variant",
+          "is_list": true,
+          "delimiter": "&"
+        },
+        {
+          "name": "MaxEntScan_alt",
+          "type": "number",
+          "desc": "MaxEntScan alternate sequence score"
+        },
+        {
+          "name": "MaxEntScan_diff",
+          "type": "number",
+          "desc": "MaxEntScan score difference"
+        },
+        {
+          "name": "MaxEntScan_ref",
+          "type": "number",
+          "desc": "MaxEntScan reference sequence score"
+        },
+        {
+          "name": "TSSDistance",
+          "type": "integer",
+          "desc": "Distance from the transcription start site"
+        }
+      ]
+    },
+    {
+      "name": "GENES",
+      "desc": "",
+      "version": "v99",
+      "version_date": "11/04/2019",
+      "format": "function",
+      "function": "add_genes_severe_consequence",
+      "param": "mutanno_value_data,vcf_info_value",
+      "subembedded": "genes",
+      "fields": [
+        {
+          "name": "ensg",
+          "type": "string",
+          "desc": "ENSG ID"
+        },
+        {
+          "name": "most_severe_transcript",
+          "type": "string",
+          "desc": "ENST ID"
+        },
+        {
+          "name": "most_severe_consequence",
+          "type": "string",
+          "desc": "most severe consequence"
+        }
+      ]
+    },
+    {
+      "name": "CYTOBAND",
+      "desc": "cytoband",
+      "version": "2017-07-17",
+      "version_date": "07/17/2017",
+      "fields": [
+        {
+          "name": "cytoband",
+          "type": "string",
+          "desc": "cytoband"
+        }
+      ]
+    },
+    {
+      "name": "UNIPROT_TRANSMEM",
+      "desc": "transmembrane",
+      "version": "2019-12-18",
+      "version_date": "12/18/2019",
+      "fields": [
+        {
+          "name": "UNIPROTKB_AC",
+          "type": "string",
+          "desc": "UniprotKB accession number"
+        },
+        {
+          "name": "ANNOT_DESC",
+          "type": "string",
+          "desc": "transmembrance description",
+          "function": "convert_uniprot_transmem",
+          "param": "ANNOT_DESC",
+          "is_list": true,
+          "delimiter": ";"
+        }
+      ]
+    },
+    {
+      "name": "DBSNP",
+      "desc": "dbSNP",
+      "version": "20190722",
+      "version_date": "07/22/2019",
+      "chrompre": "",
+      "fields": [
+        {
+          "name": "ID",
+          "name2": "RS_number",
+          "type": "string",
+          "desc": "dbSNP RS number"
+        }
+      ]
+    },
+    {
+      "name": "CONSERVATION",
+      "desc": "conservation",
+      "version": "2017-07-17",
+      "version_date": "07/17/2017",
+      "fields": [
+        {
+          "name": "PHASTCONS100",
+          "type": "number",
+          "desc": "PhastCons 100 way score"
+        },
+        {
+          "name": "PHASTCONS30",
+          "type": "number",
+          "desc": "PhastCons 30 way score"
+        },
+        {
+          "name": "PHASTCONS20",
+          "type": "number",
+          "desc": "PhastCons 20 way score"
+        },
+        {
+          "name": "PHYLOP100",
+          "type": "number",
+          "desc": "PhyloP 100 way score"
+        },
+        {
+          "name": "PHYLOP30",
+          "type": "number",
+          "desc": "PhyloP 30 way score"
+        },
+        {
+          "name": "PHYLOP20",
+          "type": "number",
+          "desc": "PhyloP 20 way score"
+        },
+        {
+          "name": "GERP",
+          "type": "number",
+          "desc": "GERP score"
+        },
+        {
+          "name": "SIPHY_OMEGA",
+          "type": "number",
+          "desc": "SIPHY omega score"
+        },
+        {
+          "name": "SIPHY_P",
+          "type": "number",
+          "desc": "SIPHY p score"
+        }
+      ]
+    },
+    {
+      "name": "PRIMATEAI",
+      "desc": "PrimateAI score",
+      "version": "v0.2_hg38",
+      "version_date": "12/18/2019",
+      "fields": [
+        {
+          "name": "primateDL_score",
+          "type": "number",
+          "desc": "PrimateAI score"
+        }
+      ]
+    },
+    {
+      "name": "CADD",
+      "desc": "Pathgenicity score by CADD",
+      "version": "v1.5",
+      "version_date": "02/26/2019",
+      "hidden": true,
+      "fields": [
+        {
+          "name": "PHRED",
+          "type": "number",
+          "desc": "CADD Phred score"
+        }
+      ]
+    },
+    {
+      "name": "SPLICEAI",
+      "desc": "SpliceAI",
+      "version": "20191004",
+      "version_date": "10/04/2019",
+      "fields": [
+        {
+          "name": "SYMBOL",
+          "type": "string",
+          "desc": "affected gene symbol"
+        },
+        {
+          "name": "DS_AG",
+          "type": "number",
+          "desc": "delta scores (DS) for acceptor gain (AG)"
+        },
+        {
+          "name": "DS_AL",
+          "type": "number",
+          "desc": "delta scores (DS) for acceptor loss (AL)"
+        },
+        {
+          "name": "DS_DG",
+          "type": "number",
+          "desc": "delta scores (DS) for donor gain (DG)"
+        },
+        {
+          "name": "DS_DL",
+          "type": "number",
+          "desc": "delta scores (DS) for donor loss (DL)"
+        },
+        {
+          "name": "DP_AG",
+          "type": "integer",
+          "desc": "delta positions (DP) for acceptor gain (AG)"
+        },
+        {
+          "name": "DP_AL",
+          "type": "integer",
+          "desc": "delta positions (DP) for acceptor loss (AL)"
+        },
+        {
+          "name": "DP_DG",
+          "type": "integer",
+          "desc": "delta positions (DP) for donor gain (DG)"
+        },
+        {
+          "name": "DP_DL",
+          "type": "integer",
+          "desc": "delta positions (DP) for donor loss (DL)"
+        },
+        {
+          "name": "MAXDS",
+          "type": "number",
+          "desc": "max delta scores"
+        }
+      ]
+    },
+    {
+      "name": "MAX_POP_AF",
+      "desc": "Maximum population allele frequency",
+      "version": "0.2",
+      "version_date": "11/08/2019",
+      "fields": [
+        {
+          "name": "AF_popmax",
+          "type": "number",
+          "desc": "maximum population allele frequency from gnomAD gnome v3.0"
+        }
+      ]
+    },
+    {
+      "name": "GNOMAD",
+      "desc": "population AF by gnomAD",
+      "version": "v3.0",
+      "version_date": "03/06/2019",
+      "fields": [
+        {
+          "name": "AC",
+          "type": "integer",
+          "desc": "Alternate allele count for samples"
+        },
+        {
+          "name": "AC_afr",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of African-American/African ancestry"
+        },
+        {
+          "name": "AC_ami",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of Amish ancestry"
+        },
+        {
+          "name": "AC_amr",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of Latino ancestry"
+        },
+        {
+          "name": "AC_asj",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AC_eas",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of East Asian ancestry"
+        },
+        {
+          "name": "AC_fin",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of Finnish ancestry"
+        },
+        {
+          "name": "AC_nfe",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AC_sas",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of South Asian ancestry"
+        },
+        {
+          "name": "AC_oth",
+          "type": "integer",
+          "desc": "Alternate allele count for samples of Other ancestry"
+        },
+        {
+          "name": "AC_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples"
+        },
+        {
+          "name": "AC_afr_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of African-American/African ancestry"
+        },
+        {
+          "name": "AC_ami_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of Amish ancestry"
+        },
+        {
+          "name": "AC_amr_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of Latino ancestry"
+        },
+        {
+          "name": "AC_asj_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AC_eas_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of East Asian ancestry"
+        },
+        {
+          "name": "AC_fin_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of Finnish ancestry"
+        },
+        {
+          "name": "AC_nfe_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AC_sas_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of South Asian ancestry"
+        },
+        {
+          "name": "AC_oth_male",
+          "type": "integer",
+          "desc": "Alternate allele count for male samples of Other ancestry"
+        },
+        {
+          "name": "AC_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples"
+        },
+        {
+          "name": "AC_afr_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of African-American/African ancestry"
+        },
+        {
+          "name": "AC_ami_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of Amish ancestry"
+        },
+        {
+          "name": "AC_amr_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of Latino ancestry"
+        },
+        {
+          "name": "AC_asj_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AC_eas_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of East Asian ancestry"
+        },
+        {
+          "name": "AC_fin_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of Finnish ancestry"
+        },
+        {
+          "name": "AC_nfe_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AC_sas_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of South Asian ancestry"
+        },
+        {
+          "name": "AC_oth_female",
+          "type": "integer",
+          "desc": "Alternate allele count for female samples of Other ancestry"
+        },
+        {
+          "name": "AC_raw",
+          "type": "integer",
+          "desc": "Alternate allele count for samples before removing low-confidence genotypes"
+        },
+        {
+          "name": "AN",
+          "type": "integer",
+          "desc": "Total number of alleles in samples"
+        },
+        {
+          "name": "AN_afr",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of African-American/African ancestry"
+        },
+        {
+          "name": "AN_ami",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of Amish ancestry"
+        },
+        {
+          "name": "AN_amr",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of Latino ancestry"
+        },
+        {
+          "name": "AN_asj",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AN_eas",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of East Asian ancestry"
+        },
+        {
+          "name": "AN_fin",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of Finnish ancestry"
+        },
+        {
+          "name": "AN_nfe",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AN_sas",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of South Asian ancestry"
+        },
+        {
+          "name": "AN_oth",
+          "type": "integer",
+          "desc": "Total number of alleles in samples of Other ancestry"
+        },
+        {
+          "name": "AN_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples"
+        },
+        {
+          "name": "AN_afr_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of African-American/African ancestry"
+        },
+        {
+          "name": "AN_ami_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of Amish ancestry"
+        },
+        {
+          "name": "AN_amr_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of Latino ancestry"
+        },
+        {
+          "name": "AN_asj_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AN_eas_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of East Asian ancestry"
+        },
+        {
+          "name": "AN_fin_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of Finnish ancestry"
+        },
+        {
+          "name": "AN_nfe_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AN_sas_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of South Asian ancestry"
+        },
+        {
+          "name": "AN_oth_male",
+          "type": "integer",
+          "desc": "Total number of alleles in male samples of Other ancestry"
+        },
+        {
+          "name": "AN_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples"
+        },
+        {
+          "name": "AN_afr_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of African-American/African ancestry"
+        },
+        {
+          "name": "AN_ami_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of Amish ancestry"
+        },
+        {
+          "name": "AN_amr_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of Latino ancestry"
+        },
+        {
+          "name": "AN_asj_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AN_eas_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of East Asian ancestry"
+        },
+        {
+          "name": "AN_fin_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of Finnish ancestry"
+        },
+        {
+          "name": "AN_nfe_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AN_sas_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of South Asian ancestry"
+        },
+        {
+          "name": "AN_oth_female",
+          "type": "integer",
+          "desc": "Total number of alleles in female samples of Other ancestry"
+        },
+        {
+          "name": "AN_raw",
+          "type": "integer",
+          "desc": "Total number of alleles in samples before removing low-confidence genotypes"
+        },
+        {
+          "name": "AF",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples"
+        },
+        {
+          "name": "AF_afr",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of African-American/African ancestry"
+        },
+        {
+          "name": "AF_ami",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of Amish ancestry"
+        },
+        {
+          "name": "AF_amr",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of Latino ancestry"
+        },
+        {
+          "name": "AF_asj",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AF_eas",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of East Asian ancestry"
+        },
+        {
+          "name": "AF_fin",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of Finnish ancestry"
+        },
+        {
+          "name": "AF_nfe",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AF_sas",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of South Asian ancestry"
+        },
+        {
+          "name": "AF_oth",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples of Other ancestry"
+        },
+        {
+          "name": "AF_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples"
+        },
+        {
+          "name": "AF_afr_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of African-American/African ancestry"
+        },
+        {
+          "name": "AF_ami_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of Amish ancestry"
+        },
+        {
+          "name": "AF_amr_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of Latino ancestry"
+        },
+        {
+          "name": "AF_asj_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AF_eas_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of East Asian ancestry"
+        },
+        {
+          "name": "AF_fin_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of Finnish ancestry"
+        },
+        {
+          "name": "AF_nfe_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AF_sas_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of South Asian ancestry"
+        },
+        {
+          "name": "AF_oth_male",
+          "type": "number",
+          "desc": "Alternate allele frequency in male samples of Other ancestry"
+        },
+        {
+          "name": "AF_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples"
+        },
+        {
+          "name": "AF_afr_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of African-American/African ancestry"
+        },
+        {
+          "name": "AF_ami_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of Amish ancestry"
+        },
+        {
+          "name": "AF_amr_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of Latino ancestry"
+        },
+        {
+          "name": "AF_asj_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "AF_eas_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of East Asian ancestry"
+        },
+        {
+          "name": "AF_fin_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of Finnish ancestry"
+        },
+        {
+          "name": "AF_nfe_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "AF_sas_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of South Asian ancestry"
+        },
+        {
+          "name": "AF_oth_female",
+          "type": "number",
+          "desc": "Alternate allele frequency in female samples of Other ancestry"
+        },
+        {
+          "name": "AF_raw",
+          "type": "number",
+          "desc": "Alternate allele frequency in samples before removing low-confidence genotypes"
+        },
+        {
+          "name": "nhomalt",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples"
+        },
+        {
+          "name": "nhomalt_afr",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of African-American/African ancestry"
+        },
+        {
+          "name": "nhomalt_ami",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of Amish ancestry"
+        },
+        {
+          "name": "nhomalt_amr",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of Latino ancestry"
+        },
+        {
+          "name": "nhomalt_asj",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "nhomalt_eas",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of East Asian ancestry"
+        },
+        {
+          "name": "nhomalt_fin",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of Finnish ancestry"
+        },
+        {
+          "name": "nhomalt_nfe",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "nhomalt_sas",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of South Asian ancestry"
+        },
+        {
+          "name": "nhomalt_oth",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples of Other ancestry"
+        },
+        {
+          "name": "nhomalt_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples"
+        },
+        {
+          "name": "nhomalt_afr_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of African-American/African ancestry"
+        },
+        {
+          "name": "nhomalt_ami_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of Amish ancestry"
+        },
+        {
+          "name": "nhomalt_amr_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of Latino ancestry"
+        },
+        {
+          "name": "nhomalt_asj_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "nhomalt_eas_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of East Asian ancestry"
+        },
+        {
+          "name": "nhomalt_fin_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of Finnish ancestry"
+        },
+        {
+          "name": "nhomalt_nfe_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "nhomalt_sas_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of South Asian ancestry"
+        },
+        {
+          "name": "nhomalt_oth_male",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in male samples of Other ancestry"
+        },
+        {
+          "name": "nhomalt_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples"
+        },
+        {
+          "name": "nhomalt_afr_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of African-American/African ancestry"
+        },
+        {
+          "name": "nhomalt_ami_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of Amish ancestry"
+        },
+        {
+          "name": "nhomalt_amr_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of Latino ancestry"
+        },
+        {
+          "name": "nhomalt_asj_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of Ashkenazi Jewish ancestry"
+        },
+        {
+          "name": "nhomalt_eas_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of East Asian ancestry"
+        },
+        {
+          "name": "nhomalt_fin_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of Finnish ancestry"
+        },
+        {
+          "name": "nhomalt_nfe_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of Non-Finnish European ancestry"
+        },
+        {
+          "name": "nhomalt_sas_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of South Asian ancestry"
+        },
+        {
+          "name": "nhomalt_oth_female",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in female samples of Other ancestry"
+        },
+        {
+          "name": "nhomalt_raw",
+          "type": "integer",
+          "desc": "Count of homozygous individuals in samples before removing low-confidence genotypes"
+        },
+        {
+          "name": "DP",
+          "type": "integer",
+          "desc": "depth"
+        }
+      ]
+    },
+    {
+      "name": "TOPMED",
+      "desc": "population AF by TOPmed",
+      "version": "freeze 5",
+      "version_date": "08/28/2017",
+      "fields": [
+        {
+          "name": "AN",
+          "type": "integer",
+          "desc": "Total allele number"
+        },
+        {
+          "name": "AC",
+          "type": "integer",
+          "desc": "Allele count"
+        },
+        {
+          "name": "AF",
+          "type": "number",
+          "desc": "Allele frequency"
+        },
+        {
+          "name": "Het",
+          "type": "integer",
+          "desc": "number of heterozygous genotype"
+        },
+        {
+          "name": "Hom",
+          "type": "integer",
+          "desc": "number of homozygous genotype"
+        }
+      ]
+    },
+    {
+      "name": "UK10K",
+      "desc": "population AF by UK10K",
+      "version": "20160215",
+      "version_date": "02/15/2016",
+      "fields": [
+        {
+          "name": "AC",
+          "type": "integer",
+          "desc": "Allele count in called genotypes"
+        },
+        {
+          "name": "AN",
+          "type": "integer",
+          "desc": "Total number of alleles in called genotypes"
+        },
+        {
+          "name": "AF",
+          "type": "number",
+          "desc": "Allele frequency in called genotypes"
+        },
+        {
+          "name": "AF_AFR",
+          "type": "number",
+          "desc": "1000 Genomes Phase 1 Allele Frequency in African population (YRI,LWK,ASW)"
+        },
+        {
+          "name": "AF_AMR",
+          "type": "number",
+          "desc": "1000 Genomes Phase 1 Allele Frequency in American population (MXL,CLM,PUR)"
+        },
+        {
+          "name": "AF_ASN",
+          "type": "number",
+          "desc": "1000 Genomes Phase 1 Allele Frequency in Asian population (CHB,CHS,JPT)"
+        },
+        {
+          "name": "AF_EUR",
+          "type": "number",
+          "desc": "1000 Genomes Phase 1 Allele Frequency in European population (CEU,TSI,FIN,GBR,IBS)"
+        },
+        {
+          "name": "AF_MAX",
+          "type": "number",
+          "desc": "1000 Genomes Phase 1 Maximum Allele Frequency"
+        },
+        {
+          "name": "ESP_MAF",
+          "type": "number",
+          "is_list": true,
+          "delimiter": "%2C",
+          "desc": "Minor allele frequecy in percent for European American, African American and All populations in the NHLBI Exome Sequencing Project (ESP)"
+        }
+      ]
+    },
+    {
+      "name": "GENOMIC_SUPER_DUPLICATES",
+      "desc": "genomic super duplicates from UCSC",
+      "version": "19-Oct-2014",
+      "version_date": "10/19/2014",
+      "datatype": "region",
+      "fields": [
+        {
+          "name": "otherChrom",
+          "type": "string",
+          "desc": "chromosome"
+        },
+        {
+          "name": "otherStart",
+          "type": "integer",
+          "desc": "start position"
+        },
+        {
+          "name": "otherEnd",
+          "type": "integer",
+          "desc": "end position"
+        },
+        {
+          "name": "fracMatch",
+          "type": "number",
+          "desc": "fraction of matching bases"
+        }
+      ]
+    },
+    {
+      "name": "SIMPLE_REPEAT",
+      "desc": "simple repeat region from UCSC",
+      "version": "11-Mar-2019",
+      "version_date": "03/11/2019",
+      "datatype": "region",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": "Simple Repeats tag name"
+        },
+        {
+          "name": "sequence",
+          "type": "string",
+          "desc": "Sequence of repeat unit element"
+        },
+        {
+          "name": "chromStart",
+          "type": "integer",
+          "desc": "start position"
+        },
+        {
+          "name": "chromEnd",
+          "type": "integer",
+          "desc": "end position"
+        },
+        {
+          "name": "score",
+          "type": "integer",
+          "desc": "Alignment Score = 2*match-7*mismatch-7*indel; minscore=50"
+        },
+        {
+          "name": "entropy",
+          "type": "number",
+          "desc": "Entropy"
+        }
+      ]
+    },
+    {
+      "name": "RMSK",
+      "desc": "rmsk region from UCSC",
+      "version": "11-Mar-2019",
+      "version_date": "03/11/2019",
+      "datatype": "region",
+      "fields": [
+        {
+          "name": "repName",
+          "type": "string",
+          "desc": "Name of repeat"
+        },
+        {
+          "name": "repClass",
+          "type": "string",
+          "desc": "Class of repeat"
+        },
+        {
+          "name": "repFamily",
+          "type": "string",
+          "desc": "Family of repeat"
+        },
+        {
+          "name": "genoStart",
+          "name2": "chromStart",
+          "type": "integer",
+          "desc": "Start in genomic sequence"
+        },
+        {
+          "name": "genoEnd",
+          "name2": "chromEnd",
+          "type": "integer",
+          "desc": "End in genomic sequence"
+        },
+        {
+          "name": "strand",
+          "type": "boolean",
+          "desc": "Relative orientation + or -",
+          "function": "convert_rmsk_strand",
+          "param": "strand"
+        }
+      ]
+    },
+    {
+      "name": "NESTED_REPEATS",
+      "desc": "nested repeat region from UCSC",
+      "version": "06-Mar-2014",
+      "version_date": "03/06/2014",
+      "datatype": "region",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": "Name of item"
+        },
+        {
+          "name": "thickStart",
+          "name2": "chromStart",
+          "type": "integer",
+          "desc": "Start position in chromosome"
+        },
+        {
+          "name": "thickEnd",
+          "name2": "chromEnd",
+          "type": "integer",
+          "desc": "End position in chromosome"
+        },
+        {
+          "name": "strand",
+          "type": "string",
+          "desc": "+, -, or . for mixed (some fragments +, some -)"
+        },
+        {
+          "name": "score",
+          "type": "integer",
+          "desc": "Average of fragment identity scores, transformed into 0..1000 range for shading"
+        },
+        {
+          "name": "repClass",
+          "type": "string",
+          "desc": "Class of repeat"
+        },
+        {
+          "name": "repFamily",
+          "type": "string",
+          "desc": "Family of repeat"
+        }
+      ]
+    },
+    {
+      "name": "MICROSATELLITE",
+      "desc": "microsatellite region from UCSC",
+      "version": "23-Aug-2015",
+      "version_date": "08/23/2015",
+      "datatype": "region",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": "Name of item"
+        },
+        {
+          "name": "chromStart",
+          "type": "integer",
+          "desc": "Start position in chromosome"
+        },
+        {
+          "name": "chromEnd",
+          "type": "integer",
+          "desc": "End position in chromosome"
+        }
+      ]
+    },
+    {
+      "name": "CLINVAR",
+      "desc": "CLINVAR variants",
+      "version": "20200329",
+      "version_date": "03/29/2020",
+      "fields": [
+        {
+          "name": "VARIATIONID",
+          "type": "string",
+          "desc": "the ClinVar variation ID"
+        },
+        {
+          "name": "CLNDN",
+          "type": "string",
+          "desc": "ClinVar's preferred disease name for the concept specified by disease identifiers in CLNDISDB",
+          "is_list": true
+        },
+        {
+          "name": "CLNDNINCL",
+          "type": "string",
+          "desc": "For included Variant : ClinVar's preferred disease name for the concept specified by disease identifiers in CLNDISDB"
+        },
+        {
+          "name": "CLNDISDB",
+          "type": "string",
+          "is_list": true,
+          "desc": "Tag-value pairs of disease database name and identifier, e.g. OMIM:NNNNNN"
+        },
+        {
+          "name": "CLNDISDBINCL",
+          "type": "string",
+          "is_list": true,
+          "desc": "For included Variant: Tag-value pairs of disease database name and identifier, e.g. OMIM:NNNNNN"
+        },
+        {
+          "name": "CLNHGVS",
+          "type": "string",
+          "desc": "Top-level (primary assembly, alt, or patch) HGVS expression."
+        },
+        {
+          "name": "CLNREVSTAT",
+          "type": "string",
+          "desc": "ClinVar review status for the Variation ID",
+          "is_list": true,
+          "delimiter": ","
+        },
+        {
+          "name": "CLNSIG",
+          "type": "string",
+          "desc": "Clinical significance for this single variant"
+        },
+        {
+          "name": "CLNSIGCONF",
+          "type": "string",
+          "desc": "Conflicting clinical significance for this single variant",
+          "is_list": true,
+          "delimiter": ";"
+        },
+        {
+          "name": "CLNSIGINCL",
+          "type": "string",
+          "is_list": true,
+          "desc": "Clinical significance for a haplotype or genotype that includes this variant. Reported as pairs of VariationID:clinical significance."
+        },
+        {
+          "name": "CLNVC",
+          "type": "string",
+          "desc": "Variant type"
+        },
+        {
+          "name": "CLNVCSO",
+          "type": "string",
+          "desc": "Sequence Ontology id for variant type"
+        },
+        {
+          "name": "CLNVI",
+          "type": "string",
+          "is_list2": true,
+          "desc": "the variant's clinical sources reported as tag-value pairs of database and variant identifier"
+        },
+        {
+          "name": "GENEINFO",
+          "type": "string",
+          "is_list": true,
+          "desc": "Gene(s) for the variant reported as gene symbol:gene id. The gene symbol and id are delimited by a colon (:) and each pair is delimited by a vertical bar (|)"
+        },
+        {
+          "name": "MC",
+          "type": "string",
+          "is_list": true,
+          "desc": "Sequence Ontology ID list"
+        },
+        {
+          "name": "ORIGIN",
+          "type": "integer",
+          "desc": "Allele origin. One or more of the following values may be added: 0 - unknown; 1 - germline; 2 - somatic; 4 - inherited; 8 - paternal; 16 - maternal; 32 - de-novo; 64 - biparental; 128 - uniparental; 256 - not-tested; 512 - tested-inconclusive; 1073741824 - other"
+        }
+      ]
+    },
+    {
+      "name": "CLINVAR_SUBMISSION",
+      "desc": "CLINVAR submitted interpretations",
+      "version": "20200329",
+      "version_date": "03/29/2020",
+      "subembedded": "clinvar_submission",
+      "fields": [
+        {
+          "name": "ClinVarAccession",
+          "name2": "Accession",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "Interpretation",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "DateLastEvaluated",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "ReviewStatus",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "Method",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "Condition",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "AlleleOrigin",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "Submitter",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "SubmitterID",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "Citation",
+          "type": "string",
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "name": "COSMIC",
+      "desc": "COSMIC variants",
+      "version": "v90",
+      "version_date": "08/05/2019",
+      "fields": [
+        {
+          "name": "GENOMIC_MUTATION_ID",
+          "type": "string",
+          "desc": "Genomic mutation identifier (COSV) to indicate the definitive position of the variant on the genome. This identifier is trackable and stable between different versions of the release."
+        },
+        {
+          "name": "LEGACY_MUTATION_ID",
+          "type": "string",
+          "desc": "Legacy mutation identifier (COSM) that will represent existing COSM mutation identifiers."
+        },
+        {
+          "name": "MUTATION_ID",
+          "type": "string",
+          "desc": "An internal mutation identifier to uniquely represent each mutation on a specific transcript on a given assembly build."
+        },
+        {
+          "name": "Accession_Number",
+          "name2": "Transcript_ID",
+          "type": "string",
+          "desc": "The transcript identifier of the gene."
+        },
+        {
+          "name": "Primary_site",
+          "type": "string",
+          "desc": "The primary tissue/cancer from which the sample originated. More details on the tissue classification are avaliable from here. In COSMIC we have standard classification system for tissue types and sub types because they vary a lot between different papers."
+        },
+        {
+          "name": "Site_subtype_1",
+          "type": "string",
+          "desc": "Further sub classification (level 1) of the samples tissue of origin.",
+          "function": "convert_NS2blank",
+          "param": "Site_subtype_1"
+        },
+        {
+          "name": "Site_subtype_2",
+          "type": "string",
+          "desc": "Further sub classification (level 2) of the samples tissue of origin.",
+          "function": "convert_NS2blank",
+          "param": "Site_subtype_2"
+        },
+        {
+          "name": "Site_subtype_3",
+          "type": "string",
+          "desc": "Further sub classification (level 3) of the samples tissue of origin.",
+          "function": "convert_NS2blank",
+          "param": "Site_subtype_3"
+        },
+        {
+          "name": "Primary_histology",
+          "type": "string",
+          "desc": "The histological classification of the sample."
+        },
+        {
+          "name": "Histology_subtype_1",
+          "type": "string",
+          "desc": "Further histological classification (level 1) of the sample.",
+          "function": "convert_NS2blank",
+          "param": "Histology_subtype_1"
+        },
+        {
+          "name": "Histology_subtype_2",
+          "type": "string",
+          "desc": "Further histological classification (level 2) of the sample.",
+          "function": "convert_NS2blank",
+          "param": "Histology_subtype_2"
+        },
+        {
+          "name": "Histology_subtype_3",
+          "type": "string",
+          "desc": "Further histological classification (level 3) of the sample.",
+          "function": "convert_NS2blank",
+          "param": "Histology_subtype_3"
+        },
+        {
+          "name": "Mutation_CDS",
+          "type": "string",
+          "desc": "The change that has occurred in the nucleotide sequence. Formatting is identical to the method used for the peptide sequence."
+        },
+        {
+          "name": "Mutation_AA",
+          "type": "string",
+          "desc": "The change that has occurred in the peptide sequence. Formatting is based on the recommendations made by the Human Genome Variation Society. The description of each type can be found by following the link to Mutation Overview page."
+        },
+        {
+          "name": "Mutation_Description",
+          "type": "string",
+          "is_list2": true,
+          "desc": "Type of mutation at the amino acid level (substitution, deletion, insertion, complex, fusion, unknown etc.)"
+        },
+        {
+          "name": "Mutation_zygosity",
+          "type": "string",
+          "desc": "Information on whether the mutation was reported to be homozygous , heterozygous or unknown within the sample."
+        },
+        {
+          "name": "LOH",
+          "type": "string",
+          "desc": "LOH Information on whether the gene was reported to have loss of heterozygosity in the sample: yes, no or unknown."
+        },
+        {
+          "name": "Mutation_genome_position",
+          "type": "string",
+          "desc": "The genomic coordinates of the mutation."
+        },
+        {
+          "name": "Resistance_Mutation",
+          "type": "string",
+          "desc": "mutation confers drug resistance (see CosmicResistanceMutations.tsv.gz for gene/drug details)."
+        },
+        {
+          "name": "Mutation_somatic_status",
+          "type": "string",
+          "desc": "Information on whether the sample was reported to be Confirmed Somatic, Previously Reported or Variant of unknown origin"
+        },
+        {
+          "name": "Pubmed_PMID",
+          "type": "string",
+          "desc": "The PUBMED ID for the paper that the sample was noted in, linking to pubmed to provide more details of the publication."
+        },
+        {
+          "name": "ID_STUDY",
+          "type": "string",
+          "desc": "Lists the unique Ids of studies that have involved this sample."
+        },
+        {
+          "name": "Tumour_origin",
+          "type": "string",
+          "desc": "Describes where the sample has originated from including the tumour type.",
+          "function": "convert_NS2blank",
+          "param": "Tumour_origin"
+        }
+      ]
+    }
+  ]
+}

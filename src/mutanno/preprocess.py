@@ -51,10 +51,10 @@ class MakeDbnsfpTranscript():
                             v1 = arrv1[0]
                         else:
                             # if field['name'] == 'MutationTaster_score':
-                            #     print (len(enstarr), field['name'], arrv1, arr[headermap['MutationTaster_pred']], arr[headermap['MutationTaster_model']])
+                            #     print (len(enstarr), field['name'], arrv1, arr[headermap['MutationTaster_pred']],
+                            #             arr[headermap['MutationTaster_model']])
                             v1 = arrv1[eidx].strip()
                         cont.append(v1)
-                    # print ("<=", cont)
                     f.write('\t'.join(cont) + '\n')
                 # print()
                 # break

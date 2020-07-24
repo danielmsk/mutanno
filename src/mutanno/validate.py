@@ -1,8 +1,6 @@
 
 import re
 import vcf
-import argparse
-import json
 from .util import file_util
 from .util import vcf_util
 from . import _options
@@ -34,22 +32,22 @@ def pars_header(line):
                 d[field][key] = val
     return d
 
+
 def read_metadata_and_check_duplicate(header):
     meta = {}
     for line in header.strip().split('\n'):
         line = line.strip()
         d = pars_header(line)
         field = list(d.keys())[0]
-        
+
         try:
             meta[field]
         except KeyError:
-            if type(d[field]) == type({}):
+            if isinstance(d[field], dict):
                 meta[field] = {}
             else:
                 meta[field] = []
-
-        if type(d[field]) == type({}):
+        if isinstance(d[field], dict):
             fid = d[field]['ID']
             try:
                 meta[field][fid]
@@ -98,9 +96,9 @@ class AnnotVCFValidator:
         for line in self.reader._header_lines:
             if line[:len('##MUTANNO=<ID=')] == '##MUTANNO=<ID=':
                 d = {}
-                for f1 in line.replace('##MUTANNO=<','').replace('>','').split(','):
+                for f1 in line.replace('##MUTANNO=<', '').replace('>', '').split(','):
                     arr2 = f1.split('=')
-                    d[arr2[0]] = arr2[1].replace('"','')
+                    d[arr2[0]] = arr2[1].replace('"', '')
                 self.mutanno_sources[d['ID']] = d
 
         for s1 in self.mutanno_sources.keys():
@@ -112,18 +110,20 @@ class AnnotVCFValidator:
         for infokey in self.reader.infos.keys():
             desc = self.reader.infos[infokey].desc
             if 'Format:' in desc:
-                fields = desc.split("Format:'")[-1].replace("'","").split('|')
+                fields = desc.split("Format:'")[-1].replace("'", "").split('|')
                 try:
                     self.mutanno_sources[infokey]
                     self.mutanno_sources[infokey]['fields'] = fields
                 except KeyError:
-                    self.raise_exception("MUTANNO's " + infokey + " source doesn't have MUTANNO's version field in header.")
+                    self.raise_exception("MUTANNO's " + infokey +
+                                         " source doesn't have MUTANNO's version field in header.")
 
     def raise_exception(self, msg, print_varkey=True):
         if print_varkey:
             msg += " " + self.varkey
         msg += " in " + self.vcf_file
-        raise Exception(msg)   
+        # raise Exception(msg)
+        print(msg)
 
     def warn(self, msg, print_varkey=True):
         if print_varkey:
@@ -157,12 +157,11 @@ class AnnotVCFValidator:
             #     if str(is_most_severe) != str(fields[mostidx]):
             #         pass
             #         # raise Exception("VEP MOST_SEVERE is not matched." + v1.CHROM + ':' + str(v1.POS) + " " + fields[1] + " " + str(is_most_severe) + ":" + fields[mostidx])
-    
+
     def check_genes(self, info):
         try:
             for f1 in info["GENES"]:
                 if "tmpOOOOOOOOOO" in f1:
-                    # fields = f1.split('|')
                     self.raise_exception("\tThe add_severe_consequence function of GENES fields doesn't work.")
         except KeyError:
             if 'VEP' in info.keys() and 'GENES' in self.dslist.sources.keys():
@@ -181,9 +180,7 @@ class AnnotVCFValidator:
                     else:
                         print("\tOK. Feature_ncbi=" + vepfields[idx])
         except KeyError:
-            # self.raise_exception("\tNo VEP.")
             self.warn("No VEP.")
-
 
     def check_hg19(self, info):
         try:
@@ -192,14 +189,15 @@ class AnnotVCFValidator:
                 if len(hg19.split('|')) != len(self.mutanno_sources['HG19']['fields']):
                     self.raise_exception("HG19 is unmatched " + hg19)
                 else:
-                    print('\tOK. HG19='+','.join(info["HG19"]))
+                    # print('\tOK. HG19='+','.join(info["HG19"]))
+                    pass
         except KeyError:
             self.warn("\tNo HG19.")
 
     def check_samplegeno(self, info):
         try:
             # print(info["SAMPLEGENO"])
-            if len(info["SAMPLEGENO"]) != len(self.opt.add_genoinfo):
+            if len(info["SAMPLEGENO"]) != len(self.opt.genoinfo):
                 self.raise_exception("SAMPLEGENO is unmatched.")
             else:
                 print('\tOK. SAMPLEGENO='+','.join(info["SAMPLEGENO"]))
@@ -207,39 +205,49 @@ class AnnotVCFValidator:
         except KeyError:
             self.raise_exception("No SAMPLEGENO.")
 
+    def check_cytoband(self, info):
+        try:
+            info["CYTOBAND"]
+        except KeyError:
+            self.raise_exception("\tNo CYTOBAND.")
+
     def validate_variant_fields_in_only_vcf(self):
         self.load_mutanno_structure()
 
         for r1 in self.reader:
             # varkey = r1.CHROM +":"+ str(r1.POS) + "_" + r1.REF + ">" + ",".join(r1.ALT)
-            self.varkey = r1.CHROM +":"+ str(r1.POS) 
+            self.varkey = r1.CHROM + ":" + str(r1.POS)
 
-            # print("checking..", self.varkey)
             for infokey in self.mutanno_sources.keys():
                 if infokey in r1.INFO.keys():
                     flag = True
                     for attr in r1.INFO[infokey]:
-                        
+
                         fields = attr.split('|')
-                        # print(">>>>",fields)
                         if len(self.mutanno_sources[infokey]['fields']) != len(fields):
-                            msg = infokey + " fields is not matched. (" + '|'.join(self.mutanno_sources[infokey]['fields']) + " != " + attr + ")" 
+                            msg = infokey + \
+                                " fields is not matched. (" + \
+                                '|'.join(self.mutanno_sources[infokey]['fields']) + " != " + attr + ")"
                             self.raise_exception(msg)
 
                         for v1 in fields:
                             if v1 != "":
                                 flag = False
                     if flag:
-                        msg = infokey + " has no fields ("+infokey+"=" + attr + ")" 
-                        self.raise_exception(msg)                        
-                            
+                        msg = infokey + " has no fields ("+infokey+"=" + attr + ")"
+                        self.raise_exception(msg)
+
                     self.check_vep_consequence_and_most_severe(r1.INFO, self.mutanno_sources['VEP']['fields'], r1)
 
             self.check_feature_ncbi(r1.INFO)
             self.check_genes(r1.INFO)
-            if self.opt is not None and self.opt.add_genoinfo:
+
+            if self.dslist is not None and 'CYTOBAND' in self.dslist.sources.keys():
+                self.check_cytoband(r1.INFO)
+
+            if self.opt is not None and self.opt.genoinfo:
                 self.check_samplegeno(r1.INFO)
-            if self.opt is not None and self.opt.add_hg19:
+            if self.opt is not None and self.opt.hg19:
                 self.check_hg19(r1.INFO)
 
     def validate(self):
@@ -248,14 +256,19 @@ class AnnotVCFValidator:
         # print(self.opt)
         # print(self.mutanno_sources)
 
-def parse_tsi_annot_header(tsi_info_header):
+
+def parse_tsi_annot_header(tsi_info_header, sourcename=''):
     h = {}
     for f1 in tsi_info_header.split(';'):
-        arr = f1.split('=')
-        h[arr[0]] = arr[1].split('|')
+        if '=' in f1:
+            arr = f1.split('=')
+            h[arr[0]] = arr[1].split('|')
+        else:
+            h[sourcename] = f1.split('|')
     return h
 
-def parse_info(infofield):
+
+def parse_info(infofield, sourcename=''):
     d = {}
     for f1 in infofield.split(';'):
         if '=' in f1:
@@ -264,13 +277,19 @@ def parse_info(infofield):
             for f2 in arr[1].split(','):
                 d[arr[0]].append(f2.split('|'))
         else:
-            if f1 != '':
-                d[f1] = True
+            if sourcename != '':
+                d[sourcename] = []
+                for f2 in f1.split(','):
+                    d[sourcename].append(f2.split('|'))
+            else:
+                if f1 != '':
+                    d[f1] = True
     return d
+
 
 class AnnotTSIValidator(AnnotVCFValidator):
 
-    def __init__(self, tsi_file):
+    def __init__(self, tsi_file, sourcename=''):
         self.vcf_file = tsi_file
         self.header = ""
         self.colnames = []
@@ -278,6 +297,7 @@ class AnnotTSIValidator(AnnotVCFValidator):
         self.dslist = None
         self.opt = None
         self.varkey = ""
+        self.sourcename = sourcename
         self.annot_header = {}
         self.read_header()
 
@@ -288,29 +308,66 @@ class AnnotTSIValidator(AnnotVCFValidator):
                 break
             else:
                 self.colnames = line.strip().split('\t')
-                self.annot_header = parse_tsi_annot_header(self.colnames[-1])
-                # print(self.annot_header)
+                self.annot_header = parse_tsi_annot_header(self.colnames[-1], self.sourcename)
+                # print(">>>>self.annot_header:",self.annot_header)
 
+    def check_ref_alt(self, altref, varkey, colname):
+        flag_error = False
+        for k in range(len(altref)):
+            if altref[k] not in ['A', 'T', 'G', 'C', ',']:
+                flag_error = True
+        if flag_error:
+            msg = 'Error '+colname+'(' + altref + ') in ' + varkey
+            self.raise_exception(msg)
+
+    def check_fieldvalue(self, fieldvalue, fieldname=""):
+        if '&' in fieldvalue:
+            print('WARN: & in value :' + fieldvalue)
+        if ',' in fieldvalue:
+            print('WARN: , in value :' + fieldvalue)
+        if '|' in fieldvalue:
+            print('WARN: | in value :' + fieldvalue)
+        if '~' in fieldvalue:
+            print('WARN: ~ in value :' + fieldvalue)
+        if fieldvalue == '.':
+            print('WARN: . in value :' + fieldvalue)
 
     def validate_variant_fields_in_only_tsi(self):
+        SKIPINFOFIELD = ['END']
+        prev_varkey = ""
         for line in file_util.gzopen(self.vcf_file):
             line = file_util.decodeb(line)
             if line[0] != '#':
                 arr = line.split('\t')
-                infofield = parse_info(arr[-1].strip())
+                infofield = parse_info(arr[-1].strip(), self.sourcename)
+                chrom = arr[0]
+                pos = int(arr[1])
+                ref = arr[3]
+                alt = arr[4]
+                varkey = chrom + ':' + str(pos) + '_' + ref + '/' + alt
+
+                self.check_ref_alt(ref, varkey, 'REF')
+                self.check_ref_alt(alt, varkey, 'ALT')
+
                 for k1 in infofield.keys():
-                    # print(infofield[k1])
-                    for d2 in infofield[k1]:
-                        if len(self.annot_header[k1]) != len(d2):
-                            msg = k1 + ": the field number not matched."
-                            self.raise_exception(msg)
+                    if k1 not in SKIPINFOFIELD:
+                        for d2 in infofield[k1]:
+                            if len(self.annot_header[k1]) != len(d2):
+                                msg = k1 + ": the field number not matched."
+                                self.raise_exception(msg)
+                            for fieldvalue in d2:
+                                self.check_fieldvalue(fieldvalue)
 
                 # print('infofield:', infofield)
-                self.check_vep_consequence_and_most_severe(infofield, self.annot_header['VEP'])
-        
+                if 'VEP' in self.annot_header.keys():
+                    self.check_vep_consequence_and_most_severe(infofield, self.annot_header['VEP'])
+
+                if varkey == prev_varkey:
+                    msg = "WARN: Multiple lines for the variant " + varkey
+                    print(msg)
+                    # self.raise_exception(msg)
+
+                prev_varkey = varkey
 
     def validate(self):
         self.validate_variant_fields_in_only_tsi()
-
-
-
