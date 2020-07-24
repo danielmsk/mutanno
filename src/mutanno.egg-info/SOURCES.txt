@@ -1,5 +1,6 @@
 MANIFEST.in
 README.md
+setup.cfg
 setup.py
 src/mutanno/__init__.py
 src/mutanno/_logging.py

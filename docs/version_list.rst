@@ -1,10 +1,16 @@
-***************************
-Version List
-***************************
+Version History
+===============
+
+v0.4.x release series
+---------------------
+
+0.4.1 (2020.05.25) :
+	- dd
 
 
-v0.3
-----------------------
+
+v0.3.x release series
+---------------------
 
 0.3.19 (2020.05.25) :
 	- split pred and score in pathogenicity score from VEP (SIFT and Polyphen)

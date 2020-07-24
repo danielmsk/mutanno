@@ -1,10 +1,14 @@
 # MutAnno
-[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
-[![Build Status](https://travis-ci.org/dbmi-bgm/mutanno.svg?branch=master)](https://travis-ci.org/dbmi-bgm/mutanno)
+[![pypi version](https://img.shields.io/pypi/v/mutanno.svg)](https://pypi.org/project/mutanno/)
+<!-- [![pypi download](https://img.shields.io/pypi/dm/mutanno.svg)](https://pypi.org/project/mutanno/) -->
+[![doc](https://readthedocs.org/projects/mutanno/badge/?version=latest)](https://mutanno.readthedocs.io/en/latest/)
+<!-- [![Build Status](https://travis-ci.org/dbmi-bgm/mutanno.svg?branch=master)](https://travis-ci.org/dbmi-bgm/mutanno) -->
 
 
 * github : https://github.com/dbmi-bgm/mutanno
 * manual : https://mutanno.readthedocs.io/en/latest/
+
+For more details, see MutAnno [**documentation**](http://mutanno.readthedocs.io/en/latest).
 
 ```
 mutanno annot -vcf trio_test2.vcf \
