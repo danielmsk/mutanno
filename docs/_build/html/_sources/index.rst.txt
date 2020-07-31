@@ -21,11 +21,10 @@ MutAnno
    :alt: Documentation of MutAnno
 
 
-.. code-block:: console
+.. code-block::
 
    pip install mutanno 
-   mutanno annot -vcf test.vcf
-
+   mutanno annot -vcf test.vcf -out test.annot.vcf
 
 
 Contents
@@ -34,28 +33,19 @@ Contents
 .. toctree::
    :numbered:
    :maxdepth: 4
-   :caption: Installation
 
    installation
-   precalculate_annotation
    options
-
-.. toctree::
-   :maxdepth: 4
-   :caption: Annotation
-
+   download
+   make_sourcefile
    annotate_variants
-
-.. toctree::
-   :maxdepth: 4
-   :caption: Data sources
-
    datasource_list
+   datastructure
    datastructure_version
-
-.. toctree::
-   :maxdepth: 4
-   :caption: Version information
-
+   annotated_vcf
+   benchmark
    version_list
+
+
+
 

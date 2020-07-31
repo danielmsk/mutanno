@@ -36,7 +36,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Pre-calculate variant annotation" href="precalculate_annotation.html" />
+    <link rel="next" title="2. Optional arguments" href="options.html" />
     <link rel="prev" title="MutAnno" href="index.html" /> 
 </head>
 
@@ -82,30 +82,22 @@
               
             
             
-              <p class="caption"><span class="caption-text">Installation</span></p>
-<ul class="current">
+              <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">1. Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#prerequisites">1.1. Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-with-pypi">1.2. Install with pypi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-with-code-from-github">1.3. Install with code from github</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#configuration">1.4. Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="precalculate_annotation.html">2. Pre-calculate variant annotation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="options.html">3. Optional arguments</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Annotation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="annotate_variants.html">5. Annotate variants</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Data sources</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="datasource_list.html">1. Datasource list</a></li>
-<li class="toctree-l1"><a class="reference internal" href="datastructure_version.html">2. Data Structure File Version</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Version information</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="version_list.html">1. Version History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options.html">2. Optional arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">3. Download Data Source (<code class="docutils literal notranslate"><span class="pre">download</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="make_sourcefile.html">4. Make Single Source File (<code class="docutils literal notranslate"><span class="pre">makedata</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="annotate_variants.html">5. Annotate Variants (<code class="docutils literal notranslate"><span class="pre">annot</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasource_list.html">6. Datasource list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructure.html">7. Data Structure File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructure_version.html">8. Data Structure File Version</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark.html">9. Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version_list.html">10. Version History</a></li>
 </ul>
 
             
@@ -180,26 +172,30 @@
 <li><p><a class="reference external" href="https://pypi.org/project/pysam/">pysam (0.11.2.2+)</a></p></li>
 <li><p><a class="reference external" href="https://pypi.org/project/pyfaidx/">pyfaidx (0.5.3.1+)</a></p></li>
 <li><p><a class="reference external" href="https://pypi.org/project/pytabix/">pytabix (0.0.2+)</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/pyliftover/">pyliftover (0.4+)</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/xmltodict/">xmltodict (0.12.0+)</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/PyVCF/">pyvcf (0.6.8+)</a></p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are using pypi (<code class="docutils literal notranslate"><span class="pre">pip</span></code>) for <strong>MutAnno</strong> installation, you don’t need to install prerequisite python libraries because pypi can install them automatically.</p>
+</div>
 </div>
 <div class="section" id="install-with-pypi">
 <h2><span class="section-number">1.2. </span>Install with pypi<a class="headerlink" href="#install-with-pypi" title="Permalink to this headline">¶</a></h2>
-<p>To install <strong>MutAnno</strong>, open a shell and run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">mutanno</span>
+<p>To install <strong>MutAnno</strong>, open a shell and run the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install mutanno
 </pre></div>
 </div>
 </div>
 <div class="section" id="install-with-code-from-github">
 <h2><span class="section-number">1.3. </span>Install with code from github<a class="headerlink" href="#install-with-code-from-github" title="Permalink to this headline">¶</a></h2>
-<p>Alternatively, use git <code class="docutils literal notranslate"><span class="pre">clone</span></code> followed by <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">dbmi</span><span class="o">-</span><span class="n">bgm</span><span class="o">/</span><span class="n">mutanno</span>
-<span class="n">cd</span> <span class="n">mutanno</span>
-<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<p>Alternatively, use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> followed by <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/dbmi-bgm/mutanno
+$ cd mutanno
+$ python setup.py install
 </pre></div>
 </div>
-</div>
-<div class="section" id="configuration">
-<h2><span class="section-number">1.4. </span>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -211,7 +207,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="precalculate_annotation.html" class="btn btn-neutral float-right" title="2. Pre-calculate variant annotation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="options.html" class="btn btn-neutral float-right" title="2. Optional arguments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="MutAnno" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

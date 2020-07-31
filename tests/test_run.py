@@ -34,7 +34,6 @@ def validate_annottsi(tsi, dsjson, opt):
     va.set_option(opt)
     va.validate()
 
-
 def load_googlesheet(googlesheet):
     rst = {}
     i = 0

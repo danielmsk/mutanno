@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>1. Datasource list &mdash; MutAnno 0.3 documentation</title>
+  <title>6. Datasource List &mdash; MutAnno 0.3 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Data Structure File Version" href="datastructure_version.html" />
-    <link rel="prev" title="5. Annotate variants" href="annotate_variants.html" /> 
+    <link rel="next" title="7. Data Structure File" href="datastructure.html" />
+    <link rel="prev" title="5. Annotate Variants (annot)" href="annotate_variants.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,25 +82,33 @@
               
             
             
-              <p class="caption"><span class="caption-text">Installation</span></p>
-<ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">1. Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">2. Quick start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="download_datasource.html">3. Download datasource</a></li>
-<li class="toctree-l1"><a class="reference internal" href="precalculate_annotation.html">4. Pre-calculate variant annotation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options.html">2. Optional arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">3. Download Data Source (<code class="docutils literal notranslate"><span class="pre">download</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="make_sourcefile.html">4. Make Single Source File (<code class="docutils literal notranslate"><span class="pre">makedata</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="annotate_variants.html">5. Annotate Variants (<code class="docutils literal notranslate"><span class="pre">annot</span></code>)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Datasource List</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#variant-annotation">6.1. Variant annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vep">6.1.1. VEP</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Annotation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="annotate_variants.html">5. Annotate variants</a></li>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#population-data">6.2. Population data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dbsnp">6.2.1. dbSNP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gnomad">6.2.2. gnomAD</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Data sources</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Datasource list</a></li>
-<li class="toctree-l1"><a class="reference internal" href="datastructure_version.html">2. Data Structure File Version</a></li>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pathogenicity">6.3. Pathogenicity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cadd">6.3.1. CADD</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Version information</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="version_list.html">1. Version History</a></li>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datastructure.html">7. Data Structure File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructure_version.html">8. Data Structure File Version</a></li>
+<li class="toctree-l1"><a class="reference internal" href="annotated_vcf.html">9. Annotated VCF file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmark.html">10. Benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version_list.html">11. Version History</a></li>
 </ul>
 
             
@@ -147,7 +155,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li><span class="section-number">1. </span>Datasource list</li>
+      <li><span class="section-number">6. </span>Datasource List</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -167,7 +175,8 @@
            <div itemprop="articleBody">
             
   <div class="section" id="datasource-list">
-<h1><span class="section-number">1. </span>Datasource list<a class="headerlink" href="#datasource-list" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">6. </span>Datasource List<a class="headerlink" href="#datasource-list" title="Permalink to this headline">¶</a></h1>
+<p>TBA</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 50%" />
@@ -179,12 +188,33 @@
 <td><p>Version</p></td>
 <td><p>Date</p></td>
 </tr>
-<tr class="row-even"><td></td>
-<td></td>
+<tr class="row-even"><td><p>VEP</p></td>
+<td><p>v99</p></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<div class="section" id="variant-annotation">
+<h2><span class="section-number">6.1. </span>Variant annotation<a class="headerlink" href="#variant-annotation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vep">
+<h3><span class="section-number">6.1.1. </span>VEP<a class="headerlink" href="#vep" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="population-data">
+<h2><span class="section-number">6.2. </span>Population data<a class="headerlink" href="#population-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dbsnp">
+<h3><span class="section-number">6.2.1. </span>dbSNP<a class="headerlink" href="#dbsnp" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="gnomad">
+<h3><span class="section-number">6.2.2. </span>gnomAD<a class="headerlink" href="#gnomad" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="pathogenicity">
+<h2><span class="section-number">6.3. </span>Pathogenicity<a class="headerlink" href="#pathogenicity" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cadd">
+<h3><span class="section-number">6.3.1. </span>CADD<a class="headerlink" href="#cadd" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
 </div>
 
 
@@ -195,10 +225,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="datastructure_version.html" class="btn btn-neutral float-right" title="2. Data Structure File Version" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="datastructure.html" class="btn btn-neutral float-right" title="7. Data Structure File" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="annotate_variants.html" class="btn btn-neutral float-left" title="5. Annotate variants" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="annotate_variants.html" class="btn btn-neutral float-left" title="5. Annotate Variants (annot)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
