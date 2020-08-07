@@ -1,0 +1,26 @@
+{
+  "title":"MUTANNO_SOURCE_LIST",
+  "version":"0.4.2",
+  "version_date":"2020.06.25",
+  "sources":{
+    "hg38":[
+      {
+        "name":"CLINVAR",
+        "latest": "20200329",
+        "preprocess_function": "run_preproc_clinvar",
+        "versions":[
+          {
+            "version":"20200329",
+            "version_date":"2020.03.29",
+            "urls":[
+              "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/weekly/clinvar_20200329.vcf.gz",
+              "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/ClinVarFullRelease_2020-03.xml.gz"
+            ]
+          }
+        ]
+      }
+    ],
+    "hg19":[]
+  }
+
+}

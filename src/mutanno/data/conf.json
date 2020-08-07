@@ -1,0 +1,48 @@
+{
+  "TITLE":"MUTANNO",
+  "VERSION":"0.4.2",
+  "VERSION_DATE":"2020.06.25",
+  "PROG":"mutanno",
+  "options":[
+    {
+      "subcommand":"annot",
+      "help":"annotate variants",
+      "description":"annotate variants",
+      "options":[
+        {"param":"vcf",         "default":"",         "nargs":null,   "action": null, "choices":null, "type":null, "help":"VCF file"},
+        {"param":"out",         "default":"mutanno",  "nargs":null,   "action": null, "choices":null, "type":null, "help":"title of output file"},
+        {"param":"outtype",     "default":"vcf",      "nargs":"*",    "action": null, "choices":["vcf", "json"], "type":null, "help":"output file type"},
+        {"param":"ds",          "default":"",         "nargs":null,   "action":null, "choices":null, "type":null, "help":"data structure json file"},
+        {"param":"sourcefile",  "default":"",         "nargs":null,   "action":null, "choices":null, "type":null, "help":"data source file"},
+        {"param":"genoinfo",    "default":false,      "nargs":"*",    "action":null, "choices":null, "type":null, "help":"add genotype info. in INFO field"},
+        {"param":"hgvs",        "default":false,      "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"add hgvs"},
+        {"param":"variant_class", "default":false,    "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"add variant class"},
+        {"param":"hg19",        "default":null,       "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"add hg19 coordinates"},
+        {"param":"chain",       "default":"",         "nargs":null,   "action":null, "choices":null, "type":null, "help":"chain file for liftover of hg19 coordinates"},
+        {"param":"genetable",   "dest":"add_genetable",  "default":null,       "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"add gene table"},
+        {"param":"blocksize",   "default":"",         "nargs":null,   "action":null, "choices":null, "type":null, "help":"block size"},
+        {"param":"split_multi_allelic_variant",       "default":false, "action":"store_true", "nargs":null, "choices":null, "type":null, "help":"split multi-allelic variants"},
+        {"param":"clean_tag",   "default":[],         "nargs":"*",   "action":null, "choices":null, "type":null, "help":"remove previous annotation information"},
+        {"param":"single_source_mode", "default":false, "nargs":null,  "action":"store_true", "choices":null, "type":null, "help":"single source mode"},
+        {"param":"load_source_in_memory", "default":false, "nargs":null, "action":"store_true", "choices":null, "type":null, "help":"loading data source in memory"},
+        {"param":"sparse",      "default":false,       "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"for sparse variant position"},
+        {"param":"log",         "dest":"logfile",     "default":"",       "nargs":null,   "action":null, "choices":null, "type":null, "help":"log file"},
+        {"param":"silence",     "default":false,       "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"do not print any log."},
+        {"param":"debug",       "default":false,      "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"turn on the debugging mode"}
+      ]
+    },{
+      "subcommand":"download",
+      "help":"download data source",
+      "description":"download data source",
+      "options":[
+        {"param":"dir",         "default":"", "nargs":null, "action": null, "choices":null, "type":null, "help":"directory for source files"},
+        {"param":"source",      "default":"all", "nargs":null, "action": null, "choices":null, "type":null, "help":"source name"},
+        {"param":"version",     "default":"latest", "nargs":null, "action": null, "choices":null, "type":null, "help":"source version"},
+        {"param":"refversion",  "default":"hg38", "nargs":null, "action":null, "choices":["hg19", "hg38"], "type":null, "help":"reference version"},
+        {"param":"log",         "dest":"logfile",     "default":"",       "nargs":null,   "action":null, "choices":null, "type":null, "help":"log file"},
+        {"param":"silence",     "default":false,       "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"do not print any log."},
+        {"param":"debug",       "default":false,      "nargs":null,   "action":"store_true", "choices":null, "type":null, "help":"turn on the debugging mode"}
+      ]
+    }
+  ]
+}

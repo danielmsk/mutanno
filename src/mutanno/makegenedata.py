@@ -421,12 +421,12 @@ class GeneSourceMerger():
 
 class GeneDataSourceFile():
     def __init__(self, opt):
-        self.vartype = opt['vartype']
-        self.outtype = opt['outtype']
-        self.set_outfile_extension(opt['out'], opt['outtype'])
-        self.datastruct = file_util.load_json(opt['ds'])
-        self.region = opt['region']
-        self.blocksize = opt['blocksize']
+        self.vartype = opt.vartype
+        self.outtype = opt.outtype
+        self.set_outfile_extension(opt.out, opt.outtype)
+        self.datastruct = file_util.load_json(opt.ds)
+        self.region = opt.region
+        self.blocksize = opt.blocksize
 
     def set_outfile_extension(self, out, outtype):
         out2 = out.replace('.'+outtype+'.gz', '.' + outtype)

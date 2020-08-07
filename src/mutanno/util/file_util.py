@@ -7,6 +7,11 @@ import tabix
 import json
 from . import proc_util
 import pprint
+import mutanno
+
+
+def getDataPath(datafile):
+    return (os.path.join(mutanno.__path__[0], 'data', datafile))
 
 
 def print(str):

@@ -4,6 +4,8 @@
 # made by Daniel Minseok Kwon
 # 2020-05-05 09:47:16
 #########################
+import json
+import xmltodict
 import sys
 import os
 SVRNAME = os.uname()[1]
@@ -15,12 +17,12 @@ else:
     sys_path = "/home/mk446/bin/python_lib"
 sys.path.append(sys_path)
 # from xml.dom.minidom import parse, parseString
-import xmltodict
-import json
 
-VCFCOL = ["CHROM","POS","VARIATIONID","REF","ALT","ALLELEID","CLNDN","CLNDNINCL","CLNDISDB","CLNDISDBINCL","CLNHGVS","CLNREVSTAT","CLNSIG","CLNSIGCONF","CLNSIGINCL","CLNVC","CLNVCSO","CLNVI","GENEINFO","MC","ORIGIN","SSR"]
+VCFCOL = ["CHROM", "POS", "VARIATIONID", "REF", "ALT", "ALLELEID", "CLNDN", "CLNDNINCL", "CLNDISDB", "CLNDISDBINCL", "CLNHGVS",
+          "CLNREVSTAT", "CLNSIG", "CLNSIGCONF", "CLNSIGINCL", "CLNVC", "CLNVCSO", "CLNVI", "GENEINFO", "MC", "ORIGIN", "SSR"]
 # XMLCOL = ["ClinVarAccession","Interpretation","DateLastEvaluated","ReviewStatus","Method","Condition","AlleleOrigin","Submitter","SubmitterID","Citation","Comment"]
-XMLCOL = ["ClinVarAccession","Interpretation","DateLastEvaluated","ReviewStatus","Method","Condition","AlleleOrigin","Submitter","SubmitterID","Citation"]
+XMLCOL = ["ClinVarAccession", "Interpretation", "DateLastEvaluated", "ReviewStatus",
+          "Method", "Condition", "AlleleOrigin", "Submitter", "SubmitterID", "Citation"]
 
 
 def get_dict_data(dict1, keylist):
@@ -43,16 +45,18 @@ def get_dict_data(dict1, keylist):
             break
     return rst
 
+
 def cnt_field(cnt, f1, v1):
     try:
         cnt[f1]
     except KeyError:
-        cnt[f1]={}
+        cnt[f1] = {}
     try:
         cnt[f1][v1] += 1
     except KeyError:
         cnt[f1][v1] = 1
     return cnt
+
 
 CONV_SIGN_LIST = []
 CONV_SIGN_LIST.append((';', "%3B"))
@@ -62,6 +66,7 @@ CONV_SIGN_LIST.append((",", "%2C"))
 CONV_SIGN_LIST.append(('"', "%22"))
 CONV_SIGN_LIST.append(('~', "%7E"))
 CONV_SIGN_LIST.append((' ', '%20'))
+
 
 def encode_value(v1, except_list=[]):
     for s1 in CONV_SIGN_LIST:
@@ -101,7 +106,7 @@ def load_clinvarvcf(clinvarvcf):
             for f1 in arr[7].strip().split(';'):
                 arr2 = f1.split('=')
                 m[arr2[0]] = arr2[1].strip()
-            
+
             cont = []
             for f1 in VCFCOL[:5]:
                 cont.append(m[f1])
@@ -116,34 +121,38 @@ def load_clinvarvcf(clinvarvcf):
                         arr3.append(a2.split('|')[0])
                     m[f1] = '~'.join(arr3)
                 elif f1 == "CLNDISDB":
-                    m[f1] = m[f1].replace('.|','').replace('.|','').replace('.|','').replace('.|','').replace('.|','').replace('.|','')
-                    m[f1] = m[f1].replace('.|','').replace('.|','').replace('.|','').replace('.|','').replace('.|','').replace('.|','')
-                    m[f1] = m[f1].replace('.','')
-                    m[f1] = m[f1].replace('|','~').replace(',','~')
+                    m[f1] = m[f1].replace('.|', '').replace('.|', '').replace(
+                        '.|', '').replace('.|', '').replace('.|', '').replace('.|', '')
+                    m[f1] = m[f1].replace('.|', '').replace('.|', '').replace(
+                        '.|', '').replace('.|', '').replace('.|', '').replace('.|', '')
+                    m[f1] = m[f1].replace('.', '')
+                    m[f1] = m[f1].replace('|', '~').replace(',', '~')
                     m[f1] = encode_value(m[f1], ['~'])
                 elif f1 == "CLNDN":
-                    m[f1] = m[f1].replace('|','~')
+                    m[f1] = m[f1].replace('|', '~')
                     m[f1] = encode_value(m[f1], ['~'])
                 elif f1 == "CLNDN":
-                    m[f1] = m[f1].replace('|','~')
+                    m[f1] = m[f1].replace('|', '~')
                     m[f1] = encode_value(m[f1], ['~'])
                 elif f1 == "CLNSIGINCL":
-                    m[f1] = m[f1].replace('|','~')
+                    m[f1] = m[f1].replace('|', '~')
                     m[f1] = encode_value(m[f1], ['~'])
                 elif f1 == "CLNSIGCONF":
-                    m[f1] = m[f1].replace(',','~')
+                    m[f1] = m[f1].replace(',', '~')
                     m[f1] = encode_value(m[f1], ['~'])
                 elif f1 == "CLNVI":
-                    m[f1] = m[f1].replace('|','~')
+                    m[f1] = m[f1].replace('|', '~')
                     m[f1] = encode_value(m[f1], ['~'])
                 elif f1 == "CLNDISDBINCL":
-                    m[f1] = m[f1].replace('.|','').replace('.|','').replace('.|','').replace('.|','').replace('.|','').replace('.|','')
-                    m[f1] = m[f1].replace('.|','').replace('.|','').replace('.|','').replace('.|','').replace('.|','').replace('.|','')
-                    m[f1] = m[f1].replace('.','')
-                    m[f1] = m[f1].replace('|','~').replace(',','~')
+                    m[f1] = m[f1].replace('.|', '').replace('.|', '').replace(
+                        '.|', '').replace('.|', '').replace('.|', '').replace('.|', '')
+                    m[f1] = m[f1].replace('.|', '').replace('.|', '').replace(
+                        '.|', '').replace('.|', '').replace('.|', '').replace('.|', '')
+                    m[f1] = m[f1].replace('.', '')
+                    m[f1] = m[f1].replace('|', '~').replace(',', '~')
                     m[f1] = encode_value(m[f1], ['~'])
                 elif f1 == "GENEINFO":
-                    m[f1] = m[f1].replace('|','~')
+                    m[f1] = m[f1].replace('|', '~')
                     m[f1] = encode_value(m[f1], ['~'])
                 else:
                     m[f1] = encode_value(m[f1])
@@ -151,10 +160,9 @@ def load_clinvarvcf(clinvarvcf):
 
                 cnt = cnt_field(cnt, f1, m[f1])
 
-                
             cont.append('CLINVAR='+'|'.join(info))
             f.write('\t'.join(cont) + '\n')
-            cvar[m['VARIATIONID']] = [m['CHROM'],m['POS'],m['VARIATIONID'],m['REF'],m['ALT']]
+            cvar[m['VARIATIONID']] = [m['CHROM'], m['POS'], m['VARIATIONID'], m['REF'], m['ALT']]
             # break
 
             if i % 100000 == 0:
@@ -165,7 +173,7 @@ def load_clinvarvcf(clinvarvcf):
     print('Saved', out, len(cvar.keys()))
 
     for k1 in VCFCOL[5:]:
-        statfile = out + "_stat/stat_" + k1.replace(' ','_') + '.cnt'
+        statfile = out + "_stat/stat_" + k1.replace(' ', '_') + '.cnt'
         file_util.check_dir(statfile)
         cont = ''
         ks = cnt[k1].keys()
@@ -176,30 +184,30 @@ def load_clinvarvcf(clinvarvcf):
 
     return cvar
 
+
 def s02_preproc_clinvarxml(clinvarxml, clinvarvcf):
     cvar = load_clinvarvcf(clinvarvcf)
 
     out = clinvarvcf.replace('.vcf.gz', '') + '_submission.tsi'
     f = open(out, 'w')
-    cont = ['#CHROM','POS','VARIATIONID','REF','ALT', "CLINVAR_SUBMISSION="+'|'.join(XMLCOL)]
+    cont = ['#CHROM', 'POS', 'VARIATIONID', 'REF', 'ALT', "CLINVAR_SUBMISSION="+'|'.join(XMLCOL)]
     f.write('\t'.join(cont) + '\n')
     flag = False
     i = 0
     cnt = {}
     for line in file_util.gzopen(clinvarxml):
         line = file_util.decodeb(line)
-        
+
         if '<ClinVarSet ' in line:
             flag = True
             setcont = ""
-            
-            
+
         if flag:
             setcont += line
 
         if '</ClinVarSet>' in line:
             i += 1
-            
+
             xml = xmltodict.parse(setcont)
             cset = xml['ClinVarSet']
             aset = get_dict_data(xml, ['ClinVarSet', 'ClinVarAssertion'])
@@ -209,19 +217,22 @@ def s02_preproc_clinvarxml(clinvarxml, clinvarvcf):
             m = {}
             for f1 in XMLCOL:
                 m[f1] = ''
-            m['VARIATIONID'] = get_dict_data(xml,['ClinVarSet','ReferenceClinVarAssertion','MeasureSet','@ID'])
-            m['ClinVarAccession'] = get_dict_data(aset, ['ClinVarAccession','@Acc'])
-            m['Interpretation'] = get_dict_data(aset, ['ClinicalSignificance','Description'])
-            m['DateLastEvaluated'] = get_dict_data(aset, ['ClinicalSignificance','@DateLastEvaluated'])
-            m['ReviewStatus'] = get_dict_data(aset, ['ClinicalSignificance','ReviewStatus'])
+            m['VARIATIONID'] = get_dict_data(xml, ['ClinVarSet', 'ReferenceClinVarAssertion', 'MeasureSet', '@ID'])
+            m['ClinVarAccession'] = get_dict_data(aset, ['ClinVarAccession', '@Acc'])
+            m['Interpretation'] = get_dict_data(aset, ['ClinicalSignificance', 'Description'])
+            m['DateLastEvaluated'] = get_dict_data(aset, ['ClinicalSignificance', '@DateLastEvaluated'])
+            m['ReviewStatus'] = get_dict_data(aset, ['ClinicalSignificance', 'ReviewStatus'])
             # m['Method'] = get_dict_data(aset, ['ObservedIn','Method', 'MethodType'])
-            m['Method'] = get_dict_data(xml, ['ClinVarSet','ReferenceClinVarAssertion','ObservedIn','Method','MethodType'])
-            m['Condition'] = get_dict_data(aset, ['TraitSet','Trait','Name','ElementValue','#text'])
-            m['AlleleOrigin'] = get_dict_data(xml, ['ClinVarSet','ReferenceClinVarAssertion','ObservedIn','Sample','Origin'])
+            m['Method'] = get_dict_data(xml, ['ClinVarSet', 'ReferenceClinVarAssertion',
+                                              'ObservedIn', 'Method', 'MethodType'])
+            m['Condition'] = get_dict_data(aset, ['TraitSet', 'Trait', 'Name', 'ElementValue', '#text'])
+            m['AlleleOrigin'] = get_dict_data(
+                xml, ['ClinVarSet', 'ReferenceClinVarAssertion', 'ObservedIn', 'Sample', 'Origin'])
             # m['AlleleOrigin'] = get_dict_data(aset, ['ObservedIn','Sample','Origin'])
-            m['Submitter'] = get_dict_data(aset, ['ClinVarSubmissionID','@submitter'])
-            m['SubmitterID'] = get_dict_data(aset, ['ClinVarAccession','@OrgID']) # https://www.ncbi.nlm.nih.gov/clinvar/submitters/<ID>/
-            m['Citation'] = get_dict_data(aset, ['Citation','ID','#text'])
+            m['Submitter'] = get_dict_data(aset, ['ClinVarSubmissionID', '@submitter'])
+            # https://www.ncbi.nlm.nih.gov/clinvar/submitters/<ID>/
+            m['SubmitterID'] = get_dict_data(aset, ['ClinVarAccession', '@OrgID'])
+            m['Citation'] = get_dict_data(aset, ['Citation', 'ID', '#text'])
             # m['Comment'] = get_dict_data(aset, ['ClinicalSignificance','Comment','#text'])
             # print(m)
             try:
@@ -232,22 +243,21 @@ def s02_preproc_clinvarxml(clinvarxml, clinvarvcf):
                     xmlfield.append(m[f1])
                     cnt = cnt_field(cnt, f1, m[f1])
 
-                cont = '\t'.join(vpos) + '\t' + "CLINVAR_SUBMISSION="+ '|'.join(xmlfield)
+                cont = '\t'.join(vpos) + '\t' + "CLINVAR_SUBMISSION=" + '|'.join(xmlfield)
                 f.write(cont + '\n')
                 # print(cont)
             except KeyError:
                 pass
 
-
             flag = False
             if i % 10000 == 0:
                 print(i, m)
                 # break
-    
+
     f.close()
 
     for k1 in XMLCOL:
-        statfile = out + "_stat/stat_" + k1.replace(' ','_') + '.cnt'
+        statfile = out + "_stat/stat_" + k1.replace(' ', '_') + '.cnt'
         file_util.check_dir(statfile)
         cont = ''
         ks = cnt[k1].keys()
@@ -256,10 +266,10 @@ def s02_preproc_clinvarxml(clinvarxml, clinvarvcf):
             cont += k2 + '\t' + str(cnt[k1][k2]) + '\n'
         file_util.fileSave(statfile, cont, 'w')
 
-
     print("Saved", out)
+
+
 if __name__ == "__main__":
-    import proc_util
     import file_util
     path = "/home/mk446/bio/mutanno/DATASOURCE/VARIANTDB/CLINVAR/hg38/"
     clinvarxml = path + "ClinVarFullRelease_2020-03.xml.gz"

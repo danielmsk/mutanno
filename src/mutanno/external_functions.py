@@ -126,8 +126,8 @@ def convert_NS2blank(v1):
 
 def convert_vep_strand(v1):
     rst = v1
-    if isinstance(v1, str):
-        rst = v1.replace('-1', '0')
+    # if isinstance(v1, str):
+    rst = v1.replace('-1', '0')
     return rst
 
 
@@ -140,9 +140,9 @@ def convert_high_inf_pos(v1):
 
 def convert_canonical2boolean(canonical):
     rst = '0'
-    if isinstance(canonical, str):
-        if canonical == 'YES':
-            rst = '1'
+    # if isinstance(canonical, str):
+    if canonical == 'YES':
+        rst = '1'
     return rst
 
 
@@ -163,17 +163,28 @@ def add_genes_severe_consequence(annotdata, vcfinfo):
     elif vcfinfo is not None and 'VEP' in vcfinfo.keys():
         vep_sections = vcfinfo['VEP']
 
+    add_item = ['Feature_ncbi', 'HGVSc', 'Amino_acids', 'SIFT_SCORE', 'PolyPhen_SCORE', 'MaxEntScan_diff']
+
     for attr in vep_sections:
         if attr['MOST_SEVERE'] == '1':
             ensg = attr['Gene']
-            most_severe_transcript = attr['Feature']
-            most_severe_consequence = get_most_severe_consequence(attr['Consequence'])
+            most_severe = {}
+            most_severe['transcript'] = attr['Feature']
+            most_severe['consequence'] = get_most_severe_consequence(attr['Consequence'])
+            for ai in add_item:
+                most_severe[ai] = attr[ai]
             break
     if len(vep_sections) == 0:
         rst_sections = []
     else:
-        rst_sections = [{'ensg': ensg, 'most_severe_transcript': most_severe_transcript,
-                         'most_severe_consequence': most_severe_consequence}]
+        d = {}
+        d['ensg'] = ensg
+        d['most_severe_transcript'] = most_severe['transcript']
+        d['most_severe_consequence'] = most_severe['consequence']
+        for ai in add_item:
+            d['most_severe_' + ai.lower()] = most_severe[ai]
+
+        rst_sections = [d]
     return rst_sections
 
 

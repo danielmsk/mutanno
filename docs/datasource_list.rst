@@ -6,7 +6,8 @@ TBA
 =========== ======= ====
 Source name Version Date
 ----------- ------- ----
-VEP         v99     
+VEP         v99
+CLINVAR
 =========== ======= ====
 
 
@@ -35,3 +36,12 @@ CADD
 ^^^^
 
 
+
+Variant database
+----------------
+
+
+CLINVAR
+^^^^^^^
+
+https://www.ncbi.nlm.nih.gov/variation/docs/ClinVar_vcf_files/

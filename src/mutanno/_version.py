@@ -1,7 +1,10 @@
 VERSION = "0.4.2"
-VERSION_DATE = "2020.06.25"
+VERSION_DATE = "2020.08.04"
 
 # MUTANNO version
+# 0.4.3 (2020.08.04) :
+#   - add configration jsonfile (./data/conf.json)
+#   - add download sub-command
 # 0.4.2 (2020.06.25) :
 #   - add parameter set in data structure json file.
 # 0.4.1 (2020.06.08) :

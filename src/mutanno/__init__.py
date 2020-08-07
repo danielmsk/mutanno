@@ -2,6 +2,7 @@
 from ._logging import get_logger
 from ._options import get_options
 from . import annotvcf
+from .download import Downloader
 from . import makegenedata
 from . import makedata
 from . import convert
@@ -36,6 +37,10 @@ def dispatch_job(opt):
         opt = update_option(opt)
         an = annotvcf.VCFAnnotator(opt)
         an.run()
+
+    if opt.subcommand == 'download' and opt.dir != "":
+        dn = Downloader(opt)
+        dn.run()
 
     if opt.subcommand == 'makedata' and opt.out != "":
         opt.vartype = opt.vartype.upper()
