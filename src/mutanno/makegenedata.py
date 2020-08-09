@@ -3,7 +3,7 @@ import json
 from .util import file_util
 from .util import struct_util
 from .util import seq_util
-
+from . import external_functions
 
 RESERVED_COL = ["chrom", "spos", "epos", "ensgid"]
 
@@ -103,7 +103,7 @@ class GeneSourceReader():
             if is_available(f1):
                 self.field_names.append(f1['name'])
 
-                # print("self.header",self.header, f1['name'], self.key_colidx)
+                # print("self.header", self.header, f1['name'], self.key_colidx)
                 colidx = self.header.index(f1['name'])
                 if f1['name'] in self.header:
                     if is_reserved_column(f1):
@@ -150,6 +150,7 @@ class GeneSourceReader():
         return ensg.strip().split('.')[0]
 
     def get_value_using_eval_field_function(self, colidx, cidx_no, cidxvalue):
+        external_functions.void()
         exec_str = "external_functions." + self.field_function[colidx]
         exec_str += '('
         paramstr_list = []
@@ -490,7 +491,6 @@ class GeneDataSourceFile():
         return flag
 
     # init function
-
     def make_single_source_file(self):
         file_util.check_dir(self.out)
         fp = open(self.out, 'w')
@@ -518,6 +518,7 @@ class GeneDataSourceFile():
             # line = '\t'.join(data)
             data = gsm.get_data_dict(ensgid)
             if len(data.keys()) > 0:
+
                 flag2 = self.save_file_record(fp, data, flag_write)
                 if flag2:
                     flag_write = True

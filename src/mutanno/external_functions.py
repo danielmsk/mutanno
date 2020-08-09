@@ -1,4 +1,8 @@
-from .util import vep_util
+from .util import vep_util, file_util
+
+
+def void():
+    pass
 
 
 def conv_consequence_delimiter(consequence):
@@ -126,8 +130,9 @@ def convert_NS2blank(v1):
 
 def convert_vep_strand(v1):
     rst = v1
-    # if isinstance(v1, str):
-    rst = v1.replace('-1', '0')
+    if isinstance(v1, str):
+        if v1 == '-1':
+            rst = '0'
     return rst
 
 
@@ -196,3 +201,13 @@ def get_most_severe_consequence(consequence_list):
             most_severe_order = vep_util.VEP_CONSEQUENCE_ORDER[c1]
             most_severe_consequence = c1
     return most_severe_consequence
+
+
+def get_value(v1):
+    return v1
+
+
+def tmp_v0_4_8_clinvar_submission(sections, tmp_clinvar_idmap):
+    for section in sections:
+        section['VariationID'] = tmp_clinvar_idmap[section['ClinVarAccession']]
+    return sections

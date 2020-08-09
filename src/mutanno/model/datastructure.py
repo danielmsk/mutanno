@@ -18,6 +18,7 @@ DSLIST_ATTR = [
     ("hgvs", False, False),
     ("variant_class", False, False),
     ("hg19", False, False),
+    ("fixpl", False, False),
     ("clean_tag_list", [], False),
 ]
 
@@ -158,7 +159,6 @@ class DataSourceFieldStructure:
             if strvalue == "":
                 rst = self.default
             else:
-                # print(">>>f:", self.name)
                 rst = float(strvalue)
         elif self.type == "integer":
             if strvalue == "":
@@ -166,12 +166,14 @@ class DataSourceFieldStructure:
             else:
                 rst = int(strvalue)
         elif self.type == "boolean":
-            if strvalue == "1":
-                rst = True
-            elif strvalue == "0":
-                rst = False
-            else:
-                rst = None
+            # >> convert boolean value in external function. 
+            # if strvalue == "1":
+            #     rst = True
+            # elif strvalue == "0":
+            #     rst = False
+            # else:
+            #     rst = None
+            rst = strvalue
         else:
             if strvalue == "":
                 rst = self.default

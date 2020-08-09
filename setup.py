@@ -23,7 +23,7 @@ extras_require = {
 
 
 setup(name='mutanno',
-      version='0.4.1',
+      version='0.4.3',
       url='https://github.com/dbmi-bgm/mutanno',
       license='MIT',
       author='CGAP team at Harvard Medical School',
@@ -43,7 +43,8 @@ setup(name='mutanno',
       python_requires=">=3.4",
       packages=find_packages('src'),
       package_dir={'': 'src'},
-      package_data={'mutanno.web.templates': ['*.html'],
+      package_data={'mutanno.data': ['*.json', '*.gz'],
+                    'mutanno.web.templates': ['*.html'],
                     'mutanno.web.static.css': ['*.css'],
                     'mutanno.web.static.fonts': ['*.woff', '*.woff2'],
                     'mutanno.web.static.img': ['*.png', '*.gif'],

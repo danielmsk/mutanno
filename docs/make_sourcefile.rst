@@ -56,9 +56,21 @@ With ``-out`` option, you can assign the output file name and path for the singl
 Annotation type
 ---------------
 
-By default, ``-vartype`` is ``SNV`` among ``SNV`` or ``GENE``. 
+By default, ``-vartype`` is ``SNV`` among ``SNV``, ``GENE``, and ``CODING_GENE_MAIN_CHROM``. 
 
-To be added..
+SNV
+^^^
+
+GENE
+^^^^
+
+To make gene anntoation file, we can use
+
+
+CODING_GENE_MAIN_CHROM
+^^^^^^^^^^^^^^^^^^^^^^
+
+
 
 
 

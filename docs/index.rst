@@ -43,6 +43,7 @@ Contents
    datastructure
    datastructure_version
    annotated_vcf
+   cgap_example
    benchmark
    version_list
 

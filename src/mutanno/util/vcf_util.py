@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-VCF_COL = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT']
+from . import struct_util
+import math
+from itertools import combinations_with_replacement
+VCF_COL = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT', 'SAMPLESTART']
 
 INFOIDX = VCF_COL.index('INFO')
 
@@ -156,7 +159,26 @@ def get_genotype(numgt, ref, alt):
     return '/'.join(gt)
 
 
+def get_numgt(gt, ref, alt, delimiter=''):
+    if delimiter == '':
+        if '|' in gt:
+            delimiter = '|'
+        else:
+            delimiter = '/'
+        gt = gt.replace(delimiter, '/')
+
+    numgt = []
+    for g1 in gt.split('/'):
+        if g1 == alt:
+            numgt.append('1')
+        else:
+            numgt.append('0')
+
+    return delimiter.join(numgt)
+
+
 def split_multiallelic_variants(vcfrecord):
+    # print('>vcfrecord:', vcfrecord)
     arralt = vcfrecord[4].split(',')
     rst = []
     for k in range(len(arralt)):
@@ -201,6 +223,12 @@ def split_multiallelic_variants(vcfrecord):
 def encode_value(v1):
     v1 = v1.replace(';', "%3B").replace('=', "%3D").replace("|", "%7C").replace(",", "%2C")
     v1 = v1.replace('"', "%22").replace('~', "%7E").replace(' ', '%20')
+    return v1
+
+
+def decode_value(v1):
+    v1 = v1.replace("%3B", ';').replace("%3D", '=').replace("%7C", "|").replace("%2C", ",")
+    v1 = v1.replace("%22", '"').replace("%7E", '~').replace('%20', ' ')
     return v1
 
 
@@ -372,3 +400,44 @@ def pars_info_field_with_infoheader(infofield, infoheaderdict):
         else:
             d[s1] = True
     return(d)
+
+
+
+
+def get_biallelepl_multiallelepl(numgt, multiallelepl):
+    if '|' in numgt:
+        delimiter = '|'
+    else:
+        delimiter = '/'
+
+    # from F(j/k) = (k*(k+1)/2)+j of https://samtools.github.io/hts-specs/VCFv4.1.pdf
+    no_allele = int( (math.sqrt(1 + 8 * len(multiallelepl)) - 1) / 2)
+    comb_gt = list(combinations_with_replacement(list(range(no_allele)), 2))
+
+    pl_pos_map = {}
+    for cgt in comb_gt:
+        gt = '/'.join(struct_util.convto_str_array(cgt))
+        # from F(j/k) = (k*(k+1)/2)+j of https://samtools.github.io/hts-specs/VCFv4.1.pdf
+        pl_pos_map[gt] = int((cgt[1] * (cgt[1] + 1) / 2) + cgt[0])
+
+    new_pl = []
+    for ngt in list(combinations_with_replacement(numgt.split(delimiter), 2)):
+        pidx = pl_pos_map['/'.join(ngt)]
+        new_pl.append(multiallelepl[pidx])
+    return new_pl
+
+
+def get_numgt_from_multiallele(genotype, multigenotype):
+    if '|' in genotype:
+        delimiter = '|'
+    else:
+        delimiter = '/'
+    mgt1 = multigenotype.split('/')
+    m = {}
+    m[mgt1[0]] = '0'
+    for i, alt in enumerate(mgt1[1].split(',')):
+        m[alt] = str(i+1)
+    numgt = []
+    for b1 in genotype.split(delimiter):
+        numgt.append(m[b1])
+    return delimiter.join(numgt)

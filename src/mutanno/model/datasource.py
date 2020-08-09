@@ -55,7 +55,7 @@ class VariantAnnotMerger:
 
 
 class VariantAnnot:
-    def __init__(self, records, header_record, datasource=None, return_all=False, variant=None):
+    def __init__(self, records, header_record, datasource=None, return_all=False, variant=None, tmp_clinvar_idmap={}):
         self.data = []
         self.rawdata = []
         self.records = records
@@ -71,6 +71,8 @@ class VariantAnnot:
         if self.variant is not None:
             self.vcf_info = self.variant.get_vcf_info()
         self.set_rawdata()
+        self.tmp_clinvar_idmap = tmp_clinvar_idmap
+        
 
     def get_data(self, othersource_annotdata):
         self.othersource_annotdata = othersource_annotdata
@@ -121,26 +123,28 @@ class VariantAnnot:
                 if len(d.keys()) > 0:
                     self.data = [d]
 
+
     def apply_external_function(self, sections):
         for section_idx, section in enumerate(sections):
             if self.source.function is not None:
                 function = self.source.function
-                params = self.source.param.split(',')
+                params = file_util.trim_split(self.source.param, ',')
                 paramvalues = {
                     "mutanno_value_sections": sections,
                     "mutanno_value_section_idx": section_idx,
                     "mutanno_value_columnheader": self.header,
                     "vcf_info_value": self.vcf_info,
+                    "tmp_clinvar_idmap": self.tmp_clinvar_idmap,
                     "mutanno_value_data": self.othersource_annotdata
                 }
                 for k1 in section.keys():
                     paramvalues[k1] = section[k1]
                 sections = run_external_function(function, params, paramvalues)
 
+            tmp_section = {}
             for field in self.source.available_field_list:
                 try:
                     if self.source.fields[field.name].function is not None:
-
                         field = self.source.fields[field.name]
                         function = field.function
                         params = field.param.split(',')
@@ -149,13 +153,16 @@ class VariantAnnot:
                             "mutanno_value_section_idx": section_idx,
                             "mutanno_value_columnheader": self.header,
                             "vcf_info_value": self.vcf_info,
+                            "tmp_clinvar_idmap": self.tmp_clinvar_idmap,
                             "mutanno_value_data": self.othersource_annotdata
                         }
                         for k1 in section.keys():
                             paramvalues[k1] = section[k1]
-                        section[field.name] = run_external_function(function, params, paramvalues)
+                        tmp_section[field.name] = run_external_function(function, params, paramvalues)
                 except KeyError:
                     pass
+            for fieldname in tmp_section.keys():
+                section[fieldname] = tmp_section[fieldname]
         return sections
 
     def set_rawdata_from_tsi(self):
@@ -194,8 +201,18 @@ class VariantAnnot:
                             for r1 in r1s:
                                 values = r1.split('|')
                                 d = self.set_init_annot_section_key(rec)
+
+                                # temporary code
+                                if source_name == "CLINVAR_SUBMISSION":
+                                    self.header = ['ClinVarAccession', 'Interpretation', 'DateLastEvaluated', 'ReviewStatus',
+                                                   'AssertionMethod', 'AssertionMethodCitation', 'Method', 'Condition', 'ConditionXRef', 
+                                                   'AlleleOrigin', 'Submitter', 'SubmitterID', 'Citation', 'Comment']
+                                
                                 for i, fieldname in enumerate(self.header):
-                                    d[fieldname] = self.convert_field_type(fieldname, values[i])
+                                    try:
+                                        d[fieldname] = self.convert_field_type(fieldname, values[i])
+                                    except IndexError:
+                                        pass
 
                                 if len(d.keys()) > 0:
                                     self.rawdata.append(d)
@@ -305,7 +322,7 @@ class DataSource(DataSourceStructure):
                 print("Source file is not exist. : " + sourcefile)
 
     def get_variant_annot(self, chrom, pos, ref="", alt="", epos=-9, return_raw=True, records=[],
-                          header_record=[], variant=None):
+                          header_record=[], variant=None, tmp_clinvar_idmap={}):
         if self.tchrom != chrom and (self.tabixpointer is None or "#CHROM#" in self.sourcefile2):
             self.tabix_load(chrom)
 
@@ -331,7 +348,7 @@ class DataSource(DataSourceStructure):
                 pass
             header = self.header
 
-        return VariantAnnot(recs, header, datasource=self, variant=variant)
+        return VariantAnnot(recs, header, datasource=self, variant=variant, tmp_clinvar_idmap=tmp_clinvar_idmap)
 
     def get_variantkeys(self, chrom, spos, epos):
         if self.tchrom != chrom and (self.tabixpointer is None or "#CHROM#" in self.sourcefile2):
@@ -364,6 +381,7 @@ class DataSourceList(DataSourceListStructure):
     ref_column_index = 3
     alt_column_index = 4
     single_source = None
+    # single_source_mode = True
 
     def load_singlesource(self):
         singlesource_ds = {
@@ -380,15 +398,17 @@ class DataSourceList(DataSourceListStructure):
         annotmerger = VariantAnnotMerger()
         if self.sourcefile != "":
             self.load_singlesource()
-            single_source_annot = self.single_source.get_variant_annot(chrom, pos, ref, alt, return_raw=True)
+            single_source_annot = self.single_source.get_variant_annot(
+                chrom, pos, ref, alt, return_raw=True, tmp_clinvar_idmap=self.tmp_clinvar_idmap)
             # annotmerger.add_variant_annot(single_source_annot)
         for s1 in self.available_source_list:
             if self.single_source_mode:
                 annot = s1.get_variant_annot(chrom, pos, ref=ref, alt=alt, epos=epos,
                                              records=single_source_annot.records,
-                                             header_record=single_source_annot.header_record, variant=variant)
+                                             header_record=single_source_annot.header_record, variant=variant, tmp_clinvar_idmap=self.tmp_clinvar_idmap)
             else:
-                annot = s1.get_variant_annot(chrom, pos, ref=ref, alt=alt, epos=epos, variant=variant)
+                annot = s1.get_variant_annot(chrom, pos, ref=ref, alt=alt, epos=epos,
+                                             variant=variant, tmp_clinvar_idmap=self.tmp_clinvar_idmap)
             annotmerger.add_variant_annot(annot)
         return annotmerger
 

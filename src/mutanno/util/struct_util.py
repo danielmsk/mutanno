@@ -6,6 +6,11 @@ def get_sourcename(s1):
         s1name = s1name2
     return s1name
 
+def mkdict(keys_array, values_array):
+    m = {}
+    for i, k1 in enumerate(keys_array):
+        m[k1] = values_array[i]
+    return m
 
 def get_dict_value(dict1, key1, default):
     rst = default
@@ -13,6 +18,11 @@ def get_dict_value(dict1, key1, default):
         rst = dict1[key1]
     return rst
 
+def convto_str_array(arr1):
+    rst = []
+    for a1 in arr1:
+        rst.append(str(a1))
+    return rst
 
 def is_available(field):
     flag = True

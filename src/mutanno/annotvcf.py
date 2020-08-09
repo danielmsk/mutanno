@@ -1,15 +1,18 @@
 import time
-from .util import file_util
+from .util import file_util, vcf_util, struct_util, seq_util
 from .util.struct_util import get_dict_value as dv
-from .util import vcf_util
-from .util import seq_util
 from .model.datasource import DataSourceList
 from .renderer import VCFRenderer
 from .renderer import JSONRenderer
 from . import _version
 
+CHROMIDX = vcf_util.VCF_COL.index('CHROM')
+POSIDX = vcf_util.VCF_COL.index('POS')
+REFIDX = vcf_util.VCF_COL.index('REF')
+ALTIDX = vcf_util.VCF_COL.index('ALT')
 INFOIDX = vcf_util.VCF_COL.index('INFO')
-
+FORMATIDX = vcf_util.VCF_COL.index('FORMAT')
+SAMPLESTARTIDX = vcf_util.VCF_COL.index('SAMPLESTART')
 
 class VCFAnnotator():
     vcfheader = None
@@ -22,6 +25,7 @@ class VCFAnnotator():
         self.opt = opt
         self.out = self.opt.out
         self.dslist = DataSourceList(self.opt.ds)
+        self.dslist.tmp_clinvar_idmap = file_util.tmp_load_clinvar_idmap()
         if self.opt.sourcefile != "":
             self.dslist.sourcefile = self.opt.sourcefile
             self.dslist.sourcefile2 = self.opt.sourcefile
@@ -329,17 +333,17 @@ class VCFVariant:
         self.infoheader = infoheader
         self.vcfinfo = VCFVariantINFO(self.record[INFOIDX], self.infoheader)
 
-        self.chrom = self.record[0]
-        self.nchrom = self.record[0].replace('chr', '')
-        self.pos = int(self.record[1])
-        self.ref = self.record[3]
-        self.alt = self.record[4]
+        self.chrom = self.record[CHROMIDX]
+        self.nchrom = self.record[CHROMIDX].replace('chr', '')
+        self.pos = int(self.record[POSIDX])
+        self.ref = self.record[REFIDX]
+        self.alt = self.record[ALTIDX]
         self.spos = self.pos
         self.epos = -9
         self.set_epos()
         self.annotlines = []
         self.colnames = colnames
-        self.sampleid_list = colnames[9:]
+        self.sampleid_list = colnames[SAMPLESTARTIDX:]
         self.is_multiallelic = False
         self.is_subvariant = is_subvariant
         self.variant_class = vcf_util.get_variant_class(self.ref, self.alt)
@@ -374,8 +378,7 @@ class VCFVariant:
                 self.clean_tag_infofield(self.opt.clean_tag_list)
 
             if self.opt.variant_class or self.opt.hgvs or self.opt.split_multi_allelic_variant:
-                self.add_mutanno_infofield(self.opt.variant_class, self.opt.hgvs,
-                                           self.opt.split_multi_allelic_variant)
+                self.add_mutanno_infofield()
 
             if self.opt.hg19:
                 self.add_hg19_in_infofield(self.liftover_hg38_hg19, self.opt.hgvs)
@@ -384,9 +387,9 @@ class VCFVariant:
 
     def add_genotypeinfo_in_infofield(self, target_sampleid):
         if len(target_sampleid) == 0:
-            target_sampleidx = range(9, len(self.colnames))
+            target_sampleidx = range(SAMPLESTARTIDX, len(self.colnames))
         else:
-            target_sampleidx = [self.sampleid_list.index(sid)+9 for sid in target_sampleid]
+            target_sampleidx = [self.sampleid_list.index(sid)+SAMPLESTARTIDX for sid in target_sampleid]
 
         samplegeno = []
         for k in target_sampleidx:
@@ -395,22 +398,50 @@ class VCFVariant:
             converted_gtinfo.append(gtinfo[0].replace('|', '/'))
             converted_gtinfo.append(vcf_util.get_genotype(gtinfo[0], self.record[3], self.record[4]))
             converted_gtinfo.append(gtinfo[1].replace(',', '/'))
-            converted_gtinfo.append(self.sampleid_list[k-9])
+            converted_gtinfo.append(self.sampleid_list[k-SAMPLESTARTIDX])
             samplegeno.append('|'.join(converted_gtinfo))
         self.record[INFOIDX] = vcf_util.add_info(self.record[INFOIDX], "SAMPLEGENO=" + ",".join(samplegeno))
 
-    def add_mutanno_infofield(self, add_variant_class=False, add_hgvs=False, split_multi_allelic_variant=False):
+    def add_mutanno_infofield(self):
         values = []
-        if add_variant_class:
+        if self.opt.variant_class:
             values.append(vcf_util.encode_infovalue(self.variant_class))
-        if add_hgvs:
+        if self.opt.hgvs:
             hgvsg = vcf_util.get_hgvsg(self.chrom, self.pos, self.ref, self.alt)
             values.append(vcf_util.encode_infovalue(hgvsg))
-        if split_multi_allelic_variant:
+        if self.opt.split_multi_allelic_variant:
             self.set_split_multiallelic_variant()
             # values.append(self.samplevariantkey)
+        if self.opt.fixpl:
+            self.fix_multiallele_pl()
         if len(values) > 0:
             self.record[INFOIDX] = vcf_util.add_info(self.record[INFOIDX], "MUTANNO=" + '|'.join(values))
+
+    def fix_multiallele_pl(self):
+        if "MULTIALLELE=" in self.record[INFOIDX]:
+            rst = vcf_util.pars_info_field(self.record[INFOIDX])
+            this_geno = self.ref + '/' + self.alt
+            
+            multiallele_key = vcf_util.decode_value(rst['MULTIALLELE'][0][0])
+            this_numgeno = vcf_util.get_numgt_from_multiallele(this_geno, multiallele_key.strip().split(' ')[-1])
+            # print('>this_geno:', this_geno, this_numgeno,  multiallele_key.strip().split(' ')[-1])
+
+            for samplegeno in rst['SAMPLEGENO']:
+                sgeno = struct_util.mkdict(self.infoheader['SAMPLEGENO']['Format'], samplegeno)
+                samplecolidx = self.colnames.index(sgeno['SAMPLEID'])
+                format_list = self.record[FORMATIDX].split(':')
+                sample_genotype = self.record[samplecolidx].split(':')
+
+                pl = sample_genotype[format_list.index('PL')].split(',')
+                new_pl = vcf_util.get_biallelepl_multiallelepl(this_numgeno, pl)
+                sample_genotype[format_list.index('PL')] = ','.join(new_pl)
+
+                # fix num_genotype (for temporary usage) #########################################################################
+                new_gt = vcf_util.get_numgt(sgeno['GT'], self.ref, self.alt, delimiter=sample_genotype[format_list.index('GT')][1])
+                sample_genotype[format_list.index('GT')] = new_gt
+                # fix num_genotype (for temporary usage) #########################################################################
+
+                self.record[samplecolidx] = ':'.join(sample_genotype)
 
     def add_hg19_in_infofield(self, liftover_hg38_hg19, add_hgvs=False):
         hg19 = ""

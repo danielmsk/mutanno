@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mutanno
-Version: 0.4.1
+Version: 0.4.3
 Summary: Mutation Annotation Tool
 Home-page: https://github.com/dbmi-bgm/mutanno
 Author: CGAP team at Harvard Medical School
@@ -8,12 +8,16 @@ Author-email: daniel.minseok.kwon@gmail.com
 License: MIT
 Download-URL: https://github.com/dbmi-bgm/mutanno/archive/0.4.0.tar.gz
 Description: # MutAnno
-        [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
-        [![Build Status](https://travis-ci.org/dbmi-bgm/mutanno.svg?branch=master)](https://travis-ci.org/dbmi-bgm/mutanno)
+        [![pypi version](https://img.shields.io/pypi/v/mutanno.svg)](https://pypi.org/project/mutanno/)
+        [![doc](https://readthedocs.org/projects/mutanno/badge/?version=latest)](https://mutanno.readthedocs.io/en/latest/)
+        <!-- [![pypi download](https://img.shields.io/pypi/dm/mutanno.svg)](https://pypi.org/project/mutanno/) -->
+        <!-- [![Build Status](https://travis-ci.org/dbmi-bgm/mutanno.svg?branch=master)](https://travis-ci.org/dbmi-bgm/mutanno) -->
         
         
         * github : https://github.com/dbmi-bgm/mutanno
         * manual : https://mutanno.readthedocs.io/en/latest/
+        
+        For more details, see MutAnno [**documentation**](http://mutanno.readthedocs.io/en/latest).
         
         ```
         mutanno annot -vcf trio_test2.vcf \

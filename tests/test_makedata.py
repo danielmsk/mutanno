@@ -28,8 +28,6 @@ test_region.append('1:59900001-59900010')
 # test_region.append('1:2144940-2144980')
 # test_region.append('1:73120540-74181530') #TOPMED
 
-
-
 # for chrom in seq_util.CHROM_LEN['hg38'].keys():
 #     test_region.append(chrom + ':1-' + str(seq_util.CHROM_LEN['hg38'][chrom])) #chrom1 all
 

@@ -203,6 +203,8 @@ def get_options():
     p1.add_argument('-blocksize', dest='blocksize', default='', help='block size')
     p1.add_argument('-split_multi_allelic_variant', dest='split_multi_allelic_variant',
                     action="store_true", default=do['split_multi_allelic_variant'], help='split multi-allelic variants')
+    p1.add_argument('-fixpl', dest='fixpl',
+                    action="store_true", default=False, help='fix PL values for split multi-allelic variants')
     p1.add_argument('-clean_tag', dest='clean_tag_list',
                     default=[], help='remove previous annotation information', nargs='*')
     p1.add_argument('-single_source_mode', dest='single_source_mode',

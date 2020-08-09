@@ -6,6 +6,7 @@ v0.4.x release series
 
 0.4.1 (2020.05.25) :
 	- dd
+	- add ``-fixpl`` option
 
 
 

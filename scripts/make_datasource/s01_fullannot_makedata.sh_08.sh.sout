@@ -1,3 +1,0 @@
-./s01_fullannot_makedata.sh_08.sh: line 1: 59761 Killed                  mutanno makedata -ds /home/mk446/mutanno/SRC/tests/data/datastructure_fullannot_v0.4.6ds.json -out /home/mk446/mutanno/DATASOURCE/MUTANOANNOT/fullannot_datasource.7.v0.4.6_200617.tsi -vartype SNV -region 7:1-159345973 -blocksize 50000
-/home/mk446/mutanno/DATASOURCE/MUTANOANNOT/fullannot_datasource.7.v0.4.6_200617.tsi
-slurmstepd: error: Detected 1 oom-kill event(s) in step 10683191.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.

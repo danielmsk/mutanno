@@ -451,3 +451,20 @@ def decodeb(bstr):
 
 def rmext(fname, ext):
     return fname[:(-1 * len(ext))]
+
+
+def trim_split(v1, delimeter):
+    rst = []
+    for a1 in v1.split(delimeter):
+        rst.append(a1.strip())
+    return rst
+
+
+def tmp_load_clinvar_idmap():
+    clinvar_idmapfile = getDataPath('CLINVAR_hg38_20200329_submission.sorted.tsi.gz_idmap.txt.gz')
+    clinvar_idmap = {}
+    for line in gzopen(clinvar_idmapfile):
+        line = decodeb(line)
+        arr = line.strip().split('\t')
+        clinvar_idmap[arr[0]] = arr[1]
+    return clinvar_idmap
