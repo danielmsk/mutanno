@@ -8,7 +8,6 @@ v0.4.x release series
 	- add ``-fixpl`` option when converting multi-allelic variant to biallelic variants. 
 	- change for full-annotation data source v0.4.8
 	- update value mapping order in external function.
-0.4.3 (2020.08.04) :
 	- add configration jsonfile (./data/conf.json)
 	- add download sub-command
 0.4.2 (2020.06.25) :
