@@ -8,5 +8,4 @@ src/*.egg-info/
 build/
 dist/
 _build/
-tests/out/*
 tests/test.sh
