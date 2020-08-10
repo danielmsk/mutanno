@@ -7,7 +7,8 @@ install_requires = [
     'pytabix>=0.0.2',
     'pyliftover>=0.4',
     'xmltodict>=0.12.0',
-    'pyvcf>=0.6.8'
+    'pyvcf>=0.6.8',
+    'tqdm>=4.48.2'
 ]
 
 tests_require = [
@@ -20,7 +21,6 @@ extras_require = {
         'Sphinx>=1.1'
     ]
 }
-
 
 setup(name='mutanno',
       version='0.4.3',

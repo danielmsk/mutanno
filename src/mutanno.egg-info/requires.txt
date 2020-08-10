@@ -4,3 +4,4 @@ pytabix>=0.0.2
 pyliftover>=0.4
 xmltodict>=0.12.0
 pyvcf>=0.6.8
+tqdm>=4.48.2
