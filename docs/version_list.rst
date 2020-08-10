@@ -4,9 +4,28 @@ Version History
 v0.4.x release series
 ---------------------
 
-0.4.1 (2020.05.25) :
-	- dd
-	- add ``-fixpl`` option
+0.4.3 (2020.08.09) :
+	- add ``-fixpl`` option when converting multi-allelic variant to biallelic variants. 
+	- change for full-annotation data source v0.4.8
+	- update value mapping order in external function.
+0.4.3 (2020.08.04) :
+	- add configration jsonfile (./data/conf.json)
+	- add download sub-command
+0.4.2 (2020.06.25) :
+	- add parameter set in data structure json file.
+0.4.1 (2020.06.08) :
+	- turn to be 'single_source_mode = True' when data structure file has only single source file.
+	- allocate all sample names when users use -genoinfo without indicating sample names.
+0.4.0 (2020.06.05) :
+	- add variant type
+	- support multiple datasources for vcf annotation
+	- remove block-size option
+	- make `MUTANNO` source name for 'samplevariantkey', 'hgvsg', and 'variant_class'
+	- add '-variant_class' option
+	- refactoring
+	- add multi-source mode
+	- refactoring makedata mode	
+	
 
 
 
