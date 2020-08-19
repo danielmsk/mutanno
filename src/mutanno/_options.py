@@ -308,6 +308,8 @@ def get_options():
                                description='web view')
     p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
     p1.add_argument('-port', dest='port', default='8080', help='port')
+    p1.add_argument('-mti', dest='mti', default='', help='MutAnno tab-delimitered file(.mti)')
+    p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
     p1.add_argument('-log', dest='logfile', default='', help='log file')
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
     p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
