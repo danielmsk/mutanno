@@ -180,6 +180,7 @@ def get_numgt(gt, ref, alt, delimiter=''):
 def split_multiallelic_variants(vcfrecord):
     # print('>vcfrecord:', vcfrecord)
     arralt = vcfrecord[4].split(',')
+    arrformat = vcfrecord[8].split(':')
     rst = []
     for k in range(len(arralt)):
         r1 = []
@@ -188,8 +189,8 @@ def split_multiallelic_variants(vcfrecord):
                 arr = vcfrecord[j].split(':')
                 # GT
                 phase_hipen = arr[0][1]
-                if arr[0] != '0/0' and arr[0] != '0|0':
-                    gt = arr[0].split('/')
+                if arr[0] != '0' + phase_hipen + '0':
+                    gt = arr[0].split(phase_hipen)
                     if str(k+1) in gt:
                         if "0" in gt:
                             arr[0] = "0" + phase_hipen + "1"
@@ -198,8 +199,18 @@ def split_multiallelic_variants(vcfrecord):
                     else:
                         arr[0] = "0" + phase_hipen + "0"
                 # AD
-                ad = arr[1].split(',')
-                arr[1] = ad[0] + ',' + ad[k+1]
+                ad = arr[arrformat.index('AD')].split(',')
+                arr[arrformat.index('AD')] = ad[0] + ',' + ad[k+1]
+
+                # DP
+                arr[arrformat.index('DP')] = str(int(ad[0]) + int(ad[k+1]))
+
+                # PL
+                arr_pl = arr[arrformat.index('PL')].split(',')
+                new_pl = get_biallelepl_multiallelepl('0/' + str(k+1), arr_pl)
+                arr[arrformat.index('PL')] = ','.join(new_pl)
+
+                # print('->',arr)
                 r1.append(':'.join(arr))
             else:
                 r1.append(vcfrecord[j])
@@ -217,7 +228,47 @@ def split_multiallelic_variants(vcfrecord):
         # info.append('multiallele=' + vcfrecord[0] + ':' + vcfrecord[1] + '%20' + vcfrecord[3] + '/' + vcfrecord[4])
         r1[7] = ';'.join(info)
         rst.append(r1)
+
     return rst
+
+
+def get_biallelepl_multiallelepl(numgt, multiallelepl):
+    if '|' in numgt:
+        delimiter = '|'
+    else:
+        delimiter = '/'
+
+    # from F(j/k) = (k*(k+1)/2)+j of https://samtools.github.io/hts-specs/VCFv4.1.pdf
+    no_allele = int( (math.sqrt(1 + 8 * len(multiallelepl)) - 1) / 2)
+    comb_gt = list(combinations_with_replacement(list(range(no_allele)), 2))
+
+    pl_pos_map = {}
+    for cgt in comb_gt:
+        gt = '/'.join(struct_util.convto_str_array(cgt))
+        # from F(j/k) = (k*(k+1)/2)+j of https://samtools.github.io/hts-specs/VCFv4.1.pdf
+        pl_pos_map[gt] = int((cgt[1] * (cgt[1] + 1) / 2) + cgt[0])
+
+    new_pl = []
+    for ngt in list(combinations_with_replacement(numgt.split(delimiter), 2)):
+        pidx = pl_pos_map['/'.join(ngt)]
+        new_pl.append(multiallelepl[pidx])
+    return new_pl
+
+
+def get_numgt_from_multiallele(genotype, multigenotype):
+    if '|' in genotype:
+        delimiter = '|'
+    else:
+        delimiter = '/'
+    mgt1 = multigenotype.split('/')
+    m = {}
+    m[mgt1[0]] = '0'
+    for i, alt in enumerate(mgt1[1].split(',')):
+        m[alt] = str(i+1)
+    numgt = []
+    for b1 in genotype.split(delimiter):
+        numgt.append(m[b1])
+    return delimiter.join(numgt)
 
 
 def encode_value(v1):
@@ -401,43 +452,3 @@ def pars_info_field_with_infoheader(infofield, infoheaderdict):
             d[s1] = True
     return(d)
 
-
-
-
-def get_biallelepl_multiallelepl(numgt, multiallelepl):
-    if '|' in numgt:
-        delimiter = '|'
-    else:
-        delimiter = '/'
-
-    # from F(j/k) = (k*(k+1)/2)+j of https://samtools.github.io/hts-specs/VCFv4.1.pdf
-    no_allele = int( (math.sqrt(1 + 8 * len(multiallelepl)) - 1) / 2)
-    comb_gt = list(combinations_with_replacement(list(range(no_allele)), 2))
-
-    pl_pos_map = {}
-    for cgt in comb_gt:
-        gt = '/'.join(struct_util.convto_str_array(cgt))
-        # from F(j/k) = (k*(k+1)/2)+j of https://samtools.github.io/hts-specs/VCFv4.1.pdf
-        pl_pos_map[gt] = int((cgt[1] * (cgt[1] + 1) / 2) + cgt[0])
-
-    new_pl = []
-    for ngt in list(combinations_with_replacement(numgt.split(delimiter), 2)):
-        pidx = pl_pos_map['/'.join(ngt)]
-        new_pl.append(multiallelepl[pidx])
-    return new_pl
-
-
-def get_numgt_from_multiallele(genotype, multigenotype):
-    if '|' in genotype:
-        delimiter = '|'
-    else:
-        delimiter = '/'
-    mgt1 = multigenotype.split('/')
-    m = {}
-    m[mgt1[0]] = '0'
-    for i, alt in enumerate(mgt1[1].split(',')):
-        m[alt] = str(i+1)
-    numgt = []
-    for b1 in genotype.split(delimiter):
-        numgt.append(m[b1])
-    return delimiter.join(numgt)

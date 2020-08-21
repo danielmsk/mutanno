@@ -3,6 +3,8 @@ Version History
 
 v0.4.x release series
 ---------------------
+0.4.4 (reserved) :
+	- bug fix missing genotype for multiallelic variant when ``-split_multi_allelic_variant`` option is applied. (`issue #5 <https://github.com/dbmi-bgm/mutanno/issues/5>`_)
 
 0.4.3 (2020.08.09) :
 	- add ``-fixpl`` option when converting multi-allelic variant to biallelic variants. 
@@ -10,6 +12,7 @@ v0.4.x release series
 	- update value mapping order in external function.
 	- add configration jsonfile (./data/conf.json)
 	- add download sub-command
+	- add tqdm library for downloading progress bar
 0.4.2 (2020.06.25) :
 	- add parameter set in data structure json file.
 0.4.1 (2020.06.08) :
