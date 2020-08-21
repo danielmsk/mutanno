@@ -32,7 +32,7 @@ Contents
 
 .. toctree::
    :numbered:
-   :maxdepth: 4
+   :maxdepth: 3
 
    installation
    options
@@ -47,6 +47,5 @@ Contents
    benchmark
    version_list
 
-
-
+   src/mutanno
 

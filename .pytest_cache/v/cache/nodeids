@@ -19,5 +19,7 @@
   "tests/test_validate.py::test_read_metadata_and_check_duplicate",
   "tests/test_validate.py::test_run_AnnotVCFValidator",
   "tests/test_vcf_util.py::test_convert_to_metadata",
-  "tests/test_viewer.py::test_annotvcf_veiwer"
+  "tests/test_viewer.py::test_annotvcf_veiwer",
+  "tests/test_split_multiallelic_variant.py::test",
+  "tests/test_split_multiallelic_variant.py::test_split_multiallelic_variants"
 ]

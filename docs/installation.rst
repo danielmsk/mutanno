@@ -12,6 +12,7 @@ Prerequisites
 * `pyliftover (0.4+) <https://pypi.org/project/pyliftover/>`_
 * `xmltodict (0.12.0+) <https://pypi.org/project/xmltodict/>`_
 * `pyvcf (0.6.8+) <https://pypi.org/project/PyVCF/>`_ 
+* `tqdm (4.48.2+) <https://pypi.org/project/tqdm/>`_
 
 .. note::
 	If you are using pypi (``pip``) for **MutAnno** installation, you don't need to install prerequisite python libraries because pypi can install them automatically. 
