@@ -1,0 +1,198 @@
+{
+  "name": "MUTANNO",
+  "format": "tsi",
+  "source": [
+    {
+      "name": "VEP",
+      "desc": "Predicted nonsense mediated decay effects for this variant by VEP",
+      "version": "v99",
+      "version_date": "11/04/2019",
+      "fields": [
+        {
+          "name": "Gene",
+          "type": "string",
+          "desc": "Stable ID of affected gene"
+        },
+        {
+          "name": "Feature",
+          "type": "string",
+          "desc": "Stable ID of feature"
+        },
+        {
+          "name": "Feature_type",
+          "type": "string",
+          "desc": "Type of feature - Transcript, RegulatoryFeature or MotifFeature"
+        },
+        {
+          "name": "Consequence",
+          "type": "string",
+          "is_list": true,
+          "desc": "Consequence type"
+        },
+        {
+          "name": "SYMBOL",
+          "type": "string",
+          "desc": "Gene symbol (e.g. HGNC)"
+        },
+        {
+          "name": "BIOTYPE",
+          "type": "string",
+          "desc": "Biotype of transcript or regulatory feature"
+        }
+      ]
+    },
+    {
+      "name": "gnomADgenome",
+      "desc": "population AF by gnomAD",
+      "version": "3.0",
+      "version_date": "03/06/2019",
+      "fields": [
+        {
+          "name": "AF",
+          "name2": "gnomAD_AF",
+          "type": "float",
+          "desc": "Allele frequency across populations"
+        }
+      ]
+    },
+    {
+      "name": "CLINVAR",
+      "desc": "CLINVAR variants",
+      "version": "20200106",
+      "version_date": "01/06/2020",
+      "fields": [
+        {
+          "name": "ALLELEID",
+          "name2": "CLINVAR_ALLELEID",
+          "desc": "the ClinVar Allele ID"
+        },
+        {
+          "name": "CLNSIG",
+          "name2": "CLINVAR_CLNSIG",
+          "desc": "Clinical significance for this single variant"
+        }
+      ]
+    },
+    {
+      "name": "SpliceAI",
+      "desc": "SpliceAI scores",
+      "version": "20191004",
+      "version_date": "10/04/2019",
+      "fields": [
+        {
+          "name": "MAXDS",
+          "name2": "SpliceAI_MaxScore",
+          "desc": "SpliceAI max delta score"
+        }
+      ]
+    },
+    {
+      "name": "ENSEMBLANNOT",
+      "desc": "annotation for Novel InDel",
+      "version": "99",
+      "version_date": "08/23/2019",
+      "fields": [
+        {
+          "name": "type",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "strand",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "ensgid",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "gene_version",
+          "type": "integer",
+          "desc": ""
+        },
+        {
+          "name": "gene_name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "gene_source",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "gene_biotype",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_id",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_version",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_source",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_biotype",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "transcript_support_level",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "tag",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "exon_id",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "exon_number",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "exon_version",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "protein_id",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "protein_version",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "ccds_id",
+          "type": "string",
+          "desc": ""
+        }
+      ]
+    }
+  ]
+}

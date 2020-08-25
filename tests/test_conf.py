@@ -7,6 +7,7 @@ from src.mutanno.util import proc_util
 
 TESTS_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(TESTS_DIR, 'data')
+DS_DIR = os.path.join(TESTS_DIR, 'data_structure_json')
 
 VCF_VALIDATOR = "/n/app/vcftools/0.1.16/bin/vcf-validator"
 BGZIP = "/home/mk446/anaconda3/bin/bgzip"
@@ -30,9 +31,9 @@ DEFAULT_VCF_VALIDATOR_MSG = "The header tag 'reference' not present. (Not requir
 
 
 def get_ds():
-    global DATA_DIR
+    global DS_DIR
     ds = {}
-    for fname in file_util.listdir(DATA_DIR, '.json'):
+    for fname in file_util.listdir(DS_DIR, '.json'):
         if fname.startswith('datastructure_'):
             arr = fname.split('_')
 
