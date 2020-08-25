@@ -3,7 +3,7 @@ Version History
 
 v0.4.x release series
 ---------------------
-0.4.4 (reserved) :
+0.4.4 (2020.08.25) :
 	- bug fix missing genotype for multiallelic variant when ``-split_multi_allelic_variant`` option is applied. (`issue #5 <https://github.com/dbmi-bgm/mutanno/issues/5>`_)
 
 0.4.3 (2020.08.09) :
