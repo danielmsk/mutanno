@@ -78,7 +78,7 @@ def dispatch_job(opt):
         if opt.make_dbnsfp_transcript:
             obj = preprocess.MakeDbnsfpTranscript(opt.infile, opt.out, opt.ds, opt)
             obj.run()
-    if opt['subcommand'] == 'web':
+    if opt.subcommand == 'web':
         web.runserver(opt)
 
     if opt.subcommand == 'view':
