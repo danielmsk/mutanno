@@ -1,8 +1,0 @@
-{
-  "tests/test_ds_google_json.py::test_sync_googlesheet_dsjson": true,
-  "tests/test_makedata.py::test_make_fullannot_sourcefile": true,
-  "tests/test_run.py::test_fullannot_run": true,
-  "tests/test_run_micro.py::test_microannot_run": true,
-  "tests/test_validate.py::test_run_AnnotVCFValidator": true,
-  "tests/test_viewer.py::test_annotvcf_veiwer": true
-}

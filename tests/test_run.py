@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from src.mutanno.validate import AnnotVCFValidator, AnnotTSIValidator
-from src.mutanno.util.struct_util import get_dict_value as dv
-from src.mutanno.util.vcf_util import INFOIDX
-from src.mutanno.util import proc_util
-from src.mutanno.util import file_util
-from src import mutanno
 import sys
+sys.path.append('..')
+from src import mutanno
+from src.mutanno.util import file_util
+from src.mutanno.util import proc_util
+from src.mutanno.util.vcf_util import INFOIDX
+from src.mutanno.util.struct_util import get_dict_value as dv
+from src.mutanno.validate import AnnotVCFValidator, AnnotTSIValidator
 import filecmp
 import json
 import test_conf
-sys.path.append('..')
 
 
 def comp_previous_out(out, prevout):
@@ -78,6 +78,7 @@ def test_microannot_run():
     # for n1 in [10, 100, 1000]:
     # for n1 in [10, 100]:
     # for n1 in [100]:
+    print(ds)
     for n1 in [10]:
         for r1 in range(1, 6):
             vcf = "data/test_trio_"+str(n1)+"_"+str(r1)+".vcf.gz"
@@ -130,7 +131,7 @@ mutanno annot \
     -sourcefile fullannot.source.tsi.gz
 '''
 
-
+'''
 def test_fullannot_run():
     ds = test_conf.get_ds()
     for n1 in [10]:
@@ -198,39 +199,6 @@ def test_fullannot_run():
             # comp_previous_out(out, prevout)
             break
         break
-
-
-'''
-def test_allannot_run():
-    ds = test_conf.get_ds()
-    for n1 in [10]:
-        for r1 in range(1,6):
-            vcf = "data/test_trio_"+str(n1)+"_"+str(r1)+".vcf"
-            out = "out/" + vcf.split('/')[-1] + '.allannot.vcf'
-            prevout = "data/" + out.split('/')[-1]
-            dsjson = ds['allannot']['ds']
-
-            arg = ['mutanno']
-            arg.append('annot')
-            arg.extend(['-vcf',vcf])
-            arg.extend(['-ds',dsjson])
-            arg.extend(['-out',out])
-            arg.extend(['-outtype', 'vcf', 'json'])
-            arg.append('-hgvs')
-            arg.append('-hg19')
-            arg.append('-variant_class')
-            arg.append('-split_multi_allelic_variant')
-            arg.extend(['-genoinfo', 'NA12877_sample', 'NA12878_sample', 'NA12879_sample'])
-            arg.extend(['-chain',test_conf.CHAINFILE])
-            # arg.extend(['-clean_tag','SpliceAI','CLINVAR','gnomADgenome'])
-            # sys.argv.extend(['-sourcefile',test_conf.SOURCEFILE['fullannot']])
-            # print('>>command:',' '.join(sys.argv))
-            sys.argv = arg
-            # mutanno.cli()
-            # check_vcf_validator(out)
-            # comp_previous_out(out, prevout)
-            # validate_annotvcf(out, dsjson, arg)
-            # break
 '''
 
 
@@ -241,9 +209,8 @@ def print_command():
 if __name__ == "__main__":
 
     # test_novocaller_vcf_format()
-    # test_microannot_run()
-    test_fullannot_run()
-    # test_allannot_run()
+    test_microannot_run()
+    # test_fullannot_run()
 
 
 #
