@@ -4,4 +4,4 @@ mutanno
 .. toctree::
    :maxdepth: 4
 
-   setup
+   mutanno

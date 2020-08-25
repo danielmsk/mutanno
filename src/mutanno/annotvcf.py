@@ -1,3 +1,7 @@
+"""
+This is for ``annot`` module.
+"""
+
 import time
 from .util import file_util, vcf_util, struct_util, seq_util
 from .util.struct_util import get_dict_value as dv
@@ -197,6 +201,9 @@ class VCFAnnotator():
         self.fp.write('\n'.join(header) + '\n')
 
     def run(self):
+        """
+        Run ``annot`` module instance.
+        """
         self.open_outpointer()
         stime0 = time.time()
         self.write_header()
