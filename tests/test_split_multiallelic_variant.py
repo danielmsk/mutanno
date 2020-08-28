@@ -9,50 +9,79 @@ def get_gt(rec):
     return rec.split(':')[0]
 
 def get_ad(rec):
-    return rec.split(':')[1]
+    try:
+        rst = rec.split(':')[1]
+    except IndexError:
+        rst = ""
+    return rst
 
 def get_dp(rec):
-    return rec.split(':')[2]
+    try:
+        rst = rec.split(':')[2]
+    except IndexError:
+        rst = ""
+    return rst
 
 def get_pl(rec):
-    return rec.split(':')[6]
+    try:
+        rst = rec.split(':')[6]
+    except IndexError:
+        rst = ""
+    return rst
+
+
+vcflines = []
+vcflines.append("""
+chr9	134031310	.	T	TGGGGGGG,TGGG	268.18	.
+	AC=1,1;AF=0.167,0.167;AN=6;BaseQRankSum=-1.213e+00;DP=100;ExcessHet=3.01;FS=113.147;MLEAC=1,1;MLEAF=0.167,0.167;MQ=60.00;MQRankSum=0.00;QD=5.16;ReadPosRankSum=-2.791e+00;SOR=5.130
+	GT:AD:DP:GQ:PGT:PID:PL:PS
+	0/0:43,0,0:43:63:.:.:0,63,945,63,945,945	0|1:20,8,0:28:99:0|1:134031310_T_TGGGGGGG:238,0,2316,305,2340,2644:134031310	0|2:20,0,4:24:47:0|1:134031310_T_TGGG:47,111,1727,0,1617,1605:134031310
+""")
+vcflines.append("""
+chr1	4420293	.	ATGTGTG	*,A	188.97	.
+	AC=3,1;AF=0.750,0.250;AN=4;DP=31;ExcessHet=3.01;FS=0.000;MLEAC=3,1;MLEAF=0.750,0.250;MQ=52.57;QD=8.22;SOR=1.179;SAMPLEGENO=1/1|*/*|0/4/0|NA12877_sample,1/2|*/A|0/14/5|NA12878_sample,./.|./.|0/0/0|NA12879_sample
+	GT:AD:DP:GQ:PGT:PID:PL:PS
+	1|1:0,4,0:4:12:1|1:4420279_GTATATATATATATA_G:129,12,0,129,12,129:4420279
+	1/2:0,14,5:19:99:.:.:759,194,165,555,0,551
+	./.:0,0,0
+""")
+
+rst = []
+d = {0: {}, 1:{}}
+d[0][9] =  {'gt': '0/0', 'ad': '43,0', 'dp': '43', 'pl': '0,63,945'}
+d[1][9] =  {'gt': '0/0', 'ad': '43,0', 'dp': '43', 'pl': '0,63,945'}
+d[0][10] = {'gt': '0|1', 'ad': '20,8', 'dp': '28', 'pl': '238,0,2316'}
+d[1][10] = {'gt': '0|0', 'ad': '20,0', 'dp': '20', 'pl': '238,305,2644'}
+d[0][11] = {'gt': '0|0', 'ad': '20,0', 'dp': '20', 'pl': '47,111,1727'}
+d[1][11] = {'gt': '0|1', 'ad': '20,4', 'dp': '24', 'pl': '47,0,1605'}
+rst.append(d)
+d = {0: {}, 1: {}}
+d[0][9] = {'gt': '1|1', 'ad': '0,4', 'dp': '4', 'pl': '129,12,0'}
+d[1][9] = {'gt': '0|0', 'ad': '0,0', 'dp': '0', 'pl': '129,129,129'}
+d[0][10] = {'gt': '1/1', 'ad': '0,14', 'dp': '14', 'pl': '759,194,165'}
+d[1][10] = {'gt': '1/1', 'ad': '0,5', 'dp': '5', 'pl': '759,555,551'}
+d[0][11] = {'gt': '0/0', 'ad': '0,0', 'dp': '', 'pl': ''}
+d[1][11] = {'gt': '0/0', 'ad': '0,0', 'dp': '', 'pl': ''}
+rst.append(d)
+
 
 def test_split_multiallelic_variants():
-    vcfline = "chr9	134031310	.	T	TGGGGGGG,TGGG	268.18	."
-    vcfline += "	AC=1,1;AF=0.167,0.167;AN=6;BaseQRankSum=-1.213e+00;DP=100;ExcessHet=3.01;FS=113.147;MLEAC=1,1;MLEAF=0.167,0.167;MQ=60.00;MQRankSum=0.00;QD=5.16;ReadPosRankSum=-2.791e+00;SOR=5.130"
-    vcfline += "	GT:AD:DP:GQ:PGT:PID:PL:PS"
-    vcfline += "	0/0:43,0,0:43:63:.:.:0,63,945,63,945,945	0|1:20,8,0:28:99:0|1:134031310_T_TGGGGGGG:238,0,2316,305,2340,2644:134031310	0|2:20,0,4:24:47:0|1:134031310_T_TGGG:47,111,1727,0,1617,1605:134031310"
-    vcfrecord = vcfline.split('\t')
-    rstrecord = vcf_util.split_multiallelic_variants(vcfrecord)
+    for k, vcfline in enumerate(vcflines):
+        vcfrecord = vcfline.strip().split('\t')
+        rstrecord = vcf_util.split_multiallelic_variants(vcfrecord)
 
-    assert len(rstrecord) == len(vcfrecord[4].split(',')), "Now matched number of split records."
-    for i in range(len(rstrecord)):
-        assert get_gt(rstrecord[i][9]) == "0/0" #first genotype
-        assert get_ad(rstrecord[i][9]) == "43,0" #first allele depth
-        assert get_dp(rstrecord[i][9]) == "43" #third total depth
-        assert get_pl(rstrecord[i][9]) == "0,63,945" #third total depth
-
-        if rstrecord[i][4] == "TGGGGGGG":
-            assert get_gt(rstrecord[i][10]) == "0|1" #second genotype
-            assert get_ad(rstrecord[i][10]) == "20,8" #second allele depth
-            assert get_dp(rstrecord[i][10]) == "28" #second total depth
-            assert get_pl(rstrecord[i][10]) == "238,0,2316" #second total depth
-
-            assert get_gt(rstrecord[i][11]) == "0|0" #third genotype
-            assert get_ad(rstrecord[i][11]) == "20,0" #third allele depth
-            assert get_dp(rstrecord[i][11]) == "20" #third total depth
-            assert get_pl(rstrecord[i][11]) == "47,111,1727" #third total depth
-        else:
-            assert get_gt(rstrecord[i][10]) == "0|0" #second genotype
-            assert get_ad(rstrecord[i][10]) == "20,0" #second allele depth
-            assert get_dp(rstrecord[i][10]) == "20" #second total depth
-            assert get_pl(rstrecord[i][10]) == "238,305,2644" #second total depth
-
-            assert get_gt(rstrecord[i][11]) == "0|1" #third genotype
-            assert get_ad(rstrecord[i][11]) == "20,4" #third allele depth
-            assert get_dp(rstrecord[i][11]) == "24" #third total depth
-            assert get_pl(rstrecord[i][11]) == "47,0,1605" #third total depth
-    
+        arralt = vcfrecord[4].split(',')
+        assert len(rstrecord) == len(vcfrecord[4].split(',')), "Now matched number of split records."
+        
+        for i in range(len(rstrecord)):
+            for j in [0,1]: # alt index
+                if rstrecord[i][4] == arralt[j]:
+                    for l in [9,10,11]:
+                        assert get_gt(rstrecord[i][l]) == rst[k][j][l]['gt']
+                        assert get_ad(rstrecord[i][l]) == rst[k][j][l]['ad'], get_ad(rstrecord[i][l]) + " != " + rst[k][j][l]['ad']
+                        assert get_dp(rstrecord[i][l]) == rst[k][j][l]['dp']
+                        assert get_pl(rstrecord[i][l]) == rst[k][j][l]['pl']
+        
 
 if __name__ == "__main__":
     test_split_multiallelic_variants()

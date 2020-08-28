@@ -186,7 +186,7 @@ def split_multiallelic_variants(vcfrecord):
         r1 = []
         for j in range(len(vcfrecord)):
             if j >= 9:
-                arr = vcfrecord[j].split(':')
+                arr = vcfrecord[j].strip().split(':')
                 # GT
                 phase_hipen = arr[0][1]
                 if arr[0] != '0' + phase_hipen + '0':
@@ -203,14 +203,15 @@ def split_multiallelic_variants(vcfrecord):
                 arr[arrformat.index('AD')] = ad[0] + ',' + ad[k+1]
 
                 # DP
-                arr[arrformat.index('DP')] = str(int(ad[0]) + int(ad[k+1]))
+                if arrformat.index('DP') < len(arr):
+                    arr[arrformat.index('DP')] = str(int(ad[0]) + int(ad[k+1]))
 
                 # PL
-                arr_pl = arr[arrformat.index('PL')].split(',')
-                new_pl = get_biallelepl_multiallelepl('0/' + str(k+1), arr_pl)
-                arr[arrformat.index('PL')] = ','.join(new_pl)
+                if arrformat.index('PL') < len(arr):
+                    arr_pl = arr[arrformat.index('PL')].strip().split(',')
+                    new_pl = get_biallelepl_multiallelepl('0/' + str(k+1), arr_pl)
+                    arr[arrformat.index('PL')] = ','.join(new_pl)
 
-                # print('->',arr)
                 r1.append(':'.join(arr))
             else:
                 r1.append(vcfrecord[j])
@@ -250,8 +251,13 @@ def get_biallelepl_multiallelepl(numgt, multiallelepl):
 
     new_pl = []
     for ngt in list(combinations_with_replacement(numgt.split(delimiter), 2)):
-        pidx = pl_pos_map['/'.join(ngt)]
-        new_pl.append(multiallelepl[pidx])
+        try:
+            pidx = pl_pos_map['/'.join(ngt)]
+            new_pl.append(multiallelepl[pidx])
+        except KeyError:
+            print(pl_pos_map, ngt)
+            pidx = pl_pos_map['/'.join(ngt)]
+            new_pl.append(multiallelepl[pidx])
     return new_pl
 
 
