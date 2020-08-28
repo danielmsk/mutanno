@@ -219,6 +219,7 @@ def get_options():
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=do['debug'], help='turn on the debugging mode')
 
+    # download
     p1 = subparsers.add_parser('download', help='download data source', description='download data source')
     p1.add_argument('-source_path', dest='source_path', default="", help='source path')
     p1.add_argument('-source', dest="source", default="", help='source name')
@@ -229,6 +230,15 @@ def get_options():
                     default=do['silence'], help='do not print any log.')
     p1.add_argument('-debug', dest='debug', action="store_true",
                     default=do['debug'], help='turn on the debugging mode')
+
+    # preprocess
+    p1 = subparsers.add_parser('preprocess', help='convert source data to MTI format',
+                               description='convert source data to MTI format')
+    p1.add_argument('-in', dest='infile', default='', help='title of input file')
+    p1.add_argument('-out', dest='out', default='', help='title of output file')
+    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
+    p1.add_argument('-make_dbnsfp_transcript', dest='make_dbnsfp_transcript', default=False, action="store_true",
+                    help='make dbNSFP transcript file')
 
     do = DEFAULT_OPT['makedata']
     p1 = subparsers.add_parser('makedata', help='make a single data source file',
@@ -300,14 +310,6 @@ def get_options():
     # p1.add_argument('-out', dest='out', default='', help='title of output file')
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='don\'t print any log.')
     p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
-
-    p1 = subparsers.add_parser('preprocess', help='quality metrics for VCF',
-                               description='quality metrics for VCF')
-    p1.add_argument('-infile', dest='infile', default='', help='title of input file')
-    p1.add_argument('-out', dest='out', default='', help='title of output file')
-    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
-    p1.add_argument('-make_dbnsfp_transcript', dest='make_dbnsfp_transcript', default=False, action="store_true",
-                    help='make dbNSFP transcript file')
 
     p1 = subparsers.add_parser('web', help='web view',
                                description='web view')

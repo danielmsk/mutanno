@@ -37,6 +37,7 @@ Contents
    installation
    options
    download
+   preprocess
    make_sourcefile
    annotate_variants
    datasource_list

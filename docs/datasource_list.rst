@@ -1,14 +1,13 @@
 Datasource List
 ===============
 
-TBA
 
-=========== ======= ====
-Source name Version Date
------------ ------- ----
+=========== ======== ==========
+Source name Version  Date
+----------- -------- ----------
 VEP         v99
-CLINVAR
-=========== ======= ====
+CLINVAR     20200329 2020.03.29
+=========== ======== ==========
 
 
 Variant annotation

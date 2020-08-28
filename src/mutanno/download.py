@@ -2,8 +2,8 @@ import urllib.request
 import os
 from tqdm import tqdm
 
-from ..util import file_util
-from .. import preprocess
+from .util import file_util
+from . import preprocess
 
 
 class DownloadProgressBar(tqdm):

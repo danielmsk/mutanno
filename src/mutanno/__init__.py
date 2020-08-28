@@ -42,6 +42,11 @@ def dispatch_job(opt):
         dn = Downloader(opt)
         dn.run()
 
+    if opt.subcommand == 'preprocess':
+        if opt.make_dbnsfp_transcript:
+            obj = preprocess.MakeDbnsfpTranscript(opt.infile, opt.out, opt.ds, opt)
+            obj.run()
+
     if opt.subcommand == 'makedata' and opt.out != "":
         opt.vartype = opt.vartype.upper()
         if 'GENE' in opt.vartype:
@@ -74,10 +79,7 @@ def dispatch_job(opt):
     if opt.subcommand == 'precal':
         mp = precal.PreCalculate(opt)
         mp.run()
-    if opt.subcommand == 'preprocess':
-        if opt.make_dbnsfp_transcript:
-            obj = preprocess.MakeDbnsfpTranscript(opt.infile, opt.out, opt.ds, opt)
-            obj.run()
+    
     if opt.subcommand == 'web':
         web.runserver(opt)
 
