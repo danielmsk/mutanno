@@ -11,7 +11,7 @@ cmdlist = []
 #     -vcf /Users/pcaso/db/MUTANNO/TESTDATA/NA12877_TRIO_GAPFIS8ZSPEO.vcf.gz \
 #     -ds ./data_structure_json/datastructure_microannot_v0.4.5.json \
 #     -out output.annot.vcf \
-#     -sourcefile microannot_datasource.v0.4.4_200614.tsi.gz \
+#     -sourcefile /Users/pcaso/db/MUTANNO/DATASOURCE/MICROANNOT/v0.4.4_200614/microannot_datasource.v0.4.4_200614.tsi.gz \
 #     -split_multi_allelic_variant \
 #     -genoinfo \
 #     -single_source_mode
@@ -44,7 +44,6 @@ cmdlist.append("""
     -genoinfo \
     -single_source_mode
 """)
-
 
 
 

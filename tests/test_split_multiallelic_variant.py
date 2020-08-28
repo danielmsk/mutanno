@@ -45,6 +45,14 @@ chr1	4420293	.	ATGTGTG	*,A	188.97	.
 	1/2:0,14,5:19:99:.:.:759,194,165,555,0,551
 	./.:0,0,0
 """)
+vcflines.append("""
+chr3	94029349	.	ATTT	TTTT,A	1376.17	.
+	AC=3,1;AF=0.750,0.250;AN=4;DP=40;ExcessHet=3.01;FS=0.000;MLEAC=3,1;MLEAF=0.750,0.250;MQ=57.93;QD=32.29;SOR=1.112
+	GT:AD:DP:GQ:PGT:PID:PL:PS
+	1/2:0,9,17:28:99:.:.:1276,929,901,349,0,290
+	1/1:0,4,0:4:12:.:.:123,12,0,127,15,141
+	.|.:0,0,0:.:.:1|0:94029301_CATAT_C:.:94029301
+""")
 
 rst = []
 d = {0: {}, 1:{}}
@@ -60,10 +68,17 @@ d[0][9] = {'gt': '1|1', 'ad': '0,4', 'dp': '4', 'pl': '129,12,0'}
 d[1][9] = {'gt': '0|0', 'ad': '0,0', 'dp': '0', 'pl': '129,129,129'}
 d[0][10] = {'gt': '1/1', 'ad': '0,14', 'dp': '14', 'pl': '759,194,165'}
 d[1][10] = {'gt': '1/1', 'ad': '0,5', 'dp': '5', 'pl': '759,555,551'}
-d[0][11] = {'gt': '0/0', 'ad': '0,0', 'dp': '', 'pl': ''}
-d[1][11] = {'gt': '0/0', 'ad': '0,0', 'dp': '', 'pl': ''}
+d[0][11] = {'gt': './.', 'ad': '0,0', 'dp': '', 'pl': ''}
+d[1][11] = {'gt': './.', 'ad': '0,0', 'dp': '', 'pl': ''}
 rst.append(d)
-
+d = {0: {}, 1: {}}
+d[0][9] = {'gt': '1/1', 'ad': '0,9', 'dp': '9', 'pl': '1276,929,901'}
+d[1][9] = {'gt': '1/1', 'ad': '0,17', 'dp': '17', 'pl': '1276,349,290'}
+d[0][10] = {'gt': '1/1', 'ad': '0,4', 'dp': '4', 'pl': '123,12,0'}
+d[1][10] = {'gt': '0/0', 'ad': '0,0', 'dp': '0', 'pl': '123,127,141'}
+d[0][11] = {'gt': '0|0', 'ad': '0,0', 'dp': '0', 'pl': '.'}
+d[1][11] = {'gt': '0|0', 'ad': '0,0', 'dp': '0', 'pl': '.'}
+rst.append(d)
 
 def test_split_multiallelic_variants():
     for k, vcfline in enumerate(vcflines):
@@ -77,10 +92,10 @@ def test_split_multiallelic_variants():
             for j in [0,1]: # alt index
                 if rstrecord[i][4] == arralt[j]:
                     for l in [9,10,11]:
-                        assert get_gt(rstrecord[i][l]) == rst[k][j][l]['gt']
+                        assert get_gt(rstrecord[i][l]) == rst[k][j][l]['gt'], get_ad(rstrecord[i][l]) + " != " + rst[k][j][l]['gt']
                         assert get_ad(rstrecord[i][l]) == rst[k][j][l]['ad'], get_ad(rstrecord[i][l]) + " != " + rst[k][j][l]['ad']
-                        assert get_dp(rstrecord[i][l]) == rst[k][j][l]['dp']
-                        assert get_pl(rstrecord[i][l]) == rst[k][j][l]['pl']
+                        assert get_dp(rstrecord[i][l]) == rst[k][j][l]['dp'], get_ad(rstrecord[i][l]) + " != " + rst[k][j][l]['dp']
+                        assert get_pl(rstrecord[i][l]) == rst[k][j][l]['pl'], get_ad(rstrecord[i][l]) + " != " + rst[k][j][l]['pl']
         
 
 if __name__ == "__main__":
