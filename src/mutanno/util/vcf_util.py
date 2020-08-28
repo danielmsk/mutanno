@@ -184,20 +184,23 @@ def split_multiallelic_variants(vcfrecord):
     rst = []
     for k in range(len(arralt)):
         r1 = []
+        ac = 0
         for j in range(len(vcfrecord)):
             if j >= 9:
                 arr = vcfrecord[j].strip().split(':')
                 # GT
                 phase_hipen = arr[0][1]
-                if arr[0] == "./.":
+                if arr[0] == "."+phase_hipen+".":
                     pass
                 elif arr[0] != '0' + phase_hipen + '0':
                     gt = arr[0].split(phase_hipen)
                     if str(k+1) in gt:
                         if "0" in gt:
                             arr[0] = "0" + phase_hipen + "1"
+                            ac += 1
                         else:
                             arr[0] = "1" + phase_hipen + "1"
+                            ac += 2
                     else:
                         arr[0] = "0" + phase_hipen + "0"
                 # AD
@@ -214,7 +217,7 @@ def split_multiallelic_variants(vcfrecord):
                     if len(arr_pl) > 1:
                         new_pl = get_biallelepl_multiallelepl('0/' + str(k+1), arr_pl)
                         arr[arrformat.index('PL')] = ','.join(new_pl)
-
+                        
                 r1.append(':'.join(arr))
             else:
                 r1.append(vcfrecord[j])
@@ -225,9 +228,19 @@ def split_multiallelic_variants(vcfrecord):
         for f1 in r1[7].split(';'):
             if "=" in f1:
                 arr = f1.split('=')
-                if arr[0] in ['AC', 'AF', 'MLEAC', 'MLEAF']:
+                if arr[0] == 'AC':
+                    f1 = arr[0] + "=" + str(ac)
+                
+                if arr[0] == 'AF':
+                    sample_size = (len(vcfrecord) - 9)
+                    f1 = arr[0] + "=" + str(round(ac / (sample_size * 2), 3))
+
+                ### if we want to use AC, AF from VCF,
+                # if arr[0] in ['AC', 'AF', 'MLEAC', 'MLEAF']:
+                if arr[0] in ['MLEAC', 'MLEAF']:
                     arr2 = arr[1].split(',')
                     f1 = arr[0] + "=" + arr2[k]
+
             info.append(f1)
         # info.append('multiallele=' + vcfrecord[0] + ':' + vcfrecord[1] + '%20' + vcfrecord[3] + '/' + vcfrecord[4])
         r1[7] = ';'.join(info)

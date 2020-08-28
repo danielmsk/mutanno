@@ -30,6 +30,24 @@ def get_pl(rec):
     return rst
 
 
+def get_ac(rec):
+    rst = ""
+    for r1 in rec.split(';'):
+        if "AC=" in r1:
+            rst = r1.replace('AC=','')
+            break
+    return rst
+
+
+def get_af(rec):
+    rst = ""
+    for r1 in rec.split(';'):
+        if "AF=" in r1:
+            rst = r1.replace('AF=','')
+            break
+    return rst
+
+
 vcflines = []
 vcflines.append("""
 chr9	134031310	.	T	TGGGGGGG,TGGG	268.18	.
@@ -54,31 +72,45 @@ chr3	94029349	.	ATTT	TTTT,A	1376.17	.
 	.|.:0,0,0:.:.:1|0:94029301_CATAT_C:.:94029301
 """)
 
+
 rst = []
 d = {0: {}, 1:{}}
 d[0][9] =  {'gt': '0/0', 'ad': '43,0', 'dp': '43', 'pl': '0,63,945'}
-d[1][9] =  {'gt': '0/0', 'ad': '43,0', 'dp': '43', 'pl': '0,63,945'}
 d[0][10] = {'gt': '0|1', 'ad': '20,8', 'dp': '28', 'pl': '238,0,2316'}
-d[1][10] = {'gt': '0|0', 'ad': '20,0', 'dp': '20', 'pl': '238,305,2644'}
 d[0][11] = {'gt': '0|0', 'ad': '20,0', 'dp': '20', 'pl': '47,111,1727'}
+d[0]['ac'] = "1"
+d[0]['af'] = "0.167"
+d[1][9] =  {'gt': '0/0', 'ad': '43,0', 'dp': '43', 'pl': '0,63,945'}
+d[1][10] = {'gt': '0|0', 'ad': '20,0', 'dp': '20', 'pl': '238,305,2644'}
 d[1][11] = {'gt': '0|1', 'ad': '20,4', 'dp': '24', 'pl': '47,0,1605'}
+d[1]['ac'] = "1"
+d[1]['af'] = "0.167"
 rst.append(d)
 d = {0: {}, 1: {}}
 d[0][9] = {'gt': '1|1', 'ad': '0,4', 'dp': '4', 'pl': '129,12,0'}
-d[1][9] = {'gt': '0|0', 'ad': '0,0', 'dp': '0', 'pl': '129,129,129'}
 d[0][10] = {'gt': '1/1', 'ad': '0,14', 'dp': '14', 'pl': '759,194,165'}
-d[1][10] = {'gt': '1/1', 'ad': '0,5', 'dp': '5', 'pl': '759,555,551'}
 d[0][11] = {'gt': './.', 'ad': '0,0', 'dp': '', 'pl': ''}
+d[0]['ac'] = "4"
+d[0]['af'] = "0.667"
+d[1][9] = {'gt': '0|0', 'ad': '0,0', 'dp': '0', 'pl': '129,129,129'}
+d[1][10] = {'gt': '1/1', 'ad': '0,5', 'dp': '5', 'pl': '759,555,551'}
 d[1][11] = {'gt': './.', 'ad': '0,0', 'dp': '', 'pl': ''}
+d[1]['ac'] = "2"
+d[1]['af'] = "0.333"
 rst.append(d)
 d = {0: {}, 1: {}}
 d[0][9] = {'gt': '1/1', 'ad': '0,9', 'dp': '9', 'pl': '1276,929,901'}
-d[1][9] = {'gt': '1/1', 'ad': '0,17', 'dp': '17', 'pl': '1276,349,290'}
 d[0][10] = {'gt': '1/1', 'ad': '0,4', 'dp': '4', 'pl': '123,12,0'}
+d[0][11] = {'gt': '.|.', 'ad': '0,0', 'dp': '0', 'pl': '.'}
+d[0]['ac'] = "4"
+d[0]['af'] = "0.667"
+d[1][9] = {'gt': '1/1', 'ad': '0,17', 'dp': '17', 'pl': '1276,349,290'}
 d[1][10] = {'gt': '0/0', 'ad': '0,0', 'dp': '0', 'pl': '123,127,141'}
-d[0][11] = {'gt': '0|0', 'ad': '0,0', 'dp': '0', 'pl': '.'}
-d[1][11] = {'gt': '0|0', 'ad': '0,0', 'dp': '0', 'pl': '.'}
+d[1][11] = {'gt': '.|.', 'ad': '0,0', 'dp': '0', 'pl': '.'}
+d[1]['ac'] = "2"
+d[1]['af'] = "0.333"
 rst.append(d)
+
 
 def test_split_multiallelic_variants():
     for k, vcfline in enumerate(vcflines):
@@ -96,7 +128,9 @@ def test_split_multiallelic_variants():
                         assert get_ad(rstrecord[i][l]) == rst[k][j][l]['ad'], get_ad(rstrecord[i][l]) + " != " + rst[k][j][l]['ad']
                         assert get_dp(rstrecord[i][l]) == rst[k][j][l]['dp'], get_ad(rstrecord[i][l]) + " != " + rst[k][j][l]['dp']
                         assert get_pl(rstrecord[i][l]) == rst[k][j][l]['pl'], get_ad(rstrecord[i][l]) + " != " + rst[k][j][l]['pl']
-        
+
+            assert get_ac(rstrecord[i][7]) == rst[k][i]['ac'], get_ac(rstrecord[i][7]) + " != " + rst[k][i]['ac']
+            assert get_af(rstrecord[i][7]) == rst[k][i]['af'], get_af(rstrecord[i][7]) + " != " + rst[k][i]['af']
 
 if __name__ == "__main__":
     test_split_multiallelic_variants()
