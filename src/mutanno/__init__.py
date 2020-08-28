@@ -38,7 +38,7 @@ def dispatch_job(opt):
         an = annotvcf.VCFAnnotator(opt)
         an.run()
 
-    if opt.subcommand == 'download' and opt.dir != "":
+    if opt.subcommand == 'download' and opt.source_path != "":
         dn = Downloader(opt)
         dn.run()
 

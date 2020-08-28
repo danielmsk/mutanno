@@ -38,7 +38,7 @@ class Downloader():
         self.sourcelist = file_util.load_json(sourcelist_filepath)
 
     def download_source_file(self, source_name, file_version, url):
-        outfile = get_download_filename(self.opt.dir, self.opt.refversion, source_name, file_version, url)
+        outfile = get_download_filename(self.opt.source_path, self.opt.refversion, source_name, file_version, url)
         flag_download = True
         if file_util.is_exist(outfile):
             msg = "The file (" + outfile + ") exists.\n Do you want to overwrite it. (y/n)?"
@@ -57,7 +57,7 @@ class Downloader():
         data['refversion'] = self.opt.refversion
         data['rawfiles'] = rawfiles
         data['file_version'] = file_version
-        data['dirpath'] = self.opt.dir
+        data['dirpath'] = self.opt.source_path
         data['outfile_title'] = '_'.join([source_name, self.opt.refversion, file_version])
         result = run_function(data)
         return result
@@ -69,6 +69,8 @@ class Downloader():
                     selected_version = s1['latest']
                 elif self.opt.version != "":
                     selected_version = self.opt.version
+                
+                print(s1['name'], s1['versions'], selected_version)
 
                 for v1 in s1['versions']:
                     if v1['version'] == selected_version:
