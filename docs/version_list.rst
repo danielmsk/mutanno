@@ -3,6 +3,9 @@ Version History
 
 v0.4.x release series
 ---------------------
+0.4.5 (2020.08.28) :
+	- bug fix in download module. add ``-silence`` option
+
 0.4.4 (2020.08.25) :
 	- bug fix missing genotype for multiallelic variant when ``-split_multi_allelic_variant`` option is applied. (`issue #5 <https://github.com/dbmi-bgm/mutanno/issues/5>`_)
 
@@ -27,8 +30,6 @@ v0.4.x release series
 	- refactoring
 	- add multi-source mode
 	- refactoring makedata mode	
-	
-
 
 
 v0.3.x release series

@@ -1,7 +1,5 @@
 {
   "title":"MUTANNO_SOURCE_LIST",
-  "version":"0.4.2",
-  "version_date":"2020.06.25",
   "sources":{
     "hg38":[
       {
