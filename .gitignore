@@ -12,5 +12,6 @@ dist/
 _build/
 docs/_build/
 tests/test.sh
+tests/out/
 .vscode/
 .pytest_cache/v/cache/

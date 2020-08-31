@@ -1,8 +1,7 @@
 import sys
-sys.path.append('..')
-from src.mutanno.util import vcf_util
-
-# from mutanno.util import vcf_util
+from mutanno.util import vcf_util
+# sys.path.append('..')
+# from src.mutanno.util import vcf_util
 
 
 def get_gt(rec):

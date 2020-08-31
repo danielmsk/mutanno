@@ -9,7 +9,7 @@ prog = "mutanno"
 cmdlist = []
 cmdlist.append("""
     download \
-    -source_path /Users/pcaso/db/MUTANNO/TESTDATASOURCE \
+    -source_path ./out/TESTDATASOURCE \
     -source CLINVAR \
     -version latest \
     -refversion hg38
