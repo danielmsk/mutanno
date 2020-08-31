@@ -1,9 +1,10 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import sys
+import shlex
 import filecmp
 import json
-import test_conf
+import time
+import conf
+
 sys.path.append('..')
 from src import mutanno
 from src.mutanno.util import file_util
@@ -11,6 +12,20 @@ from src.mutanno.util import proc_util
 from src.mutanno.util.vcf_util import INFOIDX
 from src.mutanno.util.struct_util import get_dict_value as dv
 from src.mutanno.validate import AnnotVCFValidator, AnnotTSIValidator
+
+prog = "mutanno"
+cmdlist = []
+cmdlist.append("""
+    annot \
+    -vcf #TESTDATA_PATH#/NA12877_TRIO_GAPFIS8ZSPEO.multiallelic_1.vcf.microannot.20200831_104156.vcf.gz \
+    -ds #FULL_DS_FILE# \
+    -out #TESTDATA_PATH#/NA12877_TRIO_GAPFIS8ZSPEO.multiallelic_1.vcf.microannot.20200831_104156.fullannot.#TESTVERSION#.vcf \
+    -sourcefile #TESTDATA_PATH#/fullannot_datasource.1.v0.4.8_200806.tsi.gz.target.mti.sorted.mti.gz \
+    -hg19 \
+    -chain #TESTDATA_PATH#/hg38ToHg19.over.chain.gz \
+    -clean_tag MUTANNO SpliceAI CLINVAR gnomADgenome
+""")
+
 
 
 def comp_previous_out(out, prevout):
@@ -20,7 +35,7 @@ def comp_previous_out(out, prevout):
 
 def check_vcf_validator(out):
     # assert test_conf.run_vcf_validator(out) == test_conf.DEFAULT_VCF_VALIDATOR_MSG
-    assert test_conf.run_vcf_validator(out) == ''
+    assert conf.run_vcf_validator(out) == ''
 
 def validate_annotvcf(vcf, dsjson, opt):
     va = AnnotVCFValidator(vcf)
@@ -33,27 +48,6 @@ def validate_annottsi(tsi, dsjson, opt):
     va.set_datastructure(jsonfile=dsjson)
     va.set_option(opt)
     va.validate()
-
-
-def load_googlesheet(googlesheet):
-    rst = {}
-    i = 0
-    for line in open(googlesheet):
-        if len(line.strip()) > 0:
-            arr = line.split('\t')
-            arr[-1] = arr[-1].strip()
-            if line.strip()[0] != "#":
-                if i == 0 :
-                    header = arr
-                else:
-                    d = {}
-                    for i in range(len(header)):
-                        header[i] = header[i].strip()
-                        if header[i] != '':
-                            d[header[i]] = arr[i].strip()
-                    rst[d['field_name']] = d
-                i += 1
-    return rst
 
 def load_dsjson(dsjson):
     js = json.load(open(dsjson,'r'))
@@ -70,7 +64,7 @@ def load_dsjson(dsjson):
 
 
 def test_microannot_run():
-    ds = test_conf.get_ds()
+    ds = conf.get_ds()
     # for n1 in [10, 100, 1000]:
     # for n1 in [10, 100]:
     # for n1 in [100]:
@@ -118,9 +112,19 @@ def print_command():
     print('>>command: ' + ' '.join(sys.argv))
 
 
+def test_microannot():
+    for cmd in cmdlist:
+        for t1 in conf.REPLACETAG.keys():
+            cmd = cmd.replace('#'+t1+'#', conf.REPLACETAG[t1])
+        cmd = prog + " " + cmd.strip()
+        sys.argv = shlex.split(cmd)
+        print(' '.join(sys.argv))
+        # print(cmd)
+        # print(shlex.quote(sys.argv))
+        mutanno.cli()
+
 if __name__ == "__main__":
-    
-    test_microannot_run()
+    test_microannot()
     
 
 
