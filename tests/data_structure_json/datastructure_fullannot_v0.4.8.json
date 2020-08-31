@@ -6,7 +6,6 @@
   "hgvs": true,
   "variant_class": true,
   "hg19": true,
-  "fixpl": true,
   "clean_tag_list": [
     "VEP",
     "SpliceAI",
