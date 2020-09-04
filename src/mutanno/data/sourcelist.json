@@ -1,26 +1,302 @@
 {
   "title":"MUTANNO_SOURCE_LIST",
-  "version":"0.4.2",
-  "version_date":"2020.06.25",
-  "sources":{
-    "hg38":[
-      {
-        "name":"CLINVAR",
-        "latest": "20200329",
-        "preprocess_function": "run_preproc_clinvar",
-        "versions":[
-          {
-            "version":"20200329",
             "version_date":"2020.03.29",
-            "urls":[
-              "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/weekly/clinvar_20200329.vcf.gz",
-              "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/ClinVarFullRelease_2020-03.xml.gz"
-            ]
-          }
-        ]
-      }
-    ],
-    "hg19":[]
-  }
+  "sources":[
+    {
+      "name":"CLINVAR",
+      "latest": "20200329",
+      "versions":[
+        {
+          "version":"20200329",
+          "version_date":"2020.03.29",
+          "total_size": 2604690136,
+          "ref_version": "hg38",
+          "preprocess_function": "run_preproc_clinvar",
+          "urls":[
+            "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/weekly/clinvar_20200329.vcf.gz",
+            "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/ClinVarFullRelease_2020-03.xml.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GERP",
+      "latest": "111_mammals",
+      "versions": [
+        {
+          "version": "111_mammals",
+          "version_date": "2020.07.15",
+          "total_size": 12276031884,
+          "ref_version": "hg38",
+          "preprocess_function": "run_preproc_gerp",
+          "urls": [
+            "ftp://ftp.ensembl.org/pub/current_compara/conservation_scores/111_mammals.gerp_conservation_score/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
+          ]
+        },
+        {
+          "version": "100_mammals",
+          "version_date": "2015.05.07",
+          "total_size": 9136602832,
+          "ref_version": "hg38",
+          "is_avialable": false,
+          "preprocess_function": "run_preproc_gerp",
+          "urls": [
+            "ftp://ftp.ensembl.org/pub/current_compara/conservation_scores/100_mammals.gerp_conservation_score/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PHASTCONS",
+      "latest": "100way",
+      "versions": [
+        {
+          "version": "100way",
+          "version_date": "2015.05.07",
+          "preprocess_function": "run_preproc_phastcons",
+          "total_size": 2604690136,
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr1.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr10.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr11.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr12.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr13.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr14.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr15.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr16.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr17.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr18.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr19.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr2.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr20.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr21.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr22.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr3.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr4.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr5.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr6.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr7.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr8.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chr9.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chrM.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chrX.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons100way/hg38.100way.phastCons/chrY.phastCons100way.wigFix.gz"
+          ]
+        },{
+          "version": "30way",
+          "version_date": "2017.11.02",
+          "total_size": 3315711231,
+          "preprocess_function": "run_preproc_phastcons",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr1.phastCons30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr10.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr11.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr12.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr13.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr14.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr15.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr16.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr17.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr18.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr19.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr2.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr20.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr21.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr22.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr3.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr4.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr5.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr6.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr7.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr8.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chr9.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chrM.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chrX.phastCons100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons30way/hg38.30way.phastCons/chrY.phastCons100way.wigFix.gz"
+          ]
+        },
+        {
+          "version": "20way",
+          "version_date": "2015.04.16",
+          "total_size": 3451931212,
+          "preprocess_function": "run_preproc_phastcons",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phastCons20way/hg38.phastCons20way.wigFix.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PHYLOP",
+      "latest": "100way",
+      "versions": [
+        {
+          "version": "100way",
+          "version_date": "2015.05.07",
+          "preprocess_function": "run_preproc_phylop",
+          "total_size": 5452454204,
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr1.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr10.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr11.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr12.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr13.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr14.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr15.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr16.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr17.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr18.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr19.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr2.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr20.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr21.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr22.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr3.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr4.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr5.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr6.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr7.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr8.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chr9.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chrM.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chrX.phyloP100way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP100way/hg38.100way.phyloP100way/chrY.phyloP100way.wigFix.gz"
+          ]
+        },
+        {
+          "version": "30way",
+          "version_date": "2017.11.05",
+          "total_size": 3315711231,
+          "preprocess_function": "run_preproc_phastcons",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr1.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr10.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr11.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr12.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr13.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr14.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr15.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr16.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr17.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr18.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr19.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr2.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr20.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr21.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr22.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr3.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr4.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr5.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr6.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr7.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr8.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chr9.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chrM.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chrX.phyloP30way.wigFix.gz",
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP30way/hg38.30way.phyloP/chrY.phyloP30way.wigFix.gz"
+          ]
+        },
+        {
+          "version": "20way",
+          "version_date": "2015.04.16",
+          "total_size": 4572468017,
+          "preprocess_function": "run_preproc_phastcons",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://hgdownload.cse.ucsc.edu/goldenPath/hg38/phyloP20way/hg38.phyloP20way.wigFix.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SHIPHY",
+      "latest": "20150125",
+      "versions": [
+        {
+          "version": "29mammals",
+          "version_date": "2015.01.25",
+          "total_size": 104323776,
+          "preprocess_function": "run_preproc_shiphy",
+          "ref_version": "hg19",
+          "urls": [
+            "http://www.broadinstitute.org/ftp/pub/assemblies/mammals/29mammals/hg19/hg19_29way_omega_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.txt.gz",
+            "http://www.broadinstitute.org/ftp/pub/assemblies/mammals/29mammals/hg19/hg19_29way_pi_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.txt.gz"
+          ]
+        },{
+          "version": "29mammals",
+          "version_date": "2015.01.25",
+          "total_size": 164202274,
+          "preprocess_function": "run_preproc_shiphy",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno hg38liftover_29way_omega_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.txt.sorted.bed.gz",
+            "mutanno hg38liftover_29way_pi_lods_elements_12mers.chr_specific.fdr_0.1_with_scores.tsv.sorted.bed.gz"
+          ]
+        }
+      ]
+    },{
+      "name": "UK10K",
+      "latest": "20160215",
+      "versions": [
+        {
+          "version": "20160215",
+          "version_date": "2016.02.15",
+          "total_size": 2058644475,
+          "preprocess_function": "run_preproc_uk10k",
+          "ref_version": "hg19",
+          "urls": [
+            "ftp://ngs.sanger.ac.uk/production/uk10k/UK10K_COHORT/REL-2012-06-02/UK10K_COHORT.20160215.sites.vcf.gz",
+            "mutanno UK10K_COHORT.20160215.sites.vcf.gz"
+          ]
+        },
+        {
+          "version": "20160215",
+          "version_date": "2016.02.15",
+          "total_size": 2058644475,
+          "preprocess_function": "run_preproc_uk10k",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ngs.sanger.ac.uk/production/uk10k/UK10K_COHORT/REL-2012-06-02/UK10K_COHORT.20160215.sites.vcf.gz",
+            "mutanno UK10K_COHORT.20160215.sites.liftover.hg38.vcf.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GNOMAD",
+      "latest": "3.0",
+      "versions": [
+        {
+          "version": "3.0",
+          "version_date": "0000.00.00",
+          "total_size": 2058644475,
+          "preprocess_function": "run_preproc_uk10k",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ngs.sanger.ac.uk/production/uk10k/UK10K_COHORT/REL-2012-06-02/UK10K_COHORT.20160215.sites.vcf.gz",
+            "mutanno UK10K_COHORT.20160215.sites.vcf.gz"
+          ]
+        },
+        {
+          "version": "2.1.1",
+          "version_date": "2019.03.06",
+          "total_size": 2058644475,
+          "preprocess_function": "run_preproc_gnomad",
+          "ref_version": "hg19",
+          "urls": [
+            "https://storage.googleapis.com/gnomad-public/release/2.1.1/vcf/exomes/gnomad.exomes.r2.1.1.sites.1.vcf.bgz",
+            "mutanno UK10K_COHORT.20160215.sites.liftover.hg38.vcf.gz"
+          ]
+        }
+      ]
+    }
 
+
+
+  ]
 }
