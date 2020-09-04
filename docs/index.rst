@@ -47,5 +47,6 @@ Contents
    benchmark
    version_list
 
-   src/mutanno
+
+.. src/mutanno
 
