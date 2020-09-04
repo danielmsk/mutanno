@@ -221,9 +221,14 @@ def get_options():
 
     p1 = subparsers.add_parser('download', help='download data source', description='download data source')
     p1.add_argument('-source_path', dest='source_path', default="", help='source path')
-    p1.add_argument('-source', dest="", default="", help='source name')
-    p1.add_argument('-version', dest="lastest", default="", help='source version')
-    p1.add_argument('-refversion', dest="hg38", default="", help='reference version')
+    p1.add_argument('-source', dest="source", default="", help='source name')
+    p1.add_argument('-version', dest="version", default="latest", help='source version')
+    p1.add_argument('-refversion', dest="refversion", default="hg38", help='reference version')
+    p1.add_argument('-log', dest='logfile', default='', help='log file')
+    p1.add_argument('-silence', dest='silence', action="store_true",
+                    default=do['silence'], help='do not print any log.')
+    p1.add_argument('-debug', dest='debug', action="store_true",
+                    default=do['debug'], help='turn on the debugging mode')
 
     do = DEFAULT_OPT['makedata']
     p1 = subparsers.add_parser('makedata', help='make a single data source file',

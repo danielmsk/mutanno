@@ -209,5 +209,8 @@ def get_value(v1):
 
 def tmp_v0_4_8_clinvar_submission(sections, tmp_clinvar_idmap):
     for section in sections:
-        section['VariationID'] = tmp_clinvar_idmap[section['ClinVarAccession']]
+        try:
+            section['VariationID'] = tmp_clinvar_idmap[section['ClinVarAccession']]
+        except KeyError:
+            section['VariationID'] = ""
     return sections

@@ -425,30 +425,29 @@ class VCFVariant:
             self.record[INFOIDX] = vcf_util.add_info(self.record[INFOIDX], "MUTANNO=" + '|'.join(values))
 
     def fix_multiallele_pl(self):
-        if "MULTIALLELE=" in self.record[INFOIDX]:
-            rst = vcf_util.pars_info_field(self.record[INFOIDX])
-            this_geno = self.ref + '/' + self.alt
-            
-            multiallele_key = vcf_util.decode_value(rst['MULTIALLELE'][0][0])
-            this_numgeno = vcf_util.get_numgt_from_multiallele(this_geno, multiallele_key.strip().split(' ')[-1])
-            # print('>this_geno:', this_geno, this_numgeno,  multiallele_key.strip().split(' ')[-1])
-
-            for samplegeno in rst['SAMPLEGENO']:
-                sgeno = struct_util.mkdict(self.infoheader['SAMPLEGENO']['Format'], samplegeno)
-                samplecolidx = self.colnames.index(sgeno['SAMPLEID'])
-                format_list = self.record[FORMATIDX].split(':')
-                sample_genotype = self.record[samplecolidx].split(':')
-
-                pl = sample_genotype[format_list.index('PL')].split(',')
-                new_pl = vcf_util.get_biallelepl_multiallelepl(this_numgeno, pl)
-                sample_genotype[format_list.index('PL')] = ','.join(new_pl)
-
-                # fix num_genotype (for temporary usage) #########################################################################
-                new_gt = vcf_util.get_numgt(sgeno['GT'], self.ref, self.alt, delimiter=sample_genotype[format_list.index('GT')][1])
-                sample_genotype[format_list.index('GT')] = new_gt
-                # fix num_genotype (for temporary usage) #########################################################################
-
-                self.record[samplecolidx] = ':'.join(sample_genotype)
+        pass
+        # if "MULTIALLELE=" in self.record[INFOIDX]:
+        #     rst = vcf_util.pars_info_field(self.record[INFOIDX])
+        #     this_geno = self.ref + '/' + self.alt  
+        #     multiallele_key = vcf_util.decode_value(rst['MULTIALLELE'][0][0])
+        #     this_numgeno = vcf_util.get_numgt_from_multiallele(this_geno, multiallele_key.strip().split(' ')[-1])
+        #     # print('>this_geno:', this_geno, this_numgeno,  multiallele_key.strip().split(' ')[-1])
+        #     for samplegeno in rst['SAMPLEGENO']:
+        #         # print(samplegeno)
+        #         sgeno = struct_util.mkdict(self.infoheader['SAMPLEGENO']['Format'], samplegeno)
+        #         samplecolidx = self.colnames.index(sgeno['SAMPLEID'])
+        #         format_list = self.record[FORMATIDX].split(':')
+        #         sample_genotype = self.record[samplecolidx].split(':')
+        #         if len(sample_genotype) > format_list.index('PL'):
+        #             pl = sample_genotype[format_list.index('PL')].split(',')
+        #             if len(pl) >= 6:
+        #                 new_pl = vcf_util.get_biallelepl_multiallelepl(this_numgeno, pl)
+        #                 sample_genotype[format_list.index('PL')] = ','.join(new_pl)
+        #                 # fix num_genotype (for temporary usage) #########################################################################
+        #                 new_gt = vcf_util.get_numgt(sgeno['GT'], self.ref, self.alt, delimiter=sample_genotype[format_list.index('GT')][1])
+        #                 sample_genotype[format_list.index('GT')] = new_gt
+        #                 # fix num_genotype (for temporary usage) #########################################################################
+        #                 self.record[samplecolidx] = ':'.join(sample_genotype)
 
     def add_hg19_in_infofield(self, liftover_hg38_hg19, add_hgvs=False):
         hg19 = ""

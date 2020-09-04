@@ -38,7 +38,7 @@ def dispatch_job(opt):
         an = annotvcf.VCFAnnotator(opt)
         an.run()
 
-    if opt.subcommand == 'download' and opt.dir != "":
+    if opt.subcommand == 'download' and opt.source_path != "":
         dn = Downloader(opt)
         dn.run()
 
@@ -78,7 +78,7 @@ def dispatch_job(opt):
         if opt.make_dbnsfp_transcript:
             obj = preprocess.MakeDbnsfpTranscript(opt.infile, opt.out, opt.ds, opt)
             obj.run()
-    if opt['subcommand'] == 'web':
+    if opt.subcommand == 'web':
         web.runserver(opt)
 
     if opt.subcommand == 'view':

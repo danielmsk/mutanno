@@ -1,7 +1,9 @@
 *.pyc
+*.swp
 __pycache__/
 .DS_Store
 ._.DS_Store
+._README.md
 .eggs/
 *.egg-info/
 src/*.egg-info/
@@ -10,5 +12,6 @@ dist/
 _build/
 docs/_build/
 tests/test.sh
+tests/out/
 .vscode/
 .pytest_cache/v/cache/

@@ -227,7 +227,7 @@ class PreprocClinVar():
                             self.ref_trait[ref_trait_name_text.strip()] = xid
                             self.ref_trait[xid] = ref_trait_name_text.strip()
 
-        print(">>>>>self.ref_trait:", len(self.ref_trait.keys()))
+        # print(">>>>>self.ref_trait:", len(self.ref_trait.keys()))
 
     def get_submission_from_xml(self, setcont, cvar):
         xml = xmltodict.parse(setcont)
