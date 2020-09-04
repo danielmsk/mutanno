@@ -39,7 +39,6 @@ Contents
    download
    make_sourcefile
    annotate_variants
-   datasource_list
    datastructure
    datastructure_version
    annotated_vcf

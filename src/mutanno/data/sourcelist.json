@@ -293,9 +293,65 @@
           ]
         }
       ]
+    },
+    {
+      "name": "CADD",
+      "latest": "1.6",
+      "versions": [
+        {
+          "version": "1.6",
+          "version_date": "2020.03.26",
+          "total_size": 86592987071,
+          "preprocess_function": "run_preproc_cadd",
+          "ref_version": "hg38",
+          "urls": [
+            "https://krishna.gs.washington.edu/download/CADD/v1.6/GRCh38/whole_genome_SNVs.tsv.gz",
+            "mutanno UK10K_COHORT.20160215.sites.vcf.gz"
+          ]
+        },
+        {
+          "version": "1.5",
+          "version_date": "2019.02.22",
+          "total_size": 85809729344,
+          "preprocess_function": "run_preproc_cadd",
+          "ref_version": "hg38",
+          "urls": [
+            "https://krishna.gs.washington.edu/download/CADD/v1.5/GRCh38/whole_genome_SNVs.tsv.gz",
+            "mutanno UK10K_COHORT.20160215.sites.vcf.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MMSPLICE",
+      "latest": "1.6",
+      "versions": [
+        {
+          "version": "1.6",
+          "version_date": "2020.03.26",
+          "total_size": 86592987071,
+          "preprocess_function": "run_preproc_cadd",
+          "ref_version": "hg38",
+          "urls": [
+            "https://krishna.gs.washington.edu/download/CADD/v1.6/GRCh38/MMSpliceUpdate/mmsplice-all-GRCh38.tsv.gz",
+            "mutanno UK10K_COHORT.20160215.sites.vcf.gz"
+          ]
+        },
+        {
+          "version": "1.5",
+          "version_date": "2019.02.22",
+          "total_size": 85809729344,
+          "preprocess_function": "run_preproc_cadd",
+          "ref_version": "hg38",
+          "urls": [
+            "https://krishna.gs.washington.edu/download/CADD/v1.5/GRCh38/whole_genome_SNVs.tsv.gz",
+            "mutanno UK10K_COHORT.20160215.sites.vcf.gz"
+          ]
+        }
+      ]
     }
 
-
+    
 
   ]
 }
