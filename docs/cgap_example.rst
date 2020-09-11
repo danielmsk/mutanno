@@ -63,6 +63,13 @@ Gene annotation
 
 .. code::
 
+    mutanno download \
+            -source_path datasource_directory \
+            -source all \
+            -version lastest \
+            -refversion hg38 \
+            -websource mutanno
+
     mutanno makedata \
             -ds tests/data/datastructure_gene_v0.4.6ds.json \
             -out mvp_gene_datasource_v0.4.6.coding_gene_main_chrom \
@@ -71,4 +78,5 @@ Gene annotation
 
     gzip -c mvp_gene_datasource_v0.4.6.coding_gene_main_chrom.json > mvp_gene_datasource_v0.4.6.coding_gene_main_chrom.json.gz
 
-* data file: https://www.dropbox.com/s/s6ahfq0gdn99uu8/mvp_gene_datasource_v0.4.6.coding_gene_main_chrom.json.gz?dl=0
+* ds file: https://github.com/dbmi-bgm/mutanno/blob/master/tests/data_structure_json/datastructure_gene_v0.4.6ds.json
+* out file: https://www.dropbox.com/s/s6ahfq0gdn99uu8/mvp_gene_datasource_v0.4.6.coding_gene_main_chrom.json.gz?dl=0

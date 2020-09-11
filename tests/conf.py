@@ -23,6 +23,7 @@ REPLACETAG['MICRO_SOURCE_FILE'] = os.path.join(DATA_DIR, "microannot.v0.4.4.targ
 # REPLACETAG['MICRO_SOURCE_FILE'] = "/Users/pcaso/db/MUTANNO/DATASOURCE/MICROANNOT/v0.4.4_200614/microannot_datasource.v0.4.4_200614.tsi.gz"
 REPLACETAG['FULL_DS_FILE'] = os.path.join(DS_DIR, "datastructure_fullannot_v0.4.8.json")
 REPLACETAG['FULL_SOURCE_FILE'] = os.path.join(DATA_DIR, "fullannot.v0.4.8.target.mti.gz")
+REPLACETAG['GENE_DS_FILE'] = os.path.join(DS_DIR, "datastructure_gene_v0.4.6ds.json")
 REPLACETAG['CHAINFILE'] = CHAINFILE
 
 DEFAULT_VCF_VALIDATOR_MSG = "The header tag 'reference' not present. (Not required but highly recommended.)"

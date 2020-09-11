@@ -31,58 +31,67 @@ All preprocessed data is available in `dropbox shared folder <https://www.dropbo
 
 **Variant annotation (hg38)**
 
-============================ =============  =========== ========== ============ ===============
+============================ ============= ============ ===============
 **hg38 (GRCh38)**
------------------------------------------------------------------------------------------------
-**Source name**              **Category**   **Version** **Date**   **Download** **link**
----------------------------- -------------  ----------- ---------- ------------ ---------------
-**VEP**                      Annotation     v101        08/26/2020 manually     `⬇ <#vep>`_
-**VEP** *                    Annotation     v99         11/04/2019 manually     `⬇ <#vep>`_
-**dbSNP** *                  PopulationDB               00/00/0000 auto         `⬇ <#dbsnp>`_
-**gnomAD** *                 PopulationDB   3.0                    auto         `⬇ <#gnomad>`_
-**UK10K** *                  PopulationDB   20160215    02/15/2016 auto         `⬇ <#uk10k>`_
-**TOPMED** *                 PopulationDB   freeze 5    08/28/2017 auto         `⬇ <#topmed>`_
-**CLINVAR** *                VariantDB      20200106    01/06/2020 auto         `⬇ <#clinvar>`_
-**COSMIC** *                 VariantDB      v90         08/06/2019 auto         `⬇ <#cosmic>`_
-**SPLICEAI** *               Pathogenicity  20191004    01/06/2019 manually     `⬇ <#spliceai>`_
-**PRIMATEAI** *              Pathogenicity  v0.2_hg38   12/18/2019 manually     `⬇ <#primateai>`_
-**CADD**                     Pathogenicity  1.6         03/26/2020 auto         `⬇ <#cadd>`_
-**CADD** *                   Pathogenicity  1.5         02/22/2019 auto         `⬇ <#cadd>`_
-**GERP** *                   Conservation   100_mammals 01/01/2000 auto         `⬇ <#phylop>`_
-**PHASTCONS** *              Conservation   100way      07/17/2017 auto         `⬇ <#phylop>`_
-**PHASTCONS** *              Conservation   30way       07/17/2017 auto         `⬇ <#phylop>`_
-**PHASTCONS** *              Conservation   20way       07/17/2017 auto         `⬇ <#phylop>`_
-**PHYLOP** *                 Conservation   100way      04/16/2015 auto         `⬇ <#phylop>`_
-**PHYLOP** *                 Conservation   30way       11/05/2017 auto         `⬇ <#phylop>`_
-**PHYLOP** *                 Conservation   20way       05/07/2015 auto         `⬇ <#phylop>`_
-**SIPHY** *                  Conservation   20way       01/01/2000 auto         `⬇ <#shiphy>`_
-**SUPER_DUPLICATES** *       Repeatitive    20way       01/01/2000 auto         `⬇ <#super_duplicates>`_
-**SIMPLE_REPEAT** *          Repeatitive    20way       01/01/2000 auto         `⬇ <#simple_repeat>`_
-**RMSK** *                   Repeatitive    20way       01/01/2000 auto         `⬇ <#rmsk>`_
-**NESTED_REPEATS** *         Repeatitive    20way       01/01/2000 auto         `⬇ <#nested_repeats>`_
-**MICROSATELLITE** *         Repeatitive    20way       08/23/2015 auto         `⬇ <#microsatellite>`_
-============================ =============  =========== ========== ============ ===============
+-----------------------------------------------------------------------
+**Source name**              **Category**  **Download** **link**
+---------------------------- ------------- ------------ ---------------
+**VEP** *                    Annotation    manually     `⬇ <#vep>`_
+**dbSNP** *                  PopulationDB  auto         `⬇ <#dbsnp>`_
+**gnomAD** *                 PopulationDB  auto         `⬇ <#gnomad>`_
+**UK10K** *                  PopulationDB  auto         `⬇ <#uk10k>`_
+**TOPMED** *                 PopulationDB  auto         `⬇ <#topmed>`_
+**CLINVAR** *                VariantDB     auto         `⬇ <#clinvar>`_
+**COSMIC** *                 VariantDB     auto         `⬇ <#cosmic>`_
+**SPLICEAI** *               Pathogenicity manually     `⬇ <#spliceai>`_
+**PRIMATEAI** *              Pathogenicity manually     `⬇ <#primateai>`_
+**CADD** *                   Pathogenicity auto         `⬇ <#cadd>`_
+**GERP** *                   Conservation  auto         `⬇ <#phylop>`_
+**PHASTCONS** *              Conservation  auto         `⬇ <#phylop>`_
+**PHYLOP** *                 Conservation  auto         `⬇ <#phylop>`_
+**SIPHY** *                  Conservation  auto         `⬇ <#shiphy>`_
+**SUPER_DUPLICATES** *       Repeatitive   auto         `⬇ <#super_duplicates>`_
+**SIMPLE_REPEAT** *          Repeatitive   auto         `⬇ <#simple_repeat>`_
+**RMSK** *                   Repeatitive   auto         `⬇ <#rmsk>`_
+**NESTED_REPEATS** *         Repeatitive   auto         `⬇ <#nested_repeats>`_
+**MICROSATELLITE** *         Repeatitive   auto         `⬇ <#microsatellite>`_
+============================ ============= ============ ===============
 
 * **auto**: support to download and preprocess automatically in mutanno
-* **star(*)**: the star(*) means 
+* **star(*)**: the star(*) means this version is used in CGAP project.
 
-=============== =============  =========== ========== ============ ===============
+=============== ============= ============ ===============
 **hg19 (GRCh37)**
-----------------------------------------------------------------------------------
-**Source name** **Category**   **Version** **Date**   **Download** **link**
---------------- -------------  ----------- ---------- ------------ ---------------
-**CADD**        Pathogenicity  1.6         03/26/2020 auto         `⬇ <#cadd>`_
-=============== =============  =========== ========== ============ ===============
+----------------------------------------------------------
+**Source name** **Category**  **Download** **link**
+--------------- ------------- ------------ ---------------
+**CADD**        Pathogenicity auto         `⬇ <#cadd>`_
+=============== ============= ============ ===============
 
 
 **Gene annotation**
 
-=========== =============  =========== ========== ========= ===============
-Source name Category       Version     Date       Download  link
------------ -------------  ----------- ---------- --------- ---------------
-GTEx        Expression
-GeneMetrics Conservation   20way       01/01/2000 auto      `⬇ <#shiphy>`_
-=========== =============  =========== ========== ========= ===============
+============================== ============ ===============
+**Source name**                **Download** **link**
+------------------------------ ------------ ---------------
+**ENSEMBLgene** *              auto         `⬇ <#ensemblgene>`_
+**ENSEMBLgeneGRCh37** *        auto         `⬇ <#ensemblgenegrch37>`_
+**CYTOBAND** *                 auto         `⬇ <#cytoband>`_
+**RefSeq** *                   auto         `⬇ <#refseq>`_
+**HGNC** *                     auto         `⬇ <#hgnc>`_
+**ClinGen** *                  auto         `⬇ <#clingen>`_
+**ClinGenDisease** *           auto         `⬇ <#clingendisease>`_
+**ENSEMBLIDxrefTrscriptID** *  auto         `⬇ <#ensemblidxreftrscriptid>`_
+**ENSEMBLIDxref** *            auto         `⬇ <#ensemblidxref>`_
+**dbNSFP** *                   auto         `⬇ <#dbnsfp>`_
+**gnomADmetrics** *            auto         `⬇ <#gnomadmetrics>`_
+**Marrvel** *                  auto         `⬇ <#marrvel>`_
+**CassaNatGenet2017** *        manual       `⬇ <#cassa>`_
+**GTEx** *                     auto         `⬇ <#gtex>`_
+**BrainSpan** *                auto         `⬇ <#brainspan>`_
+**BrainAtlas** *               auto         `⬇ <#brainatlas>`_
+**GenCode** *                  auto         `⬇ <#genecode>`_
+============================== ============ ===============
 
 Download methods
 ----------------
@@ -141,13 +150,12 @@ Download preprocessed files from MutAnno dropbox
 ************************************************
 
    .. code-block::
-      :linenos:
       :emphasize-lines: 3,6
     
       mutanno download \
               -source_path datasource_directory \
               -source vep \
-              -version lastest \
+              -version latest \
               -refversion hg38 \
               -websource mutanno
 
@@ -157,19 +165,15 @@ Make VEP result files and then run preprocess
 1. make mock vcf files
 
    .. code-block::
-      :linenos:
       
       mutanno vcfmaker \
               -out test.vcf
-      
+         
 
 2. run VEP
-
-
-    * download ftp://ftp.ensembl.org/pub/release-99/variation/vep/homo_sapiens_vep_99_GRCh38.tar.gz
+   
 
    .. code-block::
-      :linenos:
       
       ./bin/ensembl-vep-release-99/vep \
             -i chr1_100001_200000.vcf \
@@ -188,6 +192,16 @@ Make VEP result files and then run preprocess
             --plugin TSSDistance \
             --dir_plugins ./bin/VEP_plugins-release-99 \
             --plugin SpliceRegion,Extended
+
+
+   .. note:: 
+   
+      `How to install VEP. <https://uswest.ensembl.org/info/docs/tools/vep/script/vep_download.html>`_
+   
+      1. download `VEP file (v99) from ENSEMBL <ftp://ftp.ensembl.org/pub/release-99/variation/vep/homo_sapiens_vep_99_GRCh38.tar.gz>`_ .
+      2. compressed it. 
+      3. 
+
 
 3. preprocess VEP result (convert .mti)
 
@@ -313,19 +327,284 @@ https://www.ncbi.nlm.nih.gov/variation/docs/ClinVar_vcf_files/
 Gene annotation
 ---------------
 
+For the gene annotation, MutAnno requires several annotation data files from the public resources. You can download and preproces each data sources, and download the preprocessed files from MutAnno storage using the followin comand.
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source geneannot \
+              -version latest \
+              -refversion hg38
+              -websource mutanno
+
+
+ENSEMBLgene
+^^^^^^^^^^^
+
+* web resource: `ENSEMBL ftp <ftp://ftp.ensembl.org/pub/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source ensemblgene \
+              -version latest \
+              -refversion hg38
+
+ENSEMBLgeneGRCh37
+^^^^^^^^^^^^^^^^^
+
+* web resource: `ENSEMBL ftp <ftp://ftp.ensembl.org/pub/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source ensemblgenegrch37 \
+              -version latest \
+              -refversion hg38
+
+CYTOBAND
+^^^^^^^^
+
+* web resource: `UCSC ftp <http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source cytoband \
+              -version latest \
+              -refversion hg38
+
+RefSeq
+^^^^^^
+
+* web resource: `RefSeqGene data from NCBI ftp <ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source refseq \
+              -version latest \
+              -refversion hg38
+
+HGNC
+^^^^
+
+* web resource: `HGNC data from EBI ftp <ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source hgnc \
+              -version latest \
+              -refversion hg38
+
+ClinGen
+^^^^^^^
+
+* web resource: `ClinGen curation status site <https://search.clinicalgenome.org/kb/curations/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source clingen \
+              -version latest \
+              -refversion hg38
+
+ClinGenDisease
+^^^^^^^^^^^^^^
+
+* web resource: `ClinGen gene-validity site <https://search.clinicalgenome.org/kb/gene-validity>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source clingendisease \
+              -version latest \
+              -refversion hg38
+
+ENSEMBLIDxrefTrscriptID
+^^^^^^^^^^^^^^^^^^^^^^^
+
+* web resource: `Uniprot ftp <ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source ensemblidxreftrscriptid \
+              -version latest \
+              -refversion hg38
+
+ENSEMBLIDxref
+^^^^^^^^^^^^^
+
+* web resource: `ENSEMBL ftp <ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source ensemblifxref \
+              -version latest \
+              -refversion hg38
+
+dbNSFP
+^^^^^^
+
+* web resource: `dbNSFP ftp <ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source dbnsfp \
+              -version latest \
+              -refversion hg38
+
+gnomADmetrics
+^^^^^^^^^^^^^
+
+* web resource: `gnomAD <ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source gnomadmetrics \
+              -version latest \
+              -refversion hg38
+
+Marrvel
+^^^^^^^
+
+* web resource: `Marrvel <ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source marrvel \
+              -version latest \
+              -refversion hg38
+
+CassaNatGenet2017
+^^^^^^^^^^^^^^^^^
+
+* web resource: `s_het score from Cassa et al. Nat. Genet. 2017 <https://www.biorxiv.org/highwire/filestream/20869/field_highwire_adjunct_files/0/075523-1.xlsx>`_
+* MutAnno doesn't support to download raw source file and preprocess automatically. But it supports to download the preprocessed file from MutAnno storage.
+
+  .. code-block::
+     :emphasize-lines: 3,6
+
+      mutanno download \
+              -source_path datasource_directory \
+              -source ccassanatgenet2017 \
+              -version latest \
+              -refversion hg38
+              -websource mutanno
+  
+
 
 GTEx
 ^^^^
 
-* web resource: `gnomAD broser <https://gnomad.broadinstitute.org/downloads>`_
+* web resource: `GTEx dataset <https://gtexportal.org/home/datasets>`_
 * MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
 
 
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source gtex \
+              -version latest \
+              -refversion hg38
 
-ENSEMBL
+BrainSpan
+^^^^^^^^^
+
+* web resource: `BrainSpan ftp <ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source brainspan \
+              -version latest \
+              -refversion hg38
+
+BrainAtlas
+^^^^^^^^^^
+
+* web resource: `BrainAtlas ftp <ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/>`_
+* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source brainatlas \
+              -version latest \
+              -refversion hg38
+
+GenCode
 ^^^^^^^
 
-* web resource: `gnomAD broser <https://gnomad.broadinstitute.org/downloads>`_
+* web resource: `GenCode ftp <ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/>`_
 * MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
 
+
+  .. code-block::
+     :emphasize-lines: 3
+    
+      mutanno download \
+              -source_path datasource_directory \
+              -source gencode \
+              -version latest \
+              -refversion hg38
 

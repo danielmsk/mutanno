@@ -164,7 +164,7 @@
     },
     {
       "name": "RefSeq",
-      "desc": "cytoband",
+      "desc": "refseq",
       "version": "2020-03-20",
       "version_date": "03/20/2020",
       "datafile": "NCBI/REFSEQ/refseqgene.genomic.tsv.gz",

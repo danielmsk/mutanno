@@ -349,7 +349,400 @@
           ]
         }
       ]
+    },{
+      "name": "ENSEMBLgene",
+      "latest": "",
+      "versions": [
+        {
+          "version": "v99",
+          "version_date": "2019.11.21",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ensemblgene",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.99.gtf.gz",
+            "mutanno Homo_sapiens.GRCh38.99.bed.gz"
+          ]
+        },
+        {
+          "version": "v100",
+          "version_date": "2020.03.06",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ensemblgene",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.ensembl.org/pub/release-100/gtf/homo_sapiens/Homo_sapiens.GRCh38.100.gtf.gz",
+            "mutanno Homo_sapiens.GRCh38.100.bed.gz"
+          ]
+        },
+        {
+          "version": "v101",
+          "version_date": "2020.07.11",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ensemblgene",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz",
+            "mutanno Homo_sapiens.GRCh38.101.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ENSEMBLgeneGRCh37",
+      "latest": "",
+      "versions": [
+        {
+          "version": "v75(GRCh37.p13)",
+          "version_date": "2013.09.01",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ensemblgenegrch37",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.ensembl.org/pub/release-75/gtf/homo_sapiens/Homo_sapiens.GRCh37.75.gtf.gz",
+            "mutanno ensgid_hg19_coordination.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CYTOBAND",
+      "latest": "",
+      "versions": [
+        {
+          "version": "2017-07-17",
+          "version_date": "2017.07.17",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_cytoband",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno cytoBand.hg38.2017-07-17.bed.gz"
+          ]
+        },{
+          "version": "2019-03-11",
+          "version_date": "2019.03.11",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_cytoband",
+          "ref_version": "hg38",
+          "urls": [
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/cytoBand.txt.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RefSeq",
+      "latest": "",
+      "versions": [
+        {
+          "version": "2020-03-20",
+          "version_date": "2020.03.20",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_refseq",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno refseq.hg38.2017-07-17.tsv.gz"
+          ]
+        },
+        {
+          "version": "2020-09-08",
+          "version_date": "2020.09.08",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_refseq",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/refseqgene.1.genomic.gbff.gz",
+            "ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/refseqgene.2.genomic.gbff.gz",
+            "ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/refseqgene.3.genomic.gbff.gz",
+            "ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/refseqgene.4.genomic.gbff.gz",
+            "ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/refseqgene.5.genomic.gbff.gz",
+            "mutanno refseq.hg38.2020-09-08.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "HGNC",
+      "latest": "",
+      "versions": [
+        {
+          "version": "2020-02-24",
+          "version_date": "02/24/2020",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_hgnc",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno hgnc_complete_set.mod.txt.gz"
+          ]
+        },
+        {
+          "version": "2020-09-08",
+          "version_date": "2020.09.08",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_refseq",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt",
+            "mutanno hgnc_complete_set.mod.txt.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ClinGen",
+      "latest": "",
+      "versions": [
+        {
+          "version": "20200403",
+          "version_date": "04/03/2020",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_clingen",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno clingen_list_2020-04-03.html.mod.tsv"
+          ]
+        },
+        {
+          "version": "20200911",
+          "version_date": "2020.09.11",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_clingen",
+          "ref_version": "hg38",
+          "urls": [
+            "https://search.clinicalgenome.org/kb/curations/",
+            "mutanno clingen_list_2020-04-03.html.mod.tsv"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ClinGenDisease",
+      "latest": "",
+      "versions": [
+        {
+          "version": "20200403",
+          "version_date": "04/03/2020",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_clingendisease",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno clingen_gene-validity_2020-04-03.csv.mod.tsv"
+          ]
+        },
+        {
+          "version": "20200911",
+          "version_date": "2020.09.11",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_clingendisease",
+          "ref_version": "hg38",
+          "urls": [
+            "https://search.clinicalgenome.org/kb/curations/",
+            "mutanno clingen_gene-validity_2020-04-03.csv.mod.tsv"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ENSEMBLIDxrefTrscriptID",
+      "latest": "",
+      "versions": [
+        {
+          "version": "2017-11-22",
+          "version_date": "11/22/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_clingendisease",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno idmap_ensembl_uniprot_xref.transcriptid.tsv.gz"
+          ]
+        },
+        {
+          "version": "2020-08-12",
+          "version_date": "2020.08.12",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_clingendisease",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping_selected.tab.gz",
+            "mutanno idmap_ensembl_uniprot_xref.transcriptid.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ENSEMBLIDxref",
+      "latest": "",
+      "versions": [
+        {
+          "version": "2017-11-22",
+          "version_date": "11/22/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_clingendisease",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno idmap_ensembl_uniprot_xref.tsv.gz"
+          ]
+        },
+        {
+          "version": "2020-08-12",
+          "version_date": "2020.08.12",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_clingendisease",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping_selected.tab.gz",
+            "mutanno idmap_ensembl_uniprot_xref.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dbNSFP",
+      "latest": "",
+      "versions": [
+        {
+          "version": "4.0c",
+          "version_date": "06/05/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_dbnsfp",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://dbnsfp:dbnsfp@dbnsfp.softgenetics.com/dbNSFP4.0c.zip",
+            "mutanno dbNSFP4.0_gene.complete.mod.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gnomADmetrics",
+      "latest": "",
+      "versions": [
+        {
+          "version": "v2.1.1",
+          "version_date": "11/22/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_dbnsfp",
+          "ref_version": "hg38",
+          "urls": [
+            "https://storage.googleapis.com/gnomad-public/release/2.1.1/constraint/gnomad.v2.1.1.lof_metrics.by_gene.txt.bgz",
+            "mutanno gnomad.v2.1.1.lof_metrics.by_gene.txt.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Marrvel",
+      "latest": "",
+      "versions": [
+        {
+          "version": "v1.2",
+          "version_date": "06/01/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_marrvel",
+          "ref_version": "hg38",
+          "urls": [
+            "https://storage.googleapis.com/gnomad-public/release/2.1.1/constraint/gnomad.v2.1.1.lof_metrics.by_gene.txt.bgz",
+            "mutanno marrvel_genesymbol.v1.2_170601.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CassaNatGenet2017",
+      "latest": "",
+      "versions": [
+        {
+          "version": "04/03/2017",
+          "version_date": "04/03/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_marrvel",
+          "ref_version": "hg38",
+          "urls": [
+            "https://www.biorxiv.org/highwire/filestream/20869/field_highwire_adjunct_files/0/075523-1.xlsx",
+            "mutanno 075523-1.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GTEx",
+      "latest": "",
+      "versions": [
+        {
+          "version": "v8",
+          "version_date": "06/05/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_gtex",
+          "ref_version": "hg38",
+          "urls": [
+            "https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+            "mutanno GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_link.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BrainSpan",
+      "latest": "",
+      "versions": [
+        {
+          "version": "v2",
+          "version_date": "06/05/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_gtex",
+          "ref_version": "hg38",
+          "urls": [
+            "mutanno GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_link.tsv.gz"
+          ]
+        },{
+          "version": "v10",
+          "version_date": "06/05/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_gtex",
+          "ref_version": "hg38",
+          "urls": [
+            "https://www.brainspan.org/api/v2/well_known_file_download/267666525",
+            "mutanno GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_link.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BrainAtlas",
+      "latest": "",
+      "versions": [
+        {
+          "version": "v2",
+          "version_date": "06/05/2017",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_gtex",
+          "ref_version": "hg38",
+          "urls": [
+            "https://www.brainspan.org/api/v2/well_known_file_download/267666525",
+            "mutanno BRAINATLAS_microarry_link.tsv.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GenCode",
+      "latest": "",
+      "versions": [
+        {
+          "version": "v33",
+          "version_date": "12/13/2019",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_genecode",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_33/gencode.v33.annotation.gff3.gz",
+            "mutanno GenCodeTranscript.v33.12_13_2019.bed.gz"
+          ]
+        }
+      ]
     }
+    
 
     
 

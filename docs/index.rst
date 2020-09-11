@@ -37,8 +37,10 @@ Contents
    installation
    options
    download
+   datasource
    make_sourcefile
    annotate_variants
+   annotate_gene
    datastructure
    datastructure_version
    annotated_vcf
