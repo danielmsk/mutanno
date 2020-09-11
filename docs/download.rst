@@ -200,7 +200,7 @@ Make VEP result files and then run preprocess
    
       1. download `VEP file (v99) from ENSEMBL <ftp://ftp.ensembl.org/pub/release-99/variation/vep/homo_sapiens_vep_99_GRCh38.tar.gz>`_ .
       2. compressed it. 
-      3. 
+      3. install plugins (https://uswest.ensembl.org/info/docs/tools/vep/script/vep_plugins.html)
 
 
 3. preprocess VEP result (convert .mti)
