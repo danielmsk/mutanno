@@ -187,7 +187,7 @@ def get_options():
     p1.add_argument('-outtype', dest='outtype', default=do['outtype'],
                     choices=['vcf', 'json'], help='output file type', nargs='*')
     p1.add_argument('-ds', dest='ds', default=do['ds'], help='data structure json file')
-    p1.add_argument('-sourcefile', dest='sourcefile', default=do['sourcefile'], help='data source file')
+    p1.add_argument('-sourcefile', dest='sourcefile', default=[], nargs='*', help='data source file')
     p1.add_argument('-genoinfo', dest='genoinfo',
                     default=do['genoinfo'], help='add genotype info. in INFO field', nargs="*")
     p1.add_argument('-hgvs', dest='hgvs',
@@ -207,8 +207,8 @@ def get_options():
                     action="store_true", default=False, help='fix PL values for split multi-allelic variants')
     p1.add_argument('-clean_tag', dest='clean_tag_list',
                     default=[], help='remove previous annotation information', nargs='*')
-    p1.add_argument('-single_source_mode', dest='single_source_mode',
-                    action="store_true", default=do['single_source_mode'], help='single source mode')
+    p1.add_argument('-use_raw_source', dest='use_raw_source',
+                    action="store_true", default=do['single_source_mode'], help='use a raw annotation info from source file without modification')
     p1.add_argument('-load_source_in_memory', dest='load_source_in_memory',
                     action="store_true", default=do['load_source_in_memory'], help='loading data source in memory')
     p1.add_argument('-sparse', dest='sparse',
@@ -252,6 +252,21 @@ def get_options():
                     default=False, help='turn on the debugging mode')
 
     p1.add_argument('-check', action="store_true", dest='check', default=False, help='check output file')
+    p1.add_argument('-log', dest='logfile', default='', help='log file')
+    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
+
+    p1 = subparsers.add_parser('preprocess', help='preprocess',
+                               description='quality metrics for VCF')
+    p1.add_argument('-infile', dest='infile', default='', help='title of input file')
+    p1.add_argument('-out', dest='out', default='', help='title of output file')
+    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
+    p1.add_argument('-vep2mti', dest='vep2mti', default=False, action="store_true",
+                    help='convert VEP result to .mti file')
+    p1.add_argument('-make_dbnsfp_transcript', dest='make_dbnsfp_transcript', default=False, action="store_true",
+                    help='make dbNSFP transcript file')
+
+    p1.add_argument('-debug', dest='debug', action="store_true",
+                    default=False, help='turn on the debugging mode')
     p1.add_argument('-log', dest='logfile', default='', help='log file')
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
 
@@ -301,13 +316,6 @@ def get_options():
     p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='don\'t print any log.')
     p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
 
-    p1 = subparsers.add_parser('preprocess', help='quality metrics for VCF',
-                               description='quality metrics for VCF')
-    p1.add_argument('-infile', dest='infile', default='', help='title of input file')
-    p1.add_argument('-out', dest='out', default='', help='title of output file')
-    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
-    p1.add_argument('-make_dbnsfp_transcript', dest='make_dbnsfp_transcript', default=False, action="store_true",
-                    help='make dbNSFP transcript file')
 
     p1 = subparsers.add_parser('web', help='web view',
                                description='web view')

@@ -17,6 +17,7 @@ ALTIDX = vcf_util.VCF_COL.index('ALT')
 INFOIDX = vcf_util.VCF_COL.index('INFO')
 FORMATIDX = vcf_util.VCF_COL.index('FORMAT')
 SAMPLESTARTIDX = vcf_util.VCF_COL.index('SAMPLESTART')
+DATAHEADER = {}
 
 class VCFAnnotator():
     vcfheader = None
@@ -30,11 +31,11 @@ class VCFAnnotator():
         self.out = self.opt.out
         self.dslist = DataSourceList(self.opt.ds)
         self.dslist.tmp_clinvar_idmap = file_util.tmp_load_clinvar_idmap()
-        if self.opt.sourcefile != "":
+        if len(self.opt.sourcefile) > 0:
             self.dslist.sourcefile = self.opt.sourcefile
             self.dslist.sourcefile2 = self.opt.sourcefile
-        if self.opt.single_source_mode:
-            self.dslist.single_source_mode = self.opt.single_source_mode
+        if self.opt.use_raw_source:
+            self.dslist.use_raw_source = self.opt.use_raw_source
 
         self.vcfreader = VCFReader(self.opt)
         if 'vcf' in self.opt.outtype:

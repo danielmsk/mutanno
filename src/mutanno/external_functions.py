@@ -58,6 +58,13 @@ def add_vep_most_severe(sections):
 
 def vep_select_microannot_add_most_severe(sections, vcf_info_value, select_biotype):
     sections = vep_select_from_microannot(sections, vcf_info_value)
+    ##################
+    ### if you don't use vep_select_biotype function, you can get VEP and GENES annotations,
+    ### eg.) VEP=||intergenic_variant||||||||||||||0|1||||||||||||||||;GENES=||intergenic_variant||||||;
+    ### But, if you use it, VEP and GENES are not added.
+    ##################
+    # sections = vep_select_biotype(sections, select_biotype)
+    
     sections = add_vep_most_severe(sections)
     return sections
 
@@ -73,9 +80,11 @@ def vep_select_from_microannot(sections, vcf_info_value):
     if 'VEP' in vcf_info_value.keys():
         for vcf_info_section in vcf_info_value['VEP']:
             selected_feature[vcf_info_section['Feature']] = vcf_info_section
-
     selected = []
-    for sidx, section in enumerate(sections):
+    for section in sections:
+        if section['Feature'] is None:
+            section['Feature'] = ''
+
         if section['Feature'] in selected_feature.keys():
             section['Consequence'] = selected_feature[section['Feature']]['Consequence'].split('~')
             selected.append(section)
@@ -86,7 +95,7 @@ def vep_select_biotype(sections, select_biotype):
     # print (">external_functions.vep_select_biotype():", select_biotype)
     # print(sections)
     selected = []
-    for sidx, section in enumerate(sections):
+    for section in sections:
         # print("section['BIOTYPE']:",section['BIOTYPE'])
         if section['BIOTYPE'] in select_biotype:
             selected.append(section)

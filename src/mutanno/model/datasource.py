@@ -81,10 +81,9 @@ class VariantAnnot:
         return self.data
 
     def set_rawdata(self):
-        # print("### set_rawdata():" + self.source.name)
         if len(self.rawdata) == 0:
             if self.source.format == "tsi":
-                self.set_rawdata_from_tsi()
+                self.set_rawdata_from_mti()
             if self.source.format == "bed":
                 if self.return_all or self.source.is_available:
                     self.set_rawdata_from_bed()
@@ -161,11 +160,13 @@ class VariantAnnot:
                         tmp_section[field.name] = run_external_function(function, params, paramvalues)
                 except KeyError:
                     pass
+            
             for fieldname in tmp_section.keys():
                 section[fieldname] = tmp_section[fieldname]
+        
         return sections
 
-    def set_rawdata_from_tsi(self):
+    def set_rawdata_from_mti(self):
         """
         The raw data is unselected values from data source.
         """
@@ -285,10 +286,15 @@ class VariantAnnot:
 
 
 class DataSource(DataSourceStructure):
-    tchrom = ""
+    tchrom = {}
+    name = ""
     source_name = ""
+    sourcefile = []
+    sourcefile2 = []
     header = ""
-    tabixpointer = None
+    tabixpointer = {}
+    ref_column_index = 3
+    alt_column_index = 4
 
     def set_header(self, sourcefile):
         if self.header == "":
@@ -311,53 +317,55 @@ class DataSource(DataSourceStructure):
                 rstlist.append(tname)
         return rstlist
 
-    def tabix_load(self, chrom=""):
-        sourcefile = self.sourcefile2.replace('#CHROM#', chrom)
-        if file_util.is_exist(sourcefile) and isfile(sourcefile):
-            self.tabixpointer = tabix.open(sourcefile)
-            self.tchrom = chrom
-            self.set_header(sourcefile)
-        else:
-            if self.sourcefile != "":
-                print("Source file is not exist. : " + sourcefile)
+    def tabix_check_and_load(self, chrom=""):
+        for i, sf2 in enumerate(self.sourcefile2):
+            if (i not in self.tchrom.keys() or self.tchrom[i] != chrom) and (i not in self.tabixpointer.keys() or self.tabixpointer[i] is None or "#CHROM#" in sf2):
+                sourcefile = sf2.replace('#CHROM#', chrom)
+                if file_util.is_exist(sourcefile) and isfile(sourcefile):
+                    self.tabixpointer[i] = tabix.open(sourcefile)
+                    self.tchrom[i] = chrom
+                    self.set_header(sourcefile)
+                else:
+                    if self.sourcefile != "":
+                        print("Source file is not exist. : " + sourcefile)
 
     def get_variant_annot(self, chrom, pos, ref="", alt="", epos=-9, return_raw=True, records=[],
                           header_record=[], variant=None, tmp_clinvar_idmap={}):
-        if self.tchrom != chrom and (self.tabixpointer is None or "#CHROM#" in self.sourcefile2):
-            self.tabix_load(chrom)
 
-        if len(header_record) > 0:
-            recs = records
-            header = header_record
-        else:
-            if epos > pos:
-                chrompos = chrom + ':' + str(pos) + '-' + str(epos)
+        self.tabix_check_and_load(chrom)
+        recs = []
+        for i in self.tabixpointer.keys():
+            if len(header_record) > 0:
+                recs = records
+                header = header_record
             else:
-                chrompos = chrom + ':' + str(pos) + '-' + str(pos)
-            recs = []
-
-            try:
-                for rec in self.tabixpointer.querys(chrompos):
-                    if ((epos < 0 and rec[self.ref_column_index] == ref and rec[self.alt_column_index] == alt)
-                        or (epos > pos) or (self.format == "bed")
-                            or (rec[self.ref_column_index] == "" and rec[self.alt_column_index] == "")):
-                        recs.append(rec)
-            except AttributeError:
-                pass
-            except tabix.TabixError:
-                pass
-            header = self.header
-
+                if epos > pos:
+                    chrompos = chrom + ':' + str(pos) + '-' + str(epos)
+                else:
+                    chrompos = chrom + ':' + str(pos) + '-' + str(pos)
+                
+                try:
+                    for rec in self.tabixpointer[i].querys(chrompos):
+                        if ((epos < 0 and rec[self.ref_column_index] == ref and rec[self.alt_column_index] == alt)
+                            or (epos > pos) or (self.format == "bed")
+                                or (rec[self.ref_column_index] == "" and rec[self.alt_column_index] == "")):
+                            recs.append(rec)
+                            
+                except AttributeError:
+                    pass
+                except tabix.TabixError:
+                    pass
+                header = self.header
+        
         return VariantAnnot(recs, header, datasource=self, variant=variant, tmp_clinvar_idmap=tmp_clinvar_idmap)
 
     def get_variantkeys(self, chrom, spos, epos):
-        if self.tchrom != chrom and (self.tabixpointer is None or "#CHROM#" in self.sourcefile2):
-            self.tabix_load(chrom)
+        self.tabix_check_and_load(chrom)
         chrompos = chrom + ':' + str(spos) + '-' + str(epos)
         vkeys = {}
-        if self.tabixpointer is not None:
+        for i in self.tabixpointer.keys():
             try:
-                for rec in self.tabixpointer.querys(chrompos):
+                for rec in self.tabixpointer[i].querys(chrompos):
                     p1 = int(rec[1])
                     if p1 >= spos and p1 <= epos:
                         vkey = rec[0] + "_" + rec[1] + "_" + "_" + \
@@ -376,14 +384,17 @@ class DataSource(DataSourceStructure):
 
 
 class DataSourceList(DataSourceListStructure):
-    tabixpointer = None
+    tabixpointer = {}
     tabixchrom = ""
+    sourcefile = []
     ref_column_index = 3
     alt_column_index = 4
-    single_source = None
-    # single_source_mode = True
+    merged_source = None
+    use_raw_source = False
+    merged_sourcefile_mode = False
+    tmp_clinvar_idmap = {}  ## temporary
 
-    def load_singlesource(self):
+    def load_merged_source(self):
         singlesource_ds = {
             "name": "MUTANNO_SINGLESOURCE",
             "sourcefile": self.sourcefile,
@@ -391,21 +402,23 @@ class DataSourceList(DataSourceListStructure):
             "is_available": True,
             "fields": []
         }
-        self.single_source = DataSource(singlesource_ds)
-        self.single_source.sourcefile2 = self.sourcefile2
+        self.merged_source = DataSource(singlesource_ds)
+        self.merged_source.sourcefile2 = self.sourcefile2
 
     def get_variant_annot(self, chrom, pos, ref="", alt="", epos=-9, variant=None):
         annotmerger = VariantAnnotMerger()
-        if self.sourcefile != "":
-            self.load_singlesource()
-            single_source_annot = self.single_source.get_variant_annot(
+        if len(self.sourcefile) > 0:
+            if self.merged_source is None:
+                self.load_merged_source()
+            merged_source_annot = self.merged_source.get_variant_annot(
                 chrom, pos, ref, alt, return_raw=True, tmp_clinvar_idmap=self.tmp_clinvar_idmap)
-            # annotmerger.add_variant_annot(single_source_annot)
+            self.merged_sourcefile_mode = True
+            # annotmerger.add_variant_annot(merged_source_annot)
         for s1 in self.available_source_list:
-            if self.single_source_mode:
+            if self.merged_sourcefile_mode:
                 annot = s1.get_variant_annot(chrom, pos, ref=ref, alt=alt, epos=epos,
-                                             records=single_source_annot.records,
-                                             header_record=single_source_annot.header_record, variant=variant, tmp_clinvar_idmap=self.tmp_clinvar_idmap)
+                                             records=merged_source_annot.records,
+                                             header_record=merged_source_annot.header_record, variant=variant, tmp_clinvar_idmap=self.tmp_clinvar_idmap)
             else:
                 annot = s1.get_variant_annot(chrom, pos, ref=ref, alt=alt, epos=epos,
                                              variant=variant, tmp_clinvar_idmap=self.tmp_clinvar_idmap)
@@ -417,25 +430,37 @@ class DataSourceList(DataSourceListStructure):
         chrompos = vcfvariant.nchrom + ':' + str(vcfvariant.spos) + '-' + str(vcfvariant.epos)
         ref = vcfvariant.ref
         alt = vcfvariant.alt
-        if self.tabixpointer is None or ("#CHROM#" in self.sourcefile and self.tabixchrom != vcfvariant.nchrom):
-            self.tabixpointer = tabix.open(self.sourcefile.replace("#CHROM#", vcfvariant.nchrom))
-            self.tabixchrom = vcfvariant.nchrom
-        try:
-            for rec in self.tabixpointer.querys(chrompos):
-                if (((rec[self.ref_column_index] == ref and rec[self.alt_column_index] == alt)
-                     or (rec[self.ref_column_index] == "" and rec[self.alt_column_index] == ""))
-                        and vcfvariant.pos == int(rec[1])):
-                    infos.append(rec[-1])
-        except AttributeError:
-            pass
-        except tabix.TabixError:
-            pass
 
+        flag_annot = False
+        for i in range(len(self.sourcefile)):
+            try:
+                tp = self.tabixpointer[i]
+            except KeyError:
+                tp = None
+
+            if tp is None or ("#CHROM#" in self.sourcefile[i] and self.tabixchrom != vcfvariant.nchrom):
+                self.tabixpointer[i] = tabix.open(self.sourcefile[i].replace("#CHROM#", vcfvariant.nchrom))
+                self.tabixchrom = vcfvariant.nchrom
+            try:
+                for rec in self.tabixpointer[i].querys(chrompos):
+                    if (((rec[self.ref_column_index] == ref and rec[self.alt_column_index] == alt)
+                        or (rec[self.ref_column_index] == "" and rec[self.alt_column_index] == ""))
+                            and vcfvariant.pos == int(rec[1])):
+                        infos.append(rec[-1])
+                        flag_annot = True
+            except AttributeError:
+                pass
+            except tabix.TabixError:
+                pass
+            if flag_annot:
+                break
+        
         rst = ";".join(infos)
         for ds in self.sourcelist_with_default:
             if ds.name + '=' not in rst:
                 infos.append(ds.name + '=' + '|'.join(ds.default_value_list))
                 rst = ";".join(infos)
+
         return rst
 
     def get_variantkeys(self, chrom, spos, epos):
@@ -455,16 +480,17 @@ class DataSourceList(DataSourceListStructure):
         return merged_vkeys
 
     def check_fast_mapping_mode(self):
-        if self.single_source_mode:
-            if self.single_source is None:
-                self.load_singlesource()
-                self.single_source.set_header(self.single_source.sourcefile2.replace('#CHROM#', "1"))
+        fast_mapping_mode = False
+        if self.use_raw_source:
+            if self.merged_source is None:
+                self.load_merged_source()
+                self.merged_source.set_header(self.merged_source.sourcefile2[0].replace('#CHROM#', "1"))
 
             fast_mapping_mode = True
             for s1 in self.available_source_list:
-                if len(s1.available_field_list) == len(self.single_source.infoheader[s1.name]):
+                if len(s1.available_field_list) == len(self.merged_source.infoheader[s1.name]):
                     for idx, f1 in enumerate(s1.available_field_list):
-                        if f1.name != self.single_source.infoheader[s1.name][idx]:
+                        if f1.name != self.merged_source.infoheader[s1.name][idx]:
                             fast_mapping_mode = False
                             break
                     if not fast_mapping_mode:

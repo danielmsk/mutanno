@@ -199,7 +199,7 @@ Make VEP result files and then run preprocess
       `How to install VEP. <https://uswest.ensembl.org/info/docs/tools/vep/script/vep_download.html>`_
    
       1. download `VEP file (v99) from ENSEMBL <ftp://ftp.ensembl.org/pub/release-99/variation/vep/homo_sapiens_vep_99_GRCh38.tar.gz>`_ .
-      2. compressed it. 
+      2. untar and ungzip the downloaded file. 
       3. install plugins (https://uswest.ensembl.org/info/docs/tools/vep/script/vep_plugins.html)
 
 

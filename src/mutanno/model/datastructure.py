@@ -141,6 +141,10 @@ class DataSourceStructure:
 
 
 class DataSourceFieldStructure:
+    name = ""
+    default = None
+    is_available = False
+
     def __init__(self, dsjson=None):
         if isinstance(dsjson, dict):
             for attr in DSFIELD_ATTR:

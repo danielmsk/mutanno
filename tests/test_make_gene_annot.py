@@ -38,7 +38,9 @@ def test_gene_annot():
     print(' '.join(sys.argv))
     # print(shlex.quote(sys.argv))
     mutanno.cli()
-    conf.check_vcf_validator(opt['OUT'])
+
+    conf.tabixgz(opt['OUT'])
+    conf.check_vcf_validator(opt['OUT']+'.gz')
 
 if __name__ == "__main__":
     test_gene_annot()

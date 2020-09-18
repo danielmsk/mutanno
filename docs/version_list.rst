@@ -3,6 +3,9 @@ Version History
 
 v0.4.x release series
 ---------------------
+0.4.6 (2020.08.28) :
+	- add multiple data source files.
+
 0.4.5 (2020.08.28) :
 	- bug fix in download module. add ``-silence`` option
 

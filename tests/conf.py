@@ -103,3 +103,25 @@ def validate_annottsi(tsi, dsjson, opt):
 #                 f1['subembedded'] = dv(s1, 'subembedded', '')
 #                 rst[k1] = f1
 #     return rst
+
+
+def check_annotation_field(out, check_fields=[]):
+    no = {}
+    for f1 in check_fields:
+        no[f1] = 0
+    total = 0
+    for line in mutanno.util.file_util.gzopen(out):
+        line = mutanno.util.file_util.decodeb(line)
+        if line[0] != '#':
+            total += 1
+            arr = line.split('\t')
+            for f1 in check_fields:
+                if f1 + '=' not in arr[7]:
+                    no[f1] += 1
+                    
+    assert no['VEP'] == 261
+            
+
+def tabixgz(vcf):
+    cmd = "bgzip -c "+vcf+" > "+vcf+".gz; tabix -f -p vcf "+vcf+".gz"
+    mutanno.util.proc_util.run_cmd(cmd, True)

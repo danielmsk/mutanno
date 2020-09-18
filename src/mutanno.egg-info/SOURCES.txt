@@ -34,6 +34,7 @@ src/mutanno/model/datasource.py
 src/mutanno/model/datastructure.py
 src/mutanno/preprocess/__init__.py
 src/mutanno/preprocess/preproc_clinvar.py
+src/mutanno/preprocess/preproc_vep.py
 src/mutanno/reader/__init__.py
 src/mutanno/reader/tsireader.py
 src/mutanno/util/__init__.py

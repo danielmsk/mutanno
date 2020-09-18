@@ -1,6 +1,69 @@
 Run Command in CGAP Project
 ===========================
 
+Convert VEP to .mti for novel InDels
+------------------------------------
+
+Run VEP
+^^^^^^^
+
+.. code::
+
+    ./bin/ensembl-vep-release-99/vep \
+            -i input_novel_indels.vcf \
+            -o input_novel_indels.vep.vcf \ 
+            --hgvs \
+            --fasta GRCh38_full_analysis_set_plus_decoy_hla.fa \
+            --assembly GRCh38 \
+            --use_given_ref \
+            --offline \
+            --cache_version 99 \
+            --dir_cache ./bin/nonindexed_vep_cache/homo_sapiens_vep \
+            --everything \
+            --force_overwrite \
+            --vcf \
+            --plugin MaxEntScan,./bin/VEP_plugins-release-99/fordownload \
+            --plugin TSSDistance \
+            --dir_plugins ./bin/VEP_plugins-release-99 \
+            --plugin SpliceRegion,Extended
+
+
+.. note:: 
+   
+    `How to install VEP. <https://uswest.ensembl.org/info/docs/tools/vep/script/vep_download.html>`_
+
+    1. download `VEP file (v99) from ENSEMBL <ftp://ftp.ensembl.org/pub/release-99/variation/vep/homo_sapiens_vep_99_GRCh38.tar.gz>`_ .
+    2. untar and ungzip the downloaded file. 
+    3. install plugins (https://uswest.ensembl.org/info/docs/tools/vep/script/vep_plugins.html)
+
+
+For the micro annotation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code::
+
+    mutanno preprocess \
+            -infile input_novel_indels.vep.vcf \
+            -ds datastructure_microannot_v0.4.4.json \
+            -out additional_novel_indels.vep.microannot.mti \
+            -vep2mti
+
+    bgzip -c additional_novel_indels.vep.microannot.mti > additional_novel_indels.vep.microannot.mti.gz
+    tabix -f -p vcf additional_novel_indels.vep.microannot.mti.gz;
+
+For the full annotation
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code::
+
+    mutanno preprocess \
+            -infile input_novel_indels.vep.vcf \
+            -out additional_novel_indels.vep.fullannot.mti \
+            -vep2mti
+    
+    bgzip -c additional_novel_indels.vep.fullannot.mti > additional_novel_indels.vep.fullannot.mti.gz
+    tabix -f -p vcf additional_novel_indels.vep.fullannot.mti.gz;
+
 Micro annotation
 ----------------
 
@@ -10,7 +73,8 @@ Micro annotation
             -vcf input.vcf \
             -ds datastructure_microannot_v0.4.4.json \
             -out output.annot.vcf \
-            -sourcefile microannot_datasource.v0.4.4_200614.tsi.gz \
+            -sourcefile microannot_datasource.v0.4.4_200614.mti.gz additional.mti.gz \
+                additional_novel_indels.vep.microannot.mti.gz \
             -split_multi_allelic_variant \
             -genoinfo \
             -single_source_mode
@@ -18,7 +82,7 @@ Micro annotation
 * ds file: https://github.com/dbmi-bgm/mutanno/blob/master/tests/data_structure_json/datastructure_microannot_v0.4.4.json
 * mutanno: https://github.com/dbmi-bgm/mutanno/releases/tag/0.4.1 
 * source file: 
-    * s3://maestro-resources/MICROANNOT/microannot_datasource.v0.4.4_200614.tsi.gz
+    * s3://maestro-resources/MICROANNOT/microannot_datasource.v0.4.4_200614.tsi.gz and its tabix index file (.tbi)
     * Dropbox: 
 
 .. tabs::
@@ -50,6 +114,7 @@ Full annotation
             -ds datastructure_fullannot_v0.4.8.json \
             -out output.vcf \
             -sourcefile fullannot_source_file.mti.gz \
+                additional_novel_indels.vep.fullannot.mti.gz \
             -hg19 \
             -chain hg38ToHg19.over.chain.gz \
             -clean_tag MUTANNO SpliceAI CLINVAR gnomADgenome

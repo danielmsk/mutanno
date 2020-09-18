@@ -56,7 +56,9 @@ class VCFRenderer:
         return '\t'.join(record)
 
     def render_vcfvariant_info(self, vcfvariant):
+        vcfvariant.annotmerger.set_data()
         annotdata = vcfvariant.annotmerger.get_data()
+        
         available_field_list = vcfvariant.annotmerger.available_field_list
         return self.convert_annotdata_to_infofield(annotdata, available_field_list)
 

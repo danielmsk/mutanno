@@ -74,10 +74,14 @@ def dispatch_job(opt):
     if opt.subcommand == 'precal':
         mp = precal.PreCalculate(opt)
         mp.run()
+
     if opt.subcommand == 'preprocess':
         if opt.make_dbnsfp_transcript:
             obj = preprocess.MakeDbnsfpTranscript(opt.infile, opt.out, opt.ds, opt)
             obj.run()
+        if opt.vep2mti:
+            preprocess.run_preproc_vep(vars(opt))
+
     if opt.subcommand == 'web':
         web.runserver(opt)
 
