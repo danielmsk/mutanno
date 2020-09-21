@@ -71,7 +71,7 @@ Micro annotation
 
     mutanno annot \
             -vcf input.vcf \
-            -ds datastructure_microannot_v0.4.4.json \
+            -ds datastructure_microannot_v0.4.5.json \
             -out output.annot.vcf \
             -sourcefile microannot_datasource.v0.4.4_200614.mti.gz additional.mti.gz \
                 additional_novel_indels.vep.microannot.mti.gz \
@@ -79,7 +79,7 @@ Micro annotation
             -genoinfo \
             -single_source_mode
 
-* ds file: https://github.com/dbmi-bgm/mutanno/blob/master/tests/data_structure_json/datastructure_microannot_v0.4.4.json
+* ds file: https://github.com/dbmi-bgm/mutanno/blob/master/tests/data_structure_json/datastructure_microannot_v0.4.5.json
 * mutanno: https://github.com/dbmi-bgm/mutanno/releases/tag/0.4.1 
 * source file: 
     * s3://maestro-resources/MICROANNOT/microannot_datasource.v0.4.4_200614.tsi.gz and its tabix index file (.tbi)

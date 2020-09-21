@@ -81,7 +81,8 @@ def validate_annotvcf(vcf, dsjson, opt):
     va = mutanno.validate.AnnotVCFValidator(vcf)
     va.set_datastructure(jsonfile=dsjson)
     va.set_option(opt)
-    va.validate()
+    stat = va.validate()
+    return stat
 
 
 def validate_annottsi(tsi, dsjson, opt):

@@ -12,6 +12,13 @@ INFOIDX = vcf_util.VCF_COL.index('INFO')
 FORMATIDX = vcf_util.VCF_COL.index('FORMAT')
 
 
+def addone(dict1, key1):
+    try:
+        dict1[key1] += 1
+    except KeyError:
+        dict1[key1] = 1
+    return dict1
+
 def pars_header(line):
     d = {}
     p1 = re.compile(r'''##(?P<field>.+?)=(?P<val>.+)''')
@@ -72,6 +79,7 @@ class AnnotVCFValidator:
         self.opt = None
         self.varkey = ""
         self.read_header()
+        self.stat = {}
 
     def set_datastructure(self, jsonfile=""):
         self.dslist = DataSourceList(jsonfile)
@@ -105,7 +113,7 @@ class AnnotVCFValidator:
             try:
                 self.reader.infos[s1]
             except KeyError:
-                self.raise_exception("MUTANNO's " + infokey + " source doesn't have INFO field in header.")
+                self.raise_exception("MUTANNO's " + s1 + " source doesn't have INFO field in header.")
 
         for infokey in self.reader.infos.keys():
             desc = self.reader.infos[infokey].desc
@@ -137,7 +145,7 @@ class AnnotVCFValidator:
             vep_sections = []
             # print(info['VEP'])
             most_severe = 0
-            for idx, attr in enumerate(info['VEP']):
+            for attr in info['VEP']:
                 if isinstance(attr, str):
                     fields = attr.split('|')
                 else:
@@ -167,7 +175,8 @@ class AnnotVCFValidator:
             if 'VEP' in info.keys() and 'GENES' in self.dslist.sources.keys():
                 self.raise_exception("\tNo GENES.")
             else:
-                self.warn("No GENES.")
+                # self.warn("No GENES.")
+                pass
 
     def check_feature_ncbi(self, info):
         try:
@@ -180,7 +189,8 @@ class AnnotVCFValidator:
                     else:
                         print("\tOK. Feature_ncbi=" + vepfields[idx])
         except KeyError:
-            self.warn("No VEP.")
+            # self.warn("No VEP.")
+            pass
 
     def check_hg19(self, info):
         try:
@@ -220,6 +230,7 @@ class AnnotVCFValidator:
 
             for infokey in self.mutanno_sources.keys():
                 if infokey in r1.INFO.keys():
+                    addone(self.stat, infokey)
                     flag = True
                     for attr in r1.INFO[infokey]:
 
@@ -249,12 +260,15 @@ class AnnotVCFValidator:
                 self.check_samplegeno(r1.INFO)
             if self.opt is not None and self.opt.hg19:
                 self.check_hg19(r1.INFO)
+            
+            addone(self.stat, 'total_variant')
 
     def validate(self):
         self.metadata = read_metadata_and_check_duplicate(self.header)
         self.validate_variant_fields_in_only_vcf()
         # print(self.opt)
         # print(self.mutanno_sources)
+        return self.stat
 
 
 def parse_tsi_annot_header(tsi_info_header, sourcename=''):

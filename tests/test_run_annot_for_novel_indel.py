@@ -179,7 +179,7 @@ def test_fullannot_with_multiple_mti():
     # opt['VCF'] = "#TESTDATA_PATH#/TRIO_GAPFIS8ZSPEO.target.add_novep.vcf.gz.microannot_v0.4.4-1.vcf"
     # opt['VCF'] = "#TESTDATA_PATH#/TRIO_GAPFIS8ZSPEO.target.add_novep.vcf.gz.microannot_v0.4.4-2.vcf"
     
-    opt['PREV_OUT'] = '#TESTDATA_PATH#/TRIO_GAPFIS8ZSPEO.target.add_novep.vcf.gz.microannot_v0.4.4.fullannot_v0.4.8.vcf.gz'
+    opt['PREV_OUT'] = '#TESTDATA_PATH#/TRIO_GAPFIS8ZSPEO.target.add_novep.vcf.gz.microannot_v0.4.4.fullannot_v0.4.8.vcf'
     opt['OUT'] = '#TESTOUT_PATH#/TRIO_GAPFIS8ZSPEO.target.add_novep.vcf.gz.microannot_v0.4.4.fullannot_v0.4.8.'+TEST_VERSION+'.vcf'
     opt['FULLANNOT_VEP_MTI'] = "#TESTOUT_PATH#/" + FULLANNOT_VEP_MTI
     optkeys = list(opt.keys())
@@ -199,8 +199,17 @@ def test_fullannot_with_multiple_mti():
     mutanno.cli()
     conf.check_vcf_validator(opt['OUT'])
     check_vep(opt['OUT'], opt['FULLANNOT_VEP_MTI'])
+
+    stat = conf.validate_annotvcf(opt['OUT'], opt['FULL_DS_FILE'], sys.argv)
+    prev_stat = conf.validate_annotvcf(opt['PREV_OUT'], opt['FULL_DS_FILE'], sys.argv)
+    # print("STAT:", stat)
+    # print("PREV STAT:", prev_stat)
+    print ('Key', 'Stat', 'Prev stat')
+    for k1 in prev_stat.keys():
+        print(k1, stat[k1], prev_stat[k1])
+        assert stat[k1] == prev_stat[k1]
+
     conf.comp_previous_out(opt['OUT'], opt['PREV_OUT'])
-    # conf.validate_annotvcf(opt['OUT'], opt['FULL_DS_FILE'], sys.argv)
 
 
 
