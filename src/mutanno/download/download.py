@@ -21,7 +21,7 @@ def download_file(url, output_path):
 
 def get_download_filename(dirpath, refversion, source_name, file_version, url):
     fname = url.split('/')[-1]
-    outfile = os.path.join(dirpath, 'downloaded', source_name, refversion, file_version, fname)
+    outfile = os.path.join(dirpath, "download", source_name, refversion, file_version, fname)
     return outfile
 
 
@@ -63,21 +63,28 @@ class Downloader():
         return result
 
     def download_and_preprocess_sourcefile(self):
-        for s1 in self.sourcelist['sources'][self.opt.refversion]:
-            if self.opt.source == "all" or self.opt.source == s1['name']:
+        for s1 in self.sourcelist['sources']:
+            if self.opt.source == "all" or self.opt.source.lower() == s1['name'].lower():
+                
                 if self.opt.version == "latest":
                     selected_version = s1['latest']
                 elif self.opt.version != "":
                     selected_version = self.opt.version
                 
-                print(s1['name'], s1['versions'], selected_version)
-
+                print(s1['name'], selected_version)
                 for v1 in s1['versions']:
-                    if v1['version'] == selected_version:
+                    if v1['version'] == selected_version and self.opt.refversion == v1['ref_version']:
+                        print("Downloading..", s1['name'], v1['ref_version'], selected_version, self.opt.websource)
                         outfiles = []
                         for url in v1['urls']:
-                            outfiles.append(self.download_source_file(s1['name'], v1['version'], url))
-                        self.preprocess_source_file(s1['preprocess_function'], outfiles, s1['name'], v1['version'])
+                            if url[:len("mutanno ")] == "mutanno ":
+                                if self.opt.websource == "mutanno":
+                                    #TODO: download from mutanno
+                                    pass
+                            else:
+                                outfiles.append(self.download_source_file(s1['name'], v1['version'], url))
+
+                        self.preprocess_source_file(v1['preprocess_function'], outfiles, s1['name'], v1['version'])
 
     def run(self):
         self.download_sourcelist_file()

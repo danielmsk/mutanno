@@ -6,12 +6,22 @@
       "latest": "20200329",
       "versions":[
         {
-          "version":"20200329",
-          "version_date":"2020.03.29",
+          "version":"20200830",
+          "version_date":"2020.08.30",
           "total_size": 2604690136,
           "ref_version": "hg38",
           "preprocess_function": "run_preproc_clinvar",
           "urls":[
+            "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/weekly/clinvar_20200830.vcf.gz",
+            "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/ClinVarFullRelease_2020-08.xml.gz"
+          ]
+        },{
+          "version": "20200329",
+          "version_date": "2020.03.29",
+          "total_size": 2604690136,
+          "ref_version": "hg38",
+          "preprocess_function": "run_preproc_clinvar",
+          "urls": [
             "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/weekly/clinvar_20200329.vcf.gz",
             "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/ClinVarFullRelease_2020-03.xml.gz"
           ]
@@ -272,13 +282,15 @@
       "versions": [
         {
           "version": "3.0",
-          "version_date": "0000.00.00",
+          "version_date": "2019.03.06",
           "total_size": 2058644475,
-          "preprocess_function": "run_preproc_uk10k",
+          "preprocess_function": "run_preproc_gnomad",
           "ref_version": "hg38",
+          "tmp": "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.vcf.bgz",
           "urls": [
-            "ftp://ngs.sanger.ac.uk/production/uk10k/UK10K_COHORT/REL-2012-06-02/UK10K_COHORT.20160215.sites.vcf.gz",
-            "mutanno UK10K_COHORT.20160215.sites.vcf.gz"
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chrY.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chrY.vcf.bgz.tbi",
+            "mutanno GNOMAD.3.0.vcf.gz"
           ]
         },
         {

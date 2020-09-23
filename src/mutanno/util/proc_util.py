@@ -1,6 +1,11 @@
-#!/usr/bin/env python
 import os
 
+def tabixgz(vcf):
+    import time
+    time.sleep(3)
+    cmd = "bgzip - c "+vcf+" > "+vcf+".gz;"
+    cmd += "tabix - f - p vcf "+vcf+".gz;"
+    run_cmd(vcf)
 
 def cpu_num():
     import psutil

@@ -1,6 +1,6 @@
 import os
 import xmltodict
-from ..util import file_util
+from ..util import file_util, proc_util
 
 VCFCOL = ["CHROM", "POS", "ALLELEID", "REF", "ALT", "VARIATIONID", "CLNDN", "CLNDNINCL", "CLNDISDB",
           "CLNDISDBINCL", "CLNHGVS", "CLNREVSTAT", "CLNSIG", "CLNSIGCONF", "CLNSIGINCL", "CLNVC",
@@ -81,8 +81,8 @@ class PreprocClinVar():
         self.ref_trait = {}
 
     def get_out_filename(self):
-        out_variant = os.path.join(self.dirpath, self.outfile_title + '_variant.tsi')
-        out_submission = os.path.join(self.dirpath, self.outfile_title + '_submission.tsi')
+        out_variant = os.path.join(self.dirpath, self.outfile_title + '_variant.mti')
+        out_submission = os.path.join(self.dirpath, self.outfile_title + '_submission.mti')
         return out_variant, out_submission
 
     def get_rawfiles(self, rawfiles):
@@ -194,10 +194,12 @@ class PreprocClinVar():
                 cvar[m['VARIATIONID']] = [m['CHROM'], m['POS'], m['VARIATIONID'], m['REF'], m['ALT']]
 
                 if i % 100000 == 0:
-                    print(i, m)
+                    print("processing...",i, m['CHROM'] + ":" + m['POS'])
 
         f.close()
         print('Saved', self.out_variant, len(cvar.keys()))
+
+        proc_util.tabixgz(self.out_variant)
 
         for k1 in VCFCOL[5:]:
             statfile = self.out_variant + "_stat/stat_" + k1.replace(' ', '_') + '.cnt'
@@ -397,7 +399,7 @@ class PreprocClinVar():
 
                     flag = False
                     if i % 10000 == 0:
-                        print(i, m)
+                        print("Processing..",i)
                         # break
 
         f.close()
@@ -413,6 +415,7 @@ class PreprocClinVar():
             file_util.fileSave(statfile, cont, 'w')
 
         print("Saved", self.out_submission)
+        proc_util.tabixgz(self.out_submission)
 
         # cont = ""
         # for line in open(self.out_submission):

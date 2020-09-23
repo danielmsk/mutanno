@@ -34,6 +34,8 @@ def get_multiallele_vcf(vcf, out):
 
 
 if __name__ == "__main__":
-    vcf = "test_trio_1000_1.vcf.gz"
-    out = "test_trio_multiallele.vcf"
+    # vcf = "test_trio_1000_1.vcf.gz"
+    # out = "test_trio_multiallele.vcf"
+    vcf = "vep_output2.vcf.bak"
+    out = "vep_output2_multiallele.vcf"
     get_multiallele_vcf(vcf, out)

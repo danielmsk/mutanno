@@ -8,13 +8,13 @@ To annotate variants, **MutAnno** need data source files and can download them w
    mutanno download \
            -source_path datasource_directory \
            -source all \
-           -version lastest \
+           -version latest \
            -refversion hg38 \
            -websource mutanno
 
 * ``-source_path`` : data source path (default: `mutanno_source`)
 * ``-source`` : source name (default: `all`)
-* ``-version`` : source version (default: `lastest`)
+* ``-version`` : source version (default: `latest`)
 * ``-refversion`` : reference version [`hg19`, `hg38`] (default: `hg38`)
 * ``-websource`` : web source indication [``, `mutanno`] (default: ``). When `-websource mutanno` is used, only preprocessed files can be download from MutAnno web source.
 

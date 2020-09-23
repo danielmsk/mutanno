@@ -36,8 +36,28 @@ class PreprocVEP():
         header.append('VEP=' + '|'.join(vep_field_list))
         return '\t'.join(header)
 
+    def is_same_allele(self, ref, alt, allele, diff_pos):
+        rst = False
+        if len(ref) == len(alt):
+            if alt[diff_pos:] == allele:
+                rst = True
+        elif len(ref) < len(alt): # insertion and alt includes ref
+            if alt[diff_pos:] == allele: 
+                rst = True
+            elif alt[1:] == allele:
+                rst = True
+        elif len(ref) > len(alt):  # deletion and ref includes alt
+            if ref[diff_pos:] == allele or alt[diff_pos:] == allele:
+                rst = True
+            elif allele == "-" and alt[diff_pos:] == "":
+                rst = True
+            elif ref[1:] == allele or alt[1:] == allele:
+                rst = True
 
-    def select_fields(self, info_field, vep_field_list, alt, flag_select=False):
+        return rst
+
+    def select_vepfield_based_on_allele_comparison(self, info_field, vep_field_list, ref, alt, arralt, diff_pos):
+        flag_select = len(arralt) > 1
         sel_idx_list = []
         for sel_field in self.selected_fields:
             sel_idx_list.append(vep_field_list.index(sel_field))
@@ -49,7 +69,7 @@ class PreprocVEP():
                 for section in field.replace('CSQ=', '').split(','):
                     arr = section.split('|')
                     allele = arr[0]
-                    if (flag_select and alt[1:] == allele) or not flag_select:
+                    if (flag_select and self.is_same_allele(ref, alt, allele, diff_pos)) or not flag_select:
                         rst_field = []
                         for idx in sel_idx_list:
                             rst_field.append(self.encode_vep_field(arr[idx], vep_field_list[idx]))
@@ -63,6 +83,28 @@ class PreprocVEP():
         else:
             value = vcf_util.encode_value(value)
         return value
+
+    def get_diff_pos_between_ref_alt(self, ref, arralt):
+        maxlen = len(ref)
+        for alt in arralt:
+            if maxlen < len(alt):
+                maxlen = len(alt)
+
+        idx = 0
+        for idx in range(maxlen):
+            flag = True
+            for alt in arralt:
+                if alt != '*':
+                    try:
+                        if ref[idx] != alt[idx]:
+                            flag = False
+                            break
+                    except IndexError:
+                        flag = False
+                        break
+            if not flag:
+                break
+        return idx
 
     def convert_vep2mti(self):
         fp = open(self.out, 'w')
@@ -79,20 +121,26 @@ class PreprocVEP():
                         fp.write(self.get_mti_header() + '\n')
             else:
                 arr = line.split('\t')
+                ref = arr[3]
                 arralt = arr[4].split(',')
 
+                diff_pos_between_ref_alt = self.get_diff_pos_between_ref_alt(ref, arralt)
+
                 for alt in arralt:
-                    rst = []
-                    rst.append(arr[0].replace('chr', ''))
-                    rst.append(arr[1])
-                    rst.append('.')
-                    rst.append(arr[3])
-                    rst.append(alt)
-                    rst.append('')
-                    rst.append('')
-                    rst.append(self.select_fields(arr[7], vep_field_list, alt, len(arralt) > 1))
-                    line = '\t'.join(rst) + '\n'
-                    fp.write(line)
+                    if alt != '*':
+                        rst = []
+                        rst.append(arr[0].replace('chr', ''))
+                        rst.append(arr[1])
+                        rst.append('.')
+                        rst.append(arr[3])
+                        rst.append(alt)
+                        rst.append('')
+                        rst.append('')
+                        vep_field = self.select_vepfield_based_on_allele_comparison(
+                            arr[7], vep_field_list, ref, alt, arralt, diff_pos_between_ref_alt)
+                        rst.append(vep_field)
+                        line = '\t'.join(rst) + '\n'
+                        fp.write(line)
         fp.close()
         print("Saved", self.out)
 
