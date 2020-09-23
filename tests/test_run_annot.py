@@ -19,7 +19,7 @@ MICROANNOT_CMD = """
     -sourcefile #MICRO_SOURCE_FILE# \
     -split_multi_allelic_variant \
     -genoinfo \
-    -single_source_mode
+    -use_raw_source
 """
 
 FULLANNOT_CMD = """

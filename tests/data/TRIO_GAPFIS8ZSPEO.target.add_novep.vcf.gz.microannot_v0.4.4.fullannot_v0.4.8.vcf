@@ -87,7 +87,7 @@
 ##MUTANNO=<ID=CLINVAR,Version="20200329",Date="03/29/2020">
 ##MUTANNO=<ID=CLINVAR_SUBMISSION,Version="20200329",Date="03/29/2020">
 ##MUTANNO=<ID=COSMIC,Version="v90",Date="08/05/2019">
-##MUTANNO=<ID=MUTANNO,Version="0.4.6",Date="2020.09.17">
+##MUTANNO=<ID=MUTANNO,Version="0.4.7",Date="2020.09.22">
 ##MUTANNO=<ID=HG19,Version="v0.4",Date="05/07/2020">
 ##INFO=<ID=MUTANNO,Number=.,Type=String,Description="mutanno. Format:'variant_class|hgvsg'">
 ##INFO=<ID=HG19,Number=.,Type=String,Description="hg19 coordinates. Subembedded:'hg19':Format:'chrom|pos|hgvsg'">
