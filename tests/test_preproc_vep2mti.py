@@ -36,11 +36,12 @@ def check_vep_field(vep2mti_file):
                 raise Exception("no VEP field in " + varkey)
 
 
-def test_preproc_vep2mti():
+def test_preproc_vep2mti_minus_deletion():
     cmd = PREPROCESS_CMD_FULL
     opt = {}
     # opt['VEP'] = "#TESTDATA_PATH#/vep_output2.vcf.gz"
-    opt['VEP'] = "#TESTDATA_PATH#/vep_output2_multiallele.vcf.gz"
+    # opt['VEP'] = "#TESTDATA_PATH#/multiallelic_star_deletion.vep.vcf.gz"
+    opt['VEP'] = "#TESTDATA_PATH#/multiallelic_minus_deletion.vep.vcf.gz"
     opt['OUT'] = "#TESTOUT_PATH#/" + opt['VEP'].split('/')[-1].replace('.vcf.gz', '.mti')
     opt['PREV_OUT'] = "#TESTDATA_PATH#/" + FULLANNOT_VEP_MTI
     optkeys = list(opt.keys())
@@ -63,7 +64,32 @@ def test_preproc_vep2mti():
     # conf.comp_previous_out(opt['OUT'], opt['PREV_OUT'])
 
 
+def test_preproc_vep2mti_star_deletion_missing_vep_annotation_for_star():
+    cmd = PREPROCESS_CMD_FULL
+    opt = {}
+    # opt['VEP'] = "#TESTDATA_PATH#/vep_output2.vcf.gz"
+    opt['VEP'] = "#TESTDATA_PATH#/multiallelic_star_deletion.vep.vcf.gz"
+    # opt['VEP'] = "#TESTDATA_PATH#/multiallelic_minus_deletion.vep.vcf.gz"
+    opt['OUT'] = "#TESTOUT_PATH#/" + opt['VEP'].split('/')[-1].replace('.vcf.gz', '.mti')
+    opt['PREV_OUT'] = "#TESTDATA_PATH#/" + FULLANNOT_VEP_MTI
+    optkeys = list(opt.keys())
+    for t1 in optkeys:
+        for t2 in conf.REPLACETAG.keys():
+            if '#'+t2+'#' in opt[t1]:
+                opt[t1] = opt[t1].replace('#'+t2+'#', conf.REPLACETAG[t2])
+            if t2 not in opt.keys():
+                opt[t2] = conf.REPLACETAG[t2]
+    for t1 in opt.keys():
+        cmd = cmd.replace('#'+t1+'#', opt[t1])
+    cmd = prog + " " + cmd.strip()
+    sys.argv = shlex.split(cmd)
+    print(' '.join(sys.argv))
+    mutanno.cli()
+
+    conf.tabixgz(opt['OUT'])
+    check_vep_field(opt['OUT'])
 
 if __name__ == "__main__":
-    test_preproc_vep2mti()
+    test_preproc_vep2mti_minus_deletion()
+    test_preproc_vep2mti_star_deletion_missing_vep_annotation_for_star()
 

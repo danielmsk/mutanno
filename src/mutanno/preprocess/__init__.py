@@ -16,3 +16,9 @@ def run_preproc_gnomad(data):
     from .preproc_gnomad import PreprocGnomAD
     pp = PreprocGnomAD(data)
     pp.run()
+
+
+def run_preproc_spliceai(data):
+    from .preproc_spliceai import PreprocSpliceAI
+    pp = PreprocSpliceAI(data)
+    pp.run()

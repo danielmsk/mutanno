@@ -54,11 +54,11 @@ Download and Preprocess Source for Micro Annotation
             -version latest \
             -refversion hg38
 
-    mutanno download \
-            -source_path datasource_directory \
-            -source spliceai \
-            -version latest \
-            -refversion hg38
+    mutanno preprocess \
+            -infile datasource_directory/SPLICEAI/spliceai_scores.raw.snv.hg38.vcf.gz \
+            -ds datastructure_microannot_v0.4.4.json \
+            -out datasource_directory/additional_novel_indels.vep.microannot.mti \
+            -spliceai2mti
 
     mutanno makedata \
             -ds data_structure.json \

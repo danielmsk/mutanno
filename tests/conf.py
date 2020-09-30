@@ -35,6 +35,10 @@ def getNow():
         now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
     return s
 
+def getDate():
+    now = time.localtime()
+    s = "%04d%02d%02d" % (now.tm_year, now.tm_mon, now.tm_mday)
+    return s
 
 def get_ds():
     global DS_DIR

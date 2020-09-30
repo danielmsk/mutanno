@@ -3,7 +3,11 @@ Version History
 
 v0.4.x release series
 ---------------------
-0.4.6 (2020.09.23) :
+0.4.7 (2020.09.24) :
+	- add preprocessing functions
+		- 
+
+0.4.7 (2020.09.23) :
 	- debug VEP annotation missing error of some multiallele variants in preproc module
 
 0.4.6 (2020.09.18) :

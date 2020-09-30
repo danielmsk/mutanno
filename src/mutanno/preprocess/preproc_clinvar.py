@@ -199,7 +199,11 @@ class PreprocClinVar():
         f.close()
         print('Saved', self.out_variant, len(cvar.keys()))
 
-        proc_util.tabixgz(self.out_variant)
+        out = self.out_variant
+        print("Bzipping and Tabixing...", out)
+        file_util.save_tabixgz(out)
+        print("Saved...", out + ".gz")
+        file_util.check_and_remove(out + '.gz.tbi', out, 3)
 
         for k1 in VCFCOL[5:]:
             statfile = self.out_variant + "_stat/stat_" + k1.replace(' ', '_') + '.cnt'
@@ -414,8 +418,11 @@ class PreprocClinVar():
                 cont += k2 + '\t' + str(cnt[k1][k2]) + '\n'
             file_util.fileSave(statfile, cont, 'w')
 
-        print("Saved", self.out_submission)
-        proc_util.tabixgz(self.out_submission)
+        out = self.out_submission
+        print("Bzipping and Tabixing...", out)
+        file_util.save_tabixgz(out)
+        print("Saved...", out + ".gz")
+        file_util.check_and_remove(out + '.gz.tbi', out, 3)
 
         # cont = ""
         # for line in open(self.out_submission):

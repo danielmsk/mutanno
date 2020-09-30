@@ -261,8 +261,9 @@ def get_options():
     p1.add_argument('-infile', dest='infile', default='', help='title of input file')
     p1.add_argument('-out', dest='out', default='', help='title of output file')
     p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
-    p1.add_argument('-vep2mti', dest='vep2mti', default=False, action="store_true",
-                    help='convert VEP result to .mti file')
+    p1.add_argument('-vep2mti', dest='vep2mti', default=False, action="store_true", help='convert VEP result to .mti file')
+    p1.add_argument('-spliceai2mti', dest='spliceai2mti', default=False,
+                    action="store_true", help='convert SpliceAI data to .mti file')
     p1.add_argument('-make_dbnsfp_transcript', dest='make_dbnsfp_transcript', default=False, action="store_true",
                     help='make dbNSFP transcript file')
 

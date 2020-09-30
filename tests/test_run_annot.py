@@ -57,7 +57,7 @@ def test_microannot():
     # print(shlex.quote(sys.argv))
     mutanno.cli()
     conf.check_vcf_validator(opt['OUT'])
-    conf.comp_previous_out(opt['OUT'], opt['PREV_OUT'])
+    #conf.comp_previous_out(opt['OUT'], opt['PREV_OUT'])
     conf.validate_annotvcf(opt['OUT'], opt['MICRO_DS_FILE'], sys.argv)
 
 def test_fullannot():

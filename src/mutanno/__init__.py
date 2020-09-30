@@ -81,6 +81,8 @@ def dispatch_job(opt):
             obj.run()
         if opt.vep2mti:
             preprocess.run_preproc_vep(vars(opt))
+        if opt.spliceai2mti:
+            preprocess.run_preproc_spliceai(vars(opt))
 
     if opt.subcommand == 'web':
         web.runserver(opt)

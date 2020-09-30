@@ -5,10 +5,23 @@ import os
 import sys
 import tabix
 import json
+import time
 from . import proc_util
 import pprint
 import mutanno
 
+
+def check_and_remove(check_filename, rm_filename, waiting_sec):
+    time.sleep(waiting_sec)
+    if is_exist(check_filename):
+        cmd = "rm " + rm_filename
+        proc_util.run_cmd(cmd)
+
+def save_tabixgz(vcf):
+    cmd = "bgzip -c "+vcf+" > "+vcf+".gz"
+    proc_util.run_cmd(cmd)
+    cmd = "tabix -f -p vcf "+vcf+".gz"
+    proc_util.run_cmd(cmd)
 
 def getDataPath(datafile):
     return (os.path.join(mutanno.__path__[0], 'data', datafile))
