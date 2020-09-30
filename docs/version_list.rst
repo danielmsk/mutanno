@@ -3,9 +3,11 @@ Version History
 
 v0.4.x release series
 ---------------------
+0.4.8 (2020.09.30) :
+	- check redundancy of VEP fields in full-annotation
+
 0.4.7 (2020.09.24) :
 	- add preprocessing functions
-		- 
 
 0.4.7 (2020.09.23) :
 	- debug VEP annotation missing error of some multiallele variants in preproc module
