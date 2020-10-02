@@ -35,7 +35,7 @@ def convert_valuetype(typestr):
             rsttype = float
     return rsttype
 
-
+# TODO: 
 def _get_options():
     global DEFAULT_OPT
 
@@ -64,103 +64,6 @@ def _get_options():
             else:
                 p1.add_argument('-' + a1['param'], dest=dest, default=a1['default'],
                                 help=a1['help'], nargs=a1['nargs'], type=valuetype)
-
-    '''
-    do = DEFAULT_OPT['makedata']
-    p1 = subparsers.add_parser('makedata', help='make a single data source file',
-                               description='make a single data source file')
-    p1.add_argument('-out', dest='out', default='', help='title of output file')
-    p1.add_argument('-outtype', dest='outtype', default='json',
-                    choices=['tsv', 'json'], help='output file type (default: tsv)')
-    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
-    p1.add_argument('-region', dest='region', default='',
-                    help='target region: (ex -region chr1:12345678-22345678 )')
-    p1.add_argument('-region_vcf', dest='region_vcf', default='',
-                    help='target regions using vcf file')
-    p1.add_argument('-target_source', dest='target_source', default='', help='target source')
-    p1.add_argument('-blocksize', dest='blocksize', default='', help='block size')
-    p1.add_argument('-vartype', dest='vartype', default='all',
-                    choices=['SNV', 'GENE', 'GENE_MAIN_CHROM', 'CODING_GENE', 'CODING_GENE_MAIN_CHROM'],
-                    help='variant type')
-    p1.add_argument('-apply_datastructure', dest='apply_datastructure', action="store_true",
-                    default=False, help='turn on apply_datastructure mode')
-    p1.add_argument('-debug', dest='debug', action="store_true",
-                    default=False, help='turn on the debugging mode')
-
-    p1.add_argument('-check', action="store_true", dest='check', default=False, help='check output file')
-    p1.add_argument('-log', dest='logfile', default='', help='log file')
-    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
-
-    do = DEFAULT_OPT['convert']
-    p1 = subparsers.add_parser('convert', help='convert', description='convert')
-    p1.add_argument('-vcf2tsv', dest='vcf2tsv', action="store_true", default=False, help='convert vcf to tsv format')
-    p1.add_argument('-vcf2html', dest='vcf2html', action="store_true", default=False, help='convert vcf to html format')
-    p1.add_argument('-vcf2json', dest='vcf2json', action="store_true", default=False, help='convert vcf to json format')
-    p1.add_argument('-tsi2json', dest='tsi2json', action="store_true", default=False, help='convert vcf to json format')
-    p1.add_argument('-in', dest='infile', default='', help='input file')
-    p1.add_argument('-out', dest='outfile', default='', help='title of output file')
-    p1.add_argument('-ds', dest='ds', default='', help='datastructure json file')
-    p1.add_argument('-region', dest='region', default='',
-                    help='target region: (ex -region chr1:12345678-22345678 )')
-    p1.add_argument('-chromsplit', dest='chromsplit', action="store_true",
-                    default=False, help='save separate files by chromosomes')
-    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
-    # p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
-
-    # p1 = subparsers.add_parser('make_datasource', help='convert', description='convert')
-    # p1.add_argument('-ds', dest='ds', default='datastructure.json', help='datasource json file')
-    # p1.add_argument('-variant', dest='variant', default='datastructure.json', help='datasource json file')
-
-    p1 = subparsers.add_parser('precal', help='pre-calculate', description='pre-calculate')
-    p1.add_argument('-make_input_vcf', dest='make_input_vcf', action="store_true",
-                    default=False, help='make input VCF file')
-    p1.add_argument('-merge_vep', dest='merge_vep',
-                    action="store_true", default=False, help='check and merge VEP result')
-    p1.add_argument('-check_vep_result', dest='check_vep_result',
-                    action="store_true", default=False, help='check VEP result')
-    p1.add_argument('-run_vep', dest='run_vep', action="store_true", default=False, help='run vep')
-    p1.add_argument('-out', dest='out', default='', help='title of output file')
-    p1.add_argument('-fasta', dest='fasta', default='', help='reference')
-    p1.add_argument('-vep', dest='vep', default='', help='vep path')
-    p1.add_argument('-vepcache', dest='vepcache', default='', help='vep cache directory path')
-    p1.add_argument('-cache_version', dest='cache_version', default='98', help='vep cache version')
-    p1.add_argument('-region', dest='region', default='', help='region (chr1:123456-789012)')
-    p1.add_argument('-vcf', dest='vcf', default="", help='VCF file')
-    p1.add_argument('-vep_result', dest='vep_result', default='', help='vep result file')
-
-    p1 = subparsers.add_parser('validate', help='validate data format',
-                               description='validate data format')
-    p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
-    p1.add_argument('-ds', dest='ds', default="", help='data structure json file')
-    # p1.add_argument('-out', dest='out', default='', help='title of output file')
-    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='don\'t print any log.')
-    p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
-
-    p1 = subparsers.add_parser('preprocess', help='quality metrics for VCF',
-                               description='quality metrics for VCF')
-    p1.add_argument('-infile', dest='infile', default='', help='title of input file')
-    p1.add_argument('-out', dest='out', default='', help='title of output file')
-    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
-    p1.add_argument('-make_dbnsfp_transcript', dest='make_dbnsfp_transcript', default=False, action="store_true",
-                    help='make dbNSFP transcript file')
-
-    p1 = subparsers.add_parser('web', help='web view',
-                               description='web view')
-    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
-    p1.add_argument('-port', dest='port', default='8080', help='port')
-    p1.add_argument('-log', dest='logfile', default='', help='log file')
-    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
-    p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
-
-    p1 = subparsers.add_parser('view', help='view', description='view for annotated VCF and tsi file')
-    p1.add_argument('-ds', dest='ds', default='', help='datasource json file')
-    p1.add_argument('-vcf', dest='vcf', default='', help='VCF file')
-    p1.add_argument('-region', dest='region', default='',
-                    help='target region: (ex -region chr1:12345678-22345678 )')
-    p1.add_argument('-log', dest='logfile', default='', help='log file')
-    p1.add_argument('-silence', dest='silence', action="store_true", default=False, help='do not print any log.')
-    p1.add_argument('-debug', dest='debug', action="store_true", default=False, help='turn on the debugging mode')
-    '''
 
     if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1][0] != '-'):
         sys.argv.append('-h')
@@ -264,6 +167,7 @@ def get_options():
     p1.add_argument('-vep2mti', dest='vep2mti', default=False, action="store_true", help='convert VEP result to .mti file')
     p1.add_argument('-spliceai2mti', dest='spliceai2mti', default=False,
                     action="store_true", help='convert SpliceAI data to .mti file')
+    p1.add_argument('-topmed2mti', dest='topmed2mti', default=False, action="store_true", help='convert TOPMED file to .mti file')
     p1.add_argument('-make_dbnsfp_transcript', dest='make_dbnsfp_transcript', default=False, action="store_true",
                     help='make dbNSFP transcript file')
 

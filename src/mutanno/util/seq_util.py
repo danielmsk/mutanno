@@ -125,20 +125,19 @@ EXOM_SEQ_COVERED_REGION = EXOM_SEQ_COVERED_REGION_NimbleGen_SeqCap
 # REF_FASTA['b38d'] = "/home/mk446/BiO/Install/GATK-bundle/2.8/b38/GRCh38_full_analysis_set_plus_decoy_hla.fa"
 
 
-def load_liftover(chainfile = ""):
+def load_liftover(chainfile = "", fromVersion="hg38", toVersion="hg19"):
     if chainfile == "":
-        lo = LiftOver('hg38', 'hg19')
+        lo = LiftOver(fromVersion, toVersion)
     else:
         lo = LiftOver(chainfile)
     return lo
 
-def convert_coordinate(lo_hg38_hg19, chrom, pos):
+def convert_coordinate(lo, chrom, pos):
     if 'chr' not in chrom:
         chrom = 'chr' + chrom
     if type(pos) != int:
         pos = int(pos)
-    return lo_hg38_hg19.convert_coordinate(chrom, pos)
-
+    return lo.convert_coordinate(chrom, pos)
 
 
 def load_refseq_info(seq_ver=''):

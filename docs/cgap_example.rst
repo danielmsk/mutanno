@@ -1,6 +1,23 @@
 Run Command in CGAP Project
 ===========================
 
+.. toctree::
+   :numbered:
+   :maxdepth: 4
+
+   cgap_example
+
+
+Prerequisites
+-------------
+
+* vep (v99)
+* tabix
+* bgzip
+* vcf-sort (vcf-tools)
+
+
+
 Make Single Data Source File
 ----------------------------
 
@@ -40,6 +57,33 @@ Run VEP
 Download and Preprocess Source for Micro Annotation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+VEP
+***
+
+* run VEP first.
+
+.. code::
+
+    mutanno preprocess \
+            -infile input.vep.vcf \
+            -ds datastructure_microannot_v0.4.4.json \
+            -out vep.microannot.mti \
+            -vep2mti
+
+    bgzip -c additional_novel_indels.vep.microannot.mti > additional_novel_indels.vep.microannot.mti.gz
+    tabix -f -p vcf additional_novel_indels.vep.microannot.mti.gz;
+
+
+gnomAD
+******
+
+* input files
+   * `gnomad.genomes.r3.0.sites.chr#CHROM#.vcf.bgz` and their .tbi file
+* output file
+   * `CLINVAR_hg38_20200927_variant.mti.gz` and its .tbi file
+   * `CLINVAR_hg38_20200927_submission.sorted.mti.gz` and its .tbi file
+* execution time: ~2hr
+
 .. code::
 
     mutanno download \
@@ -48,54 +92,399 @@ Download and Preprocess Source for Micro Annotation
             -version latest \
             -refversion hg38
 
+
+
+
+ClinVar
+*******
+
+* input files
+   * `clinvar_20200927.vcf.gz` (32 MB)
+   * `ClinVarFullRelease_2020-09.xml.gz` (1.1 GB)
+* output file
+   * `CLINVAR_hg38_20200927_variant.mti.gz` and its .tbi file
+   * `CLINVAR_hg38_20200927_submission.sorted.mti.gz` and its .tbi file
+* execution time: ~1hr
+
+.. code::
+
     mutanno download \
             -source_path datasource_directory \
             -source clinvar \
             -version latest \
             -refversion hg38
 
+SpliceAI
+********
+
+* Download SpliceAI file from Illumina site
+* input files
+   * `spliceai_scores.raw.snv.hg38.vcf.gz` (28.8 GB)
+   * `spliceai_scores.raw.snv.hg38.vcf.gz.tbi`
+* output file
+   * `SPLICEAI_hg38.mti.gz`
+* execution time: ~1hr
+
+.. code::
+
     mutanno preprocess \
-            -infile datasource_directory/SPLICEAI/spliceai_scores.raw.snv.hg38.vcf.gz \
-            -ds datastructure_microannot_v0.4.4.json \
-            -out datasource_directory/additional_novel_indels.vep.microannot.mti \
+            -infile datasource_directory/download/SPLICEAI/hg38/spliceai_scores.raw.snv.hg38.vcf.gz \
+            -ds mutanno/tests/data_structure_json/datastructure_microannot_v0.4.5.json \
+            -out datasource_directory/SPLICEAI_hg38.mti \
             -spliceai2mti
 
+
+Make single source
+******************
+
+.. code::
+
     mutanno makedata \
-            -ds data_structure.json \
-            -out single_datasource_file.tsi \
+            -ds mutanno/tests/data_structure_json/datastructure_microannot_v0.4.5ds.json \
+            -out microannot_datasource.tsi \
             -vartype SNV \
-            -blocksize 1000
-    
+            -blocksize 10000 \
+            -region 1:1-100000 
 
 
 Download and Preprocess Source for Full Annotation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
+CYTOBAND
+********
+
+* input files
+   * `spliceai_scores.raw.snv.hg38.vcf.gz` (28.8 GB)
+   * `spliceai_scores.raw.snv.hg38.vcf.gz.tbi`
+* output file
+   * `SPLICEAI_hg38.mti.gz`
+* execution time: ~1min
+
 .. code::
 
     mutanno download \
             -source_path datasource_directory \
-            -source gnomAD \
+            -source CYTOBAND \
             -version latest \
-            -refversion hg38 \
+            -refversion hg38
+
+
+GENOMIC_SUPER_DUPLICATES
+************************
+
+* input files
+   * `genomicSuperDups.txt.gz` (4 MB)
+   * `genomicSuperDups.sql` (2 KB)
+* output file
+   * `GENOMIC_SUPER_DUPLICATES_hg38_2014-10-19.bed.gz` (4 MB)
+* execution time: ~1min
+
+.. code::
 
     mutanno download \
             -source_path datasource_directory \
-            -source CLINVAR \
+            -source GENOMIC_SUPER_DUPLICATES \
             -version latest \
-            -refversion hg38 \
+            -refversion hg38
+
+
+SIMPLE_REPEAT
+*************
+
+* input files
+   * `genomicSuperDups.txt.gz` (4 MB)
+   * `genomicSuperDups.sql` (2 KB)
+* output file
+   * `SIMPLE_REPEAT_hg38_2019-03-11.bed.gz` (4 MB)
+* execution time: ~1min
+
+.. code::
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source SIMPLE_REPEAT \
+            -version latest \
+            -refversion hg38
+
+RMSK
+****
+
+* input files
+   * `genomicSuperDups.txt.gz` (4 MB)
+   * `genomicSuperDups.sql` (2 KB)
+* output file
+   * `RMSK_hg38_2019-03-11.bed.gz` (165 MB)
+* execution time: ~3min
+
+.. code::
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source RMSK \
+            -version latest \
+            -refversion hg38
+
+
+NESTED_REPEATS
+**************
+
+* input files
+   * `genomicSuperDups.txt.gz` (4 MB)
+   * `genomicSuperDups.sql` (2 KB)
+* output file
+   * `GENOMIC_SUPER_DUPLICATES_hg38_2014-10-19.bed.gz` (4 MB)
+* execution time: ~1min
+
+.. code::
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source NESTED_REPEATS \
+            -version latest \
+            -refversion hg38
+
+
+MICROSATELLITE
+**************
+
+* input files
+   * `genomicSuperDups.txt.gz` (4 MB)
+   * `genomicSuperDups.sql` (2 KB)
+* output file
+   * `GENOMIC_SUPER_DUPLICATES_hg38_2014-10-19.bed.gz` (4 MB)
+* execution time: ~1min
+
+.. code::
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source MICROSATELLITE \
+            -version latest \
+            -refversion hg38
+
+
+UNIPROT_TRANSMEM
+****************
+
+* input files
+   * `genomicSuperDups.txt.gz` (4 MB)
+   * `genomicSuperDups.sql` (2 KB)
+* output file
+   * `UNIPROT_TRANSMEM_hg38_2020-08-20.bed.gz` (4 MB)
+* execution time: ~1min
+
+.. code::
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source UNIPROT_TRANSMEM \
+            -version latest \
+            -refversion hg38
+
+
+DBSNP
+*****
+
+* input files
+   * `GRCh38_latest_dbSNP_all.vcf.gz` (16 GB)
+* output file
+   * `UNIPROT_TRANSMEM_hg38_2020-08-20.bed.gz` (4 MB)
+* execution time: ~1hr
+
+.. code::
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source DBSNP \
+            -version latest \
+            -refversion hg38
+
+
+PRIMATEAI
+*********
+
+* Download PrimateAI file from Illumina site
+* input files
+   * `PrimateAI_scores_v0.2_hg38.tsv.gz` (868 MB)
+* output file
+   * `SPLICEAI_hg38.mti.gz`
+* execution time: ~1hr
+
+.. code::
+
+    mutanno preprocess \
+            -infile datasource_directory/download/PRIMATEAI/hg38/PrimateAI_scores_v0.2_hg38.tsv.gz \
+            -ds mutanno/tests/data_structure_json/datastructure_microannot_v0.4.5.json \
+            -out datasource_directory/PrimateAI_hg38.mti \
+            -primateai2mti
+
+TOPMED
+******
+
+* Download bravo-dbsnp-all.tsv.gz (hg19) file from Bravo site (https://bravo.sph.umich.edu)
+   * There is no hg38 version for topmed. 
+   * In this preprocessing step, we can lift over to hg38 from hg19.
+* input files
+   * `bravo-dbsnp-all.tsv.gz` (6.1 GB)
+* output file
+   * `TOPMED_hg38.mti.gz`
+* execution time: ~1hr
+   * liftover
+   * vcf-sort
+   * tabixgz
+
+.. code::
+
+    mutanno preprocess \
+            -infile datasource_directory/download/TOPMED/hg19/bravo-dbsnp-all.tsv.gz \
+            -ds mutanno/tests/data_structure_json/datastructure_microannot_v0.4.5.json \
+            -out datasource_directory/TOPMED_hg38.mti \
+            -topmed2mti
+
+CADD
+****
+
+* input files
+   * `GRCh38_latest_dbSNP_all.vcf.gz` (16 GB)
+* output file
+   * `UNIPROT_TRANSMEM_hg38_2020-08-20.bed.gz` (4 MB)
+* execution time: ~1hr
+
+.. code::
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source DBSNP \
+            -version latest \
+            -refversion hg38
+
+
+UK10K
+*****
+* input files
+   * `GRCh38_latest_dbSNP_all.vcf.gz` (16 GB)
+* output file
+   * `UNIPROT_TRANSMEM_hg38_2020-08-20.bed.gz` (4 MB)
+* execution time: ~1hr
+
+.. code::
 
     mutanno download \
             -source_path datasource_directory \
             -source UK10K \
             -version latest \
-            -refversion hg38 \
+            -refversion hg38
+
+
+COSMIC
+******
+
+* Download CosmicMutantExport.tsv.gz file from Cosmic site (https://cancer.sanger.ac.uk/cosmic/download; login required)
+* input files
+   * `CosmicMutantExport.tsv.gz` (6.5 GB)
+* output file
+   * `SPLICEAI_hg38.mti.gz`
+* execution time: ~1hr
+
+.. code::
+
+    mutanno preprocess \
+            -infile datasource_directory/download/TOPMED/hg38/bravo-dbsnp-all.vcf.gz \
+            -ds mutanno/tests/data_structure_json/datastructure_microannot_v0.4.5.json \
+            -out datasource_directory/TOPMED_hg38.mti \
+            -cosmic2mti
+
+
+
+CONSERVATION
+************
+
+* input files
+   * `GRCh38_latest_dbSNP_all.vcf.gz` (16 GB)
+* output file
+   * `UNIPROT_TRANSMEM_hg38_2020-08-20.bed.gz` (4 MB)
+* execution time: ~1hr
+
+.. code::
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source PHASTCONS \
+            -version 20way \
+            -refversion hg38
+    
+    mutanno download \
+            -source_path datasource_directory \
+            -source PHASTCONS \
+            -version 30way \
+            -refversion hg38
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source PHASTCONS \
+            -version 100way \
+            -refversion hg38
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source PHYLOP \
+            -version 20way \
+            -refversion hg38
+    
+    mutanno download \
+            -source_path datasource_directory \
+            -source PHYLOP \
+            -version 30way \
+            -refversion hg38
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source PHYLOP \
+            -version 100way \
+            -refversion hg38
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source GERP \
+            -version latest \
+            -refversion hg38
+
+    mutanno download \
+            -source_path datasource_directory \
+            -source SHIPHY \
+            -version latest \
+            -refversion hg38
+
+
+    mutanno preprocess \
+            -infile datasource_directory/PHASTCONS_hg38_20way.tsi.gz \
+                    datasource_directory/PHASTCONS_hg38_30way.tsi.gz \
+                    datasource_directory/PHASTCONS_hg38_100way.tsi.gz \
+                    datasource_directory/PHYLOP_hg38_20way.tsi.gz \
+                    datasource_directory/PHYLOP_hg38_30way.tsi.gz \
+                    datasource_directory/PHYLOP_hg38_100way.tsi.gz \
+                    datasource_directory/GERP_hg38.tsi.gz \
+                    datasource_directory/SHIPHY_hg38.tsi.gz \
+            -ds mutanno/tests/data_structure_json/datastructure_microannot_v0.4.5.json \
+            -out datasource_directory/CONSERVATION_hg38.chr___CHROM___.bed.gz \
+            -conservation2mti
+
+
+MAX_POP_AF
+
+
+Make single source
+******************
+
+.. code::
 
     mutanno makedata \
-            -ds data_structure.json \
+            -ds mutanno/tests/data_structure_json/datastructure_fullannot_v0.4.8.json \
             -out single_datasource_file.tsi \
             -vartype SNV \
             -blocksize 1000
+
 
 
 

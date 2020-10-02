@@ -419,10 +419,14 @@ class PreprocClinVar():
             file_util.fileSave(statfile, cont, 'w')
 
         out = self.out_submission
-        print("Bzipping and Tabixing...", out)
-        file_util.save_tabixgz(out)
-        print("Saved...", out + ".gz")
-        file_util.check_and_remove(out + '.gz.tbi', out, 3)
+
+        print("VCF sorting...", out)
+        out_sorted = file_util.vcf_sort(out)
+        print("Bzipping and Tabixing...", out_sorted)
+        file_util.save_tabixgz(out_sorted)
+        print("Saved...", out_sorted + ".gz")
+        file_util.check_and_remove(out_sorted + '.gz.tbi', out, 3)
+        file_util.check_and_remove(out_sorted + '.gz.tbi', out_sorted, 3)
 
         # cont = ""
         # for line in open(self.out_submission):

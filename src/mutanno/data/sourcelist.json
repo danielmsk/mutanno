@@ -3,8 +3,19 @@
   "sources":[
     {
       "name":"CLINVAR",
-      "latest": "20200329",
+      "latest": "20200927",
       "versions":[
+        {
+          "version":"20200927",
+          "version_date":"2020.09.27",
+          "total_size": 2604690136,
+          "ref_version": "hg38",
+          "preprocess_function": "run_preproc_clinvar",
+          "urls":[
+            "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/weekly/clinvar_20200927.vcf.gz",
+            "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/ClinVarFullRelease_2020-09.xml.gz"
+          ]
+        },
         {
           "version":"20200830",
           "version_date":"2020.08.30",
@@ -248,33 +259,6 @@
           ]
         }
       ]
-    },{
-      "name": "UK10K",
-      "latest": "20160215",
-      "versions": [
-        {
-          "version": "20160215",
-          "version_date": "2016.02.15",
-          "total_size": 2058644475,
-          "preprocess_function": "run_preproc_uk10k",
-          "ref_version": "hg19",
-          "urls": [
-            "ftp://ngs.sanger.ac.uk/production/uk10k/UK10K_COHORT/REL-2012-06-02/UK10K_COHORT.20160215.sites.vcf.gz",
-            "mutanno UK10K_COHORT.20160215.sites.vcf.gz"
-          ]
-        },
-        {
-          "version": "20160215",
-          "version_date": "2016.02.15",
-          "total_size": 2058644475,
-          "preprocess_function": "run_preproc_uk10k",
-          "ref_version": "hg38",
-          "urls": [
-            "ftp://ngs.sanger.ac.uk/production/uk10k/UK10K_COHORT/REL-2012-06-02/UK10K_COHORT.20160215.sites.vcf.gz",
-            "mutanno UK10K_COHORT.20160215.sites.liftover.hg38.vcf.gz"
-          ]
-        }
-      ]
     },
     {
       "name": "GNOMAD",
@@ -288,6 +272,57 @@
           "ref_version": "hg38",
           "tmp": "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.vcf.bgz",
           "urls": [
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr1.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr1.vcf.bgz.tbi",
+            "mutanno GNOMAD.3.0.vcf.gz"
+          ],
+          "urls_0": [
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr1.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr1.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr2.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr2.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr3.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr3.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr4.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr4.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr5.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr5.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr6.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr6.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr7.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr7.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr8.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr8.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr9.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr9.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr10.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr10.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr11.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr11.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr12.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr12.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr13.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr13.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr14.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr14.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr15.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr15.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr16.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr16.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr17.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr17.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr18.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr18.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr19.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr19.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr20.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr20s.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr21.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr21.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr22.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chr22.vcf.bgz.tbi",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chrX.vcf.bgz",
+            "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chrX.vcf.bgz.tbi",
             "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chrY.vcf.bgz",
             "https://storage.googleapis.com/gnomad-public/release/3.0/vcf/genomes/gnomad.genomes.r3.0.sites.chrY.vcf.bgz.tbi",
             "mutanno GNOMAD.3.0.vcf.gz"
@@ -419,7 +454,7 @@
     },
     {
       "name": "CYTOBAND",
-      "latest": "",
+      "latest": "2019-03-11",
       "versions": [
         {
           "version": "2017-07-17",
@@ -438,6 +473,176 @@
           "ref_version": "hg38",
           "urls": [
             "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/cytoBand.txt.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GENOMIC_SUPER_DUPLICATES",
+      "latest": "2014-10-19",
+      "versions": [
+        {
+          "version": "2014-10-19",
+          "version_date": "2014.10.19",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ucsc_repeat",
+          "ref_version": "hg38",
+          "urls": [
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/genomicSuperDups.sql",
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/genomicSuperDups.txt.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SIMPLE_REPEAT",
+      "latest": "2019-03-11",
+      "versions": [
+        {
+          "version": "2019-03-11",
+          "version_date": "2019.03.11",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ucsc_repeat",
+          "ref_version": "hg38",
+          "urls": [
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/simpleRepeat.sql",
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/simpleRepeat.txt.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RMSK",
+      "latest": "2019-03-11",
+      "versions": [
+        {
+          "version": "2019-03-11",
+          "version_date": "2019.03.11",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ucsc_repeat",
+          "ref_version": "hg38",
+          "urls": [
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/rmsk.sql",
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/rmsk.txt.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "NESTED_REPEATS",
+      "latest": "2014-03-06",
+      "versions": [
+        {
+          "version": "2014-03-06",
+          "version_date": "2014.03.06",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ucsc_repeat",
+          "ref_version": "hg38",
+          "urls": [
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/nestedRepeats.sql ",
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/nestedRepeats.txt.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MICROSATELLITE",
+      "latest": "2015-08-23",
+      "versions": [
+        {
+          "version": "2015-08-23",
+          "version_date": "2015.08.23",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_ucsc_repeat",
+          "ref_version": "hg38",
+          "urls": [
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/microsat.sql",
+            "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/database/microsat.txt.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "UNIPROT_TRANSMEM",
+      "latest": "2020-08-20",
+      "versions": [
+        {
+          "version": "2020-08-20",
+          "version_date": "2020.08.20",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_uniprot_transmem",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/genome_annotation_tracks/UP000005640_9606_beds/UP000005640_9606_transmem.bed",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DBSNP",
+      "latest": "2020-09-18",
+      "versions": [
+        {
+          "version": "2020-09-18",
+          "version_date": "2020.09.18",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_dbsnp",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_dbSNP_all.vcf.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CADD",
+      "latest": "1.6",
+      "versions": [
+        {
+          "version": "1.6",
+          "version_date": "2020.03.24",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_cadd",
+          "ref_version": "hg38",
+          "urls": [
+            "https://krishna.gs.washington.edu/download/CADD/v1.6/GRCh38/whole_genome_SNVs.tsv.gz",
+            "https://krishna.gs.washington.edu/download/CADD/v1.6/GRCh38/whole_genome_SNVs.tsv.gz.tbi",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        },
+        {
+          "version": "1.5",
+          "version_date": "2019.02.22",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_cadd",
+          "ref_version": "hg38",
+          "urls": [
+            "https://krishna.gs.washington.edu/download/CADD/v1.5/GRCh38/whole_genome_SNVs.tsv.gz",
+            "mutanno cytoBand.hg38.2019.03.11.bed.gz"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "UK10K",
+      "latest": "20160215",
+      "versions": [
+        {
+          "version": "20160215",
+          "version_date": "2016.02.15",
+          "total_size": 99999,
+          "preprocess_function": "run_preproc_uk10k",
+          "ref_version": "hg38",
+          "urls": [
+            "ftp://ngs.sanger.ac.uk/production/uk10k/UK10K_COHORT/REL-2012-06-02/UK10K_COHORT.20160215.sites.tab.gz",
             "mutanno cytoBand.hg38.2019.03.11.bed.gz"
           ]
         }

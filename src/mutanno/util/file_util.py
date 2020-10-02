@@ -10,6 +10,12 @@ from . import proc_util
 import pprint
 import mutanno
 
+def vcf_sort(vcf):
+    ext = vcf.split('.')[-1]
+    out = vcf[:-len(ext)] + "sorted." + ext
+    cmd = "vcf-sort " + vcf + " > " + out
+    proc_util.run_cmd(cmd)
+    return out
 
 def check_and_remove(check_filename, rm_filename, waiting_sec):
     time.sleep(waiting_sec)

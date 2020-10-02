@@ -1,0 +1,76 @@
+{
+    "name": "MUTANNO",
+    "use_sourcename_in_fieldname":false,
+    "format":"tsi",
+    "source": [
+      {
+      "name": "VEP",
+      "sourcefile":"datasource_directory/vep.99.hg38.#CHROM#.sorted.rmcsq.mti.gz.mod.gz",
+      "subembedded": "transcript",
+      "function": "vep_select_biotype",
+      "param": "mutanno_value_sections,['protein_coding','miRNA','polymorphic_pseudogene']",
+      "format": "tsi",
+      "is_available": true,
+      "fields":[
+                {
+                    "name":"Gene",
+                    "type": "string",
+                    "desc":"Stable ID of affected gene"
+                },
+                {
+                    "name":"Feature",
+                    "type": "string",
+                    "desc":"Stable ID of feature"
+                },
+                {
+                    "name":"Feature_type",
+                    "type": "string",
+                    "is_available": true,
+                    "desc":"Type of feature - Transcript, RegulatoryFeature or MotifFeature"
+                },
+                {
+                    "name":"Consequence",
+                    "type": "string",
+                    "function": "conv_consequence_delimiter",
+                    "param":"Consequence",
+                    "is_list": true,
+                    "desc":"Consequence type",
+                    "delimiter":"&"
+                },
+                {
+                    "name":"SYMBOL",
+                    "type": "string",
+                    "is_available": true,
+                    "desc":"Gene symbol (e.g. HGNC)"
+                },
+                {
+                  "name": "BIOTYPE",
+                  "type": "string",
+                  "desc": "Biotype of transcript or regulatory feature"
+                }
+            ]
+        },{
+            "name":"gnomADgenome",
+            "sourcefile":"datasource_directory/gnomAD/hg38/gnomad.genomes.r3.0.sites.chr#CHROM#.tsi.gz_AFonly.tsi.gz",
+            "format":"tsi",
+            "fields":[
+                {"name":"AF","name2":"gnomAD_AF","type":"float","default":"NA","desc":"Allele frequency across populations"}
+            ]
+        },{
+            "name":"CLINVAR",
+            "sourcefile":"datasource_directory/CLINVAR_hg38_20200927_variant.mti.gz",
+            "format":"tsi",
+            "fields":[
+                {"name":"ALLELEID","name2":"CLINVAR_ALLELEID","desc":"the ClinVar Allele ID"},
+                {"name":"CLNSIG","name2":"CLINVAR_CLNSIG","desc":"Clinical significance for this single variant"}
+            ]
+        },{
+            "name":"SpliceAI",
+            "sourcefile":"datasource_directory/SPLICEAI_hg38.mti.gz",
+            "format":"tsi",
+            "fields":[
+                {"name":"MAXDS","name2":"SpliceAI_MaxScore","desc":"SpliceAI max delta score"}
+            ]
+        }
+    ]
+}

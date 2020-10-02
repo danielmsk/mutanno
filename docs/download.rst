@@ -296,8 +296,9 @@ CADD
 SpliceAI
 ^^^^^^^^
 
-* web resource: `gnomAD broser <https://gnomad.broadinstitute.org/downloads>`_
-* MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
+* web resource: `Illumina site <https://basespace.illumina.com/s/otSPW8hnhaZR>`_
+   * download `spliceai_scores.raw.snv.hg38.vcf.gz` and `spliceai_scores.raw.snv.hg38.vcf.gz.tbi`
+* MutAnno supports to 1) download preprocessed files from MutAnno dropbox, 2) download manually and then run preporcess moduels.
 
 
 
@@ -308,7 +309,7 @@ Variant database
 CLINVAR
 ^^^^^^^
 
-* web resource: `NCBI ClinVar broser <https://www.ncbi.nlm.nih.gov/variation/docs/ClinVar_vcf_files/>`_
+* web resource: `NCBI ClinVar browser <https://www.ncbi.nlm.nih.gov/variation/docs/ClinVar_vcf_files/>`_
 * MutAnno supports to 1) download and preprocess automatically, 2) download preprocessed files from MutAnno dropbox, 3) download manually and then run preporcess moduels.
 
 
