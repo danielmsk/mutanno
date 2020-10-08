@@ -16,6 +16,7 @@ Description: # MutAnno
         
         * github : https://github.com/dbmi-bgm/mutanno
         * manual : https://mutanno.readthedocs.io/en/latest/
+        * pip install : https://pypi.org/project/mutanno/
         
         For more details, see MutAnno [**documentation**](http://mutanno.readthedocs.io/en/latest).
         

@@ -1,7 +1,14 @@
-"""
-This is for ``annot`` module.
-"""
+#########################################################################
+#
+# annot
+#
+#########################################################################
 
+#########################################################################
+#
+# Libraries
+#
+#########################################################################
 import time
 from .util import file_util, vcf_util, struct_util, seq_util
 from .util.struct_util import get_dict_value as dv
@@ -10,6 +17,11 @@ from .renderer import VCFRenderer
 from .renderer import JSONRenderer
 from . import _version
 
+#########################################################################
+#
+# Global Variables
+#
+#########################################################################
 CHROMIDX = vcf_util.VCF_COL.index('CHROM')
 POSIDX = vcf_util.VCF_COL.index('POS')
 REFIDX = vcf_util.VCF_COL.index('REF')
@@ -19,7 +31,16 @@ FORMATIDX = vcf_util.VCF_COL.index('FORMAT')
 SAMPLESTARTIDX = vcf_util.VCF_COL.index('SAMPLESTART')
 DATAHEADER = {}
 
+#########################################################################
+#
+# VCFAnnotator
+#       read command line arguments
+#       create DataSourceList object to store information for ds json file
+#       create VCFReader object to the vcf file
+#
+#########################################################################
 class VCFAnnotator():
+
     vcfheader = None
     datastruct = {}
     opt = {}
@@ -31,21 +52,27 @@ class VCFAnnotator():
         self.out = self.opt.out
         self.dslist = DataSourceList(self.opt.ds)
         self.dslist.tmp_clinvar_idmap = file_util.tmp_load_clinvar_idmap()
-        if len(self.opt.sourcefile) > 0:
+        if len(self.opt.sourcefile) > 0: # store source files for annotation
             self.dslist.sourcefile = self.opt.sourcefile
             self.dslist.sourcefile2 = self.opt.sourcefile
+        #end if
         if self.opt.use_raw_source:
             self.dslist.use_raw_source = self.opt.use_raw_source
+        #end if
 
         self.vcfreader = VCFReader(self.opt)
         if 'vcf' in self.opt.outtype:
             self.vcfrenderer = VCFRenderer()
+        #end if
         if 'json' in self.opt.outtype:
             self.jsonrenderer = JSONRenderer(self.dslist, self.opt.out)
+        #end if
 
         self.fast_mapping_mode = self.dslist.check_fast_mapping_mode()
+    #end def __init__
 
     def get_datafile_header(self, datafile, sourcename, dataformat):
+        ''' '''
         global DATAHEADER
         header = []
         try:
@@ -90,8 +117,10 @@ class VCFAnnotator():
                     break
         DATAHEADER[sourcename] = header
         return header
+    #end def get_datafile_header
 
     def get_annot_header(self):
+        ''' '''
         cont = ""
         for headertype in ["MUTANNO", "INFO"]:
 
@@ -169,8 +198,10 @@ class VCFAnnotator():
                                 fields.append(f1.name2)
                     cont += vcf_util.get_info_header("INFO", s1.name, "", "", s1.desc, fields, s1.subembedded)
         return cont
+    #end def get_annot_header
 
     def get_version_info(self):
+        ''' '''
         d = {}
         d['MUTANNO'] = {}
         # d['MUTANNO']['MUTANNO'] = {'Version':_version.VERSION, 'Date':_version.VERSION_DATE}
@@ -179,20 +210,30 @@ class VCFAnnotator():
                 d['MUTANNO'][s1.name] = {}
                 if s1.version != "":
                     d['MUTANNO'][s1.name]['Version'] = s1.version
+                #end if
                 if s1.version_date != "":
                     d['MUTANNO'][s1.name]['Date'] = s1.version_date
+                #end if
+            #end if
+        #end for
         return vcf_util.convert_to_metadata(d)
+    #end def get_version_info
 
     def open_outpointer(self):
+        ''' '''
         self.out = file_util.strip_gzext(self.opt.out)
         file_util.check_dir(self.out)
         self.fp = open(self.out, 'w')
+    #end def open_outpointer
 
     def close_outpointer(self):
+        ''' '''
         self.fp.close()
         print("Saved " + self.out)
+    #end def close_outpointer
 
     def write_header(self):
+        ''' '''
         header = []
         headercont, colheader = self.vcfreader.get_header(keep_only_main_chrom=True)
         header.append(headercont.strip())
@@ -200,11 +241,10 @@ class VCFAnnotator():
         header.append(self.get_annot_header().strip())
         header.append(colheader.strip())
         self.fp.write('\n'.join(header) + '\n')
+    #end def write_header
 
     def run(self):
-        """
-        Run ``annot`` module instance.
-        """
+        ''' iterate over variants and run annotation '''
         self.open_outpointer()
         stime0 = time.time()
         self.write_header()
@@ -213,20 +253,28 @@ class VCFAnnotator():
         stime1 = time.time()
         while(not self.vcfreader.eof):
 
-            variant = self.vcfreader.get_variant()
+            variant = self.vcfreader.get_variant() # VCFVariant object
             if self.vcfreader.eof or variant is None:
                 break
+            #end if
 
             if self.fast_mapping_mode:
                 if 'vcf' in self.opt.outtype:
                     self.fp.write(self.vcfrenderer.render_vcfvariant_fast(variant, self.dslist) + '\n')
+                #end if
             else:
-                variant.set_annot(self.dslist)
+                variant.set_annot(self.dslist) # dslist is DataSourceList
+                ## VCFVariant.set_annot(...)
+                ##  -> DataSourceList.get_variant_annot(...) = VariantAnnotMerger
+                ##      -> DataSource.get_variant_annot(...) = VariantAnnot
 
                 if 'vcf' in self.opt.outtype:
                     self.fp.write(self.vcfrenderer.render_vcfvariant(variant) + '\n')
+                #end if
                 if 'json' in self.opt.outtype:
                     self.jsonrenderer.save_jsonvariant(variant)
+                #end if
+            #end if
 
             ivar += 1
             if ivar % 1000 == 0:
@@ -236,21 +284,36 @@ class VCFAnnotator():
                 log += " elapsed:" + str(round(elapsed1, 2)) + "s"
                 stime1 = time.time()
                 print(log)
+            #end if
+        #end while
 
         etime0 = time.time()
         elapsed0 = etime0 - stime0
         if ivar > 0:
             print("total:", elapsed0, ", time per variant:", elapsed0 / ivar,
                   ", time for 4M variants:", str(round(elapsed0 / ivar * 4000000 / 3600, 3)) + "hr")
+        #end if
 
         self.close_outpointer()
 
         if self.opt.out.endswith('.gz'):
             file_util.save_gzip(file_util.strip_gzext(self.opt.out))
+        #end if
+    #end def run
 
+#end class VCFAnnotator
 
+#########################################################################
+#
+# VCFReader
+#       utilities to work with vcf format
+#       variants are stored as VCFVariant objects
+#
+#########################################################################
 class VCFReader():
+
     def __init__(self, opt={}):
+        ## !! this is a bit messy !!
         self.vcf = opt.vcf
         self.opt = opt
         self.genoinfo = opt.genoinfo
@@ -267,21 +330,34 @@ class VCFReader():
         self.liftover_hg38_hg19 = None
         if self.opt.hg19:
             self.liftover_hg38_hg19 = seq_util.load_liftover(self.opt.chain)
+        #end if
+    #end def __init__
 
     def is_clean_tag(self, line):
+        ''' '''
         flag = False
         for prevtag in ["##MUTANNO=<ID=", "##INFO=<ID="]:
             if line[:len(prevtag)] == prevtag:
                 for tag in self.clean_tag_list:
                     if tag in line:
+                        ## !! return directly if true to reduce iteration !!
                         flag = True
+                    #end if
+                #end for
+            #end if
+        #end for
         return flag
+    #end def is_clean_tag
 
     def add_info_header_from_vcf_header_line(self, line):
+        ''' '''
         if line[:len('##INFO=<ID=')] == '##INFO=<ID=':
             self.infoheader = vcf_util.parse_info_header_line(line, self.infoheader)
+        #end if
+    #end def add_info_header_from_vcf_header_line
 
     def get_header(self, keep_only_main_chrom=True):
+        ''' '''
         headercont = ""
         colheader = ""
         for line in file_util.gzopen(self.vcf):
@@ -291,19 +367,26 @@ class VCFReader():
                     contigchrom = line.split(',')[0].replace('##contig=<ID=chr', '')
                     if len(contigchrom) < 3:
                         headercont += line
+                    #end if
                 else:
                     self.add_info_header_from_vcf_header_line(line)
                     if not self.is_clean_tag(line):
                         headercont += line
+                    #end if
+                #end if
             elif line[0] == "#":
                 colheader = line
                 self.colnames = line[1:].strip().split('\t')
                 self.sampleid_list = self.colnames[9:]
             elif line.strip() != '':
                 self.total_variant += 1
+            #end if
+        #end for
         return headercont, colheader
+    #end def get_header
 
     def get_variant(self):
+        ''' returns variant as VCFVariant object '''
         variant = None
         while True:
             line = file_util.decodeb(self.fp.readline())
@@ -313,12 +396,17 @@ class VCFReader():
                     variant = VCFVariant(line.split('\t'), self.colnames, self.opt,
                                          self.liftover_hg38_hg19, infoheader=self.infoheader)
                     break
+                #end if
             else:
                 self.eof = True
                 break
+            #end if
+        #end while
         return variant
+    #end def get_variant
 
     def fast_mapping(self):
+        ''' '''
         mapped_line = ""
         while True:
             line = file_util.decodeb(self.fp.readline())
@@ -326,16 +414,28 @@ class VCFReader():
                 if line[0] != '#':
                     mapped_line
                     break
+                #end if
             else:
                 self.eof = True
                 break
+            #end if
+        #end while
         return mapped_line
+    #end def fast_mapping
 
+#end class VCFReader
 
+#########################################################################
+#
+# VCFVariant
+#
+#
+#########################################################################
 class VCFVariant:
+
     def __init__(self, record=[], colnames=[], opt={}, liftover_hg38_hg19=None, is_subvariant=False,  infoheader={}):
         self.opt = opt
-        self.record = record
+        self.record = record # this is a list of the variant column from vcf
         self.record[-1] = self.record[-1].strip()
         self.record[INFOIDX] = vcf_util.strip_info(self.record[INFOIDX])
         self.infoheader = infoheader
@@ -360,7 +460,6 @@ class VCFVariant:
         self.annotdata = {}
         self.liftover_hg38_hg19 = liftover_hg38_hg19
         self.set_option()
-        # print(">>>variant:", self)
 
     def set_epos(self):
         if ',' in self.alt:
@@ -429,7 +528,7 @@ class VCFVariant:
         pass
         # if "MULTIALLELE=" in self.record[INFOIDX]:
         #     rst = vcf_util.pars_info_field(self.record[INFOIDX])
-        #     this_geno = self.ref + '/' + self.alt  
+        #     this_geno = self.ref + '/' + self.alt
         #     multiallele_key = vcf_util.decode_value(rst['MULTIALLELE'][0][0])
         #     this_numgeno = vcf_util.get_numgt_from_multiallele(this_geno, multiallele_key.strip().split(' ')[-1])
         #     # print('>this_geno:', this_geno, this_numgeno,  multiallele_key.strip().split(' ')[-1])
@@ -484,21 +583,31 @@ class VCFVariant:
                 self.split_variants.append(subvariant)
             self.is_multiallelic = True
 
-    def set_annot(self, dslist):
+    def set_annot(self, dslist): # dslist is DataSourceList
+        ''' run actual annotation '''
         self.dslist = dslist
         if self.is_multiallelic:
-            for variant in self.split_variants:
+            for variant in self.split_variants: ## !! to check what is happening here !!
                 variant.set_annot(dslist)
-        else:
+            #end for
+        else: # here it is also creating the attribute, annotmerger missing in class init
             self.annotmerger = dslist.get_variant_annot(
                 self.nchrom, self.pos, ref=self.ref, alt=self.alt, epos=self.epos, variant=self)
+        #end if
+    #end def set_annot
 
     def get_vcf_info(self):
         self.vcfinfo.set_datasourcelist(self.dslist)
         return self.vcfinfo.get_info_dict()
 
-
+#########################################################################
+#
+# VCFVariantINFO
+#
+#
+#########################################################################
 class VCFVariantINFO:
+
     def __init__(self, recordstring="", infoheader={}):
         self.recordstring = recordstring
         self.data = None

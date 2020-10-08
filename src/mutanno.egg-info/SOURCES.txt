@@ -33,9 +33,15 @@ src/mutanno/model/__init__.py
 src/mutanno/model/datasource.py
 src/mutanno/model/datastructure.py
 src/mutanno/preprocess/__init__.py
+src/mutanno/preprocess/preproc_cadd.py
 src/mutanno/preprocess/preproc_clinvar.py
+src/mutanno/preprocess/preproc_cytoband.py
+src/mutanno/preprocess/preproc_dbsnp.py
 src/mutanno/preprocess/preproc_gnomad.py
 src/mutanno/preprocess/preproc_spliceai.py
+src/mutanno/preprocess/preproc_topmed.py
+src/mutanno/preprocess/preproc_ucsc_repeat.py
+src/mutanno/preprocess/preproc_uniprot_transmem.py
 src/mutanno/preprocess/preproc_vep.py
 src/mutanno/reader/__init__.py
 src/mutanno/reader/tsireader.py
